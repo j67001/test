@@ -22,7 +22,7 @@
 國家地理,mitv://ns2.hellotvvod.com:9906/56543494b4f64682b1cf6a1aa771c34c#mitv://ns2.hellotvvod.com:9906/cbf2e0c0e1ed4e11a564047614cb962d#http://125.227.210.37:16408/VideoInput/play.ts#p8p://fccs.123178.top:9906/6043485f000c065106c583978afda437
 CN卡通,mitv://ns2.hellotvvod.com:9906/51e593fae95f48968c181b6a47179526#http://125.227.210.37:16671/VideoInput/play.ts
 迪士尼,mitv://ns2.hellotvvod.com:9906/d24a14f362fb47d8a603b41462ad0f9b#P2p://ns2.hellotvvod.com:9906/d24a14f362fb47d8a603b41462ad0f9b
-MOMO親子,mitv://ns2.hellotvvod.com:9906/d3ae733f3d61464e8f240d812c0b1516#P2p://ns2.hellotvvod.com:9906/d3ae733f3d61464e8f240d812c0b1516
+MoMo親子,mitv://ns2.hellotvvod.com:9906/d3ae733f3d61464e8f240d812c0b1516#P2p://ns2.hellotvvod.com:9906/d3ae733f3d61464e8f240d812c0b1516
 東森幼幼,mitv://ns2.hellotvvod.com:9906/a5729018eb3d44c4b4033e72ea4af060#P2p://ns2.hellotvvod.com:9906/a5729018eb3d44c4b4033e72ea4af060
 緯來綜合,mitv://ns2.hellotvvod.com:9906/30dab7cccf3842838ef7edfdabcf57c2
 八大第一,mitv://ns2.hellotvvod.com:9906/7826fa652c474b55888ef85c30901584
@@ -219,7 +219,7 @@ TVBS新聞,http://211.23.114.106:8546/http/116.50.42.19:8081/hls/64/806/ch16.m3u
 TVBS,http://211.23.114.106:8545/http/116.50.42.19:8081/hls/64/806/ch15.m3u8
 東森財經,http://211.23.114.106:8546/http/116.50.42.19:8081/hls/63/805/ch11.m3u8
 寰宇新聞,http://211.23.114.106:8547/http/116.50.42.19:8081/hls/76/818/ch62.m3u8
-壹新聞,http://211.23.114.106:8548/http/116.50.42.19:8081/hls/66/808/ch24.m3u8
+壹電視新聞,http://211.23.114.106:8548/http/116.50.42.19:8081/hls/66/808/ch24.m3u8
 CNN新聞,http://211.23.114.106:8549/http/116.50.42.19:8081/hls/68/810/ch29.m3u8
 CNBC新聞,http://211.23.114.106:8550/http/116.50.42.19:8078/hls/24/80/cnbc90.m3u8
 Bloomberg,http://211.23.114.106:8551/http/116.50.42.19:8078/hls/43/80/bloomber.m3u8
@@ -327,8 +327,8 @@ TLC,http://50.7.61.147:30080/Entry/tlc
 JET綜合,http://50.7.61.147:30080/Entry/jet
 民視,http://50.7.61.147:30080/Entry/ftv
 華視CTS,http://50.7.61.147:30080/Entry/cts
-壹新聞,http://50.7.61.147:30080/Entry/etv
-SET三立台灣,http://50.7.61.148:30080/Entry/settw-
+壹電視新聞,http://50.7.61.147:30080/Entry/etv
+三立台灣,http://50.7.61.148:30080/Entry/settw-
 衛視中文,http://50.7.61.148:30080/Entry/starchinese
 AXN,http://50.7.61.148:30080/Entry/axn
 寰宇新聞,http://58.99.33.16:1935/liveedge17/live_163_3.stream/chunklist.m3u8
@@ -342,7 +342,7 @@ AXN,http://50.7.61.148:30080/Entry/axn
 中台灣生活網,http://58.99.33.16:1935/liveedge17/live_854_3.stream/chunklist.m3u8
 中台灣生活網,http://58.99.33.16:1935/liveedge17/live_020_3.stream/chunklist.m3u8
 MAVlife,http://58.99.33.16:1935/liveedge17/live_070_3.stream/chunklist.m3u8
-momo綜合,http://58.99.33.16:1935/liveedge17/live_075_3.stream/chunklist.m3u8
+MoMo綜合,http://58.99.33.16:1935/liveedge17/live_075_3.stream/chunklist.m3u8
 NHK,http://58.99.33.16:1935/liveedge17/live_108_3.stream/chunklist.m3u8
 FRANCE,http://58.99.33.16:1935/liveedge17/live_156_3.stream/chunklist.m3u8
 TV5monde,http://58.99.33.16:1935/liveedge17/live_157_3.stream/chunklist.m3u8
