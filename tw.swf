@@ -10,7 +10,7 @@
 民視新聞.,
 民視台灣,
 公視3,
-客家新聞,
+客家電視,
 原住民電視,
 台視,
 台視新聞,
@@ -32,7 +32,7 @@ MoMo親子,
 衛視中文,
 東森綜合,
 東森超視,
-TLC旅遊,
+TLC旅遊生活,
 亞洲旅遊,
 中天綜合,
 民視旅遊,
@@ -265,7 +265,7 @@ DiscoveryAsia,mitv://ns2.hellotvvod.com:9906/8338adb9ba1541929a6106de04cfdec5
 
 中視經典,P2p://ns2.hellotvvod.com:9906/003d7fef9db3466e9b9e2f569474dd28
 TVBS精采,P2p://ns2.hellotvvod.com:9906/12b97bd9bd274f78846703aceb5894d2
-HBOFamily,P2p://ns2.hellotvvod.com:9906/2230c4128071467e8e995408f20c1c3c
+HBO Family,P2p://ns2.hellotvvod.com:9906/2230c4128071467e8e995408f20c1c3c
 BBCLifestyle,P2p://ns2.hellotvvod.com:9906/2dcc681591d640ceb91c09b5eb7cbb83
 HGTV居家樂活,P2p://ns2.hellotvvod.com:9906/3ae6806990ac44dbbd5a83eea77fef7e
 EYETV戲劇,P2p://ns2.hellotvvod.com:9906/446502d9b45941efb5bf52f21a282471
@@ -302,7 +302,7 @@ i-Fun動漫,P2p://ns2.hellotvvod.com:9906/f62384ed61d345cebf4cc1a3c9167bd3
 采昌影劇,P2p://ns2.hellotvvod.com:9906/fa78b19b455148e3b2b00b5bf648c3fc
 靖天綜合,P2p://ns2.hellotvvod.com:9906/fe98dad44e224b70ae27c282fdd5682a
 國家地理,p8p://fccs.123178.top:9906/6043485f000c065106c583978afda437
-TLC旅遊,p8p://fccs.123178.top:9906/60440517000a918709a6b1f73be1eeb9.ts
+TLC旅遊生活,p8p://fccs.123178.top:9906/60440517000a918709a6b1f73be1eeb9.ts
 探索頻道,p8p://fccs.123178.top:9906/610b440f00018f2d04303511f19e7e5a
 
 HBO,p5p://fccs.123178.top:9906/604340b2000af04c06a787875d674b81
@@ -330,7 +330,7 @@ BBCLifestyle,p5p://fccs.123178.top:9906/614955d2000d41ca0d901d9987bbb53c
 BBCEarth,p5p://fccs.123178.top:9906/6044049e000eb7a609a4da5fcd30cc43.ts
 日本旅游,p5p://fccs.123178.top:9906/61304d2b000a9536136122700ecd28a5
 EYETV旅遊,p5p://fccs.123178.top:9906/60494553000b340f1449b191f22032d6.ts
-TLC旅遊,p5p://fccs.123178.top:9906/60440517000a918709a6b1f73be1eeb9.ts
+TLC旅遊生活,p5p://fccs.123178.top:9906/60440517000a918709a6b1f73be1eeb9.ts
 亞洲旅遊,p5p://fccs.123178.top:9906/604405c80008412109a964c89ca82891.ts
 afc亞洲美食,p5p://fccs.123178.top:9906/6044065f0003bace09abb177a024828d.ts
 FOOD美食,p5p://fccs.123178.top:9906/604407250006a38d09aeb7a6e70be747.ts
@@ -632,15 +632,13 @@ Disney,http://211.23.114.106:8581/http/61.221.81.94:8088/hls/70/812/ch40.m3u8
 壹電視新聞,http://50.7.61.147:30080/Entry/etv
 民視,http://50.7.61.147:30080/Entry/ftv
 JET綜合,http://50.7.61.147:30080/Entry/jet
-TLC旅遊,http://50.7.61.147:30080/Entry/tlc
-TLC,http://50.7.61.147:30080/Entry/tlc
+TLC旅遊生活,http://50.7.61.147:30080/Entry/tlc
 非凡商業,http://50.7.61.147:30080/Entry/ubnbus
 緯來日本,http://50.7.61.147:30080/Entry/vljp
 AXN,http://50.7.61.148:30080/Entry/axn
 中視,http://50.7.61.148:30080/Entry/ctv
 民視新聞.,http://50.7.61.148:30080/Entry/ftvnews
 民視新聞,http://50.7.61.148:30080/Entry/ftvnews
-HBO,http://50.7.61.148:30080/Entry/hbo
 HBO,http://50.7.61.148:30080/Entry/hbo
 三立台灣,http://50.7.61.148:30080/Entry/settw-
 衛視中文,http://50.7.61.148:30080/Entry/starchinese
