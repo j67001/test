@@ -112,8 +112,8 @@ BBCLifestyle,
 AMC最愛電影,
 CinemaWorld,
 HBO Family,
-HBOHiTS,
-HBOSignature,
+HBO HiTS,
+HBO Signature,
 WARNERTV,
 OUTDOOR,
 DiscoveryAsia,
@@ -247,21 +247,22 @@ CMusic,mitv://ns2.hellotvvod.com:9906/0914d00bdeb748778ea50ce5c008a18b
 愛爾達體育3,mitv://ns2.hellotvvod.com:9906/4f3f4387a8174b8f8aaed89e2901442c
 TRACESportStars,mitv://ns2.hellotvvod.com:9906/57536d1b23f34f28bb4d8c065d2e67e5
 博斯高球,mitv://ns2.hellotvvod.com:9906/9eb73e0317034672b4e2bdb0d695387f
-博斯高球二,mitv://ns2.hellotvvod.com:9906/c612218b5c0d4349a1b4049e89913c75
+博斯高球2,mitv://ns2.hellotvvod.com:9906/c612218b5c0d4349a1b4049e89913c75
 博斯網球,mitv://ns2.hellotvvod.com:9906/47176ac49fed4e74a62d30b037ce81d3
 博斯魅力網,mitv://ns2.hellotvvod.com:9906/8f1d2f23e9964ef6b99f7b7228c199dc
 博斯無限,mitv://ns2.hellotvvod.com:9906/91e038793b5f45f194ab304ab843b741
-博斯無限二,mitv://ns2.hellotvvod.com:9906/3367cde8bd924944b2b7bbbaef5be87e
+博斯無限2,mitv://ns2.hellotvvod.com:9906/3367cde8bd924944b2b7bbbaef5be87e
 博斯運動,mitv://ns2.hellotvvod.com:9906/b57a5306d5da4dcea75af2d436968097
 智林體育,mitv://ns2.hellotvvod.com:9906/8b30925a0d704bcd8286add181bafdb9
 博斯運動2,mitv://ns2.hellotvvod.com:9906/d4f401d6d6e144dfbb8c944a41b15772
 OUTDOOR,mitv://ns2.hellotvvod.com:9906/ed9355bc07124e1e8a1c5dae6d87c300
 HBO Family,mitv://ns2.hellotvvod.com:9906/2230c4128071467e8e995408f20c1c3c
-HBOHiTS,mitv://ns2.hellotvvod.com:9906/670c07900c5c4e49b6df5306bc18bff0
-HBOSignature,mitv://ns2.hellotvvod.com:9906/9b18147e7f454392b7eb1d204235b314
+HBO HiTS,mitv://ns2.hellotvvod.com:9906/670c07900c5c4e49b6df5306bc18bff0
+HBO Signature,mitv://ns2.hellotvvod.com:9906/9b18147e7f454392b7eb1d204235b314
 國家地理野生,mitv://ns2.hellotvvod.com:9906/56543494b4f64682b1cf6a1aa771c34c
 BBCEarth,mitv://ns2.hellotvvod.com:9906/555289b9056947f18bb9658c62299697
 DiscoveryAsia,mitv://ns2.hellotvvod.com:9906/8338adb9ba1541929a6106de04cfdec5
+Discovery科學,mitv://ns2.hellotvvod.com:9906/29f6899f71c64f5394c865d50ea00911
 
 中視經典,P2p://ns2.hellotvvod.com:9906/003d7fef9db3466e9b9e2f569474dd28
 TVBS精采,P2p://ns2.hellotvvod.com:9906/12b97bd9bd274f78846703aceb5894d2
@@ -306,8 +307,8 @@ TLC旅遊生活,p8p://fccs.123178.top:9906/60440517000a918709a6b1f73be1eeb9.ts
 探索頻道,p8p://fccs.123178.top:9906/610b440f00018f2d04303511f19e7e5a
 
 HBO,p5p://fccs.123178.top:9906/604340b2000af04c06a787875d674b81
-HBOSignature,p5p://fccs.123178.top:9906/604339520007991f068ab7ad0427275f
-HBOHits,p5p://fccs.123178.top:9906/60442428000dc9020040224339113352
+HBO Signature,p5p://fccs.123178.top:9906/604339520007991f068ab7ad0427275f
+HBO HiTS,p5p://fccs.123178.top:9906/60442428000dc9020040224339113352
 HBO Family,p5p://fccs.123178.top:9906/610b3ea6000bd4a6041b158a2a02ace5
 探索頻道,p5p://fccs.123178.top:9906/610b440f00018f2d04303511f19e7e5a
 探索亞洲,p5p://fccs.123178.top:9906/60433ee00002fb7906a0692e6558cb55
@@ -408,7 +409,7 @@ Eleven運動台2,p5p://fccs.123178.top:9906/61495671000ab36e0d928a09ffb0ac85
 NHKWorld,p5p://fccs.123178.top:9906/6044741d0000e8b9017873ff81c638cb.ts
 美國高爾夫球,p5p://fccs.123178.top:9906/60447654000dbd4101811e203ac3ee9f.ts
 博斯高球1,p5p://fccs.123178.top:9906/604476f500023ffc01839017c2f8b12b.ts
-博斯高球二,p5p://fccs.123178.top:9906/604477b3000746210186779063f54d2a.ts
+博斯高球2,p5p://fccs.123178.top:9906/604477b3000746210186779063f54d2a.ts
 靖天綜合,p5p://fccs.123178.top:9906/614c7520000829c819c264fbe6b1d5dc
 博斯網球,p5p://fccs.123178.top:9906/6044783c0007f05c01888ee3506bef35.ts
 博斯運動1,p5p://fccs.123178.top:9906/604478f0000e964f018b4fb7c6ee22b4.ts
@@ -555,7 +556,7 @@ NEWS,http://125.227.210.37:18184/VideoInput/play.ts
 衛視洋片,http://125.227.210.37:18789/VideoInput/play.ts
 TLC,http://125.227.210.37:19020/VideoInput/play.ts
 三立台灣,http://125.227.210.55:15714/VideoInput/play.ts
-HBOSignature,http://198.16.106.62:8278/streams/d/hbosignature_zero/playlist.m3u8
+HBO Signature,http://198.16.106.62:8278/streams/d/HBO Signature_zero/playlist.m3u8
 HBO,http://198.16.106.62:8278/streams/d/sundance_twn/playlist.m3u8
 台視,http://211.23.114.106:8502/http/61.221.81.94:8088/hls/72/814/ch46.m3u8
 中視,http://211.23.114.106:8502/http/61.221.81.94:8088/hls/72/814/ch47.m3u8
