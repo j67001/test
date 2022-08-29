@@ -161,8 +161,6 @@ CMusic,
 TRACESportStars,
 TV5Monde,
 
-
-
 BBC,mitv://fccs.word-tv.com:9906/6257e7ef0003fddd0e0c1b89963d6947
 CNN,mitv://fccs.word-tv.com:9906/62582a520008e9c70f0f6f8479cb96d1
 民視,mitv://fccs.word-tv.com:9906/62582da100098ec20f1c5c4698b437cf
@@ -212,7 +210,6 @@ ETtoday綜合,mitv://fccs.word-tv.com:9906/6258604e000c87130fe250d0bb957895
 年代新聞,mitv://fccs.word-tv.com:9906/62540c45000225da093e50b45b457d41
 東森新聞,mitv://fccs.word-tv.com:9906/62540c77000699df093f1528c8c4d48a
 中天新聞,mitv://fccs.word-tv.com:9906/625af85e0000d79c001149459e0c9b4f
-民視新聞.,mitv://fccs.word-tv.com:9906/625411d700086db70954149f159813c6
 民視新聞,mitv://fccs.word-tv.com:9906/625411d700086db70954149f159813c6
 三立新聞,mitv://fccs.word-tv.com:9906/625411f9000c761609549a782b245a4c
 TVBS新聞,mitv://fccs.word-tv.com:9906/6254121e00022e5c0955285ee55f9ec4
@@ -298,7 +295,7 @@ LOVENATURE,mitv://fccs.word-tv.com:9906/6260e5a4000e4c4817382627a71c329e
 tvN,mitv://fccs.word-tv.com:9906/6260e5b8000664c11738724174984fec
 靖洋卡通台NiceBingo,mitv://fccs.word-tv.com:9906/6260e5f00006cfff17394d1df9bdf95d
 靖洋戲劇,mitv://fccs.word-tv.com:9906/6260e602000b292d1739948a4e6140fe
-WarnerTV　,mitv://fccs.word-tv.com:9906/6260fa2e000ad4fb17886054ef6e4e06
+WarnerTV,mitv://fccs.word-tv.com:9906/6260fa2e000ad4fb17886054ef6e4e06
 天映經典電影,mitv://fccs.word-tv.com:9906/6260fa83000c7b8e1789acc84075d31b
 韓國娛樂台KMTV,mitv://fccs.word-tv.com:9906/6260fa95000d4aba1789f34d5039df1a
 歷史,mitv://fccs.word-tv.com:9906/6261294500077fb31840515220a0a636
@@ -516,7 +513,7 @@ EYETV旅遊,mitv://54.39.16.152:9906/62595e910009221e13c385aa08f4d222
 亞洲旅遊,mitv://54.39.16.152:9906/62595eed0008772713c4ecde7515ec18
 愛爾達綜合,mitv://54.39.16.152:9906/62595f88000e134a13c74bc62a907482
 愛爾達影劇,mitv://54.39.16.152:9906/62595fe00007a82a13c8a1e18c1171c7
-EYETV戲劇台　,mitv://54.39.16.152:9906/625960940003b62a13cb5fff85627bd1
+EYETV戲劇,mitv://54.39.16.152:9906/625960940003b62a13cb5fff85627bd1
 愛爾達體育1,mitv://54.39.16.152:9906/62596cd0000349b813fb2a4367d31141
 愛爾達體育2,mitv://54.39.16.152:9906/62596cee000e512213fba2460c39ef10
 愛爾達體育3,mitv://54.39.16.152:9906/62596d0a0009c5b313fc0e7cd12205f2
@@ -831,3 +828,4 @@ MoMo綜合,rtmp://59.124.75.157:1935/sat/tv761
 紅牛REDBULLTV,https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master_3360.m3u8
 三立都會,https://setlive-lh.akamaihd.net/i/setmetro_1@132201/index_1080_av-b.m3u8?sd=10&rebase=on
 三立台灣,https://setlive-lh.akamaihd.net/i/settaiwan_1@301196/index_1080_av-b.m3u8?sd=10&rebase=on
+
