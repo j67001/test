@@ -12,6 +12,7 @@
 {"key":"drpy_js_海兔影院","name":"海兔影院","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/海兔影院.js"},	
 {"key":"drpy_js_小宝影院[飞]","name":"小宝影院","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/小宝影院[飞].js"},	
 {"key":"csp_Lib","name": "🌟利播","type": 3,"api": "csp_Libvio","searchable": 1,"quickSearch": 1,"changeable":1,"ext":"https://www.libvio.fun/"},	
+{"key":"drpy_js_独播库[飞]","name":"独播库","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/独播库[飞].js"},	
 {"key":"csp_YQKAPP","name":"🎉一起看","type":3,"api":"csp_YQKAPP","playerType":2,"searchable":1,"quickSearch":1,"changeable":1,"ext":"https://api-aws.11ty.top"},	
 
 {"key":"csp_Czsapp","name":"📔厂长┃直连","type":3,"api":"csp_Czsapp","playerType":2,"searchable":1,"quickSearch":1,"changeable":1},
