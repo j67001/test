@@ -9,6 +9,7 @@
 
 {"key":"csp_Nbys","name":"🛫泥巴","type":3,"api":"csp_NiNi","searchable":1,"changeable":1},
 {"key":"csp_trj","name": "🛫唐人街","type": 3,"api": "csp_Tangrenjie","searchable": 1,"quickSearch": 1,"changeable":1},	
+{"key":"drpy_js_海兔影院","name":"海兔影院","type":3,"api":"https://github.com/gaotianliuyun/gao/blob/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/blob/master/js/海兔影院.js"} 
 
 {"key":"csp_Czsapp","name":"📔厂长┃直连","type":3,"api":"csp_Czsapp","playerType":2,"searchable":1,"quickSearch":1,"changeable":1},
 
