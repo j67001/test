@@ -38,7 +38,7 @@
 {"key":"迪迪","name":"😎迪迪┃App","api":"csp_AppYsV2","type":3,"searchable":1,"quickSearch":1,"changeable":1,"ext":"https://api123.adys.app/xgapp.php/v3/"},
 {"key":"csp_77","name":"👒七七┃App","type":3,"api":"csp_Kunyu77","searchable":1,"quickSearch":1,"changeable":1},
 {"key":"csp_DiDuan" ,"name":"⏮️低端┃直連","type":3,"api":"csp_Ddrk","searchable":1,"quickSearch":1,"changeable":1},
-{"key":"贱贱","name":"🐭贱贱┃p2p","type":3,"playerType":"1","api":"http://xhww.fun:63/js/drpy1.min.js","ext":"http://smallmi.xiaohewanwan.love:63/jp.js"},
+{"key":"贱贱","name":"🐭賤賤┃p2p","type":3,"playerType":"1","api":"http://xhww.fun:63/js/drpy1.min.js","ext":"http://smallmi.xiaohewanwan.love:63/jp.js"},
 {"key":"酷酷","name":"💡酷酷┃App","type":3,"api":"csp_Kuying","searchable":1,"quickSearch":1,"changeable":1},
 {"key":"探探","name":"🏵探探┃App","type":3,"playerType":"1","api":"csp_YT","searchable":1,"quickSearch":1,"changeable":1},
 {"key":"csp_kuaikan","name":"👀快看┃App","type":3,"api":"csp_Kuaikan","searchable":1,"quickSearch":1,"changeable":1},
@@ -88,8 +88,8 @@
 {"key":"小学课堂","name":"📚小學┃課堂","type":3,"api":"csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"http://饭太硬.top/tv/小学课堂.json"},
 {"key":"初中课堂","name":"📚初中┃課堂","type":3,"api":"csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"http://饭太硬.top/tv/初中课堂.json"},
 {"key":"高中教育","name":"📚高中┃課堂","type":3,"api":"csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"http://饭太硬.top/tv/高中课堂.json"},
-{"key":"ext_live_protocol","name":"导航 http://饭太硬.top","type":3,"api":"csp_XPath","searchable":1,"quickSearch":1,"changeable":1},
-{"key":"cc","name":"请勿相信视频中任何广告","type":3,"api":"csp_XPath","searchable": 0,"quickSearch": 0}
+//{"key":"ext_live_protocol","name":"导航 http://饭太硬.top","type":3,"api":"csp_XPath","searchable":1,"quickSearch":1,"changeable":1},
+//{"key":"cc","name":"请勿相信视频中任何广告","type":3,"api":"csp_XPath","searchable": 0,"quickSearch": 0}
 ],
 
 "parses":[
