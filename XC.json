@@ -6,15 +6,12 @@
 
 "sites":[
 {"key":"drpy_js_豆瓣","name":"豆瓣","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/drpy.js","searchable": 1,"quickSearch": 0,"filterable": 0},
-
-//{"key":"csp_Nbys","name":"🛫泥巴","type":3,"api":"csp_NiNi","searchable": 1,"quickSearch": 1,"changeable":1},	
+{"key":"drpy_js_小宝影院[飞]","name":"小宝","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/小宝影院[飞].js"},	
+//{"key":"csp_Nbys","name":"🛫泥巴","type":3,"api":"csp_NiNi","searchable": 1,"quickSearch": 1,"changeable":1},
 //{"key":"csp_trj","name": "🛫唐人街","type": 3,"api": "csp_Tangrenjie","searchable": 1,"quickSearch": 1,"changeable":1},	
 {"key":"csp_Nbys","name":"泥巴","type":3,"api":"csp_NiNi","searchable": 1,"quickSearch": 1,"changeable":1},	
 {"key":"drpy_js_唐人街影视[飞]","name":"唐人","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/唐人街影视[飞].js"},	  
-
-
-{"key":"drpy_js_海兔影院","name":"海兔","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/海兔影院.js"},	
-{"key":"drpy_js_小宝影院[飞]","name":"小宝","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/小宝影院[飞].js"},	
+{"key":"drpy_js_海兔影院","name":"海兔","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/海兔影院.js"}, 
 {"key":"csp_Lib","name": "🌟利播","type": 3,"api": "csp_Libvio","searchable": 1,"quickSearch": 1,"changeable":1,"ext":"https://www.libvio.fun/"},	
 {"key":"drpy_js_兰花影院","name":"兰花","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/兰花影院.js"}, 
 {"key":"csp_YQKAPP","name":"🎉一起看","type":3,"api":"csp_YQKAPP","playerType":2,"searchable":1,"quickSearch":1,"changeable":1,"ext":"https://api-aws.11ty.top"},	
