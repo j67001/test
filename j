@@ -6,15 +6,15 @@
 
 "wallpaper":"https://github.com/j67001/test/raw/main/B.jpg",
 
-//"lives":[{
-//  "name":"live",
-//  "type":0,
-//  "url":"http://home.jundie.top:81/Cat/tv/live.txt",
-//  "playerType":1,
-//  "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
-//  "logo": "https://epg.112114.xyz/logo/{name}.png"
-// }],   
-"lives":[{"group":"redirect","channels":[{"name":"redirect","urls":["proxy://do=live&type=eth"]}]}],
+"lives":[{
+  "name":"live",
+  "type":0,
+  "url":"http://home.jundie.top:81/Cat/tv/live.txt",
+  "playerType":1,
+  "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
+  "logo": "https://epg.112114.xyz/logo/{name}.png"
+ }],   
+//"lives":[{"group":"redirect","channels":[{"name":"redirect","urls":["proxy://do=live&type=eth"]}]}],
 
 
 
