@@ -95,10 +95,14 @@
 {"key":"push_agent","name":"🛴手機┃推送","type":3,"api":"csp_Push","searchable":0,"quickSearch":0,"ext":"http://127.0.0.1:9978/file/tvfan/token.txt+4k|fhd|auto"},
 
 {"key":"dr_兔小贝","name":"📚兒童┃啟蒙","type":3,"api":"http://xhww.fun:63/js/drpy1.min.js","ext":"https://agit.ai/fantaiying/dr_py/raw/branch/main/js/%E5%85%94%E5%B0%8F%E8%B4%9D.js","style":{"type":"rect","ratio":1.597},"searchable": 0,"quickSearch": 0,"changeable":0},
-{"key":"少儿教育","name":"📚少兒┃教育","type":3,"api":"csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"http://饭太硬.top/tv/少儿教育.json"},
-{"key":"小学课堂","name":"📚小學┃課堂","type":3,"api":"csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"http://饭太硬.top/tv/小学课堂.json"},
-{"key":"初中课堂","name":"📚初中┃課堂","type":3,"api":"csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"http://饭太硬.top/tv/初中课堂.json"},
-{"key":"高中教育","name":"📚高中┃課堂","type":3,"api":"csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"http://饭太硬.top/tv/高中课堂.json"},
+//{"key":"少儿教育","name":"📚少兒┃教育","type":3,"api":"csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"http://饭太硬.top/tv/少儿教育.json"},
+//{"key":"小学课堂","name":"📚小學┃課堂","type":3,"api":"csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"http://饭太硬.top/tv/小学课堂.json"},
+//{"key":"初中课堂","name":"📚初中┃課堂","type":3,"api":"csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"http://饭太硬.top/tv/初中课堂.json"},
+//{"key":"高中教育","name":"📚高中┃課堂","type":3,"api":"csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"http://饭太硬.top/tv/高中课堂.json"},
+{"key":"少儿教育","name":"📚少兒┃教育","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"http://饭太硬.top/tv/少儿教育.json"},
+{"key":"小学课堂","name":"📚小學┃課堂","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"http://饭太硬.top/tv/小学课堂.json"},
+{"key":"初中课堂","name":"📚初中┃課堂","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"http://饭太硬.top/tv/初中课堂.json"},
+{"key":"高中教育","name":"📚高中┃課堂","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"http://饭太硬.top/tv/高中课堂.json"},
 {"key":"ext_live_protocol","name":"","type":3,"api":"csp_XPath","searchable":1,"quickSearch":1,"changeable":1},
 {"key":"cc","name":"","type":3,"api":"csp_XPath","searchable": 0,"quickSearch": 0}
 ],
