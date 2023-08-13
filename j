@@ -2,7 +2,7 @@
 {
 //"spider":"https://files.zohopublic.com.cn/public/workdrive-public/download/uyv0t678c488189af47bb91dc108484d17431;md5;55894a9f32ba4201a1e2b157bb2e5c91",
 //"spider": "https://fongmi.cachefly.net/FongMi/CatVodSpider/main/jar/custom_spider.jar;md5;1de1a94d0429f343a35986ef5e9145d6",
-"spider": "https://github.com/j67001/test/raw/main/custom_eth.jar;md5;1de1a94d0429f343a35986ef5e9145d6",
+"spider": "https://github.com/j67001/test/raw/main/custom_eth.jar;md5;4d7e15422187013934596b11867d4f8b",
 
 "wallpaper":"https://github.com/j67001/test/raw/main/B.jpg",
 
