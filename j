@@ -36,9 +36,9 @@
 {"key":"drpy_js_豆瓣","name":"豆瓣","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/drpy.js","searchable": 1,"quickSearch": 0,"filterable": 0}, 
 
 //{"key":"drpy_js_哔哩影视","name":"嗶哩影視","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"changeable":0,"ext":"https://github.com/gaotianliuyun/gao/raw/master/js/哔哩影视.js"},
+{"key":"drpy_js_我的哔哩","name":"嗶哩嗶哩","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"changeable":0,"ext":"https://github.com/gaotianliuyun/gao/raw/master/js/我的哔哩.js"},
 {"key":"drpy_js_哔哩直播","name":"嗶哩直播","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"changeable":0,"ext":"https://github.com/gaotianliuyun/gao/raw/master/js/哔哩直播.js"},
-{"key":"drpy_js_我的哔哩","name":"我的嗶哩","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"changeable":0,"ext":"https://github.com/gaotianliuyun/gao/raw/master/js/我的哔哩.js"},
-{"key":"drpy_js_B站影视","name":"B站影視","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"changeable":0,"ext":"https://github.com/gaotianliuyun/gao/raw/master/js/B站影视.js"},
+//{"key":"drpy_js_B站影视","name":"B站影視","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"changeable":0,"ext":"https://github.com/gaotianliuyun/gao/raw/master/js/B站影视.js"},
 
 //{"key":"csp_Bili","name":"🅱嗶哩┃合集","type": 3,"api": "csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":1,"quickSearch":0,"changeable":0,"ext":"http://饭太硬.top/tv/bilibili.json"},
 //{"key":"csp_Biliych","name":"🅱嗶哩┃演唱會","type": 3,"api": "csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":1,"quickSearch":0,"changeable":0,"ext":"http://饭太硬.top/tv/biliych.json"},
