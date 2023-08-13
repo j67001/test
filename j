@@ -16,7 +16,8 @@
 "sites":[
 
 {"key":"drpy_js_小宝影院[飞]","name":"小寶","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/小宝影院[飞].js"}, 
-{"key":"csp_Nbys","name":"🛫泥巴","type":3,"api":"csp_NiNi","searchable": 1,"quickSearch": 1,"changeable":1}, 
+//{"key":"csp_Nbys","name":"🛫泥巴","type":3,"api":"csp_NiNi","searchable": 1,"quickSearch": 1,"changeable":1}, 
+{"key":"csp_Nbys","name":"泥巴","type":3,"api":"csp_NiNi","searchable": 1,"quickSearch": 1,"changeable":1}, 
 //{"key":"csp_trj","name": "🛫唐人街","type": 3,"api": "csp_Tangrenjie","searchable": 1,"quickSearch": 1,"changeable":1},	
 //{"key":"csp_Nbys","name":"泥巴","type":3,"api":"csp_NiNi","searchable": 1,"quickSearch": 1,"changeable":1,"jar": "https://fongmi.cachefly.net/FongMi/CatVodSpider/main/jar/custom_spider.jar;md5;1de1a94d0429f343a35986ef5e9145d6"},	
 {"key":"drpy_js_唐人街影视[飞]","name":"唐人","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/唐人街影视[飞].js"},	  
