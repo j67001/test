@@ -40,7 +40,7 @@
 //{"key":"csp_Czsapp","name":"📔厂长┃直连","type":3,"api":"csp_Czsapp","playerType":2,"searchable":1,"quickSearch":1,"changeable":1},
 {"key":"drpy_js_厂长资源","name":"廠長","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/厂长资源.js"}, 
 {"key":"drpy_js_豆瓣","name":"豆瓣","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/drpy.js","searchable": 1,"quickSearch": 0,"filterable": 0}, 
-{"key":"海外看资源网","name":"🏆海外看","type":0,"api":"http://api.haiwaikan.com/v1/vod?ac=list","searchable":1,"quickSearch":1,"filterable":1,"jar":"https://github.com/sqspot/tac/raw/main/top98_1.jar"},
+{"key":"海外看资源网","name":"🏆海外看","type":0,"api":"https://haiwaikan.com/api.php/provide/vod/at/xml/?ac=list","searchable":1,"quickSearch":1,"filterable":1,"jar":"https://github.com/sqspot/tac/raw/main/top98_1.jar"},
 
 //{"key":"drpy_js_哔哩影视","name":"嗶哩影視","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"changeable":0,"ext":"https://github.com/gaotianliuyun/gao/raw/master/js/哔哩影视.js"},
 {"key":"drpy_js_我的哔哩","name":"嗶哩嗶哩","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"changeable":0,"ext":"https://github.com/gaotianliuyun/gao/raw/master/js/我的哔哩.js"},
