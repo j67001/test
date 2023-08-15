@@ -27,6 +27,7 @@
 //{"key":"csp_trj","name": "🛫唐人街","type": 3,"api": "csp_Tangrenjie","searchable": 1,"quickSearch": 1,"changeable":1},	
 {"key":"drpy_js_唐人街影视[飞]","name":"唐人","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/唐人街影视[飞].js"},	  
 {"key":"drpy_js_海兔影院","name":"海兔","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/海兔影院.js"}, 
+{"key":"drpy_js_飞兔影视","name":"飛兔","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/飞兔影视.js"}, 
 {"key":"drpy_js_兰花影院","name":"蘭花","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/兰花影院.js"}, 
 {"key":"drpy_js_剧迷","name":"劇迷","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/剧迷.js"}, 
 //{"key":"csp_Lib","name": "🌟利播","type": 3,"api": "csp_Libvio","searchable": 1,"quickSearch": 1,"changeable":1,"ext":"https://www.libvio.fun/"},	
