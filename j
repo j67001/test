@@ -81,6 +81,8 @@
 {"key":"Itv","name":"🥝愛愛┃解析","type":3,"api":"csp_Itv","quickSearch":1,"searchable":1,"filterable":1,"changeable":0},
 {"key":"Mtv","name":"🍋芒芒┃解析","type":3,"api":"csp_Mtv","searchable":1,"quickSearch":1,"filterable":1,"changeable":0},
 
+{"name":"腾腾直解","type":1,"url":"http://api.playaaaa.com/qq/000167kkkk.php?url=","ext":{"header":{"User-Agent":"Dart/2.18 (dart:io)"}}},
+
 {"key":"csp_Dm84","name":"🚌動漫┃巴士","type":3,"api":"csp_Dm84","searchable":1,"quickSearch":1,"changeable":1},
 {"key":"csp_Ying","name":"💮櫻花┃動漫","type":3,"api":"csp_Ying","searchable":1,"quickSearch":1,"changeable":1},
 {"key":"csp_Ysj","name":"🎀異界┃動漫","type":3,"api":"csp_Ysj","searchable":1,"quickSearch":1,"changeable":1},
