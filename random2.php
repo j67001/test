@@ -1,6 +1,6 @@
 <?php
 //設置站點地址及圖片文件夾
-$weburl= 'https://www.accy.top/img/2/';
+$weburl= 'https://xn--sss604efuw.top/%E6%B7%B1%E8%89%B2%E5%A3%81%E7%BA%B8/';
 $path = 'bg';
 
 function getImagesFromDir($path) {
