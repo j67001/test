@@ -1,6 +1,6 @@
 <?php
 //存有美圖鏈接的文件名img.txt
-$filename = "img.txt";
+$filename = "https://raw.githubusercontent.com/j67001/test/main/img.txt";
 if(!file_exists($filename)){
     die('圖片不存在');
 }
