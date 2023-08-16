@@ -9,7 +9,8 @@
 "lives":[{
   "name":"live",
   "type":0,
-  "url":"http://home.jundie.top:81/Cat/tv/live.txt",
+  //"url":"http://home.jundie.top:81/Cat/tv/live.txt",
+  "url":"https://github.com/j67001/test/blob/main/tw.swf",
   "playerType":1,
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
