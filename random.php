@@ -31,3 +31,4 @@ default:
     die(header("Location: $pic"));
 }
 ?>
+
