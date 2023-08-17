@@ -6,7 +6,7 @@
 "wallpaper":"http://饭.eu.org/深色壁纸/api.php",
 //"wallpaper":"https://github.com/j67001/test/raw/main/B.jpg",
 
-/*"lives":[{
+"lives":[{
   "name":"live",
   "type":0,
   //"url":"http://home.jundie.top:81/Cat/tv/live.txt",
@@ -15,12 +15,12 @@
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
  }],  
-*/
+
 
 //ETH TV
 //"lives":[{"group":"redirect","channels":[{"name":"redirect","urls":["proxy://do=live&type=eth"]}]}],
 //吾愛
-"lives":[{"group":"redirect","channels":[{"name":"redirect","urls":["proxy://do=live&type=txt&ext=aHR0cDovLzUyYnNqLnZpcDo4MS9hcGkvdjMvZmlsZS9nZXQvODIwNTIvJUU3JTlCJUI0JUU2JTkyJUFELnR4dD9zaWduPWItYl9VQjZ3NDJXOE5KSEZ3aW1NNEtaVFNTUHpQZmNtOC13R1NaNE5YYU0lM0QlM0Ew"]}]}],
+//"lives":[{"group":"redirect","channels":[{"name":"redirect","urls":["proxy://do=live&type=txt&ext=aHR0cDovLzUyYnNqLnZpcDo4MS9hcGkvdjMvZmlsZS9nZXQvODIwNTIvJUU3JTlCJUI0JUU2JTkyJUFELnR4dD9zaWduPWItYl9VQjZ3NDJXOE5KSEZ3aW1NNEtaVFNTUHpQZmNtOC13R1NaNE5YYU0lM0QlM0Ew"]}]}],
 
 
 "sites":[
