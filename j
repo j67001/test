@@ -18,7 +18,13 @@
 },
 {
   "name":"live2",
-  "url":"https://epg.pw/test_channels_taiwan.txt",
+  "url":"https://agit.ai/ddx/TVBox/raw/branch/master/js/zb.txt",
+  "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
+  "logo": "https://epg.112114.xyz/logo/{name}.png"
+},
+{
+  "name":"live3",
+  "url":"http://aaa.usa7.345888.xyz.cdn.cloudflare.net/6666.txt",
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
 }
