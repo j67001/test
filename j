@@ -6,7 +6,8 @@
 "wallpaper":"http://饭.eu.org/深色壁纸/api.php",
 //"wallpaper":"https://github.com/j67001/test/raw/main/B.jpg",
 
-"lives":[{
+"lives":[
+ {
   "name":"live",
   "type":0,
   //"url":"http://home.jundie.top:81/Cat/tv/live.txt",
@@ -14,7 +15,14 @@
   "playerType":1,
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
- }],  
+},
+{
+  "name":"live2",
+  "url":"https://epg.pw/test_channels_taiwan.txt",
+  "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
+  "logo": "https://epg.112114.xyz/logo/{name}.png"
+}
+],  
 
 
 //ETH TV
