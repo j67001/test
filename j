@@ -5,6 +5,8 @@
 //"spider": "https://fongmi.cachefly.net/FongMi/CatVodSpider/main/jar/custom_spider.jar;md5;1de1a94d0429f343a35986ef5e9145d6",
 "wallpaper":"http://饭.eu.org/深色壁纸/api.php",
 //"wallpaper":"https://github.com/j67001/test/raw/main/B.jpg",
+//"warningText": "接口完全免费，切勿付费购买。",
+"warningText": "",
 
 "lives":[
  {
