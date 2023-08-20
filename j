@@ -27,6 +27,12 @@
   "url":"http://aaa.usa7.345888.xyz.cdn.cloudflare.net/6666.txt",
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
+},
+{
+  "name":"live4",
+  "url":"http://home.jundie.top:81/Cat/tv/live.txt",
+  "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
+  "logo": "https://epg.112114.xyz/logo/{name}.png"
 }
 ],  
 
