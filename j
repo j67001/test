@@ -220,7 +220,7 @@
     {
       "name": "海外看廣告1",
       "hosts": [
-        "cdn2.efhie.com"
+        "cdn2.efhie.com","cdn2.ceres9350.com"
       ],
       "regex": [
         "#EXT-X-DISCONTINUITY\\r*\\n*#EXTINF:2.002000,[\\s\\S]*?#EXT-X-DISCONTINUITY"
@@ -229,7 +229,7 @@
     {
       "name": "海外看廣告2",
       "hosts": [
-        "cdn2.efhie.com"
+        "cdn2.efhie.com","cdn2.ceres9350.com"
       ],
       "regex": [
         "#EXT-X-DISCONTINUITY\\r*\\n*#EXTINF:4.033332,[\\s\\S]*?#EXT-X-DISCONTINUITY"
@@ -238,7 +238,7 @@
     {
       "name": "海外看廣告3",
       "hosts": [
-        "cdn2.efhie.com"
+        "cdn2.efhie.com","cdn2.ceres9350.com"
       ],
       "regex": [
         "#EXT-X-DISCONTINUITY\\r*\\n*#EXTINF:5.133333,[\\s\\S]*?#EXT-X-DISCONTINUITY"
@@ -247,7 +247,7 @@
     {
       "name": "海外看廣告4",
       "hosts": [
-        "cdn2.efhie.com"
+        "cdn2.efhie.com","cdn2.ceres9350.com"
       ],
       "regex": [
         "#EXT-X-DISCONTINUITY\\r*\\n*#EXTINF:5.939267,[\\s\\S]*?#EXT-X-DISCONTINUITY"
@@ -256,7 +256,7 @@
     {
       "name": "海外看廣告5",
       "hosts": [
-        "cdn2.efhie.com"
+        "cdn2.efhie.com","cdn2.ceres9350.com"
       ],
       "regex": [
         "#EXT-X-DISCONTINUITY\\r*\\n*#EXTINF:7.907899,[\\s\\S]*?#EXT-X-DISCONTINUITY"
@@ -265,7 +265,7 @@
     {
       "name": "海外看廣告6",
       "hosts": [
-        "cdn2.efhie.com"
+        "cdn2.efhie.com","cdn2.ceres9350.com"
       ],
       "regex": [
         "#EXT-X-DISCONTINUITY\\r*\\n*#EXTINF:9.133333,[\\s\\S]*?#EXT-X-DISCONTINUITY"
@@ -274,7 +274,7 @@
     {
       "name": "海外看廣告7",
       "hosts": [
-        "cdn2.efhie.com"
+        "cdn2.efhie.com","cdn2.ceres9350.com"
       ],
       "regex": [
         "#EXT-X-DISCONTINUITY\\r*\\n*#EXTINF:9.899999,[\\s\\S]*?#EXT-X-DISCONTINUITY"
@@ -284,7 +284,7 @@
     {
       "name": "海外看廣告8",
       "hosts": [
-        "cdn2.efhie.com"
+        "cdn2.efhie.com","cdn2.ceres9350.com"
       ],
       "regex": [
         "#EXT-X-DISCONTINUITY\\r*\\n*#EXTINF:2.002,[\\s\\S]*?#EXT-X-DISCONTINUITY"
@@ -293,7 +293,7 @@
     {
       "name": "海外看廣告9",
       "hosts": [
-        "cdn2.efhie.com"
+        "cdn2.efhie.com","cdn2.ceres9350.com"
       ],
       "regex": [
         "#EXT-X-DISCONTINUITY\\r*\\n*#EXTINF:4.033,[\\s\\S]*?#EXT-X-DISCONTINUITY"
@@ -302,7 +302,7 @@
     {
       "name": "海外看廣告10",
       "hosts": [
-        "cdn2.efhie.com"
+        "cdn2.efhie.com","cdn2.ceres9350.com"
       ],
       "regex": [
         "#EXT-X-DISCONTINUITY\\r*\\n*#EXTINF:5.133,[\\s\\S]*?#EXT-X-DISCONTINUITY"
@@ -311,7 +311,7 @@
     {
       "name": "海外看廣告11",
       "hosts": [
-        "cdn2.efhie.com"
+        "cdn2.efhie.com","cdn2.ceres9350.com"
       ],
       "regex": [
         "#EXT-X-DISCONTINUITY\\r*\\n*#EXTINF:5.939,[\\s\\S]*?#EXT-X-DISCONTINUITY"
@@ -320,7 +320,7 @@
     {
       "name": "海外看廣告12",
       "hosts": [
-        "cdn2.efhie.com"
+        "cdn2.efhie.com","cdn2.ceres9350.com"
       ],
       "regex": [
         "#EXT-X-DISCONTINUITY\\r*\\n*#EXTINF:7.907,[\\s\\S]*?#EXT-X-DISCONTINUITY"
@@ -329,7 +329,7 @@
     {
       "name": "海外看廣告13",
       "hosts": [
-        "cdn2.efhie.com"
+        "cdn2.efhie.com","cdn2.ceres9350.com"
       ],
       "regex": [
         "#EXT-X-DISCONTINUITY\\r*\\n*#EXTINF:9.133,[\\s\\S]*?#EXT-X-DISCONTINUITY"
@@ -338,7 +338,7 @@
     {
       "name": "海外看廣告14",
       "hosts": [
-        "cdn2.efhie.com"
+        "cdn2.efhie.com","cdn2.ceres9350.com"
       ],
       "regex": [
         "#EXT-X-DISCONTINUITY\\r*\\n*#EXTINF:9.899,[\\s\\S]*?#EXT-X-DISCONTINUITY"
