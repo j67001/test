@@ -128,7 +128,7 @@
 {"key":"csp_XBPQ_聚短视频","name":"📽️聚短┃視頻","type":3,"api":"csp_XBPQ","searchable":0,"quickSearch":0,"changeable":0,"ext":"http://饭太硬.top/x/xbpq/短视频.json"},
 {"key":"有声小说js","name":"🎧有聲┃小說","type":3,"api":"http://xhww.fun:63/js/drpy1.min.js","ext":"https://agit.ai/fantaiying/dr_py/raw/branch/main/js/有声小说吧.js","style":{"type":"rect","ratio":1},"searchable": 0,"quickSearch": 0,"changeable":0},
 
-{"key":"lf_js_lf_live","name":"Radio廣播","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/lf_live_min.js","style":{ "type":"oval"},"searchable":1,"changeable":0,"quickSearch":1,"filterable":1,"ext":"https://github.com/gaotianliuyun/gao/raw/master/js/lf_live.txt"},
+{"key":"lf_js_lf_live","name":"📻Radio廣播","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/lf_live_min.js","style":{ "type":"oval"},"searchable":1,"changeable":0,"quickSearch":1,"filterable":1,"ext":"https://github.com/gaotianliuyun/gao/raw/master/js/lf_live.txt"},
 
 {"key":"YiSo","name":"😹易搜┃搜索","type":3,"api":"csp_YiSo","searchable":1,"quickSearch":1,"changeable":0,"ext":"http://127.0.0.1:9978/file/tvfan/token.txt+4k|fhd|auto"},
 {"key":"Zhaozy","name":"🐺找資源┃搜索","type":3,"api":"csp_Zhaozy","searchable":1,"quickSearch":1,"changeable":0,"ext":"http://127.0.0.1:9978/file/tvfan/token.txt+4k|fhd|auto$$$fanfan$$$qqq111"},
