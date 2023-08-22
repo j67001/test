@@ -118,9 +118,9 @@
 {"key":"csp_Anime1","name":"🐾日本┃動漫","type": 3,"api": "csp_Anime1","searchable": 1,"quickSearch": 1,"changeable":1},
 {"key":"csp_Yj1211","name":"📽️網紅┃直播","type": 3,"api": "csp_Yj1211","searchable": 1,"quickSearch": 1,"changeable":1},
 
-{"key":"88js","name":"⚽ 88┃看球","type":3,"api":"http://xhww.fun:63/js/drpy1.min.js","ext":"https://agit.ai/fantaiying/dr_py/raw/branch/main/js/88看球.js","style":{"type":"rect","ratio":1},"searchable": 0,"quickSearch": 0,"changeable":0},
+{"key":"drpy_js_88看球","name":"⚽ 88┃看球","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"https://github.com/gaotianliuyun/gao/raw/master/js/88看球.js"},
 {"key":"csp_xp_qiumi","name":"⚽ Jrs┃球迷","type": 3,"api": "csp_XPath","style":{"type":"rect","ratio":1},"searchable": 0,"quickSearch": 0,"changeable":0,"ext": "http://饭太硬.top/x/xp/dj看球.json"},
-{"key":"csp_XYQBiu_310直播","name":"⚽310┃看球","type":3,"api":"csp_XYQBiu","style":{"type":"rect","ratio":1},"searchable":0,"quickSearch":0,"changeable":0,"ext":"http://饭太硬.top/x/XYQ/310直播.json"},
+{"key":"drpy_js_310直播","name":"⚽310┃看球","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"https://github.com/gaotianliuyun/gao/raw/master/js/310直播.js"},
 {"key":"csp_XPath_企鹅体育","name":"🐧企鵝┃體育","type":3,"api":"csp_XPath","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"http://饭太硬.top/x/xp/企鹅直播.json"},
 {"key":"MV_vod","name":"🎶明星┃MV","type":1,"api":"https://mv.wogg.link/mv/vod","style":{"type":"oval"},"searchable":1,"quickSearch":0,"changeable":0},
 {"key":"酷奇js","name":"🎤酷奇┃MV","type": 3,"api":"http://xhww.fun:63/js/drpy1.min.js","ext":"https://agit.ai/fantaiying/dr_py/raw/branch/main/js/酷奇MV.js","style":{"type":"rect","ratio":1.597},"searchable": 0,"quickSearch": 0,"changeable":0},
