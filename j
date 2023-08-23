@@ -82,7 +82,9 @@
 //{"key":"drpy_js_B站影视","name":"🤖B站影視","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"changeable":0,"ext":"https://github.com/gaotianliuyun/gao/raw/master/js/B站影视.js"},
 //{"key":"csp_Bili","name":"🅱嗶哩┃合集","type": 3,"api": "csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":1,"quickSearch":0,"changeable":0,"ext":"http://饭.eu.org/x/json/bilibili.json"},
 //{"key":"csp_Biliych","name":"🅱嗶哩┃演唱會","type": 3,"api": "csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":1,"quickSearch":0,"changeable":0,"ext":"http://饭.eu.org/x/json/bilibili.json"},
-{"key":"MV_vod","name":"🎸明星┃MV","type":1,"api":"https://mv.wogg.link/mv/vod","style":{"type":"oval"},"searchable":1,"quickSearch":0,"changeable":0},
+{"key":"MV_vod","name":"🎸明星┃MV","type":1,"api":"https://mv.wogg.link/mv/vod","style":{"type":"oval"},"searchable":1,"quickSearch":0,"changeable":0}
+
+/*,
 {"key":"csp_YGP","name":"🚀新片┃速递","type":3,"api":"csp_YGP","searchable":0,"quickSearch":0,"changeable":0},
 {"key":"csp_woggcli","name":"😈玩偶","type":4,"api":"http://home.jundie.top:9520/spider/csp_Wogg?sort=原画,蓝光,超清,高清&token=81c7608b1d824a32b89978daa20c5e51","searchable":1,"quickSearch":1,"filterable":1,"changeable":0},
 {"key":"csp_WoGG","name":"👽玩偶哥哥","type":3,"api":"csp_WoGG","searchable":1,"quickSearch":1,"changeable":0,"ext": "token=d033c69858b14ee8b5da9ca5ff87a7c1"}, 
@@ -149,6 +151,7 @@
 {"key":"高中教育","name":"📚高中┃課堂","type":3,"api":"csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"http://饭太硬.top/x/json/高中课堂.json"}
 //{"key":"ext_live_protocol","name":"","type":3,"api":"csp_XPath","searchable":1,"quickSearch":1,"changeable":1},
 //{"key":"cc","name":"","type":3,"api":"csp_XPath","searchable": 0,"quickSearch": 0}
+*/
 ], 
 
 "parses":[
