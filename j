@@ -47,8 +47,29 @@
 
 
 "sites":[
+  {
+      "key": "csp_Nbys",
+      "name": "❤蜂蜜新泥巴",
+      "type": 3,
+      "api": "csp_NiNi",
+      "searchable": 1,
+      "style":{ "type":"rect", "ratio":0.8 },
+      "changeable": 1,
+      "jar": "https://qu.ax/XTuU.jpg"
+    },
+  {
+      "key": "蜂蜜旧泥巴",
+      "name": "❤蜂蜜旧泥巴",
+      "type": 3,
+      "api": "csp_NiNi",
+      "searchable": 1,
+      "style":{ "type":"rect", "ratio":0.8 },
+      "ext": 1,
+      "jar":"https://qu.ax/bmJu.js;md5;6976f6560b0b5ff9182651d9e4c43dac"
+    },
+{ "key": "泥巴", "name": "🥔泥巴", "type": 3, "api": "csp_NiNi", "searchable": 1, "style":{ "type":"rect", "ratio":0.8 },"jar": "https://fongmi.cachefly.net/FongMi/CatVodSpider/main/jar/custom_spider.jar;md5;eea22614c071a32c3624ca99691f491a", "ext": "1" },
 //{"key":"csp_Nbys","name":"🥔泥巴","type":3,"api":"csp_NiNi","searchable": 1,"quickSearch": 1,"changeable":1}, 
-{"key":"csp_Nbys","name":"🥔泥巴","type":3,"api":"csp_NiNi","searchable": 1,"quickSearch": 1,"changeable":1,"jar": "https://fongmi.cachefly.net/FongMi/CatVodSpider/main/jar/custom_spider.jar;md5;1de1a94d0429f343a35986ef5e9145d6"},	
+//{"key":"csp_Nbys","name":"🥔泥巴","type":3,"api":"csp_NiNi","searchable": 1,"quickSearch": 1,"changeable":1,"jar": "https://fongmi.cachefly.net/FongMi/CatVodSpider/main/jar/custom_spider.jar;md5;1de1a94d0429f343a35986ef5e9145d6"},	
 {"key":"drpy_js_爱壹帆[飞]","name":"⛵愛壹帆","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/爱壹帆[飞].js"},
 {"key":"drpy_js_飞兔影视","name":"🐇飛兔","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/飞兔影视.js"}, 
 {"key":"drpy_js_小宝影院[飞]","name":"🧸小寶","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/小宝影院[飞].js"}, 
