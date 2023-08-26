@@ -14,7 +14,7 @@
   "type":0,
   //"url":"http://home.jundie.top:81/Cat/tv/live.txt",
   "url":"https://raw.githubusercontent.com/j67001/test/main/tw.swf",
-		//"ua": "okhttp/3.12.13",
+  "ua": "okhttp/3.12.13",
   "playerType":1,
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
