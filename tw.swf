@@ -2408,6 +2408,7 @@ MoMo綜合,rtmp://59.124.75.157:1935/sat/tv761
 三立都會,https://setlive-lh.akamaihd.net/i/setmetro_1@132201/index_1080_av-b.m3u8?sd=10&rebase=on
 三立台灣,https://setlive-lh.akamaihd.net/i/settaiwan_1@301196/index_1080_av-b.m3u8?sd=10&rebase=on
 
+其它_6868,#genre#
 彩虹e台,P2p://135.148.104.228:19806/3f5f22df9a324f759e43967b0d3ffe65
 彩虹電影台,P2p://135.148.104.228:19806/65b9f44984e749a8b14455a173779644
 LOOK TV,P2p://135.148.104.228:19806/c8aab8c8683c4f35aba0e745535afd41
@@ -2421,10 +2422,10 @@ PLAYBOY,P2p://135.148.104.228:19806/47f99c6bdb9449a594cc0621f8980f3c
 JStar極限電影台,P2p://135.148.104.228:19806/a55acb84487242d882b0b53dd110b845
 HAPPY,P2p://135.148.104.228:19806/7b02a03ce3094b4e84f883565805f3a4
 K,P2p://135.148.104.228:19806/1aec46d506634015a1276c5e4d846976
-
 Sex,http://220.135.124.158:8088/live/94_h265.ts
 Sex,http://220.135.124.158:8088/live/95_h265.ts
 Sex,http://220.135.124.158:8088/live/96_h265.ts
 Sex,http://220.135.124.158:8088/live/97_h265.ts
 Sex,http://220.135.124.158:8088/live/98_h265.ts
 Sex,http://220.135.124.158:8088/live/99_h265.ts
+
