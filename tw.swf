@@ -315,10 +315,11 @@ NHK,http://220.135.124.158:8088/live/80_h265.ts
 
 //ETH TV
 
-東森超視,http://angtv.cn/jd/gx.php?id=dscs
-東森電影,http://angtv.cn/jd/gx.php?id=dsdy
-東森洋片,http://angtv.cn/jd/gx.php?id=dsyp
-龍祥時代,http://angtv.cn/jd/gx.php?id=lxsd
+//lag
+//東森超視,http://angtv.cn/jd/gx.php?id=dscs
+//東森電影,http://angtv.cn/jd/gx.php?id=dsdy
+//東森洋片,http://angtv.cn/jd/gx.php?id=dsyp
+//龍祥時代,http://angtv.cn/jd/gx.php?id=lxsd
 
 民視,http://seb.sason.top/ptv/ftv.php?id=ms
 民視台灣,http://seb.sason.top/ptv/ftv.php?id=tw
