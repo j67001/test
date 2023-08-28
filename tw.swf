@@ -363,6 +363,21 @@ TVB J5,http://162.19.247.76:22222/live/tvbj5/index.m3u8
 
 //星視界
 
+民視新聞,http://tv.redrainl.site:9500/live.m3u8?c=01
+中視新聞,http://tv.redrainl.site:9500/live.m3u8?c=02
+中天新聞,http://tv.redrainl.site:9500/live.m3u8?c=03
+NHK,http://tv.redrainl.site:9500/live.m3u8?c=09
+台視新聞,http://tv.redrainl.site:9500/live.m3u8?c=11
+France24,http://tv.redrainl.site:9500/live.m3u8?c=13
+Bloomberg,http://tv.redrainl.site:9500/live.m3u8?c=13
+寰宇新聞,http://tv.redrainl.site:9500/live.m3u8?c=22
+鏡新聞http://tv.redrainl.site:9500/live.m3u8?c=28
+三立iNews,http://tv.redrainl.site:9500/live.m3u8?c=51
+新唐人,http://tv.redrainl.site:9500/live.m3u8?c=52
+天才衝衝衝,http://tv.redrainl.site:9500/live.m3u8?c=57
+大愛2,http://tv.redrainl.site:9500/live.m3u8?c=60
+TaiwanPlus,http://tv.redrainl.site:9500/live.m3u8?c=88
+
 //4GTV
 民視台灣,http://8.210.88.135/1022/4g01.php?p=3
 民視,http://8.210.88.135/1022/4g02.php?p=3
