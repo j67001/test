@@ -17,8 +17,8 @@ var rule = {
 		"anime":[{"key":"area","name":"地區","value":[{"n":"全部","v":""},{"n":"日本","v":"日本"},{"n":"美國","v":"美國"},{"n":"歐美","v":"歐美"},{"n":"大陸","v":"大陸"},{"n":"台灣","v":"臺灣"},{"n":"香港","v":"香港"},{"n":"韓國","v":"韓國"}]},{"key":"year","name":"年份","value":[{"n":"全部","v":""},{"n":"2021","v":"2021"},{"n":"2020","v":"2020"},{"n":"2019","v":"2019"},{"n":"2018","v":"2018"},{"n":"2017","v":"2017"},{"n":"2016","v":"2016"},{"n":"2015","v":"2015"},{"n":"2014","v":"2014"},{"n":"2013","v":"2013"},{"n":"2012","v":"2012"},{"n":"2011","v":"2011"},{"n":"2010","v":"2010"}]},{"key":"by","name":"排序","value":[{"n":"按更新","v":"/by/time"},{"n":"周人氣","v":"/by/hits_week"},{"n":"月人氣","v":"/by/hits_month"}]}]
 	},
 	filter_def:{
-		tvseries:{cateId:'tvseries',by:'/by/time'},
 		movies:{cateId:'movies',by:'/by/time'},
+		tvseries:{cateId:'tvseries',by:'/by/time'},
 		tv_show:{cateId:'tv_show',by:'/by/time'},
 		anime:{cateId:'anime',by:'/by/time'}
 	},
