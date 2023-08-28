@@ -1723,7 +1723,7 @@ EYETV戲劇,P2p://135.148.104.228:19806/adc2a4ea6a77409cb91369152f0baced
 
 
 
-失效來源_6868,#genre#
+失效來源,#genre#
 來源網址1,http://52bsj.vip:81/api/v3/file/get/137105/ys.txt?sign=6Nnd60P4ddFHvWXkxTV6HEFz0lGQEZDXUxyVyzkumC8%3D%3A0
 來源網址2,https://github.com/wcb1969/iptv/raw/main/港台2023.txt
 
@@ -2467,6 +2467,10 @@ TVBS新聞,http://www.ubvip1688.com/ublive/a45c232dfe99adf8.m3u8
 民視新聞,http://www.ubvip1688.com/ublive/b90cf8106c57d07e.m3u8
 
 
+松視1台,http://pull.live.esl.alivecdn.com/live/8e99c0054d5beee3c95370f229fa2ce3.flv 
+松視2台,http://pull.live.esl.alivecdn.com/live/59a7d74f5b7cbcf185e1ca8ac554de51.flv
+松視3台,http://pull.live.esl.alivecdn.com/live/4f6b38d42d2fef2c791ea41c163faddb.flv
+彩虹電影台,http://pull.live.esl.alivecdn.com/live/ff76c64f79443b7cdc8d6db2ebd229ab.flv
 彩虹e台,P2p://135.148.104.228:19806/3f5f22df9a324f759e43967b0d3ffe65
 彩虹電影台,P2p://135.148.104.228:19806/65b9f44984e749a8b14455a173779644
 LOOK TV,P2p://135.148.104.228:19806/c8aab8c8683c4f35aba0e745535afd41
