@@ -58,7 +58,7 @@
 //{"key":"csp_trj","name": "🛫唐人街","type": 3,"api": "csp_Tangrenjie","searchable": 1,"quickSearch": 1,"changeable":1},	
 {"key":"drpy_js_唐人街影视[飞]","name":"🏫唐人","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/唐人街影视[飞].js"},	  
 {"key":"drpy_js_飞兔影视","name":"🐇飛兔","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/飞兔影视.js"}, 
-{"key":"drpy_js_duck","name":"🦆小鴨","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/duck2.js"}, 
+{"key":"drpy_js_duck","name":"🦆小鴨","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/duck.js"}, 
 {"key":"drpy_js_剧迷","name":"🎭劇迷","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/剧迷.js"}, 
 //{"key":"drpy_js_剧迷su","name":"🎭劇迷2","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/剧迷su.js"},
 {"key":"drpy_js_欧乐影院[飞]","name":"😹歐樂","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/欧乐影院[飞].js"},
