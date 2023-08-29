@@ -241,22 +241,6 @@ NHK,http://220.135.124.158:8088/live/80_h265.ts
 
 //ETH TV
 
-//lag
-//東森超視,http://angtv.cn/jd/gx.php?id=dscs
-//東森電影,http://angtv.cn/jd/gx.php?id=dsdy
-//東森洋片,http://angtv.cn/jd/gx.php?id=dsyp
-//龍祥時代,http://angtv.cn/jd/gx.php?id=lxsd
-
-民視,http://seb.sason.top/ptv/ftv.php?id=ms
-民視台灣,http://seb.sason.top/ptv/ftv.php?id=tw
-民視旅游,http://seb.sason.top/ptv/ftv.php?id=ly
-民視第一,http://seb.sason.top/ptv/ftv.php?id=dy
-民視綜藝,http://seb.sason.top/ptv/ftv.php?id=zy
-民視影劇,http://seb.sason.top/ptv/ftv.php?id=yj
-天良,http://60.248.91.20:8000/main
-FashionTV,http://fash1043.cloudycdn.services/slive/_definst_/ftv_ftv_midnite_k1y_27049_midnite_secr_108_hls.smil/playlist.m3u8
-
-
 鳳凰中文,http://162.19.247.76:22222/live/fenghuangweishi/index.m3u8
 鳳凰資訊,http://162.19.247.76:22222/live/fenghuangzhixun/index.m3u8
 鳳凰香港,http://162.19.247.76:22222/live/fenghuangxianggang/index.m3u8
@@ -721,6 +705,8 @@ TVBS新聞,http://38.64.72.148/hls/modn/list/4006/playlist.m3u8
 台視新聞,http://38.64.72.148/hls/modn/list/4013/playlist.m3u8
 
 //雜源
+天良,http://60.248.91.20:8000/main
+FashionTV,http://fash1043.cloudycdn.services/slive/_definst_/ftv_ftv_midnite_k1y_27049_midnite_secr_108_hls.smil/playlist.m3u8
 CTN,http://58.99.33.16:1935/liveedge17/live_854_3.stream/chunklist.m3u8
 人間衛視,http://61.216.67.119:1935/bltvhd/bltv1/chunklist_w1266569526.m3u8
 番薯,http://61.216.67.119:1935/TWHG/E1/chunklist_w70581102.m3u8
@@ -739,12 +725,6 @@ FashionTV,http://lb.streaming.sk/fashiontv/stream/chunklist_w1702070444.m3u8
 大愛,https://pulltv2.wanfudaluye.com/live/tv1.m3u8
 大愛2,http://pulltv1.wanfudaluye.com/live/tv2.m3u8
 大愛2,http://pulltv2.wanfudaluye.com/live/tv2.m3u8
-人間衛視,https://5ddce30eb4b55.streamlock.net/bltvhd/bltv1/chunklist_w511254805.m3u8
-人間衛視,https://5ddce30eb4b55.streamlock.net/bltvhd/bltv1/chunklist_w614428743.m3u8
-GOODTV旅行,https://dqhxk7sbp7xog.cloudfront.net/hls-live/goodtv/_definst_/liveevent/live-ch11-2.m3u8
-GOODTV經典音樂河,https://dqhxk7sbp7xog.cloudfront.net/hls-live/goodtv/_definst_/liveevent/live-ch6-2.m3u8
-GOODTV好醫生,https://dqhxk7sbp7xog.cloudfront.net/hls-live/goodtv/_definst_/liveevent/live-ch9-2.m3u8
-三立NEWS+,https://ytm2.yuanhsing.cf/SETLIVE.m3u8
 唯心電視,http://mobile.ccdntech.com/transcoder/_definst_/vod164_Live/live/chunklist_w1177047531.m3u8
 孝廉電視,http://cdn257.ccdntech.com/live-http/_definst_/vod257_Live/live/playlist.m3u8
 好消息,http://live-350k.streamingfast.net/hls-live/goodtv/_definst_/liveevent/live-ch1-1.m3u8
@@ -752,7 +732,26 @@ GOODTV好醫生,https://dqhxk7sbp7xog.cloudfront.net/hls-live/goodtv/_definst_/l
 大立電視,http://www.dalitv.com.tw:4568/live/dali/index.m3u8
 創世電視,https://cdn.deepcore.online/hlsme/ctv_hk.m3u8
 紅牛,https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master_3360.m3u8
+人間衛視,https://5ddce30eb4b55.streamlock.net/bltvhd/bltv1/chunklist_w511254805.m3u8
+人間衛視,https://5ddce30eb4b55.streamlock.net/bltvhd/bltv1/chunklist_w614428743.m3u8
+GOODTV旅行,https://dqhxk7sbp7xog.cloudfront.net/hls-live/goodtv/_definst_/liveevent/live-ch11-2.m3u8
+GOODTV經典音樂河,https://dqhxk7sbp7xog.cloudfront.net/hls-live/goodtv/_definst_/liveevent/live-ch6-2.m3u8
+GOODTV好醫生,https://dqhxk7sbp7xog.cloudfront.net/hls-live/goodtv/_definst_/liveevent/live-ch9-2.m3u8
+三立NEWS+,https://ytm2.yuanhsing.cf/SETLIVE.m3u8
 
+//lag
+東森超視,http://angtv.cn/jd/gx.php?id=dscs
+東森電影,http://angtv.cn/jd/gx.php?id=dsdy
+東森洋片,http://angtv.cn/jd/gx.php?id=dsyp
+龍祥時代,http://angtv.cn/jd/gx.php?id=lxsd
+
+//640x360
+民視,http://seb.sason.top/ptv/ftv.php?id=ms
+民視台灣,http://seb.sason.top/ptv/ftv.php?id=tw
+民視旅游,http://seb.sason.top/ptv/ftv.php?id=ly
+民視第一,http://seb.sason.top/ptv/ftv.php?id=dy
+民視綜藝,http://seb.sason.top/ptv/ftv.php?id=zy
+民視影劇,http://seb.sason.top/ptv/ftv.php?id=yj
 
 //P2p,230829
 民視,P2p://135.148.104.228:19806/8b0e721cee984d389cef154c1b1c4ca9
