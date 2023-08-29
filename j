@@ -70,7 +70,7 @@
 //{"key":"csp_Czsapp","name":"🏭厂长┃直连","type":3,"api":"csp_Czsapp","playerType":2,"searchable":1,"quickSearch":1,"changeable":1},
 {"key":"drpy_js_厂长资源","name":"🏭廠長","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/厂长资源.js"}, 
 {"key":"drpy_js_豆瓣","name":"🥜豆瓣","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/drpy.js","searchable": 1,"quickSearch": 0,"filterable": 0}, 
-
+{"key":"drpy_js_duck","name":"🦆小鴨","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/duck.js"}, 
 {"key": "drpy_js_Alist","name": "📽️4K雲端","type": 3,"api": "http://81.68.148.203/aytv/data/json/dr/lib/alist.min.js","searchable": 2,"quickSearch": 0,"filterable": 1,"ext": "http://81.68.148.203/tv/ext/khari.json"},
 {"key":"lf_js_lf_live","name":"📻Radio廣播","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/lf_live_min.js","style":{ "type":"oval"},"searchable":1,"changeable":0,"quickSearch":1,"filterable":1,"ext":"https://github.com/gaotianliuyun/gao/raw/master/js/lf_live.txt"},
 
