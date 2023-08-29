@@ -4,8 +4,8 @@ muban.首图.二级.tabs = '.myui-panel__head.bottom-line h3';
 var rule = {
 	title:'hdtoday',
 	模板:'首图',
-	host:'https://hdtoday.tv',
-	url:'/filter?fyfilter',
+	host:'https://hdtoday.tv/home',
+	url:'?fyfilter',
 	filterable:1,//是否启用分类筛选,
 	filter_url:'&type={{fl.cateId}}&quality=all&release_year={{fl.year}}&genre={{fl.class}}&country={{fl.area}}&page=fypage',
 	filter: {
