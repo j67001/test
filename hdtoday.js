@@ -14,7 +14,7 @@ var rule = {
 	searchable: 2,
 	quickSearch: 0,
 	filterable:1,//是否启用分类筛选,
-	headers:{'User-Agent':'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36 Edg/116.0.1938.62'},
+	headers:{'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'},
 	timeout:5000,
 	class_name:'movie&tv-show&top-imdb', // 分类筛选 /api.php/app/nav
 	class_url:'2&1&3',
