@@ -51,12 +51,12 @@
 //{"key":"csp_Nbys","name":"🥔泥巴","type":3,"api":"csp_NiNi","searchable": 1,"quickSearch": 1,"changeable":1}, 
 {"key":"csp_Nbys","name":"🥔泥巴","type":3,"api":"csp_NiNi","searchable": 1,"quickSearch": 1,"changeable":1,"jar": "https://fongmi.cachefly.net/FongMi/CatVodSpider/main/jar/custom_spider.jar;md5;1de1a94d0429f343a35986ef5e9145d6"},	
 {"key":"drpy_js_爱壹帆[飞]","name":"⛵愛壹帆","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/爱壹帆[飞].js"},
-{"key":"drpy_js_LIBVIO","name":"🌟利播","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://raw.githubusercontent.com/j67001/test/main/LIBVIO.js"},
+{"key":"drpy_js_LIBVIO","name":"🦄利播","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://raw.githubusercontent.com/j67001/test/main/LIBVIO.js"},
 //{"key":"csp_Lib","name": "🌟利播","type": 3,"api": "csp_Libvio","searchable": 1,"quickSearch": 1,"changeable":1,"ext":"https://www.libvio.fun/"},	
 {"key":"drpy_js_海兔影院","name":"🐰海兔","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/海兔影院.js"}, 
 {"key":"drpy_js_小宝影院[飞]","name":"🧸小寶","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/小宝影院[飞].js"}, 
 //{"key":"csp_trj","name": "🛫唐人街","type": 3,"api": "csp_Tangrenjie","searchable": 1,"quickSearch": 1,"changeable":1},	
-{"key":"drpy_js_唐人街影视[飞]","name":"🏫唐人","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/唐人街影视[飞].js"},	  
+{"key":"drpy_js_唐人街影视[飞]","name":"⛩️唐人","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/唐人街影视[飞].js"},	  
 {"key":"drpy_js_飞兔影视","name":"🐇飛兔","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/飞兔影视.js"}, 
 {"key":"drpy_js_duck","name":"🦆小鴨","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/duck.js"}, 
 {"key":"drpy_js_剧迷","name":"🎭劇迷","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/剧迷.js"}, 
@@ -73,7 +73,7 @@
 {"key":"drpy_js_豆瓣","name":"🥜豆瓣","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/drpy.js","searchable": 1,"quickSearch": 0,"filterable": 0}, 
 
 //{ "key":"萌番","name":"🐹萌番","type":1,"searchable":1,"quickSearch":1,"playerType":1,"api":"https://www.mengfan.tv/api.php/provide/vod/","header":{"user-agent":"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"}},
-{"key":"drpy_js_hdtoday","name":"🦄hdtoday","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/hdtoday.js"}, 
+//{"key":"drpy_js_hdtoday","name":"🦄🏫hdtoday","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/hdtoday.js"}, 
 {"key": "drpy_js_Alist","name": "📽️4K雲端","type": 3,"api": "http://81.68.148.203/aytv/data/json/dr/lib/alist.min.js","searchable": 2,"quickSearch": 0,"filterable": 1,"ext": "http://81.68.148.203/tv/ext/khari.json"},
 {"key":"lf_js_lf_live","name":"📻Radio廣播","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/lf_live_min.js","style":{ "type":"oval"},"searchable":1,"changeable":0,"quickSearch":1,"filterable":1,"ext":"https://github.com/gaotianliuyun/gao/raw/master/js/lf_live.txt"},
 
