@@ -1610,9 +1610,59 @@ SkySportsAction,P2p://135.148.104.228:19806/d627b2c21c264a13afa935d214060989
 
 
 
-失效來源_qqqq,#genre#
+來源測試_qqqq,#genre#
 來源網址1,http://52bsj.vip:81/api/v3/file/get/137105/ys.txt?sign=6Nnd60P4ddFHvWXkxTV6HEFz0lGQEZDXUxyVyzkumC8%3D%3A0
 來源網址2,https://github.com/wcb1969/iptv/raw/main/港台2023.txt
+Youtube,https://www.youtube.com/watch?v=m_dhMSvUCIc
+162.19.247.76,http://162.19.247.76:22222/live/dsdyt/index.m3u8
+sanlihalive1,https://sanlihalive1-a.akamaihd.net/5ffd3a166f7241d9b489b7d7241db96f/ap-northeast-1/4338955585001/profile_0/chunklist.m3u8?hdnea=st=1664678506~exp=9007200919419497~acl=/5ffd3a166f7241d9b489b7d7241db96f/%2A/profile_0/chunklist.m3u8%2A~hmac=cfd432e7da8eece68fe4a4da3a3bc08ab1bbc50b147a84c95ae3d4a569e932b1
+tv.redrainl.site,http://tv.redrainl.site:9500/live.m3u8?c=11
+yydns.us59,http://yydns.us59.aihost9.top/ddns.php?id=105
+4gtv8.210.88.135,http://8.210.88.135/1022/4g02.php?p=3
+smart50-8.210.88.135,http://8.210.88.135/smart.php?playurl=http://50.7.238.114:8278/cb7a1fec69/playlist.m3u8
+smart198-8.210.88.135,http://8.210.88.135/smart.php?playurl=http://198.16.100.90:8278/axn_twn/playlist.m3u8
+sat.tv771,https://fsv4.yj011.net/sat/tv771.flv
+198.16.100.90.8278,http://198.16.100.90:8278/ctshd_twn/playlist.m3u8?tid=MC3C3582911835829118&ct=19249&tsum=f2c0c86801d43be647206c4ddb8e9ce6
+198.16.100.90.8278,http://198.16.100.90:8278/sanlitaiwan/playlist.m3u8?tid=m92ccadc4dc3718157816&ct=17874&tsum=3570a8198ca0fb7ebb803807e38b33fb
+50.7.238.114.8278,http://50.7.238.114:8278/ettvdrama/playlist.m3u8?tid=MA2A9945921599459215&ct=19249&tsum=c9097ecdf4a17c0922196dbf04b0c6e7
+50.7.238.114.8278,http://50.7.238.114:8278/ettvmovie/playlist.m3u8?tid=MDED1943740419437404&ct=19225&tsum=120834a4218c4b5c3bb19efb8116f859
+38.64.72.148,http://38.64.72.148/hls/modn/list/4006/playlist.m3u8
+38.64.72.148,http://38.64.72.148/hls/modn/list/4005/playlist.m3u8
+angtv.cn,http://angtv.cn/jd/gx.php?id=dsdy
+angtv.cn,http://angtv.cn/jd/gx.php?id=dsyp
+seb.sason.top,http://seb.sason.top/ptv/ftv.php?id=ms
+seb.sason.top,http://seb.sason.top/ptv/ftv.php?id=yj
+p2p230829,P2p://135.148.104.228:19806/540f82701dcd473db327a92be71984cd
+p2p230829,P2p://135.148.104.228:19806/8b0e721cee984d389cef154c1b1c4ca9
+//sexy
+220.135.124.158,http://220.135.124.158:8088/live/94_h265.ts
+220.135.124.158,http://220.135.124.158:8088/live/95_h265.ts
+ll.bdzybf9.com,https://lunli.bdzybf7.com/20230517/rf1HDzWx/index.m3u8
+ll.bdzybf9.com,https://lunli.bdzybf7.com/20230517/FJ5Fct4z/index.m3u8
+cdn14.yzzy-tv1.com,https://cdn14.yzzy-tv1.com/20230606/24780_311c17ef/index.m3u8
+cdn14.yzzy-tv1.com,https://cdn14.yzzy-tv1.com/20230606/24780_311c17ef/index.m3u8
+2.ddyunbo.com,https://2.ddyunbo.com/20190904/HqGckgKl/index.m3u8
+2.ddyunbo.com,https://2.ddyunbo.com/20190904/m94xaoPh/index.m3u8
+mitv,mitv://generationnexxxt.com:19806/878c994ac52a4c50a71914f559b0ddc6
+mitv,mitv://generationnexxxt.com:19806/0045293e14224851a3e930cf0b8a07f8
+fc.maa1808.com,https://fc.maa1808.com/c/rnpmkvqfrr/rnpmkvqfrr.m3u8
+fc.maa1808.com,https://fc.maa1808.com/g/pzvktykubw/pzvktykubw.m3u8
+videocdn,http://videocdn.quweikm.com:8091/20181101/hd_caribbeancom-060217_438/index.m3u8
+videocdn,http://videocdn.quweikm.com:8091/20181101/hd_caribbeancom-071517_462/index.m3u8
+videocdnbaidu,https://videocdnbaidu.rhsj520.com/2/rnmy2/20181123/5/102215_184-1pon/index.m3u8
+videocdnbaidu,https://videocdnbaidu.rhsj520.com/2/rnmy2/20181123/5/091015_150-1pon/index.m3u8
+video1.rhsj520,https://video1.rhsj520.com/nyrm3/2011225/DR/n0010/index.m3u8
+video1.rhsj520,https://videocdnbaidu.rhsj520.com/2/rnmy2/20181123/6/n0457/index.m3u8
+siwazywcdn2,https://siwazywcdn2.com:5278//ribenwuma/A2vyUY0K/index.m3u8
+siwazywcdn2,https://siwazywcdn2.com:5278//rihanlunli/nuq0BR5o/index.m3u8
+videos3.naibago,https://videos3.naibago.com/20220418/220327a0808/index.m3u8
+videos3.naibago,https://videos3.naibago.com/20220406/220327a0391/index.m3u8
+video2.51daao,https://video2.51daao.com/btt1/2021/01/20210102/LjwUcgQI/index.m3u8
+video2.51daao,https://video2.51daao.com/btt1/2020/10/20201021/9XSgUJgc/index.m3u8
+t21.cdn2020,https://t21.cdn2020.com/video/m3u8/2023/04/21/2b5e7699/index.m3u8
+t21.cdn2020,https://t21.cdn2020.com/video/m3u8/2023/04/21/25236c4f/index.m3u8
+v1s.cdn2020,https://v1s.cdn2020.com/video/m3u8/2019/09/03/64936cdb/index.m3u8
+v1s.cdn2020,https://v1s.cdn2020.com/video/m3u8/2019/09/03/da6c206f/index.m3u8
 
 セクシー,http://fash1043.cloudycdn.services/slive/_definst_/ftv_ftv_midnite_k1y_27049_midnite_secr_108_hls.smil/playlist.m3u8
 セクシー,http://lb.streaming.sk/fashiontv/stream/chunklist.m3u8
@@ -1626,6 +1676,7 @@ SkySportsAction,P2p://135.148.104.228:19806/d627b2c21c264a13afa935d214060989
 セクシー,http://220.135.124.158:8088/live/97_h265.ts
 セクシー,http://220.135.124.158:8088/live/98_h265.ts
 セクシー,http://220.135.124.158:8088/live/99_h265.ts
+
 
 
 
