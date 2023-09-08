@@ -67,6 +67,7 @@
 {"key":"drpy_js_欧帝影院","name":"👑歐帝","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/欧帝影院.js"},
 {"key":"drpy_js_兰花影院","name":"🎋蘭花","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/兰花影院.js"}, 
 {"key":"drpy_js_吼吼[飞]","name":"🗿吼吼","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/吼吼[飞].js"},
+{"key":"海外看","name":"🌼海外看","type":1,"api":"http://api.haiwaikan.com/v1/vod?ac=list","searchable":1,"quickSearch":1,"changeable":1},
 {"key":"csp_YQKAPP","name":"🎉一起看","type":3,"api":"csp_YQKAPP","playerType":2,"searchable":1,"quickSearch":1,"changeable":1,"ext":"https://api-aws.11ty.top"},	
 {"key":"drpy_js_KUBO影视[飞]","name":"📀酷播","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/KUBO影视[飞].js"},
 {"key":"drpy_js_独播库[飞]","name":"💿獨播庫","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/独播库[飞].js"},
