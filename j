@@ -97,7 +97,7 @@
 {"key":"csp_YGP","name":"🚀新片┃速递","type":3,"api":"csp_YGP","searchable":0,"quickSearch":0,"changeable":0},
 {"key":"drpy_js_博看听书","name":"🎧博看聽書","type":3,"api":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/libs/drpy2.min.js","ext":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/js/博看听书.js","playerType":"2"},
 {"key":"drpy_js_喜马拉雅","name":"🎧喜馬拉雅","type":3,"api":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/libs/drpy2.min.js","ext":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/js/喜马拉雅.js","playerType":"2"},
-{"key":"laobaigushi","name":"🎧老白故事","type":3,"api":"https://raw.githubusercontent.com/j67001/test/main/cat.js","ext":"https://raw.githubusercontent.com/j67001/test/main/lbgs_open.js","playerType":"2"},
+//{"key":"laobaigushi","name":"🎧老白故事","type":3,"api":"https://raw.githubusercontent.com/j67001/test/main/cat.js","ext":"https://raw.githubusercontent.com/j67001/test/main/lbgs_open.js","playerType":"2"},
 {"key":"drpy_js_听书网","name":"🎧聽書網","type":3,"api":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/libs/drpy2.min.js","ext":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/js/听书网.js","playerType":"2"}
 //{"key":"drpy_js_i275听书","name":"🎧i275聽書","type":3,"api":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/libs/drpy2.min.js","ext":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/js/i275听书.js","playerType":"2"},
 //{"key":"drpy_js_六月听书","name":"🎧六月聽書","type":3,"api":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/libs/drpy2.min.js","ext":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/js/六月听书.js","playerType":"2"},
