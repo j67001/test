@@ -4,7 +4,7 @@ muban.首图.二级.tabs = '.myui-panel__head.bottom-line h3';
 var rule = {
 	title:'duck',
 	模板:'首图',
-	host:'https://www.777tv.app',
+	host:'https://777tv.ai/',
 	url:'/vod/show/id/fyfilter.html',
 	filterable:1,//是否启用分类筛选,
 	filter_url:'{{fl.cateId}}{{fl.area}}{{fl.by}}{{fl.class}}{{fl.lang}}/page/fypage{{fl.year}}',
