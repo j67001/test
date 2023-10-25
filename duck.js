@@ -1,6 +1,6 @@
-muban.首图2.二级.title = 'h1&&Text;p.data:eq(0)&&Text';
-muban.首图2.二级.desc = '.data:eq(1)&&Text;;;.data:eq(6)&&Text;.data:eq(5)&&Text';
-muban.首图2.二级.tabs = '.stui-pannel__head h3';
+//muban.首图.二级.title = 'h1&&Text;p.data:eq(0)&&Text';
+//muban.首图2.二级.desc = '.data:eq(1)&&Text;;;.data:eq(6)&&Text;.data:eq(5)&&Text';
+muban.首图2.二级.tabs = '.stui-pannel__head h4';
 var rule = Object.assign(muban.首图2,{
 	title:'duck',
 	
@@ -28,10 +28,10 @@ var rule = Object.assign(muban.首图2,{
 	},
 	searchUrl:'/vod/search.html?wd=**',
 	class_parse:'.stui-header__menu li;a&&Text;a&&href;.*/(.*?).html',
-	一级:'.stui-vodlist li;a&&title;a&&data-original;.pic-text&&Text;a&&href',
+	//一级:'.stui-vodlist li;a&&title;a&&data-original;.pic-text&&Text;a&&href',
 	// cate_exclude:'解说',
-	//play_parse:true,
-	//lazy:'',
+	/play_parse:true,
+	lazy:'',
 });
 
 //	class_parse: 'ul.myui-header__menu li:gt(0):lt(5);a&&Text;a&&href;.*/(.*?).html',
