@@ -1,6 +1,5 @@
 muban.首图.二级.title = 'h1&&Text;p.data:eq(0)&&Text';
 muban.首图2.二级.desc = '.data:eq(1)&&Text;;;.data:eq(6)&&Text;.data:eq(5)&&Text';
-
 muban.首图2.二级.tabs = '.stui-pannel__head h3';
 var rule = Object.assign(muban.首图2,{
 	title:'剧迷',
