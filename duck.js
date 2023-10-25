@@ -29,7 +29,7 @@ var rule = Object.assign(muban.首图2,{
 	searchUrl:'/vod/search.html?wd=**',
 	class_parse:'.stui-header__menu li;a&&Text;a&&href;.*/(.*?).html',
 	// cate_exclude:'解说',
-	/play_parse:true,
+	play_parse:true,
 	lazy:'',
 });
 
