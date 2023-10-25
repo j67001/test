@@ -1,9 +1,14 @@
 muban.首图.二级.title = 'h1&&Text;p.data:eq(0)&&Text';
 muban.首图.二级.desc = 'p.data--span:eq(3)&&Text;;;p.data--span:eq(1)&&Text;p.data--span:eq(2)&&Text';
-muban.首图.二级.tabs = '.myui-panel__head.bottom-line h3';
-var rule = {
+muban.首图2.二级.tabs = '.stui-pannel__head h3';
+var rule = Object.assign(muban.首图2,{
 	title:'duck',
-	模板:'首图',
+	
+//muban.首图.二级.tabs = '.myui-panel__head.bottom-line h3';
+//var rule = {
+//	title:'duck',
+//	模板:'首图',
+
 	host:'https://777tv.ai/',
 	url:'/vod/show/id/fyfilter.html',
 	filterable:1,//是否启用分类筛选,
@@ -21,6 +26,12 @@ var rule = {
 		4:{cateId:'4',by:'/by/time'}
 	},
 	searchUrl:'/vod/search.html?wd=**',
-	class_parse: 'ul.myui-header__menu li:gt(0):lt(5);a&&Text;a&&href;.*/(.*?).html',
-	一级:'.myui-vodlist li;a&&title;a&&data-original;.pic-text&&Text;a&&href',
-}
+	class_parse:'.stui-header__menu li;a&&Text;a&&href;.*/(.*?).html',
+	// cate_exclude:'解说',
+	play_parse:true,
+	lazy:'',
+});
+
+//	class_parse: 'ul.myui-header__menu li:gt(0):lt(5);a&&Text;a&&href;.*/(.*?).html',
+//	一级:'.myui-vodlist li;a&&title;a&&data-original;.pic-text&&Text;a&&href',
+//}
