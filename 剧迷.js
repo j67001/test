@@ -47,8 +47,8 @@ var rule = {
     	play_parse:true,
     	lazy:'',
 });	
-/*
-	class_parse: 'ul.myui-header__menu li:gt(0):lt(5);a&&Text;a&&href;.*/(.*?).html',
-	一级:'.myui-vodlist li;a&&title;a&&data-original;.pic-text&&Text;a&&href',
-}
-*/
+
+//	class_parse: 'ul.myui-header__menu li:gt(0):lt(5);a&&Text;a&&href;.*/(.*?).html',
+//	一级:'.myui-vodlist li;a&&title;a&&data-original;.pic-text&&Text;a&&href',
+//}
+
