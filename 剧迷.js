@@ -38,6 +38,7 @@ var rule = {
 	},
 	searchUrl:'/search/**----------fypage---.html',
 	class_parse:'.stui-header__menu li;a&&Text;a&&href;.*/(.*?).html',
+	一级:'.stui-vodlist li;a&&title;a&&data-original;.pic-text&&Text;a&&href',
 	// cate_exclude:'解说',
     	//play_parse:true,
     	//lazy:'',
