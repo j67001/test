@@ -80,7 +80,7 @@
 
 //{ "key":"萌番","name":"🐹萌番","type":1,"searchable":1,"quickSearch":1,"playerType":1,"api":"https://www.mengfan.tv/api.php/provide/vod/","header":{"user-agent":"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"}},
 //{"key":"drpy_js_hdtoday","name":"🦄🏫hdtoday","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/hdtoday.js"}, 
-{"key": "drpy_js_Alist","name": "📽4K雲端","type": 3,"api": "https://github.com/gaotianliuyun/gao/raw/master/lib/alist.min.js","searchable": 2,"quickSearch": 0,"filterable": 1,"ext": "https://github.com/gaotianliuyun/gao/raw/master/json/alist.json"},
+{"key": "drpy_js_Alist","name": "📽4K雲端","type": 3,"api": "https://github.com/gaotianliuyun/gao/raw/master/lib/alist.min.js","searchable": 2,"quickSearch": 0,"filterable": 1,"ext": "https://github.com/j67001/test/raw/main/alist.json"},
 //{"key": "drpy_js_Alist","name": "📽4K雲端","type": 3,"api": "http://81.68.148.203/aytv/data/json/dr/lib/alist.min.js","searchable": 2,"quickSearch": 0,"filterable": 1,"ext": "http://81.68.148.203/tv/ext/khari.json"},
 {"key":"lf_js_lf_live","name":"📻Radio廣播","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/lf_live_min.js","style":{ "type":"oval"},"searchable":1,"changeable":0,"quickSearch":1,"filterable":1,"ext":"https://github.com/gaotianliuyun/gao/raw/master/js/lf_live.txt"},
 
