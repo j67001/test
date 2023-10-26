@@ -1,15 +1,9 @@
-muban.首图.二级.title = 'h1&&Text;p.data:eq(0)&&Text';
+muban.首图2.二级.title = 'h1&&Text;p.data:eq(0)&&Text';
 muban.首图2.二级.desc = '.data:eq(1)&&Text;;;.data:eq(6)&&Text;.data:eq(5)&&Text';
 muban.首图2.二级.tabs = '.stui-pannel__head h4';
-var rule = Object.assign(muban.首图2,{
-	title:'剧迷',
-/*
-muban.首图.二级.desc = 'p.data--span:eq(3)&&Text;;;p.data--span:eq(1)&&Text;p.data--span:eq(2)&&Text';
-muban.首图.二级.tabs = '.myui-panel__head.bottom-line h3';
 var rule = {
 	title:'剧迷',
-	模板:'首图',
-*/
+	模板:'首图2',
 	// host:'https://gmtv1.xyz',
 	host:'https://gimy.video',
 	// url:'/genre/fyclass---fypage.html',
@@ -47,7 +41,7 @@ var rule = {
 	// cate_exclude:'解说',
     	play_parse:true,
     	lazy:'',
-});	
+}
 
 //	class_parse: 'ul.myui-header__menu li:gt(0):lt(5);a&&Text;a&&href;.*/(.*?).html',
 //	一级:'.myui-vodlist li;a&&title;a&&data-original;.pic-text&&Text;a&&href',
