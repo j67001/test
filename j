@@ -76,7 +76,7 @@
 {"key":"drpy_js_KUBO影视[飞]","name":"📀酷播","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/KUBO影视[飞].js"},
 {"key":"drpy_js_独播库[飞]","name":"💿獨播庫","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/独播库[飞].js"},
 //{"key":"csp_Czsapp","name":"🏭厂长┃直连","type":3,"api":"csp_Czsapp","playerType":2,"searchable":1,"quickSearch":1,"changeable":1},
-//{"key":"drpy_js_厂长资源","name":"🏭廠長","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/厂长资源.js"}, 
+{"key":"drpy_js_厂长资源","name":"🏭廠長","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/厂长资源.js"}, 
 {"key":"drpy_js_豆瓣","name":"🥜豆瓣","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/drpy.js","searchable": 1,"quickSearch": 0,"filterable": 0}, 
 
 //{ "key":"萌番","name":"🐹萌番","type":1,"searchable":1,"quickSearch":1,"playerType":1,"api":"https://www.mengfan.tv/api.php/provide/vod/","header":{"user-agent":"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"}},
