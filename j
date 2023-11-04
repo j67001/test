@@ -1,8 +1,8 @@
 
 {
-"spider":"https://files.zohopublic.com.cn/public/workdrive-public/download/uyv0t678c488189af47bb91dc108484d17431;md5;b3a5a49c793dd82c3fd04e75d3071b20",
+//"spider":"https://files.zohopublic.com.cn/public/workdrive-public/download/uyv0t678c488189af47bb91dc108484d17431;md5;b3a5a49c793dd82c3fd04e75d3071b20",
 //"spider":"https://files.zohopublic.com.cn/public/workdrive-public/download/uyv0t678c488189af47bb91dc108484d17431;md5;55894a9f32ba4201a1e2b157bb2e5c91",
-//"spider": "https://fongmi.cachefly.net/FongMi/CatVodSpider/main/jar/custom_spider.jar;md5;1de1a94d0429f343a35986ef5e9145d6",
+"spider": "https://fongmi.cachefly.net/FongMi/CatVodSpider/main/jar/custom_spider.jar;md5;1de1a94d0429f343a35986ef5e9145d6",
 "wallpaper":"http://饭.eu.org/深色壁纸/api.php",
 //"wallpaper":"https://github.com/j67001/test/raw/main/B.jpg",
 //"warningText": "接口完全免费，切勿付费购买。",
@@ -103,8 +103,8 @@
 {"key":"drpy_js_博看听书","name":"🎧博看聽書","type":3,"api":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/libs/drpy2.min.js","ext":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/js/博看听书.js","playerType":"2"},
 {"key":"drpy_js_喜马拉雅","name":"🎧喜馬拉雅","type":3,"api":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/libs/drpy2.min.js","ext":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/js/喜马拉雅.js","playerType":"2"},
 //{"key":"laobaigushi","name":"🎧老白故事","type":3,"api":"https://raw.githubusercontent.com/j67001/test/main/cat.js","ext":"https://raw.githubusercontent.com/j67001/test/main/lbgs_open.js","playerType":"2"},
-{"key":"drpy_js_听书网","name":"🎧聽書網","type":3,"api":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/libs/drpy2.min.js","ext":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/js/听书网.js","playerType":"2"}
-//{"key": "應用商店","name": "🏪應用商店","type": 3,"api": "csp_Market","searchable": 0,"changeable": 0,"ext": "https://raw.githubusercontent.com/FongMi/CatVodSpider/main/json/market.json","jar": "https://raw.githubusercontent.com/FongMi/CatVodSpider/main/jar/custom_spider.jar;md5;2ea1762a8c802608c2222c7051709afc"}
+{"key":"drpy_js_听书网","name":"🎧聽書網","type":3,"api":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/libs/drpy2.min.js","ext":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/js/听书网.js","playerType":"2"},
+{"key": "應用商店","name": "🏪應用商店","type": 3,"api": "csp_Market","searchable": 0,"changeable": 0,"ext": "https://raw.githubusercontent.com/FongMi/CatVodSpider/main/json/market.json"}
 //{"key":"drpy_js_i275听书","name":"🎧i275聽書","type":3,"api":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/libs/drpy2.min.js","ext":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/js/i275听书.js","playerType":"2"},
 //{"key":"drpy_js_六月听书","name":"🎧六月聽書","type":3,"api":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/libs/drpy2.min.js","ext":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/js/六月听书.js","playerType":"2"},
 //{"key":"drpy_js_海洋听书","name":"🎧海洋聽書","type":3,"api":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/libs/drpy2.min.js","ext":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/js/海洋听书.js","playerType":"2"},
