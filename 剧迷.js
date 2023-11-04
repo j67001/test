@@ -1,9 +1,9 @@
-muban.首图2.二级.title = 'h1&&Text;p.data:eq(0)&&Text';
-muban.首图2.二级.desc = 'p.data--span:eq(3)&&Text;;;p.data--span:eq(1)&&Text;p.data--span:eq(2)&&Text';
-muban.首图2.二级.tabs = '.stui-pannel__head h4';
+muban.首图.二级.title = 'h1&&Text;p.data:eq(0)&&Text';
+muban.首图.二级.desc = 'p.data--span:eq(3)&&Text;;;p.data--span:eq(1)&&Text;p.data--span:eq(2)&&Text';
+muban.首图.二级.tabs = '.myui-panel__head.bottom-line h3';
 var rule = {
 	title:'剧迷',
-	模板:'首图2',
+	模板:'首图',
 	// host:'https://gmtv1.xyz',
 	host:'https://gimy.video',
 	// url:'/genre/fyclass---fypage.html',
@@ -37,14 +37,7 @@ var rule = {
 		30:{cateId:'30',by:'/by/time'}
 	},
 	searchUrl:'/search/**----------fypage---.html',
-	class_parse:'.stui-header__menu li;a&&Text;a&&href;.*/(.*?).html',
-	一级:'.stui-vodlist li;a&&title;a&&data-original;.pic-text&&Text;a&&href',
-	// cate_exclude:'解说',
-    	//play_parse:true,
-    	//lazy:'',
+	class_parse: 'ul.myui-header__menu li:gt(0):lt(5);a&&Text;a&&href;.*/(.*?).html',
+	一级:'.myui-vodlist li;a&&title;a&&data-original;.pic-text&&Text;a&&href',
 }
-
-//	class_parse: 'ul.myui-header__menu li:gt(0):lt(5);a&&Text;a&&href;.*/(.*?).html',
-//	一级:'.myui-vodlist li;a&&title;a&&data-original;.pic-text&&Text;a&&href',
-//}
 
