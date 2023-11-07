@@ -25,6 +25,7 @@
   "url":"https://github.com/LinWei0718/iptvtw/raw/main/maotv.txt",
   //"url":"https://agit.ai/ddx/TVBox/raw/branch/master/js/zb.txt",
   "ua": "okhttp/3.12.13",
+  "playerType":2,
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
 },
