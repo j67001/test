@@ -33,7 +33,7 @@
   "name":"ubtv",
   "url":"https://github.com/j67001/test/raw/main/ip.swf",
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
-  "ua": "okhttp/3.12.13",
+  "ua": "UBlive/2.3.8 (Linux;Android 12)",
   "playerType":2,
   "logo": "https://epg.112114.xyz/logo/{name}.png"
 },
