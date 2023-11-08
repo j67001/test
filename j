@@ -10,7 +10,7 @@
 
 "lives":[
  {
-  "name":"smarttv",
+  "name":"smart",
   "type":0,
   //"url":"http://home.jundie.top:81/Cat/tv/live.txt",
   "url":"https://raw.githubusercontent.com/j67001/test/main/tw.swf",
