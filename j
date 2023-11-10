@@ -16,7 +16,7 @@
   "url":"https://raw.githubusercontent.com/j67001/test/main/tw.swf",
   "ua": "UBlive/2.3.8 (Linux;Android 12)",
   //"ua": "okhttp/3.12.13",
-  "playerType":2,
+  "playerType":1,
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
 },
@@ -25,7 +25,7 @@
   "url":"https://github.com/LinWei0718/iptvtw/raw/main/maotv.txt",
   //"url":"https://agit.ai/ddx/TVBox/raw/branch/master/js/zb.txt",
   "ua": "okhttp/3.12.13",
-  "playerType":2,
+  "playerType":1,
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
 },
@@ -34,7 +34,7 @@
   "url":"https://github.com/j67001/test/raw/main/ip.swf",
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
   "ua": "UBlive/2.3.8 (Linux;Android 12)",
-  "playerType":2,
+  "playerType":1,
   "logo": "https://epg.112114.xyz/logo/{name}.png"
 },
 {
@@ -42,7 +42,7 @@
   "url":"http://home.jundie.top:81/Cat/tv/live.txt",
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
   "ua": "okhttp/3.12.13",
-  "playerType":2,
+  "playerType":1,
   "logo": "https://epg.112114.xyz/logo/{name}.png"
 }
 ],  
