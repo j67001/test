@@ -402,34 +402,6 @@ WWE,http://198.16.100.90:8278/Wwe/playlist.m3u8?tid=MF5F1801772718017727&ct=1966
 中視,http://198.16.100.90:8278/zhongshihd_twn/playlist.m3u8?tid=MABA1165999311659993&ct=19669&tsum=9751d26589f5e56a6b6ebf55b23f1301
 中視新聞,http://198.16.100.90:8278/zhongshinews_twn/playlist.m3u8?tid=MC2C7732204977322049&ct=19669&tsum=77f6a5026746071b18f5bf7e8b09bc70
 
-鳳凰中文,http://162.19.247.76:22222/live/fenghuangweishi/index.m3u8
-鳳凰資訊,http://162.19.247.76:22222/live/fenghuangzhixun/index.m3u8
-鳳凰香港,http://162.19.247.76:22222/live/fenghuangxianggang/index.m3u8
-中天娛樂,http://162.19.247.76:22222/live/ztyl/index.m3u8
-中天亞洲,http://162.19.247.76:22222/live/ztyz/index.m3u8
-翡翠台,http://162.19.247.76:22222/live/tvbfc/index.m3u8
-J2,http://162.19.247.76:22222/live/tvbj2/index.m3u8
-TVB J5,http://162.19.247.76:22222/live/tvbj5/index.m3u8
-三立台灣,http://162.19.247.76:22222/live/sltw/index.m3u8
-三立都會,http://162.19.247.76:22222/live/sldh/index.m3u8
-台視,http://162.19.247.76:22222/live/taishi/index.m3u8
-中視,http://162.19.247.76:22222/live/zhongshi/index.m3u8
-天映經典,http://162.19.247.76:22222/live/tyjd/index.m3u8
-東森戲劇,http://162.19.247.76:22222/live/dsxj/index.m3u8
-東森電影,http://162.19.247.76:22222/live/dsdyt/index.m3u8
-東森洋片,http://162.19.247.76:22222/live/dsypt/index.m3u8
-歡喜台,http://162.19.247.76:22222/live/uch3/index.m3u8
-華視,http://162.19.247.76:22222/live/huashi/index.m3u8
-無線新聞,http://162.19.247.76:22222/live/tvbnews/index.m3u8
-東森電影,http://162.19.247.76:22222/live/dsdyt/index.m3u8
-東森洋片,http://162.19.247.76:22222/live/dsypt/index.m3u8
-東森戲劇,http://162.19.247.76:22222/live/dsxj/index.m3u8
-天映經典,http://162.19.247.76:22222/live/tyjd/index.m3u8
-中天娛樂,http://162.19.247.76:22222/live/ztyl/index.m3u8
-中天亞洲,http://162.19.247.76:22222/live/ztyz/index.m3u8
-翡翠台,http://162.19.247.76:22222/live/tvbfc/index.m3u8
-無線新聞,http://162.19.247.76:22222/live/tvbnews/index.m3u8
-
 
 //雜源
 天良,http://60.248.91.20:8000/main
@@ -466,11 +438,6 @@ GOODTV經典音樂河,https://dqhxk7sbp7xog.cloudfront.net/hls-live/goodtv/_defi
 GOODTV好醫生,https://dqhxk7sbp7xog.cloudfront.net/hls-live/goodtv/_definst_/liveevent/live-ch9-2.m3u8
 三立NEWS+,https://ytm2.yuanhsing.cf/SETLIVE.m3u8
 
-//lag
-東森超視,http://angtv.cn/jd/gx.php?id=dscs
-東森電影,http://angtv.cn/jd/gx.php?id=dsdy
-東森洋片,http://angtv.cn/jd/gx.php?id=dsyp
-龍祥時代,http://angtv.cn/jd/gx.php?id=lxsd
 
 //38.64.72.148 lag
 東森超視,http://38.64.72.148:80/hls/modn/list/2013/playlist.m3u8
@@ -481,14 +448,6 @@ TVBS亞洲,http://38.64.72.148/hls/modn/list/4005/playlist.m3u8
 TVBS新聞,http://38.64.72.148/hls/modn/list/4006/playlist.m3u8
 民視新聞,http://38.64.72.148/hls/modn/list/4012/playlist.m3u8
 台視新聞,http://38.64.72.148/hls/modn/list/4013/playlist.m3u8
-
-//640x360
-民視,http://seb.sason.top/ptv/ftv.php?id=ms
-民視台灣,http://seb.sason.top/ptv/ftv.php?id=tw
-民視旅游,http://seb.sason.top/ptv/ftv.php?id=ly
-民視第一,http://seb.sason.top/ptv/ftv.php?id=dy
-民視綜藝,http://seb.sason.top/ptv/ftv.php?id=zy
-民視影劇,http://seb.sason.top/ptv/ftv.php?id=yj
 
 
 //P2p-231110
