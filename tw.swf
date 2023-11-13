@@ -15,14 +15,14 @@
 台視,https://test.m3u8
 台視新聞,https://test.m3u8
 霹靂台灣,https://test.m3u8
-台視綜合,https://test.m3u8
+愛爾達綜合,https://test.m3u8
 華視,https://test.m3u8
 探索頻道,https://test.m3u8
 動物星球,https://test.m3u8
 國家地理,https://test.m3u8
 CN卡通,https://test.m3u8
 Disney,https://test.m3u8
-MoMo親子,https://test.m3u8
+MOMO親子,https://test.m3u8
 東森幼幼,https://test.m3u8
 緯來綜合,https://test.m3u8
 八大第一,https://test.m3u8
@@ -283,7 +283,7 @@ HBO原創巨獻,http://50.7.238.114:8278/hbosignature_twn/playlist.m3u8?tid=MBDB
 龍華洋片,http://50.7.238.114:8278/lunghuawestern_twn/playlist.m3u8?tid=MFDF4421823744218237&ct=19669&tsum=158556ccd0832563140adbe75b3ba377
 龍華戲劇,http://50.7.238.114:8278/lunghuaxiju_twn/playlist.m3u8?tid=MFAF2923637229236372&ct=19669&tsum=d4597b8d4aab922aa0781d04911d9e84
 美亞電影,http://50.7.238.114:8278/meiyamovie_twn/playlist.m3u8?tid=MABA3151428731514287&ct=19669&tsum=6f309ad09ef15837140e051865ac2309
-MoMo親子,http://50.7.238.114:8278/momo1_twn/playlist.m3u8?tid=MFDF1103375311033753&ct=19669&tsum=6fb24e321f8d107b2b084599c5d0d807
+CN卡通,http://50.7.238.114:8278/momo1_twn/playlist.m3u8?tid=MFDF1103375311033753&ct=19669&tsum=6fb24e321f8d107b2b084599c5d0d807
 MTV,http://50.7.238.114:8278/mtvhd_twn/playlist.m3u8?tid=MC8C4687698646876986&ct=19669&tsum=235b0164c651512e1d924bdffc5d9796
 國家地理,http://50.7.238.114:8278/natgeohd_twn/playlist.m3u8?tid=MCAC5533277955332779&ct=19669&tsum=a0fd33455c2f7e0475e1c50b95daf2fe
 野生動物,http://50.7.238.114:8278/natgeowild_twn/playlist.m3u8?tid=MAAA1894400518944005&ct=19669&tsum=6bb5ed729263ca3e4af7e1c03fb9cd4b
@@ -374,7 +374,7 @@ HBO原創巨獻,http://198.16.100.90:8278/hbosignature_twn/playlist.m3u8?tid=MBD
 龍華洋片,http://198.16.100.90:8278/lunghuawestern_twn/playlist.m3u8?tid=MFDF4421823744218237&ct=19669&tsum=158556ccd0832563140adbe75b3ba377
 龍華戲劇,http://198.16.100.90:8278/lunghuaxiju_twn/playlist.m3u8?tid=MFAF2923637229236372&ct=19669&tsum=d4597b8d4aab922aa0781d04911d9e84
 美亞電影,http://198.16.100.90:8278/meiyamovie_twn/playlist.m3u8?tid=MABA3151428731514287&ct=19669&tsum=6f309ad09ef15837140e051865ac2309
-MoMo親子,http://198.16.100.90:8278/momo1_twn/playlist.m3u8?tid=MFDF1103375311033753&ct=19669&tsum=6fb24e321f8d107b2b084599c5d0d807
+CN卡通,http://198.16.100.90:8278/momo1_twn/playlist.m3u8?tid=MFDF1103375311033753&ct=19669&tsum=6fb24e321f8d107b2b084599c5d0d807
 MTV,http://198.16.100.90:8278/mtvhd_twn/playlist.m3u8?tid=MC8C4687698646876986&ct=19669&tsum=235b0164c651512e1d924bdffc5d9796
 國家地理,http://198.16.100.90:8278/natgeohd_twn/playlist.m3u8?tid=MCAC5533277955332779&ct=19669&tsum=a0fd33455c2f7e0475e1c50b95daf2fe
 野生動物,http://198.16.100.90:8278/natgeowild_twn/playlist.m3u8?tid=MAAA1894400518944005&ct=19669&tsum=6bb5ed729263ca3e4af7e1c03fb9cd4b
@@ -441,7 +441,7 @@ TVBS新聞,http://38.64.72.148/hls/modn/list/4006/playlist.m3u8
 台視新聞,http://38.64.72.148/hls/modn/list/4013/playlist.m3u8
 
 
-//P2p-231110
+//P2p-231113
 民視,mitv://generationnexxxt.com:19806/935809b7311d490392cc408f76a885dd
 台視,mitv://generationnexxxt.com:19806/ca94cf81f5184e1ba38c417df53083e9
 大愛,mitv://generationnexxxt.com:19806/6e1a644a09934c0f8f72efe39db44f8d
