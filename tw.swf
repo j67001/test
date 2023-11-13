@@ -4,10 +4,10 @@
 中視經典,https://test.m3u8
 中視菁采,https://test.m3u8
 公視,https://test.m3u8
-公視台語,https://test.m3u8
+大愛,https://test.m3u8
 民視,https://test.m3u8
 民視第一,https://test.m3u8
-民視新聞.,https://test.m3u8
+環宇新聞,https://test.m3u8
 民視台灣,https://test.m3u8
 公視3,https://test.m3u8
 客家電視,https://test.m3u8
@@ -125,7 +125,7 @@ Discovery科學,https://test.m3u8
 博斯高球,https://test.m3u8
 博斯高球2,https://test.m3u8
 博斯網球,https://test.m3u8
-博斯魅力網,https://test.m3u8
+博斯魅力,https://test.m3u8
 博斯無限,https://test.m3u8
 博斯無限2,https://test.m3u8
 愛爾達體育1,https://test.m3u8
@@ -140,7 +140,7 @@ Discovery科學,https://test.m3u8
 靖天戲劇,https://test.m3u8
 靖洋戲劇,https://test.m3u8
 靖天卡通,https://test.m3u8
-靖洋卡通NiceBingo,https://test.m3u8
+靖洋卡通,https://test.m3u8
 NickJr.,https://test.m3u8
 Cbeebies,https://test.m3u8
 采昌影劇,https://test.m3u8
@@ -188,7 +188,7 @@ momo購物2,https://www.youtube.com/watch?v=xbNWkUyxQGM
 台視新聞,https://www.youtube.com/watch?v=xL0ch83RAK8
 民視新聞,https://www.youtube.com/watch?v=ylYJSBUgaMA
 美好購物1,https://www.youtube.com/watch?v=yuhgIlXwPh8
-公視,https://www.youtube.com/watch?v=C6gYqSHLRw4
+,https://www.youtube.com/watch?v=C6gYqSHLRw4
 TaiwanPlus,https://www.youtube.com/watch?v=dZp87qnWelE
 鏡新聞,https://www.youtube.com/watch?v=5n0y6b0Q25o
 
@@ -442,7 +442,6 @@ TVBS新聞,http://38.64.72.148/hls/modn/list/4006/playlist.m3u8
 
 
 //P2p-231110
-台灣,#genre#
 民視,mitv://generationnexxxt.com:19806/935809b7311d490392cc408f76a885dd
 台視,mitv://generationnexxxt.com:19806/ca94cf81f5184e1ba38c417df53083e9
 大愛,mitv://generationnexxxt.com:19806/6e1a644a09934c0f8f72efe39db44f8d
