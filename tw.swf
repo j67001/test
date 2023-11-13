@@ -7,7 +7,7 @@
 大愛,https://test.m3u8
 民視,https://test.m3u8
 民視第一,https://test.m3u8
-環宇新聞,https://test.m3u8
+台視財經,https://test.m3u8
 民視台灣,https://test.m3u8
 公視3,https://test.m3u8
 客家電視,https://test.m3u8
@@ -35,8 +35,8 @@ MOMO親子,https://test.m3u8
 TLC旅遊生活,https://test.m3u8
 亞洲旅遊,https://test.m3u8
 中天綜合,https://test.m3u8
-民視旅遊,https://test.m3u8
-民視影劇,https://test.m3u8
+三立戲劇,https://test.m3u8
+愛爾達影劇,https://test.m3u8
 中天娛樂,https://test.m3u8
 東森戲劇,https://test.m3u8
 八大戲劇,https://test.m3u8
@@ -45,7 +45,7 @@ TVBS歡樂,https://test.m3u8
 高點綜合,https://test.m3u8
 JET綜合,https://test.m3u8
 人間衛視,https://test.m3u8
-大愛,https://test.m3u8
+大愛2,https://test.m3u8
 華視新聞,https://test.m3u8
 壹電視新聞,https://test.m3u8
 年代新聞,https://test.m3u8
@@ -77,7 +77,7 @@ ELEVEN體育2,https://test.m3u8
 博斯運動,https://test.m3u8
 緯來日本,https://test.m3u8
 國興衛視,https://test.m3u8
-WAKUWAKU,https://test.m3u8
+靖天日本,https://test.m3u8
 TVBS精采,https://test.m3u8
 Z頻道,https://test.m3u8
 Animax,https://test.m3u8
@@ -91,14 +91,14 @@ EYETV旅遊,https://test.m3u8
 非凡商業,https://test.m3u8
 寰宇新聞,https://test.m3u8
 三立iNEWS,https://test.m3u8
-大愛二,https://test.m3u8
 好消息,https://test.m3u8
-好消息電視台1,https://test.m3u8
-好消息電視台2,https://test.m3u8
-GoodTV綜合,https://test.m3u8
-GoodTV,https://test.m3u8
-BBCEarth,https://test.m3u8
-BBCLifestyle,https://test.m3u8
+AMC最愛電影,https://test.m3u8
+CinemaWorld,https://test.m3u8
+WARNERTV,https://test.m3u8
+HBO Family,https://test.m3u8
+HBO HiTS,https://test.m3u8
+HBO Signature,https://test.m3u8
+OUTDOOR,https://test.m3u8
 華藏衛視,https://test.m3u8
 唯心電視,https://test.m3u8
 佛衛慈悲,https://test.m3u8
@@ -109,13 +109,8 @@ BBCLifestyle,https://test.m3u8
 中台灣生活網,https://test.m3u8
 國會頻道1,https://test.m3u8
 國會頻道2,https://test.m3u8
-AMC最愛電影,https://test.m3u8
-CinemaWorld,https://test.m3u8
-HBO Family,https://test.m3u8
-HBO HiTS,https://test.m3u8
-HBO Signature,https://test.m3u8
-WARNERTV,https://test.m3u8
-OUTDOOR,https://test.m3u8
+BBCEarth,https://test.m3u8
+BBCLifestyle,https://test.m3u8
 DiscoveryAsia,https://test.m3u8
 Discovery科學,https://test.m3u8
 歷史,https://test.m3u8
@@ -135,7 +130,6 @@ Discovery科學,https://test.m3u8
 靖天綜合,https://test.m3u8
 靖天育樂,https://test.m3u8
 靖天國際,https://test.m3u8
-靖天日本,https://test.m3u8
 靖天育樂,https://test.m3u8
 靖天戲劇,https://test.m3u8
 靖洋戲劇,https://test.m3u8
@@ -329,7 +323,7 @@ Bloomberg,http://198.16.100.90:8278/bloomberg_twn/playlist.m3u8?tid=MDFD49969213
 龍祥時代,http://198.16.100.90:8278/cb7a1fec69/playlist.m3u8?tid=MF1F8409616784096167&ct=19669&tsum=ea6bf7db28c029a046efe01903c2c870
 CI罪案偵緝,http://198.16.100.90:8278/ci_twn/playlist.m3u8?tid=MD1D2652583626525836&ct=19669&tsum=b8e1e73fd3cd100252ea529fab02d008
 CINEMAX,http://198.16.100.90:8278/cinemax_twn/playlist.m3u8?tid=MA1A5193364851933648&ct=19669&tsum=823f2215523646fe64a539b13ea8ccb4
-CN卡通,http://198.16.100.90:8278/Cn/playlist.m3u8?tid=MD1D4497020744970207&ct=19669&tsum=e9a563b20b8555e0c7c8c2eed2919f29
+CN卡通en,http://198.16.100.90:8278/Cn/playlist.m3u8?tid=MD1D4497020744970207&ct=19669&tsum=e9a563b20b8555e0c7c8c2eed2919f29
 CNBC,http://198.16.100.90:8278/cnbc_twn/playlist.m3u8?tid=ME9E6713194667131946&ct=19669&tsum=033e72966cb3c35f66cb23e85aeeff0b
 CNN,http://198.16.100.90:8278/cnn_twn/playlist.m3u8?tid=MF1F3276878332768783&ct=19669&tsum=fb65cd683b42753ab46cf873dcc62544
 中天娛樂,http://198.16.100.90:8278/ctient/playlist.m3u8?tid=ME6E8458339284583392&ct=19669&tsum=af2f17d202b432a15ec4f9a26fa917f9
