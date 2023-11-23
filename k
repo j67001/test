@@ -31,7 +31,7 @@
 },
 {
   "name":"ubtv",
-  "boot":true,
+  "boot":"true",
   "url":"https://github.com/j67001/test/raw/main/ip.swf",
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
   "ua": "UBlive/2.3.8 (Linux;Android 12)",
