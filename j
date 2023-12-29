@@ -40,8 +40,9 @@
   "logo": "https://epg.112114.xyz/logo/{name}.png"
 },
 {
-  "name":"jundie",
-  "url":"http://home.jundie.top:81/Cat/tv/live.txt",
+  "name":"嗅探",
+  "url":"https://github.com/j67001/test/raw/main/ts.swf",
+  //"url":"http://home.jundie.top:81/Cat/tv/live.txt",
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
   "ua": "okhttp/3.12.13",
   "playerType":1,
