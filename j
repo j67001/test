@@ -49,7 +49,7 @@
   "logo": "https://epg.112114.xyz/logo/{name}.png"
 }
 ],  
-
+"ads":["mozai.4gtv.tv"],
 
 //ETH TV
 //"lives":[{"group":"redirect","channels":[{"name":"redirect","urls":["proxy://do=live&type=eth"]}]}],
