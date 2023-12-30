@@ -274,6 +274,15 @@
       ]
     },
     {
+      "name": "夜市",
+      "hosts": [
+        "yeslivetv.com"
+      ],
+      "script": [
+        "document.getElementsByClassName('vjs-big-play-button')[0].click()"
+      ]
+    },
+    {
       "name": "星星廣告",
       "hosts": [
         "aws.ulivetv.net"
