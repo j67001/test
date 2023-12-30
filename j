@@ -275,12 +275,12 @@
       ]
     },
     {
-      "name": "夜市",
+      "name": "點擊",
       "hosts": [
         "yeslivetv.com"
       ],
       "script": [
-        "document.getElementsByClassName('vjs-big-play-button')[0].click()"
+        "document.getElementsByClassName(\"vjs-big-play-button\")[0].click()"
       ]
     },
     {
