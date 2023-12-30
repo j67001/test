@@ -2,7 +2,8 @@
 {
 //"spider":"https://files.zohopublic.com.cn/public/workdrive-public/download/uyv0t678c488189af47bb91dc108484d17431;md5;b3a5a49c793dd82c3fd04e75d3071b20",
 //"spider":"https://files.zohopublic.com.cn/public/workdrive-public/download/uyv0t678c488189af47bb91dc108484d17431;md5;55894a9f32ba4201a1e2b157bb2e5c91",
-"spider": "https://fongmi.cachefly.net/FongMi/CatVodSpider/main/jar/custom_spider.jar;md5;1de1a94d0429f343a35986ef5e9145d6",
+//"spider": "https://fongmi.cachefly.net/FongMi/CatVodSpider/main/jar/custom_spider.jar;md5;1de1a94d0429f343a35986ef5e9145d6",
+"spider": "https://github.com/FongMi/CatVodSpider/raw/main/jar/custom_spider.jar;md5;ca7cf8ac2302fa00985a57e4e58124ab",
 "wallpaper":"http://饭.eu.org/深色壁纸/api.php",
 //"wallpaper":"https://github.com/j67001/test/raw/main/B.jpg",
 //"warningText": "接口完全免费，切勿付费购买。",
