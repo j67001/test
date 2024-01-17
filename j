@@ -23,6 +23,7 @@
 },
 {
   "name":"嗅探",
+  "boot":"true",
   "url":"https://github.com/j67001/test/raw/main/ts.swf",
   //"url":"http://home.jundie.top:81/Cat/tv/live.txt",
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
