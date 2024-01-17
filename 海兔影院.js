@@ -3,7 +3,7 @@ muban.mxone5.二级.desc = '.video-info-items:eq(3)&&Text;;;.video-info-actor:eq
 var rule = {
 	title:'海兔影院',
 	模板:'mxone5',
-	host:'https://www.haitu.tv',
+	host:'https://www.haituu.tv/',
 	// url:'/vod/show/id/fyclass/page/fypage.html',
 	url:'/vod/show/id/fyfilter.html',
 	filterable:1,//是否启用分类筛选,
