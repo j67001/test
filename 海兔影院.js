@@ -5,7 +5,8 @@ var rule = {
 	模板:'mxone5',
 	host:'https://www.haituu.tv',
 	// url:'/vod/show/id/fyclass/page/fypage.html',
-	url:'/vod/show/id/fyfilter.html',
+	//url:'/vod/show/id/fyfilter.html',
+	url:'/vodshow/fyfilter.html',
 	filterable:1,//是否启用分类筛选,
 	filter_url:'{{fl.cateId}}{{fl.area}}{{fl.by}}{{fl.lang}}/page/fypage{{fl.year}}',
 	filter: {
