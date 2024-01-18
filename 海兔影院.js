@@ -23,6 +23,8 @@ var rule = {
         22:{cateId:'22',by:'time'},
         28:{cateId:'28',by:'time'}
     },
-    class_parse: '.navbar-items li:gt(1):lt(8);a&&title;a&&href;.*/(.*?).html',
-	lazy:"js:var html=JSON.parse(request(input).match(/r player_.*?=(.*?)</)[1]);var url=html.url;if(html.encrypt=='1'){url=unescape(url)}else if(html.encrypt=='2'){url=unescape(base64Decode(url))}if(/m3u8|mp4/.test(url)){input=url}else{input}",
+	class_parse: '.nav-menu-items&&li:gt(0):lt(5);a&&title;a&&href;.*/(.*?).html',
+	searchUrl:'/vodsearch/**-------------.html',
+	detailUrl:'/vod/detail/id/fyid.html', //非必填,二级详情拼接链接
+	搜索:'json:list;name;pic;;id',
 }
