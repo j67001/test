@@ -1,8 +1,8 @@
-muban.mxpro.二级.desc = '.module-info-item-content:eq(4)&&Text;;;.module-info-item-content:eq(1)&&Text;.module-info-item-content:eq(0)&&Text';
-muban.mxpro.二级.tabs = '.module-tab-items-box .module-tab-item';
+muban.mxone5.二级.title = '.video-cover&&img&&alt;.video-info-aux&&Text';
+muban.mxone5.二级.desc = '.video-info-items:eq(3)&&Text;;;.video-info-actor:eq(0)&&Text;.video-info-actor:eq(1)&&Text';
 var rule = {
     title:'海兔影院',
-    模板:'mxpro',
+    模板:'mxone5',
     host:'https://www.haituu.tv',
     url:'/vodshow/fyfilter.html',
     filterable:1,//是否启用分类筛选,
