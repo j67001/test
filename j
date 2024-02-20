@@ -119,7 +119,7 @@
 //{"key":"csp_Bili","name":"🅱嗶哩┃合集","type": 3,"api": "csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":1,"quickSearch":0,"changeable":0,"ext":"http://饭.eu.org/x/json/bilibili.json"},
 //{"key":"csp_Biliych","name":"🅱嗶哩┃演唱會","type": 3,"api": "csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":1,"quickSearch":0,"changeable":0,"ext":"http://饭.eu.org/x/json/bilibili.json"},
 //{"key":"MV_vod","name":"🎸明星┃MV","type":1,"api":"https://mv.wogg.link/mv/vod","style":{"type":"oval"},"searchable":1,"quickSearch":0,"changeable":0},
-{"key":"MTV","name":"🎸明星┃MV","type":3,"api":"csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"https://agit.ai/fantaiying/fty/raw/branch/master/ext/MTV.json"},
+//{"key":"MTV","name":"🎸明星┃MV","type":3,"api":"csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"https://agit.ai/fantaiying/fty/raw/branch/master/ext/MTV.json"},
 {"key":"csp_YGP","name":"🚀新片┃速递","type":3,"api":"csp_YGP","searchable":0,"quickSearch":0,"changeable":0,"jar":"https://github.com/gaotianliuyun/gao/raw/master/jar/fan.txt;md5;c0a0999c670692bb297b38981fe6de9b"},
 {"key":"drpy_js_博看听书","name":"🎧博看聽書","type":3,"api":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/libs/drpy2.min.js","ext":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/js/博看听书.js","playerType":"2"},
 {"key":"drpy_js_喜马拉雅","name":"🎧喜馬拉雅","type":3,"api":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/libs/drpy2.min.js","ext":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/js/喜马拉雅.js","playerType":"2"},
