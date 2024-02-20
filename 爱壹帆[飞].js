@@ -24,6 +24,6 @@ var rule={
 		51:{cateId:'51'}
 	},
 	searchUrl:'/index.php/vod/search/page/fypage/wd/**.html',
-	class_parse:'.nav-menu-items&&li;a&&Text;a&&href;.*/(.*?).html',
+	class_parse:'nav-menu-items&&li;a&&Text;a&&href;.*/(.*?).html',
 	//class_parse: '.nav-menu-items&&li:gt(0):lt(5);a&&title;a&&href;.*/(.*?).html',
 }
