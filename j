@@ -64,7 +64,7 @@
 //{"key":"csp_Nbys","name":"🥔泥巴","type":3,"api":"csp_NiNi","searchable": 1,"quickSearch": 1,"changeable":1,"jar": "https://fongmi.cachefly.net/FongMi/CatVodSpider/main/jar/custom_spider.jar;md5;1de1a94d0429f343a35986ef5e9145d6"},	
 //{"key":"drpy_js_爱壹帆[飞]","name":"⛵愛壹帆","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/爱壹帆[飞].js"},
 {"key":"drpy_js_爱壹帆[飞]","name":"⛵愛壹帆","type":3,"api":"https://github.com/hjdhnx/dr_py/raw/main/libs/drpy2.min.js","ext":"https://github.com/hjdhnx/dr_py/raw/main/js/爱壹帆[飞].js"},
-{"key": "Yingtan","name": "🎬影探4K","type": 3,"api": "csp_Yingtantv2","searchable": 1,"changeable": 0,"jar": "https://gitea.com/sky721/sk/raw/branch/main/jar/追忆影探布蕾带自动追踪.jar"},
+{"key": "Yingtan","name": "🎬影探4K","type": 3,"api": "csp_Yingtantv2","searchable": 1,"changeable": 0,"jar": "https://d.kstore.space/download/6128/TVBOX/jar/追忆影探布蕾带自动追踪.jar"},
 {"key":"drpy_js_LIBVIO","name":"🦄利播","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://raw.githubusercontent.com/j67001/test/main/LIBVIO.js"},
 //{"key":"drpy_js_LIBVIO","name":"🦄利播","type":3,"api":"https://github.com/hjdhnx/dr_py/raw/main/libs/drpy2.min.js","ext":"https://github.com/hjdhnx/dr_py/raw/main/js/LIBVIO.js"},
 //{"key":"libvio_js","name":"🦄利播","type": 3,"searchable":1,"quickSearch":1,"filterable":1,"api": "https://jihulab.com/okcaptain/kko/-/raw/main/drpy/drpy2.min.js", "ext": "https://jihulab.com/okcaptain/kko/-/raw/main/js/libvio.js", "timeout": 15},
