@@ -49,8 +49,8 @@
   "playerType":1,
   "logo": "https://epg.112114.xyz/logo/{name}.png"
 },
-{"name":"oklive","type":0,"url":"http://127.0.0.1:9978/proxy?do=live&url=https://jihulab.com/my-program/zhiboyuan/-/raw/main/zhiboyuan.txt","playerType":1,"ua":"okhttp/3.15","epg":"http://epg.112114.xyz/?ch={name}&date={date}","logo":"https://epg.112114.xyz/logo/{name}.png","timeout":10},
-{"name":"oktv","type":0,"url":"http://127.0.0.1:9978/proxy?do=live&url=https://jihulab.com/okcaptain/kko/-/raw/main/mt.txt","playerType":1,"ua":"okhttp/3.15","epg":"http://epg.112114.xyz/?ch={name}&date={date}","logo":"https://epg.112114.xyz/logo/{name}.png","timeout":10}
+{"name":"oklive","type":0,"url":"https://jihulab.com/my-program/zhiboyuan/-/raw/main/zhiboyuan.txt","playerType":1,"ua":"okhttp/3.15","epg":"http://epg.112114.xyz/?ch={name}&date={date}","logo":"https://epg.112114.xyz/logo/{name}.png","timeout":10},
+{"name":"oktv","type":0,"url":"https://jihulab.com/okcaptain/kko/-/raw/main/mt.txt","playerType":1,"ua":"okhttp/3.15","epg":"http://epg.112114.xyz/?ch={name}&date={date}","logo":"https://epg.112114.xyz/logo/{name}.png","timeout":10}
 ],  
 //"ads":["mozai.4gtv.tv"],
 
