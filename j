@@ -49,9 +49,10 @@
   //"ua": "UBlive/2.3.8 (Linux;Android 12)",
   "playerType":1,
   "logo": "https://epg.112114.xyz/logo/{name}.png"
-}
+},
 //{"name":"oklive","type":0,"url":"https://jihulab.com/my-program/zhiboyuan/-/raw/main/zhiboyuan.txt","playerType":1,"ua":"okhttp/3.15","epg":"http://epg.112114.xyz/?ch={name}&date={date}","logo":"https://epg.112114.xyz/logo/{name}.png","timeout":10},
 //{"name":"oktv","type":0,"url":"https://jihulab.com/okcaptain/kko/-/raw/main/mt.txt","playerType":1,"ua":"okhttp/3.15","epg":"http://epg.112114.xyz/?ch={name}&date={date}","logo":"https://epg.112114.xyz/logo/{name}.png","timeout":10}
+{"name":"tvlive","type":0,"url":"https://raw.githubusercontent.com/dxawi/0/main/tvlive.txt","playerType":1,"ua":"okhttp/3.15","epg":"http://epg.112114.xyz/?ch={name}&date={date}","logo":"https://epg.112114.xyz/logo/{name}.png"}
 ],  
 //"ads":["mozai.4gtv.tv"],
 
