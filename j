@@ -124,6 +124,7 @@
 //{"key":"drpy_js_B站影视","name":"🤖B站影視","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"changeable":0,"ext":"https://github.com/gaotianliuyun/gao/raw/master/js/B站影视.js"},
 //{"key":"csp_Bili","name":"🅱嗶哩┃合集","type": 3,"api": "csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":1,"quickSearch":0,"changeable":0,"ext":"http://饭.eu.org/x/json/bilibili.json"},
 //{"key":"csp_Biliych","name":"🅱嗶哩┃演唱會","type": 3,"api": "csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":1,"quickSearch":0,"changeable":0,"ext":"http://饭.eu.org/x/json/bilibili.json"},
+{"key":"ktv","name":"🎤KTV","type":3,"api":"https://github.com/myhomebox/tv/raw/main/js/ktv_open.js"},
 //{"key":"MV_vod","name":"🎸明星┃MV","type":1,"api":"https://mv.wogg.link/mv/vod","style":{"type":"oval"},"searchable":1,"quickSearch":0,"changeable":0},
 {"key":"MTV","name":"🎸明星┃MV","type":3,"api":"csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"https://agit.ai/fantaiying/fty/raw/branch/master/ext/MTV.json","jar": "https://fs-im-kefu.7moor-fs1.com/29397395/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1708249660012/fan.txt;md5;87d5916b7bb5c8acacac5490e802828e"},
 {"key":"csp_YGP","name":"🚀新片┃速递","type":3,"api":"csp_YGP","searchable":0,"quickSearch":0,"changeable":0,"jar":"https://github.com/gaotianliuyun/gao/raw/master/jar/fan.txt;md5;c0a0999c670692bb297b38981fe6de9b"},
