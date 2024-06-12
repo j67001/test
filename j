@@ -2,7 +2,7 @@
 //"spider":"https://files.zohopublic.com.cn/public/workdrive-public/download/uyv0t678c488189af47bb91dc108484d17431;md5;b3a5a49c793dd82c3fd04e75d3071b20",
 //"spider":"https://files.zohopublic.com.cn/public/workdrive-public/download/uyv0t678c488189af47bb91dc108484d17431;md5;55894a9f32ba4201a1e2b157bb2e5c91",
 //"spider": "https://fongmi.cachefly.net/FongMi/CatVodSpider/main/jar/custom_spider.jar;md5;1de1a94d0429f343a35986ef5e9145d6",
-"spider": "https://github.com/FongMi/CatVodSpider/raw/main/jar/custom_spider.jar;md5;528c76fdf519c0411b619b75032eacb7",
+"spider": "https://github.com/FongMi/CatVodSpider/raw/main/jar/custom_spider.jar;md5;24ad1dd951b4ccf758ea94731df6035f",
 //"wallpaper":"http://饭.eu.org/深色壁纸/api.php",
 "wallpaper":"http://img.fongmi.eu.org",
 //"wallpaper":"https://github.com/j67001/test/raw/main/B.jpg",
