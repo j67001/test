@@ -79,7 +79,7 @@
 {"key":"drpy_js_小宝影院[飞]","name":"🧸小寶","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/小宝影院[飞].js"}, 
 {"key":"星星","name":"⭐️星視界","type":3,"api":"csp_Star","searchable":1,"changeable":1,"timeout":25},
 //{"key":"csp_trj","name": "🛫唐人街","type": 3,"api": "csp_Tangrenjie","searchable": 1,"quickSearch": 1,"changeable":1},	
-{"key":"drpy_js_唐人街影视[飞]","name":"⛩️唐人街","type":4,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/唐人街影视[飞].js"},	  
+{"key":"drpy_js_唐人街影视[飞]","name":"⛩️唐人街","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/唐人街影视[飞].js"},	  
 //{"key":"drpy_js_唐人街影视[飞]","name":"⛩️唐人","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/唐人街影视[飞].js"},	  
 {"key":"drpy_js_if101[飞]","name":"🐶101","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/if101[飞].js"},
 //{"key":"drpy_js_555影视[飞]","name":"🦧555","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/555影视[飞].js"},
