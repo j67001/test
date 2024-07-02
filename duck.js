@@ -21,6 +21,8 @@ var rule = {
 		30:{cateId:'30',by:'/by/time'}
 	},
 	searchUrl:'/vod/search.html?wd=**',
+	searchable:2,
+	quickSearch:0,
 	class_parse: '.stui-header__menu li;a&&Text;a&&href;.*/(.*?).html',
 	一级:'.stui-vodlist li;a&&title;a&&data-original;.pic-text&&Text;a&&href',
 	//play_parse:true,
