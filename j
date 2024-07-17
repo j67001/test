@@ -73,7 +73,7 @@
 //{"key":"drpy_js_爱壹帆[飞]","name":"⛵愛壹帆","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/爱壹帆[飞].js"},
 //{"key": "Yingtan","name": "🎬影探4K","type": 3,"api": "csp_Yingtantv2","searchable": 1,"changeable": 0,"jar": "https://d.kstore.space/download/6128/TVBOX/jar/追忆影探布蕾带自动追踪.jar"},
 {"key":"星星","name":"⭐️星視界","type":3,"api":"csp_Star","searchable":1,"changeable":1,"timeout":25},
-{"key":"drpy_js_LIBVIO","name":"🦄利播","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://raw.githubusercontent.com/j67001/test/main/LIBVIO.js"},
+//{"key":"drpy_js_LIBVIO","name":"🦄利播","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://raw.githubusercontent.com/j67001/test/main/LIBVIO.js"},
 //{"key":"drpy_js_LIBVIO","name":"🦄利播","type":3,"api":"https://github.com/hjdhnx/dr_py/raw/main/libs/drpy2.min.js","ext":"https://github.com/hjdhnx/dr_py/raw/main/js/LIBVIO.js"},
 //{"key":"libvio_js","name":"🦄利播","type": 3,"searchable":1,"quickSearch":1,"filterable":1,"api": "https://jihulab.com/okcaptain/kko/-/raw/main/drpy/drpy2.min.js", "ext": "https://jihulab.com/okcaptain/kko/-/raw/main/js/libvio.js", "timeout": 15},
 //{"key":"Lib","name":"🦄利播","type": 3,"api": "csp_Libvio","searchable": 1,"quickSearch": 1,"changeable":1,"ext":"https://www.libvio.la/"},
