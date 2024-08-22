@@ -319,6 +319,8 @@
         "document.getElementsByClassName('vjs-big-play-button')[0].click()"
       ]
     },
+
+/*
      {
       "name": "黑木耳廣告",
       "hosts": [
@@ -330,7 +332,6 @@
         "#EXT-X-DISCONTINUITY\\r*\\n*#EXTINF:1.500000,[\\s\\S]*?#EXT-X-ENDLIST"
       ]
     },
-/*
     {
       "name": "星星廣告",
       "hosts": [
