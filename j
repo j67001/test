@@ -319,6 +319,8 @@
         "document.getElementsByClassName('vjs-big-play-button')[0].click()"
       ]
     },
+
+/*
     {
       "name": "星星廣告",
       "hosts": [
@@ -350,6 +352,8 @@
         "#EXTINF.*?\\s+.*?1o.*?\\.ts\\s+"
       ]
     },
+*/
+
     {
       "name": "火山嗅探",
       "hosts": [
