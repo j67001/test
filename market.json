@@ -4,8 +4,22 @@
     "name": "推薦",
     "list": [
       {
-        "url": "https://ooo.0x0.ooo/2023/06/09/O5fYsj.th.png",
-        "icon": "https://ooo.0x0.ooo/2023/06/09/O5fYsj.th.png"
+        "name": "OK電視",
+        "url": "https://raw.githubusercontent.com/FongMi/Release/main/apk/release/leanback-python-armeabi_v7a.apk",
+        "icon": "https://ooo.0x0.ooo/2023/06/09/O5fYsj.th.png",
+        "version": "v7a"
+      },
+      {
+        "name": "蜂蜜電視",
+        "url": "https://raw.githubusercontent.com/FongMi/Release/fongmi/apk/release/leanback-python-armeabi_v7a.apk",
+        "icon": "https://ooo.0x0.ooo/2023/06/09/O5fYsj.th.png",
+        "version": "v7a"
+      },
+      {
+        "name": "OK電視 4.x版",
+        "url": "https://raw.githubusercontent.com/FongMi/Release/main/apk/kitkat/leanback.apk",
+        "icon": "https://ooo.0x0.ooo/2023/06/09/O5fYsj.th.png",
+        "version": "v7a"
       }
     ]
   },
