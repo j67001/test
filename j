@@ -20,8 +20,7 @@
   "playerType":1,
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
-},
-{
+},{
   "name":"嗅探",
   "boot":"true",
   "url":"https://github.com/j67001/test/raw/main/ts.swf",
@@ -30,8 +29,7 @@
   "ua": "Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1",
   "playerType":1,
   "logo": "https://epg.112114.xyz/logo/{name}.png"
-},
-{
+},{
   "name":"maotv",
   "url":"https://github.com/LinWei0718/iptvtw/raw/main/maotv.txt",
   //"url":"https://agit.ai/ddx/TVBox/raw/branch/master/js/zb.txt",
@@ -39,8 +37,7 @@
   "playerType":1,
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
-},
-{
+},{
   "name":"ubtv",
   "boot":"true",
   "url":"https://github.com/j67001/test/raw/main/ip.swf",
@@ -49,6 +46,27 @@
   //"ua": "UBlive/2.3.8 (Linux;Android 12)",
   "playerType":1,
   "logo": "https://epg.112114.xyz/logo/{name}.png"
+},{
+  "name": "寶盒專享",
+  "type": 0,
+  "url": "https://gitcode.net/ygbh66/test/-/raw/master/jtzb.txt",
+  "playerType": 1,
+  "ua": "okhttp/3.15",
+  "epg": "http://epg.112114.xyz/?ch={name}&date={date}",
+  "logo": "https://epg.112114.xyz/logo/{name}.png"
+  },{
+  "name": "ETH(JS)",
+  "api": "https://tang.hz.cz/js/ethtv.js",
+  "type": 3,
+  "ua": "okhttp/4.12.0"
+},{
+  "name": "ETH2(JS)",
+  "api": "https://gitcode.net/ygbh66/test/-/raw/master/ethtv.js",
+  "type": 3,
+  "ua": "okhttp/4.12.0"
+},{
+  "name": "斯卡特(smart)",
+  "url": "https://tang.hz.cz/zb/stv?token=fe4eb8f4"
 },
 //{"name":"oklive","type":0,"url":"https://jihulab.com/my-program/zhiboyuan/-/raw/main/zhiboyuan.txt","playerType":1,"ua":"okhttp/3.15","epg":"http://epg.112114.xyz/?ch={name}&date={date}","logo":"https://epg.112114.xyz/logo/{name}.png","timeout":10},
 //{"name":"oktv","type":0,"url":"https://jihulab.com/okcaptain/kko/-/raw/main/mt.txt","playerType":1,"ua":"okhttp/3.15","epg":"http://epg.112114.xyz/?ch={name}&date={date}","logo":"https://epg.112114.xyz/logo/{name}.png","timeout":10}
@@ -119,6 +137,7 @@
 //{"key":"csp_Czsapp","name":"🏭厂长┃直连","type":3,"api":"csp_Czsapp","playerType":2,"searchable":1,"quickSearch":1,"changeable":1},
 //{"key":"drpy_js_厂长资源","name":"🏭廠長","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/厂长资源.js"}, 
 //{"key":"drpy_js_豆瓣","name":"🥜豆瓣","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/drpy.js","searchable": 1,"quickSearch": 0,"filterable": 0}, 
+{"key": "实验油管","name": "🎈Youtube","type": 4,"api": "http://zhangqun1818.serv00.net/yt/yt001.php","searchable": 1,"changeable": 1,"ext": "新聞直播#Muse木棉花-TW#X調查#老高與小茉#美麗的日本 4K#VIRTUAL JAPAN#郭正亮#short#動作片#諜戰劇playlist#沙雕穿越#動漫#有聲穿越小說#影視解說#動物#風景#放鬆#4K#HDR#movie#documentary#bbc documentary"},
 
 //{ "key":"萌番","name":"🐹萌番","type":1,"searchable":1,"quickSearch":1,"playerType":1,"api":"https://www.mengfan.tv/api.php/provide/vod/","header":{"user-agent":"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"}},
 //{"key":"drpy_js_hdtoday","name":"🦄🏫hdtoday","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/hdtoday.js"}, 
