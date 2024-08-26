@@ -54,16 +54,26 @@
   "ua": "okhttp/3.15",
   "epg": "http://epg.112114.xyz/?ch={name}&date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
-  },{
+},{
+  "name": "安博",
+  "url": "https://tang.hz.cz/zb/anbo?token=a797e28e",
+  "ua": "okhttp/4.12.0",
+  "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
+  "logo": "https://epg.112114.xyz/logo/{name}.png"
+},{
   "name": "ETH(JS)",
   "api": "https://tang.hz.cz/js/ethtv.js",
   "type": 3,
-  "ua": "okhttp/4.12.0"
+  "ua": "okhttp/4.12.0",
+  "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
+  "logo": "https://epg.112114.xyz/logo/{name}.png"
 },{
   "name": "ETH2(JS)",
   "api": "https://gitcode.net/ygbh66/test/-/raw/master/ethtv.js",
   "type": 3,
-  "ua": "okhttp/4.12.0"
+  "ua": "okhttp/4.12.0",
+  "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
+  "logo": "https://epg.112114.xyz/logo/{name}.png"
 },{
   "name": "斯卡特(smart)",
   "url": "https://tang.hz.cz/zb/stv?token=fe4eb8f4"
