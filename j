@@ -71,9 +71,7 @@
   "name": "ETH2(JS)",
   "api": "https://gitcode.net/ygbh66/test/-/raw/master/ethtv.js",
   "type": 3,
-  "ua": "okhttp/4.12.0",
-  "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
-  "logo": "https://epg.112114.xyz/logo/{name}.png"
+  "ua": "okhttp/4.12.0"
 },{
   "name": "斯卡特(smart)",
   "url": "https://tang.hz.cz/zb/stv?token=fe4eb8f4"
