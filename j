@@ -65,12 +65,16 @@
   "api": "https://tang.hz.cz/js/ethtv.js",
   "type": 3,
   "ua": "okhttp/4.12.0",
-  "ext": "4b1ac684"
+  "ext": "4b1ac684",
+  "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
+  "logo": "https://epg.112114.xyz/logo/{name}.png"
 },{
   "name": "ETH2(JS)",
   "api": "https://gitcode.net/ygbh66/test/-/raw/master/ethtv.js",
   "type": 3,
-  "ua": "okhttp/4.12.0"
+  "ua": "okhttp/4.12.0",
+  "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
+  "logo": "https://epg.112114.xyz/logo/{name}.png"
 },{
   "name": "斯卡特(smart)",
   "url": "https://tang.hz.cz/zb/stv?token=fe4eb8f4"
