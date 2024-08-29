@@ -64,7 +64,8 @@
   "name": "ETH(JS)",
   "api": "https://tang.hz.cz/js/ethtv.js",
   "type": 3,
-  "ua": "okhttp/4.12.0"
+  "ua": "okhttp/4.12.0",
+  "ext": "4b1ac684"
 },{
   "name": "ETH2(JS)",
   "api": "https://gitcode.net/ygbh66/test/-/raw/master/ethtv.js",
