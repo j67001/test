@@ -17,9 +17,9 @@
   "url":"https://raw.githubusercontent.com/j67001/test/main/tw.swf",
   //"ua": "UBlive/2.3.8 (Linux;Android 12)",
   "ua": "okhttp/4.12.0",
-  "playerType":2,
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
-  "logo": "https://epg.112114.xyz/logo/{name}.png"
+  "logo": "https://epg.112114.xyz/logo/{name}.png",
+  "playerType":2
 },{
   "name":"嗅探",
   "boot":"true",
