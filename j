@@ -17,7 +17,7 @@
   "url":"https://raw.githubusercontent.com/j67001/test/main/tw.swf",
   //"ua": "UBlive/2.3.8 (Linux;Android 12)",
   "ua": "okhttp/3.12.13",
-  "playerType":1,
+  "playerType":2,
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
 },{
@@ -27,14 +27,14 @@
   //"url":"http://home.jundie.top:81/Cat/tv/live.txt",
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
   "ua": "Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1",
-  "playerType":1,
+  "playerType":2,
   "logo": "https://epg.112114.xyz/logo/{name}.png"
 },{
   "name":"maotv",
   "url":"https://github.com/LinWei0718/iptvtw/raw/main/maotv.txt",
   //"url":"https://agit.ai/ddx/TVBox/raw/branch/master/js/zb.txt",
   "ua": "okhttp/3.12.13",
-  "playerType":1,
+  "playerType":2,
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
 },{
@@ -50,7 +50,7 @@
   "name": "寶盒專享",
   "type": 0,
   "url": "https://gitcode.net/ygbh66/test/-/raw/master/jtzb.txt",
-  "playerType": 1,
+  "playerType": 2,
   "ua": "okhttp/3.15",
   "epg": "http://epg.112114.xyz/?ch={name}&date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
