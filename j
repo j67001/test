@@ -12,11 +12,11 @@
 "lives":[
  {
   "name":"smart",
-  "type":0,
+  //"type":0,
   //"url":"http://home.jundie.top:81/Cat/tv/live.txt",
   "url":"https://raw.githubusercontent.com/j67001/test/main/tw.swf",
   //"ua": "UBlive/2.3.8 (Linux;Android 12)",
-  "ua": "okhttp/3.12.13",
+  "ua": "okhttp/4.12.0",
   "playerType":2,
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
@@ -33,7 +33,7 @@
   "name":"maotv",
   "url":"https://github.com/LinWei0718/iptvtw/raw/main/maotv.txt",
   //"url":"https://agit.ai/ddx/TVBox/raw/branch/master/js/zb.txt",
-  "ua": "okhttp/3.12.13",
+  "ua": "okhttp/4.12.0",
   "playerType":2,
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
@@ -42,9 +42,9 @@
   "boot":"true",
   "url":"https://github.com/j67001/test/raw/main/ip.swf",
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
-  "ua": "okhttp/3.12.13",
+  "ua": "okhttp/4.12.0",
   //"ua": "UBlive/2.3.8 (Linux;Android 12)",
-  "playerType":1,
+  "playerType":2,
   "logo": "https://epg.112114.xyz/logo/{name}.png"
 },{
   "name": "寶盒專享",
