@@ -99,7 +99,7 @@
 //,"jar":"https://4tvbox.ggff.net/custom_spider.jar;md5;3f392906996ac13aaeb8c91956f95f7f"
 {"key": "T4-安博","name": "🪐安博","type": 4,"api": "https://tang.hz.cz/power/ub18?token=cf05aa3e","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 0},
 {"key": "T4-欧乐","name": "😹歐樂","type": 4,"api": "https://tang.hz.cz/power/olelive?token=cf05aa3e","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 0},
-{"key":"drpy_js_小宝影院[飞]","name":"🧸小寶","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/gaotianliuyun/gao/raw/master/js/小宝影院[飞].js"}, 
+{"key":"drpy_js_小宝影院[飞]","name":"🧸小寶","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://raw.githubusercontent.com/gaotianliuyun/gao/refs/heads/master/js/小宝影院[飞].js"}, 
 //{"key": "T4-heimuer","name": "🍄黑木耳","type": 4,"api": "https://json.doube.eu.org/app/index.php?site=webheimuer","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 0},
 {"key": "T4-heimuer","name": "🍄黑木耳","type": 4,"api": "https://tang.hz.cz/power/hme?token=cf05aa3e","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 0},
 {"key": "csp_LiteApple","name": "🍎蘋果","type": 3,"playerType": "2","api": "csp_LiteApple","jar": "https://github.com/guot55/yg/raw/main/pg/lib/ap.jar","searchable": 1,"quickSearch": 1,"filterable": 1 },
