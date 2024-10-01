@@ -333,6 +333,9 @@
     }
   ],
   "rules": [
+     { "name": "proxy", 
+      "hosts": [ "raw.githubusercontent.com", "googlevideo.com", "cdn.v82u1l.com", "cdn.iz8qkg.com", "cdn.kin6c1.com", "c.biggggg.com", "c.olddddd.com", "haiwaikan.com", "www.histar.tv", "youtube.com", "uhibo.com", ".*boku.*", ".*nivod.*", ".*ulivetv.*",".*wogg.xyz" ] 
+     },
      {
       "name": "海外看廣告",
       "hosts": [
