@@ -106,7 +106,6 @@
 //{"key":"小苹果","name":"🍎小蘋果","type":3,"api":"csp_LiteApple","searchable":1,"quickSearch":1,"filterable":1,"jar":"http://tipu.xjqxz.top/1119/xpg240228.jar;md5;e98a7f7d8ab52fa6d6ddd3ca12c0de0a"},
 {"key":"文采","name":"💮文采","type":3,"api":"csp_Jpys","playerType":2,"searchable":1,"quickSearch":1,"changeable":1,"jar": "https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1730424610558/okjpg.txt;md5;b335c927a4eb9a03e7bb6621a0aa9069"},
 {"key":"drpy_js_LIBVIO","name":"🦄利播","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://raw.githubusercontent.com/j67001/test/main/LIBVIO.js"},
-{"key":"立播弹幕版","name":"🦄利播2","type":3,"api":"csp_Libvio","searchable":1,"filterable":1,"changeable":1, "ext": {"site" : "https://libvio.link"},"jar": "https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1730424610558/okjpg.txt;md5;b335c927a4eb9a03e7bb6621a0aa9069"},
 //{"key":"drpy_js_LIBVIO","name":"🦄利播","type":3,"api":"https://github.com/hjdhnx/dr_py/raw/main/libs/drpy2.min.js","ext":"https://github.com/hjdhnx/dr_py/raw/main/js/LIBVIO.js"},
 //{"key":"libvio_js","name":"🦄利播","type": 3,"searchable":1,"quickSearch":1,"filterable":1,"api": "https://jihulab.com/okcaptain/kko/-/raw/main/drpy/drpy2.min.js", "ext": "https://jihulab.com/okcaptain/kko/-/raw/main/js/libvio.js", "timeout": 15},
 //{"key":"Lib","name":"🦄利播","type": 3,"api": "csp_Libvio","searchable": 1,"quickSearch": 1,"changeable":1,"ext":"https://www.libvio.la/"},
