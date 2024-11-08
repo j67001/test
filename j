@@ -97,14 +97,11 @@
 //{"key": "豆瓣","name": "🥜豆瓣2","type": 3,"api": "csp_Douban","searchable": 0,"changeable": 1,"indexs":1,"ext": "https://github.com/guot55/yg/raw/main/pg/lib/douban.json"},
 //https://github.com/Walden333/ttbox/raw/main/0119.json
 //,"jar":"https://4tvbox.ggff.net/custom_spider.jar;md5;3f392906996ac13aaeb8c91956f95f7f"
-{"key": "T4-安博","name": "🪐安博","type": 4,"api": "https://tang.hz.cz/power/ub18?token=48da13fc","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 0,"ext": "https://tang.hz.cz/api/user?token=48da13fc"},
-{"key": "T4-欧乐","name": "😹歐樂","type": 4,"api": "https://tang.hz.cz/power/olelive?token=48da13fc","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 0,"ext": "https://tang.hz.cz/api/user?token=48da13fc"},
-{"key": "T4-heimuer","name": "🍄黑木耳","type": 4,"api": "https://tang.hz.cz/power/hme?token=48da13fc","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 0,"ext": "https://tang.hz.cz/api/user?token=48da13fc"},
+{"key":"糯米","name":"🍙糯米","type": 3,"api":"csp_Nmys","searchable":1,"quickSearch":1,"filterable":1,"jar": "https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1730424610558/okjpg.txt;md5;b335c927a4eb9a03e7bb6621a0aa9069"},
 //{"key": "T4-heimuer","name": "🍄黑木耳","type": 4,"api": "https://json.doube.eu.org/app/index.php?site=webheimuer","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 0},
 //{"key": "T4-heimuer","name": "🍄黑木耳","type": 4,"api": "https://tang.hz.cz/power/hme?token=48da13fc","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 0},
-//{"key": "T4-heimuer","name": "🍄黑木耳","type": 4,"api": "https://api.paoyun.eu.org/225.php","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 0},
+{"key": "T4-黑木耳","name": "🍄黑木耳","type": 4,"api": "https://api.paoyun.eu.org/225.php","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 0},
 {"key":"drpy_js_小宝影院[飞]","name":"🧸小寶","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://raw.githubusercontent.com/gaotianliuyun/gao/refs/heads/master/js/小宝影院[飞].js"}, 
-{"key":"糯米","name":"🍙糯米","type": 3,"api":"csp_Nmys","searchable":1,"quickSearch":1,"filterable":1,"jar": "https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1730424610558/okjpg.txt;md5;b335c927a4eb9a03e7bb6621a0aa9069"},
 {"key": "csp_LiteApple","name": "🍎蘋果","type": 3,"playerType": "2","api": "csp_LiteApple","jar": "https://github.com/guot55/yg/raw/main/pg/lib/ap.jar","searchable": 1,"quickSearch": 1,"filterable": 1 },
 //{"key":"小苹果","name":"🍎小蘋果","type":3,"api":"csp_LiteApple","searchable":1,"quickSearch":1,"filterable":1,"jar":"http://tipu.xjqxz.top/1119/xpg240228.jar;md5;e98a7f7d8ab52fa6d6ddd3ca12c0de0a"},
 {"key":"文采","name":"💮文采","type":3,"api":"csp_Jpys","playerType":2,"searchable":1,"quickSearch":1,"changeable":1,"jar": "https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1730424610558/okjpg.txt;md5;b335c927a4eb9a03e7bb6621a0aa9069"},
@@ -143,6 +140,9 @@
 
 //{"key":"一起看 ","name":"🎉一起看","type":3,"api":"csp_YQKan","searchable":1,"quickSearch":1,"changeable":1,"jar":"https://github.com/gaotianliuyun/gao/raw/master/jar/fan.txt;md5;c0a0999c670692bb297b38981fe6de9b"},
 //{"key":"csp_YQKAPP","name":"🎉一起看","type":3,"api":"csp_YQKAPP","playerType":2,"searchable":1,"quickSearch":1,"changeable":1,"ext":"https://api-aws.11ty.top"},	
+{"key": "T4-安博","name": "🪐安博","type": 4,"api": "https://tang.hz.cz/power/ub18?token=48da13fc","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 0},
+{"key": "T4-欧乐","name": "😹歐樂","type": 4,"api": "https://tang.hz.cz/power/olelive?token=48da13fc","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 0},
+{"key": "T4-heimuer","name": "🍄黑木耳2","type": 4,"api": "https://tang.hz.cz/power/hme?token=48da13fc","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 0},
 {"key":"Auete","name":"🏝奧特","type": 3,"api":"csp_Auete","timeout":15,"searchable":1,"quickSearch":1,"changeable":1,"ext":"https://auete.pro/","jar": "https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1730424610558/okjpg.txt;md5;b335c927a4eb9a03e7bb6621a0aa9069"},
 {"key":"原創","name":"☀原創","type":3,"api":"csp_YCyz","timeout":15,"playerType":1,"searchable":1,"quickSearch":1,"changeable":1,"jar": "https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1730424610558/okjpg.txt;md5;b335c927a4eb9a03e7bb6621a0aa9069"},
 {"key":"星星","name":"⭐️星視界","type":3,"api":"csp_Star","searchable":1,"changeable":1,"timeout":25},
