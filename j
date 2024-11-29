@@ -98,7 +98,7 @@
 //https://github.com/Walden333/ttbox/raw/main/0119.json
 //,"jar":"https://4tvbox.ggff.net/custom_spider.jar;md5;3f392906996ac13aaeb8c91956f95f7f"
 {"key":"糯米","name":"🍙糯米","type": 3,"api":"csp_Nmys","searchable":1,"quickSearch":1,"filterable":1,"jar": "https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1730424610558/okjpg.txt;md5;b335c927a4eb9a03e7bb6621a0aa9069"},
-//{"key": "T4-安博","name": "🪐安博","type": 4,"api": "https://tang.hz.cz/power/ub18?token=48da13fc","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 1},
+{"key": "T4-安博","name": "🪐安博","type": 4,"api": "https://tang.hz.cz/power/ub18?token=48da13fc","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 1},
 {"key": "T4-欧乐","name": "😹歐樂","type": 4,"api": "https://tang.hz.cz/power/olelive?token=48da13fc","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 1},
 {"key": "T4-heimuer","name": "🍄黑木耳","type": 4,"api": "https://tang.hz.cz/power/hme?token=48da13fc","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 1},
 //{"key": "T4-heimuer","name": "🍄黑木耳","type": 4,"api": "https://json.doube.eu.org/app/index.php?site=webheimuer","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 0},
