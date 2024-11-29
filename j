@@ -109,6 +109,8 @@
 {"key": "csp_LiteApple","name": "🍎蘋果","type": 3,"playerType": "2","api": "csp_LiteApple","jar": "https://github.com/guot55/yg/raw/main/pg/lib/ap.jar","searchable": 1,"quickSearch": 1,"filterable": 1 },
 //{"key":"小苹果","name":"🍎小蘋果","type":3,"api":"csp_LiteApple","searchable":1,"quickSearch":1,"filterable":1,"jar":"http://tipu.xjqxz.top/1119/xpg240228.jar;md5;e98a7f7d8ab52fa6d6ddd3ca12c0de0a"},
 {"key":"文采","name":"💮文采","type":3,"api":"csp_Jpys","playerType":2,"searchable":1,"quickSearch":1,"changeable":1,"jar": "https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1730424610558/okjpg.txt;md5;b335c927a4eb9a03e7bb6621a0aa9069"},
+{"key":"Auete","name":"🏝奧特","type": 3,"api":"csp_Auete","timeout":15,"searchable":1,"quickSearch":1,"changeable":1,"ext":"https://auete.com/","jar": "https://github.com/gaotianliuyun/gao/raw/master/jar/fan.txt;md5;6c4ab3a9d232164c75534f9060506ee5"},
+//{"key":"Auete","name":"🏝奧特","type": 3,"api":"csp_Auete","timeout":15,"searchable":1,"quickSearch":1,"changeable":1,"ext":"https://auete.com/","jar": "https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1730424610558/okjpg.txt;md5;b335c927a4eb9a03e7bb6621a0aa9069"},
 {"key":"drpy_js_LIBVIO","name":"🦄利播","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://raw.githubusercontent.com/j67001/test/main/LIBVIO.js"},
 //{"key":"drpy_js_LIBVIO","name":"🦄利播","type":3,"api":"https://github.com/hjdhnx/dr_py/raw/main/libs/drpy2.min.js","ext":"https://github.com/hjdhnx/dr_py/raw/main/js/LIBVIO.js"},
 //{"key":"libvio_js","name":"🦄利播","type": 3,"searchable":1,"quickSearch":1,"filterable":1,"api": "https://jihulab.com/okcaptain/kko/-/raw/main/drpy/drpy2.min.js", "ext": "https://jihulab.com/okcaptain/kko/-/raw/main/js/libvio.js", "timeout": 15},
@@ -144,9 +146,6 @@
 
 //{"key":"一起看 ","name":"🎉一起看","type":3,"api":"csp_YQKan","searchable":1,"quickSearch":1,"changeable":1,"jar":"https://github.com/gaotianliuyun/gao/raw/master/jar/fan.txt;md5;c0a0999c670692bb297b38981fe6de9b"},
 //{"key":"csp_YQKAPP","name":"🎉一起看","type":3,"api":"csp_YQKAPP","playerType":2,"searchable":1,"quickSearch":1,"changeable":1,"ext":"https://api-aws.11ty.top"},	
-{"key":"Auete","name":"🏝奧特","type": 3,"api":"csp_Auete","timeout":15,"searchable":1,"quickSearch":1,"changeable":1,"ext":"https://auete.com/","jar": "https://github.com/gaotianliuyun/gao/raw/master/jar/fan.txt;md5;6c4ab3a9d232164c75534f9060506ee5"},
-{"key":"原創","name":"☀原創","type":3,"api":"csp_YCyz","timeout":15,"playerType":1,"searchable":1,"quickSearch":1,"changeable":1,"jar": "https://github.com/gaotianliuyun/gao/raw/master/jar/fan.txt;md5;6c4ab3a9d232164c75534f9060506ee5"},
-//{"key":"Auete","name":"🏝奧特","type": 3,"api":"csp_Auete","timeout":15,"searchable":1,"quickSearch":1,"changeable":1,"ext":"https://auete.com/","jar": "https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1730424610558/okjpg.txt;md5;b335c927a4eb9a03e7bb6621a0aa9069"},
 //{"key":"原創","name":"☀原創","type":3,"api":"csp_YCyz","timeout":15,"playerType":1,"searchable":1,"quickSearch":1,"changeable":1,"jar": "https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1730424610558/okjpg.txt;md5;b335c927a4eb9a03e7bb6621a0aa9069"},
 
 //{"key":"星星","name":"⭐️星視界","type":3,"api":"csp_Star","searchable":1,"changeable":1,"timeout":25},
