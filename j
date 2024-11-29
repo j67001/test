@@ -144,8 +144,11 @@
 
 //{"key":"一起看 ","name":"🎉一起看","type":3,"api":"csp_YQKan","searchable":1,"quickSearch":1,"changeable":1,"jar":"https://github.com/gaotianliuyun/gao/raw/master/jar/fan.txt;md5;c0a0999c670692bb297b38981fe6de9b"},
 //{"key":"csp_YQKAPP","name":"🎉一起看","type":3,"api":"csp_YQKAPP","playerType":2,"searchable":1,"quickSearch":1,"changeable":1,"ext":"https://api-aws.11ty.top"},	
-{"key":"Auete","name":"🏝奧特","type": 3,"api":"csp_Auete","timeout":15,"searchable":1,"quickSearch":1,"changeable":1,"ext":"https://auete.com/","jar": "https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1730424610558/okjpg.txt;md5;b335c927a4eb9a03e7bb6621a0aa9069"},
+{"key":"Auete","name":"🏝奧特","type": 3,"api":"csp_Auete","timeout":15,"searchable":1,"quickSearch":1,"changeable":1,"ext":"https://auete.com/","jar": "https://github.com/gaotianliuyun/gao/raw/master/jar/fan.txt;md5;6c4ab3a9d232164c75534f9060506ee5"},
+{"key":"原創","name":"☀原創","type":3,"api":"csp_YCyz","timeout":15,"playerType":1,"searchable":1,"quickSearch":1,"changeable":1,"jar": "https://github.com/gaotianliuyun/gao/raw/master/jar/fan.txt;md5;6c4ab3a9d232164c75534f9060506ee5"},
+//{"key":"Auete","name":"🏝奧特","type": 3,"api":"csp_Auete","timeout":15,"searchable":1,"quickSearch":1,"changeable":1,"ext":"https://auete.com/","jar": "https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1730424610558/okjpg.txt;md5;b335c927a4eb9a03e7bb6621a0aa9069"},
 //{"key":"原創","name":"☀原創","type":3,"api":"csp_YCyz","timeout":15,"playerType":1,"searchable":1,"quickSearch":1,"changeable":1,"jar": "https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1730424610558/okjpg.txt;md5;b335c927a4eb9a03e7bb6621a0aa9069"},
+
 //{"key":"星星","name":"⭐️星視界","type":3,"api":"csp_Star","searchable":1,"changeable":1,"timeout":25},
 //{"key":"Xinsj","name":"🧿新視覺","type":3,"api":"csp_Xinsj","searchable":1,"quickSearch":1,"changeable":1,"ext":"https://www.hdmyy.com/","jar": "https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1730424610558/okjpg.txt;md5;b335c927a4eb9a03e7bb6621a0aa9069"},
 //{"key":"drpy_js_KUBO影视[飞]","name":"📀酷播","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://raw.githubusercontent.com/gaotianliuyun/gao/refs/heads/master/js/KUBO影视[飞].js"},
