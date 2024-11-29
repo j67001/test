@@ -92,7 +92,8 @@
 
 
 "sites":[
-{"key":"Douban","name":"🥜豆瓣","type": 3, "api": "csp_DouDou","searchable": 0,"quickSearch": 0,"filterable": 0,"ext": "https://github.com/j67001/test/raw/main/douban.json","jar": "https://github.com/gaotianliuyun/gao/raw/master/jar/fan.txt;md5;6c4ab3a9d232164c75534f9060506ee5"},
+{"key":"Douban","name":"🥜豆瓣","type": 3,"api": "https://raw.githubusercontent.com/guot55/yg/main/pg/lib/drpy2.min.js","ext": "https://github.com/j67001/test/raw/main/douban.json","searchable": 0,"quickSearch": 0,"filterable": 0},
+//{"key":"Douban","name":"🥜豆瓣","type": 3, "api": "csp_DouDou","searchable": 0,"quickSearch": 0,"filterable": 0,"ext": "https://github.com/j67001/test/raw/main/douban.json","jar": "https://github.com/gaotianliuyun/gao/raw/master/jar/fan.txt;md5;6c4ab3a9d232164c75534f9060506ee5"},
 //{"key":"Douban","name":"🥜豆瓣","type": 3, "api": "csp_Douban","searchable": 0,"quickSearch": 0,"filterable": 0,"ext": "https://github.com/j67001/test/raw/main/douban.json"},
 //{"key":"drpy_js_豆瓣","name":"🥜豆瓣","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/drpy.js","searchable": 1,"quickSearch": 0,"filterable": 0}, 
 //{"key": "豆瓣","name": "🥜豆瓣2","type": 3,"api": "csp_Douban","searchable": 0,"changeable": 1,"indexs":1,"ext": "https://github.com/guot55/yg/raw/main/pg/lib/douban.json"},
