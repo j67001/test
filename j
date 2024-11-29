@@ -93,8 +93,8 @@
 
 "sites":[
 //{"key":"Douban","name":"🥜豆瓣","type": 3, "api": "csp_Douban","searchable": 0,"quickSearch": 0,"filterable": 0,"ext": "https://github.com/j67001/test/raw/main/douban.json"},
-{"key":"drpy_js_豆瓣","name":"🥜豆瓣","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/drpy.js","searchable": 1,"quickSearch": 0,"filterable": 0}, 
-//{"key": "豆瓣","name": "🥜豆瓣2","type": 3,"api": "csp_Douban","searchable": 0,"changeable": 1,"indexs":1,"ext": "https://github.com/guot55/yg/raw/main/pg/lib/douban.json"},
+//{"key":"drpy_js_豆瓣","name":"🥜豆瓣","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/drpy.js","searchable": 1,"quickSearch": 0,"filterable": 0}, 
+{"key": "豆瓣","name": "🥜豆瓣2","type": 3,"api": "csp_Douban","searchable": 0,"changeable": 1,"indexs":1,"ext": "https://github.com/guot55/yg/raw/main/pg/lib/douban.json"},
 //https://github.com/Walden333/ttbox/raw/main/0119.json
 //,"jar":"https://4tvbox.ggff.net/custom_spider.jar;md5;3f392906996ac13aaeb8c91956f95f7f"
 {"key":"糯米","name":"🍙糯米","type": 3,"api":"csp_Nmys","searchable":1,"quickSearch":1,"filterable":1,"jar": "https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1730424610558/okjpg.txt;md5;b335c927a4eb9a03e7bb6621a0aa9069"},
