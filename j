@@ -107,6 +107,7 @@
 //{"key": "T4-黑木耳","name": "🍄黑木耳2","type": 4,"api": "https://api.paoyun.eu.org/225.php","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 0},
 {"key": "yfsp","name": "⛵愛壹帆","type": 3,"searchable": 1,"changeable": 0,"api": "csp_GM",
 "ext": {"userScript": "https://4tvbox.ggff.net/ysfp.user.js","debug": false,
+"jar":"https://4tvbox.ggff.net/new.jar",
 "webViewSettings": {"blockNetworkImage": true,"blockList": ["*.png*","*.mp3*","*.css*","https://*.googletagmanager.com/*","https://*.google-analytics.com/*"]},
 "spider": {"homeContent": {"loadUrl": "https://m.yfsp.tv/"},"categoryContent": {"loadUrl": "https://m.yfsp.tv/list/${tid}?type=${index-0:-0}${index-1:-,0}${index-2:-,0}${index-3:-,0}${index-4:-,0}${index-5:-}"},"detailContent": {"loadUrl": "https://m.yfsp.tv/play/${id}"},"playerContent": {"loadUrl": "https://m.yfsp.tv/play/${mediaKey}?id=${episodeKey}"},"searchContent": {"loadUrl": "https://m.yfsp.tv/search"}}}},
 {"key":"drpy_js_小宝影院[飞]","name":"🧸小寶","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/drpy2.min.js","ext":"https://raw.githubusercontent.com/j67001/test/refs/heads/main/小宝影院[飞].js"}, 
