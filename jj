@@ -151,7 +151,8 @@
 //{"key":"海外看","name":"🌼海外看","type":1,"api":"http://api.haiwaikan.com/v1/vod?ac=list","searchable":1,"quickSearch":1,"changeable":1},
 {"key":"SNzy","name":"✨索尼","type":1,"api":"https://suoniapi.com/api.php/provide/vod/?ac=list","searchable":1,"changeable":1,"quickSearch":1,"filterable":1,"categories":["国产剧","欧美剧","韩剧","日剧","台剧","港剧","泰剧","海外剧","日韩动漫","欧美动漫","国产动漫","动画片","港台动漫","海外动漫","日韩综艺","港台综艺","大陆综艺","欧美综艺","动作片","喜剧片","爱情片","科幻片","恐怖片","剧情片","战争片","纪录片","4K电影","邵氏电影","影视解说","演唱会","篮球","足球"]},
 //{"key": "老張實驗","name": "老張實驗","type": 1,"api": "http://zhangqun66.serv00.net/158.php","searchable": 1,"changeable": 1,"categories": ["电影","连续剧","大陆综艺","国产动漫","日韩动漫","NBA","爽文短剧","年代穿越","成长逆袭"]},
-{"key": "kimi","name": "🧑きみ","type": 3,"api": "csp_XBPQ","ext": "https://cdn09022024.gitlink.org.cn/api/v1/repos/guot55/yg/raw/lib%2FKimivod.json?ref=main"},
+
+{"key": "kimi","name": "🧑きみ","type": 3,"api": "csp_XBPQ","ext": "https://cdn09022024.gitlink.org.cn/api/v1/repos/guot55/yg/raw/lib%2FKimivod.json?ref=main","jar": "https://github.com/guot55/yg/raw/main/pg/lib/XBPQ.jar"},
 
 //{"key":"一起看 ","name":"🎉一起看","type":3,"api":"csp_YQKan","searchable":1,"quickSearch":1,"changeable":1,"jar":"https://github.com/gaotianliuyun/gao/raw/master/jar/fan.txt;md5;c0a0999c670692bb297b38981fe6de9b"},
 //{"key":"csp_YQKAPP","name":"🎉一起看","type":3,"api":"csp_YQKAPP","playerType":2,"searchable":1,"quickSearch":1,"changeable":1,"ext":"https://api-aws.11ty.top"},	
