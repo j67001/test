@@ -8,7 +8,7 @@ player=2
 中視菁采,https://tv.iill.top/litv/4gtv-4gtv064
 公視,https://www.youtube.com/watch?v=C6gYqSHLRw4
 公視台語,https://www.youtube.com/watch?v=6KlRR_DGhmI
-Taiwan Plus,https://www.youtube.com/watch?v=MPlkuzgczBI
+Taiwan Plus,https://www.youtube.com/watch?v=dZp87qnWelE
 民視,https://tv.iill.top/litv/4gtv-4gtv002
 民視第一,https://tv.iill.top/litv/4gtv-4gtv003
 民視新聞,https://tv.iill.top/litv/litv-ftv13
@@ -73,6 +73,12 @@ MyCinemaEurope,https://tv.iill.top/4gtv/176
 戲劇免費看1,https://tv.iill.top/4gtv/270
 戲劇免費看2,https://tv.iill.top/4gtv/244
 電影免費看2,https://tv.iill.top/4gtv/245
+緯來育樂,rtmp://f13h.mine.nu:1935/sat/tv701
+緯來體育,rtmp://f13h.mine.nu:1935/sat/tv721
+ELEVEN體育1,rtmp://f13h.mine.nu:1935/sat/tv731
+ELEVEN體育2,rtmp://f13h.mine.nu:1935/sat/tv741
+愛爾達體育3,rtmp://f13h.mine.nu:1935/sat/md051
+愛爾達體育4,rtmp://f13h.mine.nu:1935/sat/md041
 博斯無限,https://tv.iill.top/litv/litv-longturn10
 博斯無限2,https://tv.iill.top/litv/litv-longturn13
 博斯網球,https://tv.iill.top/litv/litv-longturn09
@@ -83,6 +89,17 @@ MyCinemaEurope,https://tv.iill.top/4gtv/176
 博斯魅力,https://tv.iill.top/litv/litv-longturn04
 時尚運動X,https://tv.iill.top/4gtv/277
 智林體育,https://tv.iill.top/litv/4gtv-4gtv101
+緯來日本,rtmp://f13h.mine.nu:1935/sat/tv771
+民視,rtmp://f13h.mine.nu:1935/sat/tv051
+台視,rtmp://f13h.mine.nu:1935/sat/tv071
+中視,rtmp://f13h.mine.nu:1935/sat/tv091
+華視,rtmp://f13h.mine.nu:1935/sat/tv111
+TVBS新聞,rtmp://f13h.mine.nu:1935/sat/tv551
+TVBS歡樂,rtmp://f13h.mine.nu:1935/sat/tv421
+東森超視,rtmp://f13h.mine.nu:1935/sat/tv331
+東森財經,rtmp://f13h.mine.nu:1935/sat/tv571
+MOMO綜合,rtmp://f13h.mine.nu:1935/sat/tv761
+博斯魅力,rtmp://f13h.mine.nu:1935/sat/md031
 中天亞洲,https://tv.iill.top/litv/4gtv-4gtv109
 靖天卡通,https://tv.iill.top/litv/4gtv-4gtv044
 靖天國際,https://tv.iill.top/litv/4gtv-4gtv063
@@ -149,3 +166,4 @@ VOA美國之音,https://tv.iill.top/litv/litv-ftv03
 東森購物二,https://tv.iill.top/4gtv/174
 東森購物三,https://tv.iill.top/4gtv/287
 東森購物四,https://tv.iill.top/4gtv/286
+
