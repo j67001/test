@@ -4,7 +4,7 @@ var rule={
 	title:'小宝影院[飞]',
 	模板:'首图',
 	host:'https://www.xiaobaotv.com',
-	url:'/index.php/vod/show/id/fyfilter.html',
+	url:'/vod/show/id/fyfilter.html',
 	filterable:1,//是否启用分类筛选,
 	filter_url:'{{fl.cateId}}{{fl.area}}{{fl.by}}{{fl.class}}{{fl.lang}}/page/fypage{{fl.year}}',
 	filter: {
@@ -19,7 +19,7 @@ var rule={
 		3:{cateId:'3',by:'/by/time'},
 		4:{cateId:'4',by:'/by/time'}
 	},
-	searchUrl:'/index.php/vod/search.html?wd=**',
+	searchUrl:'/search.html?wd=**',
 	class_parse:'.myui-header__menu&&li.hidden-xs:gt(0):lt(7);a&&Text;a&&href;./(\\d+).html',
     lazy:`js:
         var html = JSON.parse(request(input).match(/r player_.*?=(.*?)</)[1]);
