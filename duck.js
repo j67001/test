@@ -22,12 +22,11 @@ var rule = {
 	},
 	searchUrl:'/vod/search.html?wd=**',
 	searchable:2,
-	//quickSearch:0,
-	class_parse: '.stui-header__item li;a&&Text;a&&href;.*/(.*?).html',
-	//class_parse: '.stui-header__menu li;a&&Text;a&&href;.*/(.*?).html',
+	quickSearch:0,
+	class_parse: '.stui-header__menu li;a&&Text;a&&href;.*/(.*?).html',
 	一级:'.stui-vodlist li;a&&title;a&&data-original;.pic-text&&Text;a&&href',
-	//play_parse:true,
-	//lazy:'',
+	play_parse:true,
+	lazy:'',
 }
 
 //	class_parse: 'ul.myui-header__menu li:gt(0):lt(5);a&&Text;a&&href;.*/(.*?).html',
