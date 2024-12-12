@@ -24,7 +24,7 @@ var rule = {
         28:{cateId:'28',by:'time'}
     },
 	class_parse: '.nav-menu-items&&li:gt(0):lt(5);a&&title;a&&href;.*/(.*?).html',
-	searchUrl:'/vodsearch/**-------------.html',
+	searchUrl:'/vodsearch/-------------.html?wd=**',
 	detailUrl:'/vod/detail/id/fyid.html', //非必填,二级详情拼接链接
 	搜索:'json:list;name;pic;;id',
 }
