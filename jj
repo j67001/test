@@ -183,6 +183,12 @@
 
 {"key": "kimi","name": "🐹奇米","type": 3,"api": "csp_XBPQ","ext": "https://cdn09022024.gitlink.org.cn/api/v1/repos/guot55/yg/raw/lib%2FKimivod.json","jar": "https://cdn09022024.gitlink.org.cn/api/v1/repos/guot55/yg/raw/jar%2Fbhtv.txt"},
 
+{"key": "csp_sp_360影視","name": "360","api": "csp_SP360","type": 3,"filterable": 1,"quickSearch": 1,"searchable": 1,"ext": ""},
+{"key": "csp_sp_騰訊視頻","name": "騰訊","type": 3,"api": "csp_QQ","searchable": 1,"quickSearch": 1,"filterable": 1},
+{"key": "csp_sp_奇藝視頻","name": "奇藝","type": 3,"api": "csp_IQIYI","searchable": 0,"quickSearch": 0,"filterable": 1},
+{"key": "csp_sp_芒果視頻","name": "芒果","type": 3,"api": "csp_MGTV","searchable": 1,"quickSearch": 1,"filterable": 1},
+
+
 {"key":"csp_YGP","name":"🚀新片預告","type":3,"api":"csp_YGP","searchable":0,"quickSearch":0,"changeable":0,"jar":"https://github.com/gaotianliuyun/gao/raw/master/jar/fan.txt;md5;c0a0999c670692bb297b38981fe6de9b"},
 {"key": "实验油管","name": "🎈Youtube","type": 4,"api": "http://zhangqun66.com/yt/yt001.php","style":{"type":"rect","ratio":1.597},"searchable": 1,"changeable": 1,"ext": "新聞直播#Muse木棉花-TW#X調查#老高與小茉#美麗的日本 4K#VIRTUAL JAPAN#郭正亮#short#動作片#諜戰劇playlist#沙雕穿越#動漫#有聲穿越小說#影視解說#動物#風景#放鬆#4K#HDR#movie#documentary#bbc documentary"},
 //{"key": "实验油管","name": "🎈Youtube","type": 4,"api": "http://zhangqun1818.serv00.net/yt/yt001.php","style":{"type":"rect","ratio":1.597},"searchable": 1,"changeable": 1,"ext": "新聞直播#Muse木棉花-TW#X調查#老高與小茉#美麗的日本 4K#VIRTUAL JAPAN#郭正亮#short#動作片#諜戰劇playlist#沙雕穿越#動漫#有聲穿越小說#影視解說#動物#風景#放鬆#4K#HDR#movie#documentary#bbc documentary"},
