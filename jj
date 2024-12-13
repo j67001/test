@@ -2,9 +2,9 @@
 //"spider":"https://files.zohopublic.com.cn/public/workdrive-public/download/uyv0t678c488189af47bb91dc108484d17431;md5;b3a5a49c793dd82c3fd04e75d3071b20",
 //"spider":"https://files.zohopublic.com.cn/public/workdrive-public/download/uyv0t678c488189af47bb91dc108484d17431;md5;55894a9f32ba4201a1e2b157bb2e5c91",
 //"spider": "https://fongmi.cachefly.net/FongMi/CatVodSpider/main/jar/custom_spider.jar;md5;1de1a94d0429f343a35986ef5e9145d6",
-//"spider": "https://github.com/FongMi/CatVodSpider/raw/main/jar/custom_spider.jar;md5;707f0db5d14e50ee046fc2c8a7a11383",
+"spider": "https://github.com/FongMi/CatVodSpider/raw/main/jar/custom_spider.jar;md5;707f0db5d14e50ee046fc2c8a7a11383",
 //"spider": "https://github.com/gaotianliuyun/gao/raw/master/jar/fan.txt;md5;6c4ab3a9d232164c75534f9060506ee5",
-"spider": "http://tv.iqinu.com/jar/lm0910.jar;md5;9db7822a48f085ee7145d81c129049cd",
+//"spider": "http://tv.iqinu.com/jar/lm0910.jar;md5;9db7822a48f085ee7145d81c129049cd",
 //"spider": "https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1733994911578/okpng.txt;md5;3fb3c837e909f4fc5295b463247bc85d",
 //"spider": "https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1732886156575/okjpg.txt;md5;c7dc34995bf352d5d895d7334ede38d7",
 //"wallpaper":"http://饭.eu.org/深色壁纸/api.php",
@@ -188,10 +188,10 @@
 
 {"key": "kimi","name": "🐹奇米","type": 3,"api": "csp_XBPQ","ext": "https://cdn09022024.gitlink.org.cn/api/v1/repos/guot55/yg/raw/lib%2FKimivod.json","jar": "https://cdn09022024.gitlink.org.cn/api/v1/repos/guot55/yg/raw/jar%2Fbhtv.txt"},
 
-{"key": "csp_sp_360影視","name": "360","api": "csp_SP360","type": 3,"filterable": 1,"quickSearch": 1,"searchable": 1,"ext": ""},
-{"key": "csp_sp_騰訊視頻","name": "騰訊","type": 3,"api": "csp_QQ","searchable": 1,"quickSearch": 1,"filterable": 1},
-{"key": "csp_sp_奇藝視頻","name": "奇藝","type": 3,"api": "csp_IQIYI","searchable": 0,"quickSearch": 0,"filterable": 1},
-{"key": "csp_sp_芒果視頻","name": "芒果","type": 3,"api": "csp_MGTV","searchable": 1,"quickSearch": 1,"filterable": 1},
+{"key": "csp_sp_奇藝視頻","name": "🥝愛奇藝","type": 3,"api": "csp_IQIYI","searchable": 0,"quickSearch": 0,"filterable": 1,"jar": "http://tv.iqinu.com/jar/lm0910.jar;md5;9db7822a48f085ee7145d81c129049cd"},
+{"key": "csp_sp_騰訊視頻","name": "🌿騰訊","type": 3,"api": "csp_QQ","searchable": 1,"quickSearch": 1,"filterable": 1,"jar": "http://tv.iqinu.com/jar/lm0910.jar;md5;9db7822a48f085ee7145d81c129049cd"},
+{"key": "csp_sp_芒果視頻","name": "🥭芒果","type": 3,"api": "csp_MGTV","searchable": 1,"quickSearch": 1,"filterable": 1,"jar": "http://tv.iqinu.com/jar/lm0910.jar;md5;9db7822a48f085ee7145d81c129049cd"},
+{"key": "csp_sp_360影視","name": "🎡360","api": "csp_SP360","type": 3,"filterable": 1,"quickSearch": 1,"searchable": 1,"ext": "","jar": "http://tv.iqinu.com/jar/lm0910.jar;md5;9db7822a48f085ee7145d81c129049cd"},
 
 
 {"key":"csp_YGP","name":"🚀新片預告","type":3,"api":"csp_YGP","searchable":0,"quickSearch":0,"changeable":0,"jar":"https://github.com/gaotianliuyun/gao/raw/master/jar/fan.txt;md5;c0a0999c670692bb297b38981fe6de9b"},
