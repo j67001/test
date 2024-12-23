@@ -48,14 +48,6 @@
   "playerType":2,
   "logo": "https://epg.112114.xyz/logo/{name}.png"
 },{
-  "name":"maotv",
-  "url":"https://github.com/LinWei0718/iptvtw/raw/main/maotv.txt",
-  //"url":"https://agit.ai/ddx/TVBox/raw/branch/master/js/zb.txt",
-  "ua": "okhttp/4.12.0",
-  "playerType":2,
-  "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
-  "logo": "https://epg.112114.xyz/logo/{name}.png"
-},{
   "name":"ubtv",
   "boot":"true",
   "url":"https://github.com/j67001/test/raw/main/ip.swf",
@@ -64,38 +56,6 @@
   //"ua": "UBlive/2.3.8 (Linux;Android 12)",
   "playerType":2,
   "logo": "https://epg.112114.xyz/logo/{name}.png"
-},{
-  "name": "寶盒專享",
-  "type": 0,
-  "url": "https://gitcode.net/ygbh66/test/-/raw/master/jtzb.txt",
-  "playerType": 2,
-  "ua": "okhttp/3.15",
-  "epg": "http://epg.112114.xyz/?ch={name}&date={date}",
-  "logo": "https://epg.112114.xyz/logo/{name}.png"
-},{
-  "name": "安博",
-  "url": "https://tang.hz.cz/zb/anbo?token=a797e28e",
-  "ua": "okhttp/4.12.0",
-  "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
-  "logo": "https://epg.112114.xyz/logo/{name}.png"
-},{
-  "name": "ETH(JS)",
-  "api": "https://tang.hz.cz/js/ethtv.js",
-  "type": 3,
-  "ua": "okhttp/4.12.0",
-  "ext": "4b1ac684",
-  "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
-  "logo": "https://epg.112114.xyz/logo/{name}.png"
-},{
-  "name": "ETH2(JS)",
-  "api": "https://gitcode.net/ygbh66/test/-/raw/master/ethtv.js",
-  "type": 3,
-  "ua": "okhttp/4.12.0",
-  "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
-  "logo": "https://epg.112114.xyz/logo/{name}.png"
-},{
-  "name": "斯卡特(smart)",
-  "url": "https://tang.hz.cz/zb/stv?token=fe4eb8f4"
 },
 //{"name":"oklive","type":0,"url":"https://jihulab.com/my-program/zhiboyuan/-/raw/main/zhiboyuan.txt","playerType":1,"ua":"okhttp/3.15","epg":"http://epg.112114.xyz/?ch={name}&date={date}","logo":"https://epg.112114.xyz/logo/{name}.png","timeout":10},
 //{"name":"oktv","type":0,"url":"https://jihulab.com/okcaptain/kko/-/raw/main/mt.txt","playerType":1,"ua":"okhttp/3.15","epg":"http://epg.112114.xyz/?ch={name}&date={date}","logo":"https://epg.112114.xyz/logo/{name}.png","timeout":10}
