@@ -33,19 +33,19 @@ MOMO親子,https://tv.iill.top/4gtv/231
 三立台灣,https://tv.iill.top/nsw/sltw
 三立都會,https://tv.iill.top/nsw/sldh
 三立戲劇,https://tv.iill.top/nsw/slxj
+東森綜合,https://tv.iill.top/nsw/dszh
+東森超視,rtmp://f13h.mine.nu:1935/sat/tv331
 民視影劇,https://tv.iill.top/litv/litv-ftv09
 民視綜藝,https://tv.iill.top/litv/4gtv-4gtv004
 民視旅遊,https://tv.iill.top/litv/litv-ftv07
-東森綜合,https://tv.iill.top/nsw/dszh
-TVBS台劇,https://tv.iill.top/4gtv/285
-TVBS歡樂,https://tv.iill.top/litv/4gtv-4gtv068
-TVBS精采,https://tv.iill.top/litv/4gtv-4gtv067
-TVBS綜藝,https://tv.iill.top/4gtv/284
-東森戲劇,https://tv.iill.top/nsw/dsxj
-亞洲旅遊,https://tv.iill.top/litv/litv-longturn17
-人間衛視,https://tv.iill.top/4gtv/210
 金光布袋戲,https://tv.iill.top/4gtv/236
 霹靂布袋戲,https://tv.iill.top/4gtv/301
+東森戲劇,https://tv.iill.top/nsw/dsxj
+亞洲旅遊,https://tv.iill.top/litv/litv-longturn17
+TVBS歡樂,https://tv.iill.top/litv/4gtv-4gtv068
+TVBS台劇,https://tv.iill.top/4gtv/285
+TVBS精采,https://tv.iill.top/litv/4gtv-4gtv067
+TVBS綜藝,https://tv.iill.top/4gtv/284
 大愛電視,https://tv.iill.top/4gtv/209
 大愛電視2,https://tv.iill.top/4gtv/230
 好消息,https://tv.iill.top/litv/litv-ftv16
@@ -70,9 +70,8 @@ CinemaWorld,https://tv.iill.top/4gtv/225
 東森洋片,https://tv.iill.top/nsw/dsyp
 好萊塢電影,https://tv.iill.top/nsw/hlw
 AMC最愛電影,https://tv.iill.top/litv/4gtv-4gtv017
-HBOHITS,https://tv.iill.top/nsw/hbo-h
-HBOFAMILY,https://tv.iill.top/nsw/hbo-f
-HBOSIGNATURE,https://tv.iill.top/nsw/hbo-s
+PopC,http://aktv.top/AKTV/live/aktv/popc/AKTV.m3u8
+ROCK Action,http://aktv.top/AKTV/live/aktv/rockaction/AKTV.m3u8
 緯來育樂,rtmp://f13h.mine.nu:1935/sat/tv701
 緯來體育,rtmp://f13h.mine.nu:1935/sat/tv721
 ELEVEN體育1,rtmp://f13h.mine.nu:1935/sat/tv731
@@ -90,6 +89,16 @@ ELEVEN體育2,rtmp://f13h.mine.nu:1935/sat/tv741
 時尚運動X,https://tv.iill.top/4gtv/277
 智林體育,https://tv.iill.top/litv/4gtv-4gtv101
 緯來日本,rtmp://f13h.mine.nu:1935/sat/tv771
+Animax,http://aktv.top/AKTV/live/aktv3/animaxhk/AKTV.m3u8
+tvN,http://aktv.top/AKTV/live/aktv/tvn/AKTV.m3u8
+Kix,http://aktv.top/AKTV/live/aktv3/kix/AKTV.m3u8
+人間衛視,https://tv.iill.top/4gtv/210
+HBOHITS,https://tv.iill.top/nsw/hbo-h
+HBOFAMILY,https://tv.iill.top/nsw/hbo-f
+HBOSIGNATURE,https://tv.iill.top/nsw/hbo-s
+Thrill,http://aktv.top/AKTV/live/aktv3/thrill/AKTV.m3u8
+astro AEC,http://aktv.top/AKTV/live/aktv3/astroaec/AKTV.m3u8
+astro iQIYI,http://aktv.top/AKTV/live/aktv3/astroiqiyi/AKTV.m3u8
 ELTA娛樂,https://tv.iill.top/litv/4gtv-4gtv070
 ELTA生活旅遊,https://tv.iill.top/4gtv/237
 ELTA生活英語,https://tv.iill.top/litv/litv-longturn20
@@ -99,7 +108,6 @@ ELTA生活英語,https://tv.iill.top/litv/litv-longturn20
 華視,rtmp://f13h.mine.nu:1935/sat/tv111
 TVBS新聞,rtmp://f13h.mine.nu:1935/sat/tv551
 TVBS歡樂,rtmp://f13h.mine.nu:1935/sat/tv421
-東森超視,rtmp://f13h.mine.nu:1935/sat/tv331
 東森財經,rtmp://f13h.mine.nu:1935/sat/tv571
 MOMO綜合,rtmp://f13h.mine.nu:1935/sat/tv761
 博斯魅力,rtmp://f13h.mine.nu:1935/sat/md031
@@ -184,3 +192,16 @@ VOA美國之音,https://tv.iill.top/litv/litv-ftv03
 緯來體育,https://tv.iill.top/nsw/wlty
 緯來日本,https://tv.iill.top/nsw/wlrb
 
+美亞電影,http://aktv.top/AKTV/live/aktv/hk-1/AKTV.m3u8
+TVBS,http://aktv.top/AKTV/live/aktv/tvbs/AKTV.m3u8
+TVBS新聞,http://aktv.top/AKTV/live/aktv/tvbs-1/AKTV.m3u8
+中天亞洲,http://aktv.top/AKTV/live/aktv/null-12/AKTV.m3u8
+中天新聞,http://aktv.top/AKTV/live/aktv/null-8/AKTV.m3u8
+中視,http://aktv.top/AKTV/live/aktv/null-10/AKTV.m3u8
+華視,http://aktv.top/AKTV/live/aktv/null-11/AKTV.m3u8
+寰宇新聞,http://aktv.top/AKTV/live/aktv/null-9/AKTV.m3u8
+靖天電影,http://aktv.top/AKTV/live/aktv/null-6/AKTV.m3u8
+龍華日韓,http://aktv.top/AKTV/live/aktv/null-22/AKTV.m3u8
+龍華經典,http://aktv.top/AKTV/live/aktv/null-7/AKTV.m3u8
+龍華電影,http://aktv.top/AKTV/live/aktv/null-23/AKTV.m3u8
+i-Fun動漫,http://aktv.top/AKTV/live/aktv2/ifun/AKTV.m3u8
