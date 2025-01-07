@@ -195,6 +195,7 @@
 "spider": {"homeContent": {"loadUrl": "https://www.upfuhn.com/column/0.html"},"categoryContent": {"loadUrl": "https://www.upfuhn.com/column/${tid}.html"},"detailContent": {"loadUrl": "https://www.upfuhn.com/play/${id}.html"},"searchContent": {"loadUrl": "https://www.upfuhn.com/search/${key}.html"}}}},
 {"key": "kimi","name": "🐹奇米","type": 3,"api": "csp_XBPQ","ext": "https://cdn09022024.gitlink.org.cn/api/v1/repos/guot55/yg/raw/lib%2FKimivod.json","jar": "https://cdn09022024.gitlink.org.cn/api/v1/repos/guot55/yg/raw/jar%2Fbhtv.txt"},
 {"key":"csp_Uvod","name":"💎優視頻","type":3,"api":"csp_Uvod", "jar":"https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/lem0106.jar","searchable":1,"quickSearch":1,"changeable":1},
+
 //{"key": "csp_sp_奇藝視頻","name": "🥝愛奇藝","type": 3,"api": "csp_IQIYI","searchable": 0,"quickSearch": 0,"filterable": 1,"jar": "http://tv.iqinu.com/jar/lm0910.jar;md5;9db7822a48f085ee7145d81c129049cd"},
 //{"key": "csp_sp_騰訊視頻","name": "🌿騰訊","type": 3,"api": "csp_QQ","searchable": 1,"quickSearch": 1,"filterable": 1,"jar": "http://tv.iqinu.com/jar/lm0910.jar;md5;9db7822a48f085ee7145d81c129049cd"},
 //{"key": "csp_sp_芒果視頻","name": "🥭芒果","type": 3,"api": "csp_MGTV","searchable": 1,"quickSearch": 1,"filterable": 1,"jar": "http://tv.iqinu.com/jar/lm0910.jar;md5;9db7822a48f085ee7145d81c129049cd"},
