@@ -107,7 +107,7 @@ console.log(JSON.stringify(GM_info));
                 //清理cookie
                 document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
                 let result = {
-                    class: [{type_id: "81", type_name: "电影"}, {type_id: "82", type_name: "电视剧"}, {type_id: "83", type_name: "综艺"}, {type_id: "84", type_name: "动漫"}, {type_id: "85", type_name: "短剧"},], filters: {}, list: []
+                    class: [{type_id: "85", type_name: "短剧"}, {type_id: "81", type_name: "电影"}, {type_id: "82", type_name: "电视剧"}, {type_id: "83", type_name: "综艺"}, {type_id: "84", type_name: "动漫"}, ], filters: {}, list: []
                 };
                 document.querySelectorAll(".left-wrap .tab-box:nth-child(3) .swiper-slide span").forEach((filter) => {
                     filterArea.value.push({
