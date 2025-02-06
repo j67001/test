@@ -1,5 +1,4 @@
 {
-    "作者": "🐰兔爷🐇",
     "站名": "xiaoxintv",
     "主页url": "https://xiaoxintv.cc/index.php",
     "分类url": "https://xiaoxintv.cc/index.php/vod/show/id/{cateId}{area}{by}{year}.html",
