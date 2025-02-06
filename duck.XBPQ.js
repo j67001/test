@@ -1,7 +1,7 @@
 {
     "站名": "小鸭",
     "主页url": "https://777tv.ai",
-    "分类url": "https://777tv.ai/vod/show/id/{cateId}{area}{year}{by}.html",
+    "分类url": "https://777tv.ai/vod/show/id/{cateId}{area}{year}{by}/page/{catePg}.html",
     "分类": "电视剧&电影&动漫&综艺&短剧",
     "分类值": "2&1&30&29&34",
 /*
