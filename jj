@@ -123,7 +123,7 @@
 //https://github.com/Walden333/ttbox/raw/main/0119.json
 //,"jar":"https://4tvbox.ggff.net/custom_spider.jar;md5;3f392906996ac13aaeb8c91956f95f7f"
 {"key": "旺旺短劇","name": "🐕旺旺短劇","type": 1,"api": "http://zhangqun1818.serv00.net:5052","searchable": 1,"changeable": 0},
-{"key":"糯米","name":"🍙糯米","type": 3,"api":"csp_Nmys","searchable":1,"quickSearch":1,"filterable":1},
+{"key":"糯米","name":"🍙糯米","type": 3,"api":"csp_Nmys","searchable":1,"quickSearch":1,"filterable":1,"jar": "https://tv.xn--11x555b.top/jar/spider.txt;md5;62604d62b4f3bd41b195b5670bed80a9"},
 {"key": "T4-安博","name": "🪐安博","type": 4,"api": "https://tang.hz.cz/power/ub18?token=48da13fc","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 1},
 {"key": "T4-欧乐","name": "😹歐樂","type": 4,"api": "https://tang.hz.cz/power/olelive?token=48da13fc","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 1},
 {"key": "T4-heimuer","name": "🍄黑木耳","type": 4,"api": "https://tang.hz.cz/power/hme?token=48da13fc","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 1},
