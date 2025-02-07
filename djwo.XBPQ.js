@@ -28,5 +28,5 @@
   "播放数组": "<ul class=\"myui-content__playlist&&</ul>",
   "过滤词":"=http",
 */
-    "筛选": "1",
+    "筛选": "1"
 }
