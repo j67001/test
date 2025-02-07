@@ -4,7 +4,9 @@
     "分类url": "https://www.djwo.cc/show/1{by}{year}/page/{catePg}",
     "分类": "短剧&",
     "分类值": "1&",
-        
+
+  "播放数组": "<div class=\"*vod-list row&&</div",
+/*
   "链接": "href=\"&&\"",
   "搜索模式": "1",
   "搜索url": "/search/--/?wd={wd}",
@@ -12,8 +14,7 @@
   "搜索图片": "data-original=\"&&\"",
   "搜索标题": "title=\"&&\"",
   "搜索链接": "<a href=\"&&\"",
-  "播放数组": "<div class=\"*vod-list row&&</div",
-/*
+
   "分类url": "https://www.djwo.cc/show/1/by/{cateId}/page/{catePg}",
   "分类": "时间&人气&评分",
   "分类值": "time&hits&score",
