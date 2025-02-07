@@ -1,5 +1,5 @@
 {
-    "站名": "剧迷",
+    "站名": "Gimy",
     "主页url": "https://777tv.ai",
     "分类url": "https://gimy.video/genre/{cateId}-{area}-{year}-{catePg}{by}.html",
     "分类": "电视剧&电影&动漫&综艺&短剧",
