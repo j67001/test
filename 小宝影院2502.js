@@ -3,7 +3,7 @@ muban.首图.二级.desc = '#score&&Text;;;.data--span:eq(2)&&Text;.data--span:e
 var rule={
 	title:'小宝影院[飞]',
 	模板:'首图',
-	host:'https://www.xiaobaotv.com',
+	host:'https://xiaoxintv.cc/index.php',
 	url:'/vod/show/id/fyfilter.html',
 	filterable:1,//是否启用分类筛选,
 	filter_url:'{{fl.cateId}}{{fl.area}}{{fl.by}}{{fl.class}}{{fl.lang}}/page/fypage{{fl.year}}',
@@ -15,10 +15,11 @@ var rule={
 		"64":[{"key":"cateId","name":"类型","value":[{"n":"全部","v":"64"},{"n":"古装","v":"65"},{"n":"虐恋","v":"66"},{"n":"逆袭","v":"67"},{"n":"悬疑","v":"68"},{"n":"神豪","v":"69"},{"n":"重生","v":"70"},{"n":"复仇","v":"71"},{"n":"穿越","v":"72"},{"n":"甜宠","v":"73"},{"n":"强者","v":"74"},{"n":"萌宝","v":"75"},{"n":"合集","v":"76"},{"n":"其它","v":"77"},]},{"key":"by","name":"排序","value":[{"n":"时间","v":"/by/time"},{"n":"人气","v":"/by/hits"},{"n":"评分","v":"/by/score"}]}]
 	},
 	filter_def:{
-		1:{cateId:'1',by:'/by/time'},
-		2:{cateId:'2',by:'/by/time'},
+		6:{cateId:'6',by:'/by/time'},
+		7:{cateId:'7',by:'/by/time'},
+		5:{cateId:'5',by:'/by/time'},
 		3:{cateId:'3',by:'/by/time'},
-		4:{cateId:'4',by:'/by/time'}
+		64:{cateId:'64',by:'/by/time'}
 	},
 	searchUrl:'/search.html?wd=**',
 	class_parse:'.myui-header__menu&&li.hidden-xs:gt(0):lt(7);a&&Text;a&&href;./(\\d+).html',
