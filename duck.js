@@ -40,8 +40,8 @@ var rule = {
 	},
  */
 	searchUrl:'/vod/search.html?wd=**',
-	searchable:2,
-	quickSearch:0,
+	//searchable:2,
+	//quickSearch:0,
 	class_parse: '.stui-header__menu li;a&&Text;a&&href;.*/(.*?).html',
 	一级:'.stui-vodlist li;a&&title;a&&data-original;.pic-text&&Text;a&&href',
 	play_parse:true,
