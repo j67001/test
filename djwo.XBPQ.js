@@ -5,17 +5,18 @@
     "分类": "时间&人气&评分",
     "分类值": "time&hits&score",
         
-  "链接": "<a href=\"&&\"",
-  "搜索模式": "2",
+  "链接": "href=\"&&\"",
+  "搜索模式": "1",
   "搜索url": "/search/--/?wd={wd}",
   "搜索数组": "vod-list row\">&&</li>",
   "搜索图片": "data-original=\"&&\"",
   "搜索标题": "title=\"&&\"",
   "搜索链接": "<a href=\"&&\"",
+  "播放数组": "<div class=\"*vod-list row&&</div",
 /*
   "线路数组": "<span class=\"pull-right\">&&/h3>",
   "线路标题": "<h3>&&<",
-  "播放数组": "<ul class=\"myui-content__playlist&&</ul>",
+ 
   "数组": "data-&&</h4>",
   "图片": "original=\"&&\"",
   "标题": "title=\"&&\"",
