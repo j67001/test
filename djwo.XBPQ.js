@@ -14,6 +14,11 @@
   "搜索链接": "<a href=\"&&\"",
   "播放数组": "<div class=\"*vod-list row&&</div",
 /*
+  "分类url": "https://www.djwo.cc/show/1/by/{cateId}/page/{catePg}",
+  "分类": "时间&人气&评分",
+  "分类值": "time&hits&score",
+  "筛选": "1"
+  
   "线路数组": "<span class=\"pull-right\">&&/h3>",
   "线路标题": "<h3>&&<",
    "数组": "data-&&</h4>",
