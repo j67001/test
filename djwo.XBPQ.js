@@ -6,7 +6,7 @@
     "分类值": "time&hits&score",
         
   "链接": "<a href=\"&&\"",
-  "搜索模式": "1",
+  "搜索模式": "2",
   "搜索url": "/search/--/?wd={wd}",
   "搜索数组": "vod-list row\">&&</li>",
   "搜索图片": "data-original=\"&&\"",
