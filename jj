@@ -83,7 +83,8 @@
 
 {"key": "hitv","name": "🎢Hi視頻","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://hitv.ai/column/{cateId}.html","分类":"短剧$85#电视剧$82#电影$81#动漫$84#综艺$83"}},
 {"key": "djwo","name": "🐚短劇窩","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://www.djwo.cc/show/1/by/{cateId}","分类":"时间$time#人气$hits#评分$score"}},
-{"key":"djwo_js","name":"🐚短劇窩2","type":3,"api":"https://github.com/j67001/test/raw/main/drpy2.min.qist.js","ext":"https://github.com/j67001/test/raw/main/djwo.js"}, 
+//{"key":"djwo_js","name":"🐚短劇窩2","type":3,"api":"https://github.com/j67001/test/raw/main/drpy2.min.qist.js","ext":"https://github.com/j67001/test/raw/main/djwo.js"}, 
+{"key": "djwo_XBPQ","name": "🐚短劇窩2","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/djwo.XBPQ.js"},
 
 {"key": "ryehub","name": "🐚麥田短劇","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://www.ryehub.com/h5/"}},
 
