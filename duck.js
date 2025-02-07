@@ -7,6 +7,8 @@ var rule = {
 	模板:'首图2',
 	host:'https://777tv.ai',
 	url:'/vod/show/id/fyfilter.html',
+	class_name:'短剧',
+        class_url:'34',
 	filterable:1,//是否启用分类筛选,
 	filter_url:'{{fl.cateId}}{{fl.area}}{{fl.by}}{{fl.class}}{{fl.lang}}/page/fypage{{fl.year}}',
 	filter: {
@@ -42,8 +44,6 @@ var rule = {
 	quickSearch:0,
 	class_parse: '.stui-header__menu li;a&&Text;a&&href;.*/(.*?).html',
 	一级:'.stui-vodlist li;a&&title;a&&data-original;.pic-text&&Text;a&&href',
-	class_name:'短剧',
-        class_url:'34',
 	play_parse:true,
 	lazy:'',
 }
