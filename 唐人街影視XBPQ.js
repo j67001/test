@@ -1,7 +1,7 @@
 {
     "站名": "trjvod",
     "主页url": "https://www.trjvod.com",
-    "分类url": "https://www.trjvod.com/index.php/vod/type/id/{cateId}{area}/page/{catePg}{year}.html",
+    "分类url": "https://www.trjvod.com/index.php/vod/type/id/{cateId}{area}{year}/page/{catePg}.html",
     "分类": "电视剧&电影&动漫&综艺&短剧",
     "分类值": "2&1&4&3&53",
 /*
