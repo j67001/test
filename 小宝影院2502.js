@@ -3,8 +3,8 @@ muban.首图.二级.desc = '#score&&Text;;;.data--span:eq(2)&&Text;.data--span:e
 var rule={
 	title:'小宝影院[飞]',
 	模板:'首图',
-	host:'https://xiaoxintv.cc/index.php',
-	url:'/vod/show/id/fyfilter.html',
+	host:'https://xiaoxintv.cc',
+	url:'/index.php/vod/show/id/fyfilter.html',
 	filterable:1,//是否启用分类筛选,
 	filter_url:'{{fl.cateId}}{{fl.area}}{{fl.by}}/page/fypage{{fl.year}}',
 	filter: {
@@ -23,7 +23,7 @@ var rule={
 		21:{cateId:'21',by:'/by/time'},
 		64:{cateId:'64',by:'/by/time'}
 	},
-	searchUrl:'/vod/search.html?wd=**',
+	searchUrl:'/index.php/vod/search.html?wd=**',
 	class_parse:'.myui-header__menu&&li.hidden-xs:gt(0):lt(7);a&&Text;a&&href;./(\\d+).html',
     lazy:`js:
         var html = JSON.parse(request(input).match(/r player_.*?=(.*?)</)[1]);
