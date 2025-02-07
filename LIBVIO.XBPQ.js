@@ -3,7 +3,7 @@
     "主页url": "https://www.libvio.cc",
     "分类url": "https://www.libvio.cc/show/{cateId}-{area}-{by}-{class}-----{catePg}---{year}.html",
     "分类": "电视剧&电影&动漫&综艺,
-    "分类值": "2&1&4&3,
+    "分类值": "2&1&4&3",
 /*
   "数组": "data-&&</h4>",
   "图片": "original=\"&&\"",
