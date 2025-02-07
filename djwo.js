@@ -6,7 +6,7 @@ var rule = {
 	title:'djwo',
 	模板:'首图2',
 	host:'https://www.djwo.cc',
-	url:'/show/1/by/fyfilter',
+	url:'/show/fyfilter',
 	filterable:1,//是否启用分类筛选,
 	filter_url:'{{fl.cateId}}{{fl.by}}/page/fypage',
 	filter: {
