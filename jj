@@ -71,8 +71,10 @@
 {"key": "duck_XBPQ","name": "🦆小鴨2","type": 3,"api": "csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/duck.XBPQ.js"},
 {"key":"drpy_js_小宝影院[飞]","name":"🧸小寶","type":3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://xiaoxintv.cc/index.php/vod/show/id/{cateId}/area/{area}/page/{catePg}/year/{year}.html","分类":"短剧$64#电视剧$6#电影$7#动漫$5#综艺$3"}},
 {"key": "小宝影院XBPQ","name": "🧸小寶2","type": 3,"api": "csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/小寶影院XBPQ.js"},
-{"key": "yfsp","name": "⛵愛壹帆","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://m.yfsp.tv/list/{cateId}?region={area}&year={year}&page={catePg}","分类":"短剧$drama-short#电视剧$drama#电影$movie#动漫$anime#综艺$variety"}},
-{"key": "yfspXBPQ","name": "⛵愛壹帆2","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/yfsp.XBPQ.js"},
+//{"key": "yfsp","name": "⛵愛壹帆","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://m.yfsp.tv/list/{cateId}?region={area}&year={year}&page={catePg}","分类":"短剧$drama-short#电视剧$drama#电影$movie#动漫$anime#综艺$variety"}},
+//{"key": "yfspXBPQ","name": "⛵愛壹帆2","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/yfsp.XBPQ.js"},
+{"key": "libvio_js","name": "🦄利播","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://www.libvio.cc/show/{cateId}-{area}-{by}------{catePg}---{year}.html","分类":"电视剧$2#电影$1#动漫$4#综艺$3"}},
+{"key": "libvio_XBPQ","name": "🦄利播2","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/LIBVIO.XBPQ.js"},
 
 {"key": "hitv","name": "🎢Hi視頻","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://hitv.ai/column/{cateId}.html","分类":"短剧$85#电视剧$82#电影$81#动漫$84#综艺$83"}},
 {"key": "djwo","name": "🐚短劇窩","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://www.djwo.cc/show/1/by/{cateId}","分类":"时间$time#人气$hits#评分$score"}},
