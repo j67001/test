@@ -3,7 +3,7 @@ muban.mxone5.二级.desc = '.title-info&&Text;.tag-link:eq(2)&&Text;.tag-link:eq
 var rule={
 	title:'爱壹帆[飞]',
 	模板:'mxone5',
-	host:'https://www.iyf.tv',
+	host:'https://m.iyf.tv',
 	// url:'/index.php/vod/show/id/fyclass/page/fypage.html',
 	url:'/list/fyfilter.html',
 	filterable:1,//是否启用分类筛选,
