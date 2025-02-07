@@ -3,12 +3,12 @@ muban.首图2.二级.title = 'h1&&Text;p.data:eq(0)&&Text';
 muban.首图2.二级.desc = 'p.data--span:eq(3)&&Text;;;p.data--span:eq(1)&&Text;p.data--span:eq(2)&&Text';
 muban.首图2.二级.tabs = '.stui-pannel__head h4';
 var rule = {
-	title:'duck',
+	title:'djwo',
 	模板:'首图2',
 	host:'https://www.djwo.cc',
 	url:'/show/1/by/fyfilter',
 	filterable:1,//是否启用分类筛选,
-	filter_url:'{{fl.cateId}}',
+	filter_url:'{{fl.cateId}}{{fl.by}}',
 	filter: {
 		"1":[{"key":"by","name":"排序","value":[{"n":"時間","v":"/by/time"},{"n":"人氣","v":"/by/hits"},{"n":"评分","v":"/by/score"}]}]
 	},
@@ -29,7 +29,7 @@ var rule = {
 		30:{cateId:'30',by:'/by/time'}
 	},
  */
-	searchUrl:'/vod/search.html?wd=**',
+	searchUrl:'/search/--/?wd=**',
 	searchable:2,
 	quickSearch:0,
 	class_parse: '.stui-header__menu li;a&&Text;a&&href;.*/(.*?).html',
