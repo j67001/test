@@ -37,7 +37,7 @@ var rule = {
 		2:{cateId:'2',by:'/by/time'},
 		29:{cateId:'29',by:'/by/time'},
 		30:{cateId:'30',by:'/by/time'},
-		34:{cateId:'34',by:'/by/time'},
+		34:{cateId:'34',by:'/by/time'}
 	},
 	searchUrl:'/search/**----------fypage---.html',
 	class_parse: 'ul.myui-header__menu li:gt(0):lt(5);a&&Text;a&&href;.*/(.*?).html',
