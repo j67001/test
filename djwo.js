@@ -8,7 +8,7 @@ var rule = {
 	host:'https://www.djwo.cc',
 	url:'/show/1/by/fyfilter',
 	filterable:1,//是否启用分类筛选,
-	filter_url:'{{fl.cateId}}{{fl.by}}',
+	filter_url:'{{fl.cateId}}{{fl.by}}/page/fypage',
 	filter: {
 		"1":[{"key":"by","name":"排序","value":[{"n":"時間","v":"/by/time"},{"n":"人氣","v":"/by/hits"},{"n":"评分","v":"/by/score"}]}]
 	},
