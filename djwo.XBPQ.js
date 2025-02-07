@@ -2,8 +2,8 @@
     "站名": "djwo",
     "主页url": "https://www.djwo.cc",
     "分类url": "https://www.djwo.cc/show/1{by}{year}/page/{catePg}",
-    "分类": "短剧",
-    "分类值": "1",
+    "分类": "短剧&",
+    "分类值": "1&",
         
   "链接": "href=\"&&\"",
   "搜索模式": "1",
