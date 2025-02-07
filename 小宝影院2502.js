@@ -23,7 +23,7 @@ var rule={
 		21:{cateId:'21',by:'/by/time'},
 		64:{cateId:'64',by:'/by/time'}
 	},
-	searchUrl:'/search.html?wd=**',
+	searchUrl:'/vod/search.html?wd=**',
 	class_parse:'.myui-header__menu&&li.hidden-xs:gt(0):lt(7);a&&Text;a&&href;./(\\d+).html',
     lazy:`js:
         var html = JSON.parse(request(input).match(/r player_.*?=(.*?)</)[1]);
