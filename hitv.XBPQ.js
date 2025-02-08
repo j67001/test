@@ -8,7 +8,6 @@
   "播放数组": "class=\"*searis-box&&</ul",
   "简介": "video-infos-desc\ overflow-hidden\">&&</p>",
   "线路标题": "Hi視頻",
-  "数组": "Hi視頻",
   "搜索url": "/search/{wd}.html",
 /*
   "链接": "href=\"&&\"",
