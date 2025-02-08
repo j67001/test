@@ -151,7 +151,8 @@
 "spider": {"homeContent": {"loadUrl": "https://www.upfuhn.com/column/0.html"},"categoryContent": {"loadUrl": "https://www.upfuhn.com/column/${tid}.html"},"detailContent": {"loadUrl": "https://www.upfuhn.com/play/${id}-1-0.html"},"searchContent": {"loadUrl": "https://www.upfuhn.com/search/${key}.html"}}}},
 */
 
-{"key":"红狐狸","name":"🦊狐狸","type":3,"api":"csp_XBPQ","ext":{"分类url":"https://honghuli.com/leibiao/{cateId}-{area}-------{catePg}---{year}.html","分类":"电影$1#电视剧$2#综艺$3#动漫$4"}},
+{"key":"红狐狸","name":"🦊狐狸","type":3,"api":"csp_XBPQ","ext":{"分类url":"https://honghuli.com/leibiao/{cateId}.html","分类":"电影$1#电视剧$2#综艺$3#动漫$4"}},
+//{"key":"红狐狸","name":"🦊狐狸","type":3,"api":"csp_XBPQ","ext":{"分类url":"https://honghuli.com/leibiao/{cateId}-{area}-------{catePg}---{year}.html","分类":"电影$1#电视剧$2#综艺$3#动漫$4"}},
 //{"key":"csp_Uvod","name":"💎優視頻","type":3,"api":"csp_Uvod", "jar":"https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/lem0106.jar","searchable":1,"quickSearch":1,"changeable":1},
 
 //{"key": "csp_sp_奇藝視頻","name": "🥝愛奇藝","type": 3,"api": "csp_IQIYI","searchable": 0,"quickSearch": 0,"filterable": 1,"jar": "http://tv.iqinu.com/jar/lm0910.jar;md5;9db7822a48f085ee7145d81c129049cd"},
