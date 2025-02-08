@@ -9,7 +9,7 @@
   "简介": "class=\"video-infos-desc overflow-hidden&&</p>",
   "线路标题": "Hi視頻",
   "选集标题链接是否Jsoup写法":"1",
-  "是否反转选集序列":"1",
+  "是否反转选集序列":"0",
   "搜索url": "/search/{wd}.html",
 /*
   "链接": "href=\"&&\"",
