@@ -81,10 +81,10 @@
 {"key": "唐人街js","name": "⛩️唐人街","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://www.trjvod.com/index.php/vod/type/id/{cateId}{area}{catePg}{year}.html","分类":"短剧$53#电视剧$2#电影$1#动漫$4#综艺$3"}},
 {"key": "唐人街XBPQ","name": "⛩️唐人街2","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/唐人街影視XBPQ.js"},
 
-{"key": "hitv","name": "🎢Hi視頻","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://hitv.ai/column/{cateId}.html","分类":"短剧$85#电视剧$82#电影$81#动漫$84#综艺$83"}},
+{"key": "hitvxb","name": "🎢Hi視頻","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://hitv.ai/column/{cateId}.html","分类":"短剧$85#电视剧$82#电影$81#动漫$84#综艺$83"}},
 {"key": "hitv_XBPQ","name": "🎢Hi視頻2","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/hitv.XBPQ.js"},
 {"key": "py_UpFuHn","name": "🎢Hi視頻py","type": 4,"api": "https://py.doube.eu.org/spider?site=UpFuHn","searchable": 1,"quickSearch": 0,"filterable": 0,"changeable": 0},
-{"key": "hitv.GM","name": "🎢Hi視頻GM","type": 3,"searchable": 1,"changeable": 1,"quickSearch": 0,"jar": "https://github.com/CatVodSpider-GM/SFW-Spiders/raw/main/Spiders-Lib/GM.jar"},
+{"key": "hitv","name": "🎢Hi視頻GM","type": 3,"searchable": 1,"changeable": 1,"quickSearch": 0,"jar": "https://github.com/CatVodSpider-GM/SFW-Spiders/raw/main/Spiders-Lib/GM.jar;md5;7dd67a73e49dbf1cd32f56e329fce7b3"},
 
 {"key": "djwo","name": "🐚短劇窩","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://www.djwo.cc/show/1/by/{cateId}","分类":"时间$time#人气$hits#评分$score"}},
 {"key": "djwo_XBPQ","name": "🐚短劇窩2","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/djwo.XBPQ.js"},
