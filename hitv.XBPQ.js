@@ -6,6 +6,7 @@
     "分类值": "85&82&81&84&83",
         
   "播放数组": "class=\"*searis-box&&</ul",
+  "简介": "video-infos-desc overflow-hidden\">&&<span",
   "搜索url": "/search/{wd}.html",
 /*
   "链接": "href=\"&&\"",
