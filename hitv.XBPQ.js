@@ -5,7 +5,7 @@
     "分类": "短剧&电视剧&电影&动漫&综艺",
     "分类值": "85&82&81&84&83",
         
-  "播放数组": "class=\"*is-play is-look&&</ul",
+  "播放数组": "<div * class=\"*searis-box&&</div",
   "搜索url": "/search/{wd}.html",
 /*
   "链接": "href=\"&&\"",
