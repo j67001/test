@@ -87,8 +87,18 @@
 
 {"key": "djwo","name": "🐚短劇窩","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://www.djwo.cc/show/1/by/{cateId}","分类":"时间$time#人气$hits#评分$score"}},
 {"key": "djwo_XBPQ","name": "🐚短劇窩2","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/djwo.XBPQ.js"},
-{"key":"djwo_js","name":"🐚短劇窩3","type":3,"api":"https://github.com/j67001/test/raw/main/drpy2.min.qist.js","ext":"https://github.com/j67001/test/raw/main/djwo.js"}, 
-
+{"key": "djwo_XBP2","name": "🐚短劇窩3","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,
+"ext": {
+    "主页url": "https://www.djwo.cc",
+    "分类url": "https://www.djwo.cc/show/1{by}{year}/page/{catePg}",
+    "分类": "短剧&",
+    "分类值": "1&",
+    "播放数组": "<div class=\"*vod-list row&&</div",
+    "筛选": {
+    "1":[{"key":"by","name":"排序","value":[{"n":"时间","v":"/by/time"},{"n":"人气","v":"/by/hits"},{"n":"评分","v":"/by/score"}]},{"key":"year","name":"年份","value":[{"n":"全部","v":""},{"n":"2025","v":"/year/2025"},{"n":"2024","v":"/year/2024"},{"n":"2023","v":"/year/2023"}]}]
+                  }
+           }
+},
 {"key": "ryehub","name": "🐚麥田短劇","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://www.ryehub.com/h5/"}},
 
 {"key":"00xbcoke","name":"🕷COKEMV(XBiu)","type":3,"api":"csp_XBiu","searchable":1,"quickSearch":1,"filterable":1,"ext":"https://cokemv.me/vodshow/{cateId}--------{catePg}---{year}.html"},
