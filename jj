@@ -87,11 +87,8 @@
 {"key": "hitv","name": "🎢Hi視頻GM","type": 3,"searchable": 1,"changeable": 1,"quickSearch":0,"api": "csp_GM",
 "jar":"https://github.com/CatVodSpider-GM/SFW-Spiders/raw/main/Spiders-Lib/GM.jar",
 "ext": {"userScript": "https://github.com/j67001/test/raw/main/hitv.user.js","debug": false,
-"webViewSettings":{"blockNetworkImage":true,"blockList":["https://hm.baidu.com/*","https://*.n3f2.cn/*"]},"playUrlMatch":["https://*/obj/tos-*","*://*/*.mp4*","*://*/*.m3u8*"],
-"spider":{"homeContent":{"loadUrl":"https://www.mqtv.cc/"},"categoryContent":{"loadUrl":"https://www.mqtv.cc/type/${tid}"},"detailContent":{"loadUrl":"https://www.mqtv.cc${id}"},"playerContent":{"loadUrl":"https://www.mqtv.cc${url}#${anchor}"},"searchContent":{"loadUrl":"https://www.mqtv.cc/search/${key}"}}}},
-//"ext": {"userScript": "https://github.com/CatVodSpider-GM/SFW-Spiders/raw/main/userScripts/hitv.user.js","debug": false,
-//"webViewSettings": {"blockNetworkImage": true,"blockList": ["https://*.google-analytics.com/*"]},
-//"spider": {"homeContent": {"loadUrl": "https://www.upfuhn.com/column/0.html"},"categoryContent": {"loadUrl": "https://www.upfuhn.com/column/${tid}.html"},"detailContent": {"loadUrl": "https://www.upfuhn.com/play/${id}-1-0.html"},"searchContent": {"loadUrl": "https://www.upfuhn.com/search/${key}.html"}}}},
+"webViewSettings": {"blockNetworkImage": true,"blockList": ["https://*.google-analytics.com/*"]},
+"spider": {"homeContent": {"loadUrl": "https://www.upfuhn.com/column/0.html"},"categoryContent": {"loadUrl": "https://www.upfuhn.com/column/${tid}.html"},"detailContent": {"loadUrl": "https://www.upfuhn.com/play/${id}-1-0.html"},"searchContent": {"loadUrl": "https://www.upfuhn.com/search/${key}.html"}}}},
 
 {"key": "djwo","name": "🐚短劇窩","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://www.djwo.cc/show/1/by/{cateId}","分类":"时间$time#人气$hits#评分$score"}},
 {"key": "djwo_XBPQ","name": "🐚短劇窩2","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/djwo.XBPQ.js"},
