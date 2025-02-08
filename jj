@@ -9,6 +9,12 @@
       "epg": "http://epg.51zmt.top:8000/api/diyp/?ch={name}&date={date}"
     },
     {
+      "name": "Xtream",
+      "url": "http://sansat.cc:88/get.php",
+      "username": "007c2dda892e",
+      "password": "7RFY7MIDUY"
+    },
+    {
       "name": "FongMi",
       "type": 1,
       "url": "https://gh-proxy.com/https://raw.githubusercontent.com/FongMi/CatVodSpider/main/json/live.json",
