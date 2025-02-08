@@ -1,16 +1,16 @@
 
 muban.首图2.二级.title = 'h1&&Text;p.data:eq(0)&&Text';
 muban.首图2.二级.desc = 'p.data--span:eq(3)&&Text;;;p.data--span:eq(1)&&Text;p.data--span:eq(2)&&Text';
-muban.首图2.二级.tabs = '.stui-pannel__head h4';
+muban.首图2.二级.tabs = '.stui-pannel__head h3';
 var rule = {
 	title:'djwo',
 	模板:'首图2',
 	host:'https://www.djwo.cc',
 	url:'/show/fyfilter',
 	filterable:1,//是否启用分类筛选,
-	filter_url:'{{fl.cateId}}{{fl.by}}/page/fypage',
+	filter_url:'{{fl.cateId}}{{fl.by}}{{fl.year}}/page/fypage',
 	filter: {
-		"1":[{"key":"by","name":"排序","value":[{"n":"時間","v":"/by/time"},{"n":"人氣","v":"/by/hits"},{"n":"评分","v":"/by/score"}]}]
+		"1":[{"key":"by","name":"排序","value":[{"n":"时间","v":"/by/time"},{"n":"人气","v":"/by/hits"},{"n":"评分","v":"/by/score"}]},{"key":"year","name":"年份","value":[{"n":"全部","v":""},{"n":"2025","v":"/year/2025"},{"n":"2024","v":"/year/2024"},{"n":"2023","v":"/year/2023"}]}]
 	},
 	filter_def:{
 		1:{cateId:'1',by:'/by/time'}
@@ -32,8 +32,8 @@ var rule = {
 	searchUrl:'/search/--/?wd=**',
 	searchable:2,
 	quickSearch:0,
-	class_parse: '.vod-header__menu li;a&&Text;a&&href;.*/(.*?).html',
-	一级:'.stui-vodlist li;a&&title;a&&data-original;.pic-text&&Text;a&&href',
+	class_parse: '.vod-list row li;a&&Text;a&&href;.*/(.*?)/',
+	一级:'.vod-list li;a&&title;a&&data-original;.pic-text&&Text;a&&href',
 	play_parse:true,
 	lazy:'',
 }
