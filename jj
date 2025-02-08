@@ -89,6 +89,7 @@
 "ext": {"userScript": "https://github.com/j67001/test/raw/main/hitv.user.js","debug": false,
 "webViewSettings": {"blockNetworkImage": true,"blockList": ["https://*.google-analytics.com/*"]},
 "spider": {"homeContent": {"loadUrl": "https://www.upfuhn.com/column/0.html"},"categoryContent": {"loadUrl": "https://www.upfuhn.com/column/${tid}.html"},"detailContent": {"loadUrl": "https://www.upfuhn.com/play/${id}-1-0.html"},"searchContent": {"loadUrl": "https://www.upfuhn.com/search/${key}.html"}}}},
+{"key": "hdtoday","name": "🎢hdtoday","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://hdtodayz.to/filter?quality=all&release_year=all&country={cateId}&genre=all&type=all","分类":"韩剧$135#日剧$173"}},
 
 {"key": "djwo","name": "🐚短劇窩","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://www.djwo.cc/show/1/by/{cateId}","分类":"时间$time#人气$hits#评分$score"}},
 {"key": "djwo_XBPQ","name": "🐚短劇窩2","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/djwo.XBPQ.js"},
