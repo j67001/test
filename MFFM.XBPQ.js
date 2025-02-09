@@ -5,7 +5,7 @@
     "分类": "Netflix電影&Netflix影集&電影&連續劇&動漫&动漫&綜藝",
     "分类值": "cats/netflix/&network/netflix/&movies/&drama/&drama/?tvtype=anime&drama/?tvtype=10",
 
-  "图片": "<img src=\"&&\"",
+  "图片": "data-lazy-src=\"&&\"",
   "标题": "alt=\"&&\"",
   "链接": "<a href=\"&&\"",
   "播放数组": "<ul id=\"*playeroptionsul&&</ul",
