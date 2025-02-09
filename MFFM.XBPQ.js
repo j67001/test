@@ -7,10 +7,11 @@
 
   "图片": "<img src=\"&&\"",
   "标题": "alt=\"&&\"",
-  "播放数组": "class=\"*searis-box&&</ul",
-  "简介": "class=\"video-infos-desc overflow-hidden&&</p>",
+  "链接": "<a href=\"&&\"",
+  //"播放数组": "class=\"*searis-box&&</ul",
+  //"简介": "class=\"video-infos-desc overflow-hidden&&</p>",
   "是否反转选集序列":"0",
-  "搜索url": "/search/{wd}.html",
+  //"搜索url": "/search/{wd}.html",
 /*
   "链接": "href=\"&&\"",
   "搜索模式": "1",
