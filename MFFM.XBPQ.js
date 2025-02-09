@@ -8,7 +8,7 @@
   "图片": "data-lazy-src=\"&&\"",
   "标题": "alt=\"&&\"",
   "链接": "<a href=\"&&\"",
-  "线路数组": "<div id=\"playeroptions\"&&/div>",
+ "播放数组": "<div id=\"*playeroptions&&/div>",
 
 
   //"播放数组": "<script>new Vue*&&isActive",
