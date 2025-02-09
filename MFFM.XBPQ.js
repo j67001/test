@@ -8,7 +8,7 @@
   "图片": "data-lazy-src=\"&&\"",
   "标题": "alt=\"&&\"",
   "链接": "<a href=\"&&\"",
- //"播放数组": "<div id=\"*playeroptions&&/div>",
+  "播放数组": "class=\"*sbox&&<script",
 "免嗅":"1",
 
   //"播放数组": "<script>new Vue*&&isActive",
