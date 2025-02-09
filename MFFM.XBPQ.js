@@ -9,7 +9,7 @@
   "标题": "alt=\"&&\"",
   "链接": "<a href=\"&&\"",
  //"播放数组": "<div id=\"*playeroptions&&/div>",
-"免嗅":"0",
+"免嗅":"1",
 
   //"播放数组": "<script>new Vue*&&isActive",
    "嗅探词":"m3u8",
