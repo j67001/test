@@ -150,6 +150,7 @@
 "webViewSettings": {"blockNetworkImage": true,"blockList": ["https://*.google-analytics.com/*"]},
 "spider": {"homeContent": {"loadUrl": "https://www.upfuhn.com/column/0.html"},"categoryContent": {"loadUrl": "https://www.upfuhn.com/column/${tid}.html"},"detailContent": {"loadUrl": "https://www.upfuhn.com/play/${id}-1-0.html"},"searchContent": {"loadUrl": "https://www.upfuhn.com/search/${key}.html"}}}},
 */
+{"key":"MovieFFM","name":"🦊MovieFFM","type":3,"api":"csp_XBPQ","ext":{"分类url":"https://www.movieffm.net/{cateId}","分类":"Netflix電影$cats/netflix/#Netflix影集$network/netflix/#電影$movies/#連續劇$drama/#動漫$drama/?tvtype=anime#綜藝$drama/?tvtype=10"}},
 
 {"key":"红狐狸","name":"🦊狐狸","type":3,"api":"csp_XBPQ","ext":{"分类url":"https://honghuli.com/fenlei/{cateId}.html","分类":"电影$1#电视剧$2#综艺$3#动漫$4"}},
 //{"key":"红狐狸","name":"🦊狐狸","type":3,"api":"csp_XBPQ","ext":{"分类url":"https://honghuli.com/leibiao/{cateId}-{area}-------{catePg}---{year}.html","分类":"电影$1#电视剧$2#综艺$3#动漫$4"}},
