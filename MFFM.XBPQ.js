@@ -9,6 +9,7 @@
   "标题": "alt=\"&&\"",
   "链接": "<a href=\"&&\"",
   "播放数组": "<script>new Vue*&&isActive",
+   "嗅探词":"m3u8"
   //"简介": "class=\"video-infos-desc overflow-hidden&&</p>",
   "是否反转选集序列":"0",
   //"搜索url": "/search/{wd}.html",
