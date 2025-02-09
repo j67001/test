@@ -1,13 +1,14 @@
 {
-    "站名": "hitvmffm",
+    "站名": "mffm",
     "主页url": "https://www.movieffm.net",
     "分类url": "https://www.movieffm.net/{cateId}",
     "分类": "Netflix電影&Netflix影集&電影&連續劇&動漫&动漫&綜藝",
     "分类值": "cats/netflix/&network/netflix/&movies/&drama/&drama/?tvtype=anime&drama/?tvtype=10",
 
+  "图片": "<img src=\"&&\"",
+  "标题": "alt=\"&&\"",
   "播放数组": "class=\"*searis-box&&</ul",
   "简介": "class=\"video-infos-desc overflow-hidden&&</p>",
-  "线路标题": "Hi視頻",
   "是否反转选集序列":"0",
   "搜索url": "/search/{wd}.html",
 /*
@@ -40,3 +41,5 @@
 */
     "筛选": "1"
 }
+
+
