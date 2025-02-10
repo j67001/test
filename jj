@@ -153,10 +153,9 @@
 {"key":"MovieFFM","name":"🦊MovieFFM","type":3,"api":"csp_XBPQ","ext":{"分类url":"https://www.movieffm.net/{cateId}","分类":"Netflix電影$cats/netflix/#Netflix影集$network/netflix/#電影$movies/#連續劇$drama/#動漫$drama/?tvtype=anime#綜藝$drama/?tvtype=10"}},
 {"key":"MovieFFM2","name":"🦊FFM2","type":3,"api":"https://github.com/j67001/test/raw/main/drpy2.min.qist.js","ext":"https://github.com/ht98006/sheeptvbox/raw/main/js/movieffm.js"}, 
 {"key": "MovieFFM3","name": "🦊FFM3","type": 3,"api": "csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/MFFM.XBPQ.js"},
-{"key":"ystv_XBPQ","name":"📽️影視","type":3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://yingshi.tv/vod/show/by/time/id/{cateId}/year/{year}","分类":"短剧$46#电视剧$1#电影$2#动漫$4#综艺$3#纪录片$5"}},
+{"key":"ystv_XBPQ","name":"📽️影視","type":3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://yingshi.tv/vod/show/by/time/id/{cateId}","分类":"短剧$46#电视剧$1#电影$2#动漫$4#综艺$3#纪录片$5"}},
 {"key": "ystv_XBPQ2","name": "📽️影視2","type": 3,"api": "csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/ystv.XBPQ.js"},
-key":"ystv_PG","name":"📽️影視3","type": 3,"api": "csp_YingShi","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 0,"url": "https://yingshi.tv/","jar":"https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/pg.jar"},
-{"key":"ystv_PG2","name":"📽️影視4","type": 3,"api": "csp_YingShi","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 0,"url": "https://yingshi.tv/"},
+
 
 {"key":"红狐狸","name":"🦊狐狸","type":3,"api":"csp_XBPQ","ext":{"分类url":"https://honghuli.com/fenlei/{cateId}.html","分类":"电影$1#电视剧$2#综艺$3#动漫$4"}},
 //{"key":"红狐狸","name":"🦊狐狸","type":3,"api":"csp_XBPQ","ext":{"分类url":"https://honghuli.com/leibiao/{cateId}-{area}-------{catePg}---{year}.html","分类":"电影$1#电视剧$2#综艺$3#动漫$4"}},
