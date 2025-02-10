@@ -8,11 +8,8 @@
   "图片": "data-lazy-src=\"&&\"",
   "标题": "alt=\"&&\"",
   "链接": "<a href=\"&&\"",
-    "线路列表数组规则": ".smenu idTabs&&a",
-    "线路标题": "Text",
-    "播放列表数组规则": "body&&.sourcelist",
-    "选集列表数组规则": "a",
-"免嗅":"1",
+   "线路数组": "class=\"jujilist&&<script",      
+
 
   //"播放数组": "<script>new Vue*&&isActive",
    "嗅探词":"m3u8",
