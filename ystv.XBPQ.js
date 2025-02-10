@@ -1,7 +1,7 @@
 {
     "站名": "ystv",
     "主页url": "https://yingshi.tv",
-    "分类url": "https://yingshi.tv/vod/show/id/{cateId}{area}{year}{by}{class}",
+    "分类url": "https://yingshi.tv/vod/show{area}{year}{by}{class}/id/{cateId}",
     "分类": "短剧&电视剧&电影&动漫&综艺&纪录片",
     "分类值": "46&1&2&4&3&5",
         
