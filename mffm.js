@@ -8,7 +8,7 @@ var rule={
             quickSearch: 0,//是否启用快速搜索,
             filterable: 0,//是否启用分类筛选,
             headers:{'User-Agent':'MOBILE_UA'},
-          class_parse: '.mi_nav&&li;a&&Text;a&&href;/(\\d+)',
+          class_parse: '.mi_nav&&li;a&&Text;a&&href;.*/(.*?)',
             play_parse: true,
             lazy: '',
             limit: 6,  
