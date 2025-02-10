@@ -1,17 +1,40 @@
 {
-"spider": "https://cdn09022024.gitlink.org.cn/api/v1/repos/guot55/yg/raw/jar/bhtv.txt",
+//"spider": "https://cdn09022024.gitlink.org.cn/api/v1/repos/guot55/yg/raw/jar/bhtv.txt",
+"spider": "https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/pg.jar",
+
 "wallpaper":"http://img.fongmi.eu.org",
 "warningText": "",
 
 "sites":[
 {"key": "豆瓣","name":"🥜豆瓣","type": 3, "api": "csp_Douban","searchable": 0,"quickSearch": 0,"filterable": 0,"ext": "https://github.com/j67001/test/raw/main/douban.json"},
 {"key": "djwo_XBPQ","name": "🐚短劇窩","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/djwo.XBPQ.js"},
+{"key":"drpy_js_小宝影院[飞]","name":"🧸小寶","type":3,"api":"https://github.com/j67001/test/raw/main/drpy2.min.qist.js","ext":"https://raw.githubusercontent.com/j67001/test/refs/heads/main/小宝影院2502.js"}, 
 {"key": "小宝影院XBPQ","name": "🧸小寶2","type": 3,"api": "csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/小寶影院XBPQ.js"},
 {"key": "libvio_XBPQ","name": "🦄利播2","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/LIBVIO.XBPQ.js"},
+{"key":"drpy_js_剧迷","name":"🎭劇迷","type":3,"api":"https://github.com/j67001/test/raw/main/drpy2.min.qist.js","ext":"https://github.com/j67001/test/raw/main/剧迷.js"}, 
 {"key":"劇迷XBPQ","name":"🎭劇迷2","type":3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/劇迷XBPQ.js"},
 {"key": "酷狗","name": "🐶酷狗","type": 3,"api": "csp_Kugou","searchable": 1,"changeable": 0},
+{"key":"ystv_PG","name":"📽️影視","type":3,"api":"csp_YingShi","searchable":1,"changeable":1},
+{"key":"快看影视","name":"👀快看","type":3,"api":"csp_Kuaikan","searchable":1,"quickSearch":1,"filterable":1},
+{"key":"热播影视","name":"📽熱播","type":3,"api":"csp_AppRB","searchable":1,"quickSearch":1,"filterable":1},
+{"key":"SNzy","name":"✨索尼","type":1,"api":"https://suoniapi.com/api.php/provide/vod/?ac=list","searchable":1,"changeable":1,"quickSearch":1,"filterable":1,"categories":["国产剧","欧美剧","韩剧","日剧","台剧","港剧","泰剧","海外剧","日韩动漫","欧美动漫","国产动漫","动画片","港台动漫","海外动漫","日韩综艺","港台综艺","大陆综艺","欧美综艺","动作片","喜剧片","爱情片","科幻片","恐怖片","剧情片","战争片","纪录片","4K电影","邵氏电影","影视解说","演唱会","篮球","足球"]},
+{"key":"csp_YGP","name":"🚀新片預告","type":3,"api":"csp_YGP","searchable":0,"quickSearch":0,"changeable":0},
+{"key": "py_UpFuHn","name": "🎢Hi視頻","type": 4,"api": "https://py.doube.eu.org/spider?site=UpFuHn","searchable": 1,"quickSearch": 0,"filterable": 0,"changeable": 0},
+{"key":"lf_js_lf_live","name":"📻Radio廣播","type":3,"api":"https://github.com/gaotianliuyun/gao/raw/master/lib/lf_live_min.js","style":{ "type":"oval"},"searchable":1,"changeable":0,"quickSearch":1,"filterable":1,"ext":"https://raw.githubusercontent.com/gaotianliuyun/gao/refs/heads/master/js/lf_live.txt"},
+{"key":"bili","name":"🤖嗶哩嗶哩","type":3,"api": "csp_Bili","searchable": 1,"quickSearch": 0,"style":{"type":"rect","ratio":1.597},"changeable": 0,"ext":{"type":"演唱会#电影#电视剧#帕梅拉#广场舞#纪录片#综艺#鬼畜#音乐#舞蹈#影视#知识#美食#风光#田园#户外#8K#徐云","cookie":""}},
+{"key":"drpy_js_哔哩影视","name":"🤖嗶哩影視","type":3,"api":"https://github.com/qist/tvbox/raw/master/lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"changeable":0,"ext":"https://github.com/qist/tvbox/raw/master/js/哔哩影视.js"},
+{"key":"drpy_js_哔哩直播","name":"🤖嗶哩直播","type":3,"api":"https://github.com/qist/tvbox/raw/master/lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"changeable":0,"ext":"https://github.com/qist/tvbox/raw/master/js/哔哩直播.js"},
+{"key": "软件","name": " 🖤軟體教學","type": 3,"api": "https://xn--tkh-mf3g9f.v.nxog.top/m/js/drpy2.min.js","searchable":0,"quickSearch": 0,"filterable": 1,"ext": "https://xn--tkh-mf3g9f.v.nxog.top/m/js/我的哔哩.js?type=url&params=https://github.com/j67001/test/raw/main/哔哩软件.json"},
+{"key": "PS","name": "🎉PS教學","type": 3,"api": "https://xn--tkh-mf3g9f.v.nxog.top/m/js/drpy2.min.js","searchable": 0,"quickSearch": 0,"filterable": 1,"ext": "https://xn--tkh-mf3g9f.v.nxog.top/m/js/我的哔哩.js?type=url&params=https://github.com/j67001/test/raw/main/哔哩PS.json"},
+{"key": "EXCEL","name": "🏢Excel教學","type": 3,"api": "https://xn--tkh-mf3g9f.v.nxog.top/m/js/drpy2.min.js","searchable": 0,"quickSearch": 0,"filterable": 1,"ext": "https://xn--tkh-mf3g9f.v.nxog.top/m/js/我的哔哩.js?type=url&params=https://github.com/j67001/test/raw/main/哔哩Excel教程.json"},
+{"key": "外语","name": "🏠外語課程","type": 3,"api": "https://xn--tkh-mf3g9f.v.nxog.top/m/js/drpy2.min.js","searchable":0,"quickSearch": 0,"filterable": 1,"ext": "https://xn--tkh-mf3g9f.v.nxog.top/m/js/我的哔哩.js?type=url&params=https://github.com/j67001/test/raw/main/哔哩外语.json"},
+{"key": "学堂","name": "🍉學堂教育","type": 3,"api": "https://xn--tkh-mf3g9f.v.nxog.top/m/js/drpy2.min.js","searchable": 0,"quickSearch": 0,"filterable": 1,"ext": "https://xn--tkh-mf3g9f.v.nxog.top/m/js/我的哔哩.js?type=url&params=https://github.com/j67001/test/raw/main/哔哩学堂.json"},
+
+{"key":"MTV","name":"🎸明星┃MV","type":3,"api": "https://xn--tkh-mf3g9f.v.nxog.top/m/js/drpy2.min.js","searchable":0,"quickSearch": 0,"filterable": 1,"ext":"https://xn--tkh-mf3g9f.v.nxog.top/m/js/我的哔哩.js?type=url&params=https://xn--tkh-mf3g9f.v.nxog.top/m/Bilibili/演唱会.json"}, 
+
 {"key": "实验油管","name": "🎈Youtube","type": 4,"api": "http://zhangqun66.com/yt/yt001.php","style":{"type":"rect","ratio":1.597},"searchable": 1,"changeable": 1,"ext": "新聞直播#Muse木棉花-TW#X調查#老高與小茉#美麗的日本 4K#VIRTUAL JAPAN#郭正亮#short#動作片#諜戰劇playlist#沙雕穿越#動漫#有聲穿越小說#影視解說#動物#風景#放鬆#4K#HDR#movie#documentary#bbc documentary"},
 {"key":"csp_Youtube_PG","name":"🎈YouTube2","type":3,"api":"csp_Youtube","searchable":1,"quickSearch":1,"changeable":0,"jar":"https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/pg.jar","ext":{"json":"https://github.com/j67001/test/raw/main/ytc.js"},"style":{"type":"rect","ratio":1.3}}
+
 
 
 
