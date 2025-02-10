@@ -91,7 +91,11 @@
 {"n":"Official Music Videos","v":"official music video"},
 {"n":"K-Pop","v":"kpop"},
 {"n":"Billboard","v":"billboard single"},
-{"n":"Spotify","v":"spotify playlist"},
+{"n":"K-Pop","v":"kpop"},
+{"n":"韩国Melon排行榜","v":"韩国Melon排行榜"},
+{"n":"日本公信榜","v":"日本公信榜"},
+{"n":"KKBOX排行榜","v":"KKBOX排行榜"},
+{"n":"Spotify排行榜","v":"Spotify排行榜"},
 {"n":"华语","v":"中文音乐"}
 ]
 }
