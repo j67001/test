@@ -89,7 +89,6 @@
 {"n":"New Releases","v":"new music this week"},
 {"n":"Vevo","v":"vevo"},
 {"n":"Official Music Videos","v":"official music video"},
-{"n":"K-Pop","v":"kpop"},
 {"n":"Billboard","v":"billboard single"},
 {"n":"K-Pop","v":"kpop"},
 {"n":"韩国Melon排行榜","v":"韩国Melon排行榜"},
