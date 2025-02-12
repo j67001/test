@@ -55,6 +55,8 @@
 {"key": "学堂","name": "🍉學堂教育","type": 3,"api": "https://xn--tkh-mf3g9f.v.nxog.top/m/js/drpy2.min.js","searchable": 0,"quickSearch": 0,"filterable": 1,"ext": "https://xn--tkh-mf3g9f.v.nxog.top/m/js/我的哔哩.js?type=url&params=https://github.com/j67001/test/raw/main/哔哩学堂.json"},
 
 {"key":"MTV","name":"🎸明星┃MV","type":3,"api": "https://xn--tkh-mf3g9f.v.nxog.top/m/js/drpy2.min.js","searchable":0,"quickSearch": 0,"filterable": 1,"ext":"https://xn--tkh-mf3g9f.v.nxog.top/m/js/我的哔哩.js?type=url&params=https://xn--tkh-mf3g9f.v.nxog.top/m/Bilibili/演唱会.json"}, 
+{"key":"csp_LaoBaiBook","name":"📚老白听书","type":3,"api":"csp_LaoBaiBook","playerType":2,"searchable":1,"jar":"https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/lem0210.jar"},
+
 
 {"key": "实验油管","name": "🎈Youtube","type": 4,"api": "http://zhangqun66.com/yt/yt001.php","style":{"type":"rect","ratio":1.597},"searchable": 1,"changeable": 1,"ext": "新聞直播#Muse木棉花-TW#X調查#老高與小茉#美麗的日本 4K#VIRTUAL JAPAN#郭正亮#short#動作片#諜戰劇playlist#沙雕穿越#動漫#有聲穿越小說#影視解說#動物#風景#放鬆#4K#HDR#movie#documentary#bbc documentary"},
 {"key":"csp_Youtube_PG","name":"🎈YouTube2","type":3,"api":"csp_Youtube","searchable":1,"quickSearch":1,"changeable":0,"jar":"https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/pg.jar","ext":{"json":"https://github.com/j67001/test/raw/main/ytc.js"},"style":{"type":"rect","ratio":1.3}}
