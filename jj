@@ -5,6 +5,30 @@
 "wallpaper":"http://img.fongmi.eu.org",
 "warningText": "",
 
+
+"lives":[
+  {
+  "name": "DTV",
+  "type": 0,
+  //"url": "https://tv.iill.top/m3u/Gather",
+  "url": "https://github.com/j67001/test/raw/main/tt.swf",
+  "playerType": 2,
+  "ua": "okhttp/3.15",
+  //"epg": "https://tv.iill.top/m3u/Gather?ch={name}&date={date}",
+  "epg": "http://epg.112114.xyz/?ch={name}&date={date}",
+  "logo": "https://epg.112114.xyz/logo/{name}.png"
+  },{
+  "name": "DTV-IP",
+  "type": 0,
+  //"url": "https://github.com/HIEIHIEI/TVBOX/raw/main/Tlive.txt",
+  "url": "https://tv.iill.top/m3u/Gather",
+  "playerType": 2,
+  "ua": "okhttp/3.15",
+  "epg": "http://epg.112114.xyz/?ch={name}&date={date}",
+  "logo": "https://epg.112114.xyz/logo/{name}.png"
+  }
+],
+
 "sites":[
 {"key": "豆瓣","name":"🥜豆瓣","type": 3, "api": "csp_Douban","searchable": 0,"quickSearch": 0,"filterable": 0,"ext": "https://github.com/j67001/test/raw/main/douban.json"},
 {"key": "djwo_XBPQ","name": "🐚短劇窩","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/djwo.XBPQ.js"},
