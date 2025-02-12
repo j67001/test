@@ -1,6 +1,3 @@
-IP定址,#genre#
-IP定址,https://tv.iill.top/m3u/Gather
-
 台灣,#genre#
 player=2
 
@@ -1078,3 +1075,7 @@ TVBS新聞,http://aktv.top/AKTV/live/aktv/tvbs-1/AKTV.m3u8
 龍華經典,http://aktv.top/AKTV/live/aktv/null-7/AKTV.m3u8
 龍華電影,http://aktv.top/AKTV/live/aktv/null-23/AKTV.m3u8
 i-Fun動漫,http://aktv.top/AKTV/live/aktv2/ifun/AKTV.m3u8
+
+IP定址,#genre#
+IP定址,https://tv.iill.top/m3u/Gather
+
