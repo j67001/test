@@ -23,7 +23,7 @@ Taiwan Plus,https://www.youtube.com/watch?v=MPlkuzgczBI
 華視,rtmp://f13h.mine.nu:1935/sat/tv111
 華視新聞,https://tv.iill.top/litv/4gtv-4gtv052
 豬哥亮歌廳秀,https://tv.iill.top/litv/4gtv-4gtv006
-i-Fun動漫,https://tv.iill.top/litv/litv-ftv15
+i-Fun動漫,
 NickJr.兒童,https://tv.iill.top/4gtv/219
 MOMO親子,https://tv.iill.top/4gtv/231
 夢工廠動畫,https://tv.iill.top/4gtv/282
@@ -60,9 +60,9 @@ TVBS新聞,https://tv.iill.top/litv/4gtv-4gtv072
 TVBS,https://tv.iill.top/litv/4gtv-4gtv073
 東森財經,https://tv.iill.top/litv/4gtv-4gtv153
 非凡新聞,https://tv.iill.top/litv/4gtv-4gtv010
-寰宇財經,https://tv.iill.top/litv/litv-longturn23
 全球財經,https://tv.iill.top/4gtv/224
-CinemaWorld,https://tv.iill.top/4gtv/225
+美亞電影,http://aktv.top/AKTV/live/aktv/hk-1/AKTV.m3u8
+AXN,http://aktv.top/AKTV/live/aktv2/axn/AKTV.m3u8
 AMC最愛電影,https://tv.iill.top/litv/4gtv-4gtv017
 PopC,http://aktv.top/AKTV/live/aktv/popc/AKTV.m3u8
 ROCK Action,http://aktv.top/AKTV/live/aktv/rockaction/AKTV.m3u8
@@ -85,6 +85,7 @@ Kix,http://aktv.top/AKTV/live/aktv3/kix/AKTV.m3u8
 Thrill,http://aktv.top/AKTV/live/aktv3/thrill/AKTV.m3u8
 astro AEC,http://aktv.top/AKTV/live/aktv3/astroaec/AKTV.m3u8
 astro iQIYI,http://aktv.top/AKTV/live/aktv3/astroiqiyi/AKTV.m3u8
+CinemaWorld,https://tv.iill.top/4gtv/225
 時尚運動X,https://tv.iill.top/4gtv/277
 智林體育,https://tv.iill.top/litv/4gtv-4gtv101
 民視,rtmp://f13h.mine.nu:1935/sat/tv051
@@ -123,7 +124,7 @@ TVBS歡樂,rtmp://f13h.mine.nu:1935/sat/tv421
 歐洲電影,https://tv.iill.top/4gtv/176
 經典電影,https://tv.iill.top/4gtv/201
 采昌影劇,https://tv.iill.top/litv/4gtv-4gtv049
-影迷數位紀實,https://tv.iill.top/4gtv/212
+影迷數位紀實,https://tv.iill.top/litv/litv-ftv15
 影迷數位電影,https://tv.iill.top/litv/4gtv-4gtv011
 戲劇免費看1,https://tv.iill.top/4gtv/270
 戲劇免費看2,https://tv.iill.top/4gtv/244
@@ -177,9 +178,9 @@ VOA美國之音,https://tv.iill.top/litv/litv-ftv03
 中視新聞,http://tv543.cc/litv.php?id=4gtv-4gtv074
 中視經典,http://tv543.cc/litv.php?id=4gtv-4gtv080
 中視菁采,http://tv543.cc/litv.php?id=4gtv-4gtv064
-//公視,https://www.youtube.com/watch?v=C6gYqSHLRw4
-//公視台語,https://www.youtube.com/watch?v=6KlRR_DGhmI
-//Taiwan Plus,https://www.youtube.com/watch?v=MPlkuzgczBI
+//公視https://www.youtube.com/watch?v=C6gYqSHLRw4
+//公視台語https://www.youtube.com/watch?v=6KlRR_DGhmI
+//Taiwan Plushttps://www.youtube.com/watch?v=MPlkuzgczBI
 民視,http://tv543.cc/litv.php?id=4gtv-4gtv002
 民視第一,http://tv543.cc/litv.php?id=4gtv-4gtv003
 民視新聞,http://tv543.cc/litv.php?id=litv-ftv13
@@ -194,7 +195,6 @@ VOA美國之音,https://tv.iill.top/litv/litv-ftv03
 華視,rtmp://f13h.mine.nu:1935/sat/tv111
 華視新聞,http://tv543.cc/litv.php?id=4gtv-4gtv052
 豬哥亮歌廳秀,http://tv543.cc/litv.php?id=4gtv-4gtv006
-i-Fun動漫,http://tv543.cc/litv.php?id=litv-ftv15
 NickJr.兒童,video://https://www.4gtv.tv/channel/4gtv-live032?set=1&ch=219
 MOMO親子,video://https://www.4gtv.tv/channel/4gtv-live107?set=1&ch=231
 夢工廠動畫,video://https://www.4gtv.tv/channel/4gtv-live017?set=1&ch=282
@@ -212,7 +212,7 @@ ELTA生活英語,http://tv543.cc/litv.php?id=litv-longturn20
 金光布袋戲,video://https://www.4gtv.tv/channel/4gtv-live144?set=1&ch=236
 霹靂布袋戲,video://https://www.4gtv.tv/channel/4gtv-live145?set=2&ch=301
 人間衛視,video://https://www.4gtv.tv/channel/4gtv-live008?set=1&ch=210
-//MOMO綜合,rtmp://f13h.mine.nu:1935/sat/tv761
+//MOMO綜合rtmp://f13h.mine.nu:1935/sat/tv761
 TVBS歡樂,http://tv543.cc/litv.php?id=4gtv-4gtv068
 TVBS台劇,video://https://www.4gtv.tv/channel/4gtv-live088?set=1&ch=285
 TVBS精采,http://tv543.cc/litv.php?id=4gtv-4gtv067
@@ -231,8 +231,8 @@ TVBS新聞,http://tv543.cc/litv.php?id=4gtv-4gtv072
 TVBS,http://tv543.cc/litv.php?id=4gtv-4gtv073
 東森財經,http://tv543.cc/litv.php?id=4gtv-4gtv153
 非凡新聞,http://tv543.cc/litv.php?id=4gtv-4gtv010
-寰宇財經,http://tv543.cc/litv.php?id=litv-longturn23
 全球財經,video://https://www.4gtv.tv/channel/4gtv-live060?set=1&ch=224
+//美亞電影http://aktv.top/AKTV/live/aktv/hk-1/AKTV.m3u8
 CinemaWorld,video://https://www.4gtv.tv/channel/4gtv-live069?set=1&ch=225
 AMC最愛電影,http://tv543.cc/litv.php?id=4gtv-4gtv017
 PopC,http://aktv.top/AKTV/live/aktv/popc/AKTV.m3u8
@@ -258,14 +258,14 @@ astro AEC,http://aktv.top/AKTV/live/aktv3/astroaec/AKTV.m3u8
 astro iQIYI,http://aktv.top/AKTV/live/aktv3/astroiqiyi/AKTV.m3u8
 時尚運動X,http://tv543.cc/litv.php?id=4gtv-4gtv014
 智林體育,http://tv543.cc/litv.php?id=4gtv-4gtv101
-//民視,rtmp://f13h.mine.nu:1935/sat/tv051
-//台視,rtmp://f13h.mine.nu:1935/sat/tv071
-//中視,rtmp://f13h.mine.nu:1935/sat/tv091
-//華視,http://tv543.cc/litv.php?id=4gtv-4gtv041
-//TVBS新聞,rtmp://f13h.mine.nu:1935/sat/tv551
-//TVBS歡樂,rtmp://f13h.mine.nu:1935/sat/tv421
-//東森財經,rtmp://f13h.mine.nu:1935/sat/tv571
-//博斯魅力,rtmp://f13h.mine.nu:1935/sat/md031
+//民視rtmp://f13h.mine.nu:1935/sat/tv051
+//台視rtmp://f13h.mine.nu:1935/sat/tv071
+//中視rtmp://f13h.mine.nu:1935/sat/tv091
+//華視http://tv543.cc/litv.php?id=4gtv-4gtv041
+//TVBS新聞rtmp://f13h.mine.nu:1935/sat/tv551
+//TVBS歡樂rtmp://f13h.mine.nu:1935/sat/tv421
+//東森財經rtmp://f13h.mine.nu:1935/sat/tv571
+//博斯魅力rtmp://f13h.mine.nu:1935/sat/md031
 中天亞洲,http://tv543.cc/litv.php?id=4gtv-4gtv109
 靖天卡通,http://tv543.cc/litv.php?id=4gtv-4gtv044
 靖天國際,http://tv543.cc/litv.php?id=4gtv-4gtv063
@@ -294,7 +294,7 @@ astro iQIYI,http://aktv.top/AKTV/live/aktv3/astroiqiyi/AKTV.m3u8
 歐洲電影,video://https://www.4gtv.tv/channel/4gtv-live157?set=1&ch=176
 經典電影,video://https://www.4gtv.tv/channel/4gtv-live021?set=1&ch=201
 采昌影劇,http://tv543.cc/litv.php?id=4gtv-4gtv049
-影迷數位紀實,video://https://www.4gtv.tv/channel/4gtv-live023?set=1&ch=212
+影迷數位紀實,http://tv543.cc/litv.php?id=litv-ftv15
 影迷數位電影,http://tv543.cc/litv.php?id=4gtv-4gtv011
 戲劇免費看1,video://https://www.4gtv.tv/channel/4gtv-live010?set=1&ch=270
 戲劇免費看2,video://https://www.4gtv.tv/channel/4gtv-live006?set=1&ch=244
@@ -358,7 +358,6 @@ VOA美國之音,http://tv543.cc/litv.php?id=litv-ftv03
 台灣戲劇,https://qq01xp.serv00.net/litv.php?id=litv-longturn22
 華視新聞,https://qq01xp.serv00.net/litv.php?id=4gtv-4gtv052
 豬哥亮歌廳秀,https://qq01xp.serv00.net/litv.php?id=4gtv-4gtv006
-i-Fun動漫,https://qq01xp.serv00.net/litv.php?id=litv-ftv15
 八大精彩,https://qq01xp.serv00.net/litv.php?id=4gtv-4gtv034
 八大綜藝,https://qq01xp.serv00.net/litv.php?id=4gtv-4gtv039
 ELTA娛樂,https://qq01xp.serv00.net/litv.php?id=4gtv-4gtv070
@@ -380,7 +379,6 @@ TVBS新聞,https://qq01xp.serv00.net/litv.php?id=4gtv-4gtv072
 TVBS,https://qq01xp.serv00.net/litv.php?id=4gtv-4gtv073
 東森財經,https://qq01xp.serv00.net/litv.php?id=4gtv-4gtv153
 非凡新聞,https://qq01xp.serv00.net/litv.php?id=4gtv-4gtv010
-寰宇財經,https://qq01xp.serv00.net/litv.php?id=litv-longturn23
 AMC最愛電影,https://qq01xp.serv00.net/litv.php?id=4gtv-4gtv017
 博斯無限,https://qq01xp.serv00.net/litv.php?id=litv-longturn10
 博斯無限2,https://qq01xp.serv00.net/litv.php?id=litv-longturn13
@@ -416,6 +414,7 @@ AMC最愛電影,https://qq01xp.serv00.net/litv.php?id=4gtv-4gtv017
 非凡商業,https://qq01xp.serv00.net/litv.php?id=4gtv-4gtv048
 第1商業,https://qq01xp.serv00.net/litv.php?id=4gtv-4gtv104
 采昌影劇,https://qq01xp.serv00.net/litv.php?id=4gtv-4gtv049
+影迷數位紀實,https://qq01xp.serv00.net/litv.php?id=litv-ftv15
 影迷數位電影,https://qq01xp.serv00.net/litv.php?id=4gtv-4gtv011
 ArirangTV,https://qq01xp.serv00.net/litv.php?id=4gtv-4gtv079
 Classica古典樂,https://qq01xp.serv00.net/litv.php?id=4gtv-4gtv059
@@ -448,7 +447,6 @@ VOA美國之音,https://qq01xp.serv00.net/litv.php?id=litv-ftv03
 台灣戲劇,https://iptv.vip-tptv.xyz/litv.php?id=litv-longturn22
 華視新聞,https://iptv.vip-tptv.xyz/litv.php?id=4gtv-4gtv052
 豬哥亮歌廳秀,https://iptv.vip-tptv.xyz/litv.php?id=4gtv-4gtv006
-i-Fun動漫,https://iptv.vip-tptv.xyz/litv.php?id=litv-ftv15
 八大精彩,https://iptv.vip-tptv.xyz/litv.php?id=4gtv-4gtv034
 八大綜藝,https://iptv.vip-tptv.xyz/litv.php?id=4gtv-4gtv039
 ELTA娛樂,https://iptv.vip-tptv.xyz/litv.php?id=4gtv-4gtv070
@@ -470,7 +468,6 @@ TVBS新聞,https://iptv.vip-tptv.xyz/litv.php?id=4gtv-4gtv072
 TVBS,https://iptv.vip-tptv.xyz/litv.php?id=4gtv-4gtv073
 東森財經,https://iptv.vip-tptv.xyz/litv.php?id=4gtv-4gtv153
 非凡新聞,https://iptv.vip-tptv.xyz/litv.php?id=4gtv-4gtv010
-寰宇財經,https://iptv.vip-tptv.xyz/litv.php?id=litv-longturn23
 AMC最愛電影,https://iptv.vip-tptv.xyz/litv.php?id=4gtv-4gtv017
 博斯無限,https://iptv.vip-tptv.xyz/litv.php?id=litv-longturn10
 博斯無限2,https://iptv.vip-tptv.xyz/litv.php?id=litv-longturn13
@@ -506,6 +503,7 @@ AMC最愛電影,https://iptv.vip-tptv.xyz/litv.php?id=4gtv-4gtv017
 非凡商業,https://iptv.vip-tptv.xyz/litv.php?id=4gtv-4gtv048
 第1商業,https://iptv.vip-tptv.xyz/litv.php?id=4gtv-4gtv104
 采昌影劇,https://iptv.vip-tptv.xyz/litv.php?id=4gtv-4gtv049
+影迷數位紀實,https://iptv.vip-tptv.xyz/litv.php?id=litv-ftv15
 影迷數位電影,https://iptv.vip-tptv.xyz/litv.php?id=4gtv-4gtv011
 ArirangTV,https://iptv.vip-tptv.xyz/litv.php?id=4gtv-4gtv079
 Classica古典樂,https://iptv.vip-tptv.xyz/litv.php?id=4gtv-4gtv059
@@ -538,7 +536,6 @@ VOA美國之音,https://iptv.vip-tptv.xyz/litv.php?id=litv-ftv03
 台灣戲劇,http://zowzow.yundown.cf/php/litv.php?id=litv-longturn22
 華視新聞,http://zowzow.yundown.cf/php/litv.php?id=4gtv-4gtv052
 豬哥亮歌廳秀,http://zowzow.yundown.cf/php/litv.php?id=4gtv-4gtv006
-i-Fun動漫,http://zowzow.yundown.cf/php/litv.php?id=litv-ftv15
 八大精彩,http://zowzow.yundown.cf/php/litv.php?id=4gtv-4gtv034
 八大綜藝,http://zowzow.yundown.cf/php/litv.php?id=4gtv-4gtv039
 ELTA娛樂,http://zowzow.yundown.cf/php/litv.php?id=4gtv-4gtv070
@@ -560,7 +557,6 @@ TVBS新聞,http://zowzow.yundown.cf/php/litv.php?id=4gtv-4gtv072
 TVBS,http://zowzow.yundown.cf/php/litv.php?id=4gtv-4gtv073
 東森財經,http://zowzow.yundown.cf/php/litv.php?id=4gtv-4gtv153
 非凡新聞,http://zowzow.yundown.cf/php/litv.php?id=4gtv-4gtv010
-寰宇財經,http://zowzow.yundown.cf/php/litv.php?id=litv-longturn23
 AMC最愛電影,http://zowzow.yundown.cf/php/litv.php?id=4gtv-4gtv017
 博斯無限,http://zowzow.yundown.cf/php/litv.php?id=litv-longturn10
 博斯無限2,http://zowzow.yundown.cf/php/litv.php?id=litv-longturn13
@@ -596,6 +592,7 @@ AMC最愛電影,http://zowzow.yundown.cf/php/litv.php?id=4gtv-4gtv017
 非凡商業,http://zowzow.yundown.cf/php/litv.php?id=4gtv-4gtv048
 第1商業,http://zowzow.yundown.cf/php/litv.php?id=4gtv-4gtv104
 采昌影劇,http://zowzow.yundown.cf/php/litv.php?id=4gtv-4gtv049
+影迷數位紀實,http://zowzow.yundown.cf/php/litv.php?id=litv-ftv15
 影迷數位電影,http://zowzow.yundown.cf/php/litv.php?id=4gtv-4gtv011
 ArirangTV,http://zowzow.yundown.cf/php/litv.php?id=4gtv-4gtv079
 Classica古典樂,http://zowzow.yundown.cf/php/litv.php?id=4gtv-4gtv059
@@ -628,7 +625,6 @@ VOA美國之音,http://zowzow.yundown.cf/php/litv.php?id=litv-ftv03
 台灣戲劇,http://wanjiatv.net/litv.php?id=litv-longturn22
 華視新聞,http://wanjiatv.net/litv.php?id=4gtv-4gtv052
 豬哥亮歌廳秀,http://wanjiatv.net/litv.php?id=4gtv-4gtv006
-i-Fun動漫,http://wanjiatv.net/litv.php?id=litv-ftv15
 八大精彩,http://wanjiatv.net/litv.php?id=4gtv-4gtv034
 八大綜藝,http://wanjiatv.net/litv.php?id=4gtv-4gtv039
 ELTA娛樂,http://wanjiatv.net/litv.php?id=4gtv-4gtv070
@@ -650,7 +646,6 @@ TVBS新聞,http://wanjiatv.net/litv.php?id=4gtv-4gtv072
 TVBS,http://wanjiatv.net/litv.php?id=4gtv-4gtv073
 東森財經,http://wanjiatv.net/litv.php?id=4gtv-4gtv153
 非凡新聞,http://wanjiatv.net/litv.php?id=4gtv-4gtv010
-寰宇財經,http://wanjiatv.net/litv.php?id=litv-longturn23
 AMC最愛電影,http://wanjiatv.net/litv.php?id=4gtv-4gtv017
 博斯無限,http://wanjiatv.net/litv.php?id=litv-longturn10
 博斯無限2,http://wanjiatv.net/litv.php?id=litv-longturn13
@@ -686,6 +681,7 @@ AMC最愛電影,http://wanjiatv.net/litv.php?id=4gtv-4gtv017
 非凡商業,http://wanjiatv.net/litv.php?id=4gtv-4gtv048
 第1商業,http://wanjiatv.net/litv.php?id=4gtv-4gtv104
 采昌影劇,http://wanjiatv.net/litv.php?id=4gtv-4gtv049
+影迷數位紀實,http://wanjiatv.net/litv.php?id=litv-ftv15
 影迷數位電影,http://wanjiatv.net/litv.php?id=4gtv-4gtv011
 ArirangTV,http://wanjiatv.net/litv.php?id=4gtv-4gtv079
 Classica古典樂,http://wanjiatv.net/litv.php?id=4gtv-4gtv059
@@ -718,7 +714,6 @@ VOA美國之音,http://wanjiatv.net/litv.php?id=litv-ftv03
 台灣戲劇,http://kkok01.serv00.net/litv.php?id=litv-longturn22
 華視新聞,http://kkok01.serv00.net/litv.php?id=4gtv-4gtv052
 豬哥亮歌廳秀,http://kkok01.serv00.net/litv.php?id=4gtv-4gtv006
-i-Fun動漫,http://kkok01.serv00.net/litv.php?id=litv-ftv15
 八大精彩,http://kkok01.serv00.net/litv.php?id=4gtv-4gtv034
 八大綜藝,http://kkok01.serv00.net/litv.php?id=4gtv-4gtv039
 ELTA娛樂,http://kkok01.serv00.net/litv.php?id=4gtv-4gtv070
@@ -740,7 +735,6 @@ TVBS新聞,http://kkok01.serv00.net/litv.php?id=4gtv-4gtv072
 TVBS,http://kkok01.serv00.net/litv.php?id=4gtv-4gtv073
 東森財經,http://kkok01.serv00.net/litv.php?id=4gtv-4gtv153
 非凡新聞,http://kkok01.serv00.net/litv.php?id=4gtv-4gtv010
-寰宇財經,http://kkok01.serv00.net/litv.php?id=litv-longturn23
 AMC最愛電影,http://kkok01.serv00.net/litv.php?id=4gtv-4gtv017
 博斯無限,http://kkok01.serv00.net/litv.php?id=litv-longturn10
 博斯無限2,http://kkok01.serv00.net/litv.php?id=litv-longturn13
@@ -776,6 +770,7 @@ AMC最愛電影,http://kkok01.serv00.net/litv.php?id=4gtv-4gtv017
 非凡商業,http://kkok01.serv00.net/litv.php?id=4gtv-4gtv048
 第1商業,http://kkok01.serv00.net/litv.php?id=4gtv-4gtv104
 采昌影劇,http://kkok01.serv00.net/litv.php?id=4gtv-4gtv049
+影迷數位紀實,http://kkok01.serv00.net/litv.php?id=litv-ftv15
 影迷數位電影,http://kkok01.serv00.net/litv.php?id=4gtv-4gtv011
 ArirangTV,http://kkok01.serv00.net/litv.php?id=4gtv-4gtv079
 Classica古典樂,http://kkok01.serv00.net/litv.php?id=4gtv-4gtv059
@@ -808,7 +803,6 @@ VOA美國之音,http://kkok01.serv00.net/litv.php?id=litv-ftv03
 台灣戲劇,https://bk.msbot.us.kg/litv.php?id=litv-longturn22
 華視新聞,https://bk.msbot.us.kg/litv.php?id=4gtv-4gtv052
 豬哥亮歌廳秀,https://bk.msbot.us.kg/litv.php?id=4gtv-4gtv006
-i-Fun動漫,https://bk.msbot.us.kg/litv.php?id=litv-ftv15
 八大精彩,https://bk.msbot.us.kg/litv.php?id=4gtv-4gtv034
 八大綜藝,https://bk.msbot.us.kg/litv.php?id=4gtv-4gtv039
 ELTA娛樂,https://bk.msbot.us.kg/litv.php?id=4gtv-4gtv070
@@ -830,7 +824,6 @@ TVBS新聞,https://bk.msbot.us.kg/litv.php?id=4gtv-4gtv072
 TVBS,https://bk.msbot.us.kg/litv.php?id=4gtv-4gtv073
 東森財經,https://bk.msbot.us.kg/litv.php?id=4gtv-4gtv153
 非凡新聞,https://bk.msbot.us.kg/litv.php?id=4gtv-4gtv010
-寰宇財經,https://bk.msbot.us.kg/litv.php?id=litv-longturn23
 AMC最愛電影,https://bk.msbot.us.kg/litv.php?id=4gtv-4gtv017
 博斯無限,https://bk.msbot.us.kg/litv.php?id=litv-longturn10
 博斯無限2,https://bk.msbot.us.kg/litv.php?id=litv-longturn13
@@ -866,6 +859,7 @@ AMC最愛電影,https://bk.msbot.us.kg/litv.php?id=4gtv-4gtv017
 非凡商業,https://bk.msbot.us.kg/litv.php?id=4gtv-4gtv048
 第1商業,https://bk.msbot.us.kg/litv.php?id=4gtv-4gtv104
 采昌影劇,https://bk.msbot.us.kg/litv.php?id=4gtv-4gtv049
+影迷數位紀實,https://bk.msbot.us.kg/litv.php?id=litv-ftv15
 影迷數位電影,https://bk.msbot.us.kg/litv.php?id=4gtv-4gtv011
 ArirangTV,https://bk.msbot.us.kg/litv.php?id=4gtv-4gtv079
 Classica古典樂,https://bk.msbot.us.kg/litv.php?id=4gtv-4gtv059
@@ -898,7 +892,6 @@ VOA美國之音,https://bk.msbot.us.kg/litv.php?id=litv-ftv03
 台灣戲劇,http://tv543.cc/litv.php?id=litv-longturn22
 華視新聞,http://tv543.cc/litv.php?id=4gtv-4gtv052
 豬哥亮歌廳秀,http://tv543.cc/litv.php?id=4gtv-4gtv006
-i-Fun動漫,http://tv543.cc/litv.php?id=litv-ftv15
 八大精彩,http://tv543.cc/litv.php?id=4gtv-4gtv034
 八大綜藝,http://tv543.cc/litv.php?id=4gtv-4gtv039
 ELTA娛樂,http://tv543.cc/litv.php?id=4gtv-4gtv070
@@ -920,7 +913,6 @@ TVBS新聞,http://tv543.cc/litv.php?id=4gtv-4gtv072
 TVBS,http://tv543.cc/litv.php?id=4gtv-4gtv073
 東森財經,http://tv543.cc/litv.php?id=4gtv-4gtv153
 非凡新聞,http://tv543.cc/litv.php?id=4gtv-4gtv010
-寰宇財經,http://tv543.cc/litv.php?id=litv-longturn23
 AMC最愛電影,http://tv543.cc/litv.php?id=4gtv-4gtv017
 博斯無限,http://tv543.cc/litv.php?id=litv-longturn10
 博斯無限2,http://tv543.cc/litv.php?id=litv-longturn13
@@ -956,6 +948,7 @@ AMC最愛電影,http://tv543.cc/litv.php?id=4gtv-4gtv017
 非凡商業,http://tv543.cc/litv.php?id=4gtv-4gtv048
 第1商業,http://tv543.cc/litv.php?id=4gtv-4gtv104
 采昌影劇,http://tv543.cc/litv.php?id=4gtv-4gtv049
+影迷數位紀實,http://tv543.cc/litv.php?id=litv-ftv15
 影迷數位電影,http://tv543.cc/litv.php?id=4gtv-4gtv011
 ArirangTV,http://tv543.cc/litv.php?id=4gtv-4gtv079
 Classica古典樂,http://tv543.cc/litv.php?id=4gtv-4gtv059
@@ -972,7 +965,7 @@ VOA美國之音,http://tv543.cc/litv.php?id=litv-ftv03
 國會頻道1,http://tv543.cc/litv.php?id=4gtv-4gtv084
 國會頻道2,http://tv543.cc/litv.php?id=4gtv-4gtv085
 
-美亞電影,http://aktv.top/AKTV/live/aktv/hk-1/AKTV.m3u8
+//美亞電影http://aktv.top/AKTV/live/aktv/hk-1/AKTV.m3u8
 TVBS,http://aktv.top/AKTV/live/aktv/tvbs/AKTV.m3u8
 TVBS新聞,http://aktv.top/AKTV/live/aktv/tvbs-1/AKTV.m3u8
 中天亞洲,http://aktv.top/AKTV/live/aktv/null-12/AKTV.m3u8
@@ -988,4 +981,3 @@ i-Fun動漫,http://aktv.top/AKTV/live/aktv2/ifun/AKTV.m3u8
 
 IP定址,#genre#
 IP定址,https://tv.iill.top/m3u/Gather
-
