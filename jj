@@ -17,6 +17,7 @@
   //"epg": "https://tv.iill.top/m3u/Gather?ch={name}&date={date}",
   "epg": "http://epg.112114.xyz/?ch={name}&date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
+	"header": {"Referer": "https://tv.iill.top/m3u/Gather"}
   },{
   "name": "DTV-IP",
   "type": 0,
