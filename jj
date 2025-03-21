@@ -28,6 +28,15 @@
   "epg": "http://epg.112114.xyz/?ch={name}&date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
   },{
+  "name":"嗅探",
+  "boot":"true",
+  "url":"https://github.com/j67001/test/raw/main/ts.swf",
+  //"url":"http://home.jundie.top:81/Cat/tv/live.txt",
+  "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
+  "ua": "Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1",
+  "playerType":2,
+  "logo": "https://epg.112114.xyz/logo/{name}.png"
+ },{
  "name": "XingHuo",
  "url": "https://json.doube.eu.org/XingHuo.txt",
  "header": {"Referer": "https://www.kds.tw/"}
@@ -162,6 +171,12 @@ ads":["mozai.4gtv.tv",
      { "name": "proxy", 
       "hosts": [ "raw.githubusercontent.com", "googlevideo.com", "cdn.v82u1l.com", "cdn.iz8qkg.com", "cdn.kin6c1.com", "c.biggggg.com", "c.olddddd.com", "haiwaikan.com", "www.histar.tv", "youtube.com", "uhibo.com", ".*boku.*", ".*nivod.*", ".*ulivetv.*",".*wogg.xyz" ] 
      },
+    {
+      "name": "ofiii",
+      "url": "https://github.com/j67001/test/raw/main/ts.swf",
+      "hosts": ["www.ofiii.com"],
+      "script": ["const play=document.getElementsByClassName('play_icon')[0],event=new MouseEvent('click',{bubbles:!0,cancelable:!0,view:window,screenX:100,screenY:100,clientX:50,clientY:50,button:0,shiftKey:!1,ctrlKey:!1,altKey:!1,metaKey:!1,modifierState:0});play.dispatchEvent(event);"]
+    },
     {
       "name": "夜市點擊",
       "hosts": [
