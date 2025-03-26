@@ -36,6 +36,11 @@
   "epg":"http://epg.112114.xyz/?ch={name}&amp;date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
  },{
+  "name": "LITV(py)",
+  "type": 3,
+  "api": "https://json.doube.eu.org/python/live_litv.py",
+  "ext": {}
+ },{
  "name": "XingHuo",
  "url": "https://json.doube.eu.org/XingHuo.txt",
  "header": {"Referer": "https://www.kds.tw/"}
