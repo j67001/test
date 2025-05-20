@@ -1,6 +1,7 @@
 {
 //"spider": "https://cdn09022024.gitlink.org.cn/api/v1/repos/guot55/yg/raw/jar/bhtv.txt",
-"spider": "https://github.com/j67001/test/raw/main/bhtv.txt",
+"spider": "https://github.com/FongMi/CatVodSpider/raw/main/jar/custom_spider.jar",
+//"spider": "https://github.com/j67001/test/raw/main/bhtv.txt",
 
 
 "wallpaper":"http://img.fongmi.eu.org",
@@ -28,6 +29,10 @@
   "ua": "okhttp/3.15",
   "epg": "http://epg.112114.xyz/?ch={name}&date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
+  },{
+      "name": "59",
+      "api": "csp_MQiTV",
+      "ext": "https://59.125.210.231:4433"
   },{
   "name":"嗅探",
   "boot":"true",
