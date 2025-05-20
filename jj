@@ -129,13 +129,13 @@
 ], 
 
 "parses":[
-{"name":"輪詢優選","type":2,"url":"Sequence"},
-{"name":"超前","type":1,"url":"http://xi.zhangbokeji.top/api/jsonindex.php/?key=unQjMePERREjnHcmuZ&url=","ext":{"flag":["qq","騰訊","qiyi","愛奇藝","奇藝","youku","優酷","sohu","搜狐","letv","樂視","mgtv","芒果","rx","ltnb","bilibili","1905","rrmj","xigua","ST4K","ETH-XDA1","xiong","NBY","mytv","BBA"]}},
+{"name":"輪詢","type":2,"url":"Sequence"},
+{"name":"超前","type":1,"url":"http://xi.zhangbokeji.top/api/jsonindex.php/?key=unQjMePERREjnHcmuZ&url=","ext":{"flag":["qq","腾讯","qiyi","爱奇艺","奇艺","youku","优酷","sohu","搜狐","letv","乐视","mgtv","芒果","rx","ltnb","bilibili","1905","rrmj","xigua","ST4K","ETH-XDA1","xiong","NBY","mytv","BBA"]}},
 {"name":"空城","type":1,"url":"http://kcjx.zwzs.fun/json.php?url="},
 {"name":"4K","type":1,"url":"http://125.208.22.184:1666/api/?key=Lsthk1A7obu4Lmn4zk&url="},
 {"name":"4K1","type":1,"url":"http://jx.xnftv.xyz/api/diy/?key=02wLO4jHzX2J3U7417&url="},
 {"name":"4K2","type":1,"url":"http://121.62.21.61:8011/api/?key=IAMtJgrWU8bYjxPq9B&url="},
-{"name":"影視","type":1,"url":"http://43.139.94.96:8866/api/?key=7e67ab331ee255664f2989ca2171c2dd&url=","ext":{"flag":["qq","騰訊","qiyi","愛奇藝","奇藝","youku","優酷","sohu","搜狐","letv","樂視","mgtv","芒果","tnmb","seven","bilibili","1905"],"header":{"User-Agent":"okhttp/4.9.1"}}}
+{"name":"影視","type":1,"url":"http://43.139.94.96:8866/api/?key=7e67ab331ee255664f2989ca2171c2dd&url=","ext":{"flag":["qq","腾讯","qiyi","爱奇艺","奇艺","youku","优酷","sohu","搜狐","letv","乐视","mgtv","芒果","tnmb","seven","bilibili","1905"],"header":{"User-Agent":"okhttp/4.9.1"}}}
 ],
 
 "ads":["mozai.4gtv.tv",
