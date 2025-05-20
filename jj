@@ -1,7 +1,7 @@
 {
 //"spider": "https://cdn09022024.gitlink.org.cn/api/v1/repos/guot55/yg/raw/jar/bhtv.txt",
-"spider": "https://github.com/FongMi/CatVodSpider/raw/main/jar/custom_spider.jar",
-//"spider": "https://github.com/j67001/test/raw/main/bhtv.txt",
+//"spider": "https://github.com/FongMi/CatVodSpider/raw/main/jar/custom_spider.jar",
+"spider": "https://github.com/j67001/test/raw/main/bhtv.txt",
 
 
 "wallpaper":"http://img.fongmi.eu.org",
@@ -30,9 +30,12 @@
   "epg": "http://epg.112114.xyz/?ch={name}&date={date}",
   "logo": "https://epg.112114.xyz/logo/{name}.png"
   },{
-      "name": "59",
+      "name": "59 MQiTV",
       "api": "csp_MQiTV",
-      "ext": "https://59.125.210.231:4433"
+      "ext": "https://59.125.210.231:4433",
+      "jar":"https://github.com/FongMi/CatVodSpider/raw/main/jar/custom_spider.jar",
+      "epg": "http://iptv.52sw.top:668/?ch={name}&date={date}",
+      "logo":"https://epg.112114.xyz/logo/{name}.png"
   },{
   "name":"嗅探",
   "boot":"true",
@@ -136,7 +139,7 @@
       "ext": {
         "主页url": "https://hainatv.net/",
         "分类url": "https://hainatv.net/index.php/vod/show/area/{area}/by/{by}/id/{cateId}/lang/{lang}/letter/{letter}/page/{catePg}/year/{year}.html",
-        "分类": "电影&剧集&综艺&动漫&短剧","分类值": "1&2&3&4&59"
+        "分类": "电影$1#剧集$2#综艺$3#动漫$4#短剧$59"
       }
     },
     {
@@ -152,11 +155,11 @@
         "影片年代": "<div class=\"module-info-tag\">&&</div>",
         "影片状态": "备注：&&</div>",
         "影片类型": "module-info-tag\">&&立即播放",
-        "简介": "+style=\"line-height: 20px;\"&&</div>",
+        "简介": "请勿相信影片中的广告，以免上当受骗。+style=\"line-height: 20px;\"&&</div>",
         "线路数组": "data-dropdown-value=&&</div>",
         "线路标题": "<span>&&</span>",
         "分类url": "https://www.ddmf.net/vodshow/1-----------/area/{area}/by/{by}/class/{class}/id/{cateId}/page/{catePg}/year/{year}.html",
-        "分类": "电影&电视剧&动漫&综艺","分类值": "1&2&4&3"
+        "分类": "电影$1#电视剧$2#动漫$4#综艺$3"
       }
     },
 
