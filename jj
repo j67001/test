@@ -81,6 +81,85 @@
 "5":[{"key":"area","name":"地区","value":[{"n":"全部","v":""},{"n":"大陆","v":"/area/"},{"n":"香港","v":"/area/香港"},{"n":"台湾","v":"/area/台湾"},{"n":"日本","v":"/area/日本"},{"n":"韩国","v":"/area/韩国"},{"n":"欧美","v":"/area/欧美"},{"n":"泰国","v":"/area/泰国"},{"n":"新马","v":"/area/新马"},{"n":"其它","v":"/area/其它"}]},{"key":"year","name":"年份","value":[{"n":"全部","v":""},{"n":"2025","v":"/year/2025"},{"n":"2024","v":"/year/2024"},{"n":"2023","v":"/year/2023"},{"n":"2022","v":"/year/2022"},{"n":"2021","v":"/year/2021"},{"n":"2020","v":"/year/2020"},{"n":"2019","v":"/year/2019"},{"n":"2018","v":"/year/2018"},{"n":"2017","v":"/year/2017"},{"n":"2016","v":"/year/2016"},{"n":"2015","v":"/year/2015"},{"n":"2014-2011","v":"/year/2014-2011"},{"n":"2010-2000","v":"/year/2010-2000"},{"n":"90年代","v":"/year/90年代"},{"n":"80年代","v":"/year/80年代"},{"n":"更早","v":"/year/更早"}]},{"key":"by","name":"排序","value":[{"n":"新上线","v":"/by/time"},{"n":"热播榜","v":"/by/hits_day"},{"n":"好评榜","v":"/by/score"}]}],
 "46":[{"key":"area","name":"地区","value":[{"n":"全部","v":""},{"n":"大陆","v":"/area/"},{"n":"香港","v":"/area/香港"},{"n":"台湾","v":"/area/台湾"},{"n":"日本","v":"/area/日本"},{"n":"韩国","v":"/area/韩国"},{"n":"欧美","v":"/area/欧美"},{"n":"泰国","v":"/area/泰国"},{"n":"新马","v":"/area/新马"},{"n":"其它","v":"/area/其它"}]},{"key":"year","name":"年份","value":[{"n":"全部","v":""},{"n":"2025","v":"/year/2025"},{"n":"2024","v":"/year/2024"},{"n":"2023","v":"/year/2023"},{"n":"2022","v":"/year/2022"},{"n":"2021","v":"/year/2021"},{"n":"2020","v":"/year/2020"},{"n":"2019","v":"/year/2019"},{"n":"2018","v":"/year/2018"},{"n":"2017","v":"/year/2017"},{"n":"2016","v":"/year/2016"},{"n":"2015","v":"/year/2015"},{"n":"2014-2011","v":"/year/2014-2011"},{"n":"2010-2000","v":"/year/2010-2000"},{"n":"90年代","v":"/year/90年代"},{"n":"80年代","v":"/year/80年代"},{"n":"更早","v":"/year/更早"}]},{"key":"by","name":"排序","value":[{"n":"新上线","v":"/by/time"},{"n":"热播榜","v":"/by/hits_day"},{"n":"好评榜","v":"/by/score"}]}]}}},
 
+    {
+      "key": "倉鼠",
+      "name": "倉鼠4K",
+      "type": 3,
+      "quickSearch": 1,
+      "api": "csp_AppGet",
+      "jar": "https://lz.qaiu.top/d/lz/i0fR72vesc2f",
+      "ext": {
+        "url": "https://appcms.cs4k.top",
+        "dataKey": "Hui6595253......",
+        "dataIv": "Hui6595253......",
+        "deviceId": "",
+        "version": ""
+      }
+    },
+    {
+      "key": "ttys",
+      "name": "🎋腾訊4K",
+      "type": 3,
+      "api": "http://150.158.112.123/js/dr/drpy2.min.js",
+      "ext": "https://github.com/j67001/test/raw/main/tx.js"
+    },
+   {
+      "key": "芒果4k",
+      "name": "🥭芒果4K解析",
+      "type": 3,
+      "api": "http://wyys.qcy168.top/json/drpy2.min.js",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "order_num": 0,
+      "changeable": 0,
+       "ext": "https://github.com/j67001/test/raw/main/mgsp.js"
+    },
+    {
+      "key": "jpys",
+      "name": "🥇金牌",
+      "type": 3,
+      "api": "http://150.158.112.123/jar/py/jp.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "playerType": 2,
+      "ext": {
+        "site": "https://www.sizhengxt.com,https://0996zp.com,https://9zhoukj.com,https://www.sizhengxt.com,https://cqzuoer.com,https://www.hkybqufgh.com"
+      }
+    },
+    {
+      "key": "hntv",
+      "name": "🌊海納",
+      "type": 3,
+      "api": "csp_XBPQ",
+      "ext": {
+        "主页url": "https://hainatv.net/",
+        "分类url": "https://hainatv.net/index.php/vod/show/area/{area}/by/{by}/id/{cateId}/lang/{lang}/letter/{letter}/page/{catePg}/year/{year}.html",
+        "分类": "电影$1#剧集$2#综艺$3#动漫$4#短剧$59"
+      }
+    },
+    {
+      "key": "YG",
+      "name": "🌞毅哥",
+      "type": 3,
+      "api": "csp_XBPQ",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": {
+        "影片地区": "圥忈制作",
+        "影片年代": "<div class=\"module-info-tag\">&&</div>",
+        "影片状态": "备注：&&</div>",
+        "影片类型": "module-info-tag\">&&立即播放",
+        "简介": "请勿相信影片中的广告，以免上当受骗。+style=\"line-height: 20px;\"&&</div>",
+        "线路数组": "data-dropdown-value=&&</div>",
+        "线路标题": "<span>&&</span>",
+        "分类url": "https://www.ddmf.net/vodshow/1-----------/area/{area}/by/{by}/class/{class}/id/{cateId}/page/{catePg}/year/{year}.html",
+        "分类": "电影$1#电视剧$2#动漫$4#综艺$3"
+      }
+    },
+
 {"key":"瓜子","name":"🍈瓜子","type": 3,"api":"csp_GuaziGuard","searchable":1,"quickSearch":1,"filterable":1,"jar":"https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1746629246668/f0508.txt;md5;fe5929df64eb2358effeb032359732e5"},
 {"key":"文采","name":"💮文采","type":3,"api":"csp_JpysGuard","playerType":2,"searchable":1,"quickSearch":1,"changeable":1,"jar":"https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1746629246668/f0508.txt;md5;fe5929df64eb2358effeb032359732e5"},
 {"key":"糯米","name":"🍓糯米","type":3,"api":"csp_NmyswvGuard","searchable":1,"quickSearch":1,"changeable":1,"jar":"https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1746629246668/f0508.txt;md5;fe5929df64eb2358effeb032359732e5"},
