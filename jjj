@@ -1,7 +1,8 @@
 {
   //https://github.com/ljlfct01/ljlfct01.github.io/heads/main/自用
   //"spider": "https://lz.qaiu.top/d/lz/iYN8l2uteydi",
-  "spider": "https://github.com/j67001/test/raw/main/lsq03.jar",
+  //"spider": "https://github.com/j67001/test/raw/main/lsq03.jar",
+  "spider": "https://github.com/FongMi/CatVodSpider/raw/main/jar/custom_spider.jar",
   "wallpaper": "https://xn--spsx60cgim8pd.xxooo.cf/",
   "sites": [
     {
