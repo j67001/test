@@ -288,6 +288,12 @@
           "bilibili",
           "1905"
         ],
+        "header": {
+          "User-Agent": "okhttp/4.9.1"
+        }
+      }
+    }
+  ],
 
 "ads":["mozai.4gtv.tv",
     "static-mozai.4gtv.tv",
