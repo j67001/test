@@ -12,7 +12,7 @@
   {
   "name": "DTV",
   "type": 0,
-  //"url": "https://tv.iill.top/m3u/Gather",
+  "jar": "https://tv.iill.top/m3u/Gather",
   "url": "https://github.com/j67001/test/raw/main/tt.swf",
   "playerType": 2,
   "ua": "okhttp/3.15",
