@@ -72,13 +72,6 @@
 {"key": "py_UpFuHn","name": "🎢Hi視頻","type": 4,"api": "https://py.doube.eu.org/spider?site=UpFuHn","searchable": 1,"quickSearch": 0,"filterable": 0,"changeable": 0},
 {"key": "py_jieyingshi","name": "🎢Hi視頻py","type": 3,"api": "https://github.com/JJBJJ/PyramidStore/raw/main/aowuplugin/py_hitv.py","searchable": 1,"quickSearch": 1,"filterable": 1},
 
-{"key": "yfsp","name": "⛵愛壹帆","type": 3,"searchable": 1,"changeable": 0,"api": "csp_GM",
-"jar":"https://github.com/CatVodSpider-GM/SFW-Spiders/raw/main/Spiders-Lib/GM.jar",
-"ext": {"userScript": "https://4tvbox.ggff.net/ysfp.user.js","debug": false,
-"webViewSettings": {"blockNetworkImage": true,"blockList": ["*.png*","*.mp3*","*.css*","https://*.googletagmanager.com/*","https://*.google-analytics.com/*"]},
-"spider": {"homeContent": {"loadUrl": "https://m.yfsp.tv/"},"categoryContent": {"loadUrl": "https://m.yfsp.tv/list/${tid}?type=${index-0:-0}${index-1:-,0}${index-2:-,0}${index-3:-,0}${index-4:-,0}${index-5:-}"},"detailContent": {"loadUrl": "https://m.yfsp.tv/play/${id}"},"playerContent": {"loadUrl": "https://m.yfsp.tv/play/${mediaKey}?id=${episodeKey}"},"searchContent": {"loadUrl": "https://m.yfsp.tv/search"}}}},
-
-
 {"key": "ystv_XBPQ","name": "🐚影視TV","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext":"https://github.com/j67001/test/raw/main/ystv.XBPQ.js"},
 {"key": "ystv_XBPQ2","name": "🐚影視TV2","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,
 "ext": {"分类url": "https://yingshi.tv/vod/show/id/{cateId}{area}{year}{by}{class}",
