@@ -86,7 +86,7 @@
 {"key": "黑木耳無廣","name": "🍄黑木耳","type": 1,"api": "https://www.heimuer.tv/api.php/provide/vod/at/xml","searchable": 1,"quickSearch": 1},
 {"key":"csp_If101","name":"✈歐樂1","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"简介":"content_desc context clearfix\">&&</span>","分类url":"https://www.olehdtv.com/index.php/vod/show/by/time/id/{cateId}/page/{catePg}/year/{year}.html","分类": "電視劇$2#電影$1#動漫$4#綜藝$3#紀錄片$111#動畫電影$108#短劇$14"}},
 {"key":"csp_小宝影院","name":"🛫小寶影院","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"简介":"+display: none;\">&&</span>","分类url":"https://xiaoxintv.com/index.php/vod/show/by/time/id/{cateId}/page/{catePg}/year/{year}.html","分类": "電視劇$6#電影$7#動漫$5#綜藝$3#紀錄片$21#體育$20"}},
-{"key":"csp_MMOV","name":"MMOV","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://www.mmov.app/vodshow{cateId}-{area}-------{catePg}---{year}.html","分类": "電視劇$2#電影$1#動漫$4#綜藝$3"}},
+{"key":"csp_MMOV","name":"MMOV","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://www.mmov.app/vodshow{cateId}--------{catePg}---{year}.html","分类": "電視劇$2#電影$1#動漫$4#綜藝$3"}},
 
 
 {"key":"倉鼠","name":"🐹倉鼠","type":3,"quickSearch":1,"api":"csp_AppGet","jar": "https://lz.qaiu.top/d/lz/i0fR72vesc2f","ext":{"url":"https://appcms.cs4k.top","dataKey":"Hui6595253......","dataIv":"Hui6595253......","deviceId":"","version":""}},
