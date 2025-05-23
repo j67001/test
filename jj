@@ -58,6 +58,10 @@
 "sites":[
 {"key": "豆瓣","name":"🥜豆瓣","type": 3, "api": "csp_Douban","searchable": 0,"quickSearch": 0,"filterable": 0,"ext": "https://github.com/j67001/test/raw/main/douban.json"},
 {"key": "djwo_XBPQ","name": "🐚短劇窩","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/djwo.XBPQ.js"},
+{"key": "djwo_XBPQ2","name": "🐚短劇窩2","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"jar":"https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/xbpg.jar","ext": "https://github.com/j67001/test/raw/main/djwo.XBPQ.js"},
+{"key": "djwo_XBPQ2","name": "🐚短劇窩3","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"jar":"https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/xbpq.jar","ext": "https://github.com/j67001/test/raw/main/djwo.XBPQ.js"},
+
+
 {"key":"drpy_js_小宝影院[飞]","name":"🧸小寶","type":3,"api":"http://150.158.112.123/js/dr/drpy2.min.js","ext":"https://raw.githubusercontent.com/j67001/test/refs/heads/main/小宝影院2502.js"}, 
 {"key": "小宝影院XBPQ","name": "🧸小寶2","type": 3,"api": "csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/小寶影院XBPQ.js"},
 {"key": "libvio_XBPQ","name": "🦄利播2","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/LIBVIO.XBPQ.js"},
