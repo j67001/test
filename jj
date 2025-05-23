@@ -2,8 +2,8 @@
 //"spider": "https://cdn09022024.gitlink.org.cn/api/v1/repos/guot55/yg/raw/jar/bhtv.txt",
 //"spider": "https://github.com/FongMi/CatVodSpider/raw/main/jar/custom_spider.jar",
 //"spider": "https://github.com/j67001/test/raw/main/bhtv.txt",
-"spider": "https://github.com/j67001/test/raw/main/bhtv1.jar",
-
+//"spider": "https://github.com/j67001/test/raw/main/bhtv1.jar",
+"spider": "https://github.com/j67001/test/raw/main/lem0518h.jar",
 
 "wallpaper":"http://img.fongmi.eu.org",
 "warningText": "",
@@ -98,7 +98,8 @@
 
 {"key":"csp_xpath_dm84","name":"🚌動漫巴士","type":3,"api":"csp_XPath","searchable":1,"quickSearch":1,"filterable":1,"ext":"https://github.com/takagen99/channel/raw/master/CATVOD/main/xp/dm84.json"},
 {"key":"csp_xpath_dmw","name":"🏝️動漫島","type":3,"api":"csp_XPathMacFilter","searchable":1,"quickSearch":1,"filterable":1,"ext":"https://github.com/takagen99/channel/raw/master/CATVOD/main/xp/dmw.json"},
-{"key":"Ysj","name":"🎀異界動漫","type":3,"api":"csp_YsjGuard","searchable":1,"quickSearch":1,"changeable":1,"jar":"https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/lem0518.jar"},
+//{"key":"Ysj","name":"🎀異界動漫","type":3,"api":"csp_YsjGuard","searchable":1,"quickSearch":1,"changeable":1,"jar":"https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/lem0518.jar"},
+{"key":"Ysj","name":"🎀異界動漫","type":3,"api":"csp_YsjGuard","searchable":1,"quickSearch":1,"changeable":1},
 {"key":"jpys_drpy","name":"🥇金牌 dp","type":3,"api":"http://150.158.112.123/js/dr/drpy2.min.js","ext":"https://github.com/lc529180405/caicai/raw/main/cai/json/金牌影视.js"},
 
 {"key":"倉鼠","name":"🐹倉鼠","type":3,"quickSearch":1,"api":"csp_AppGet","jar": "https://lz.qaiu.top/d/lz/i0fR72vesc2f","ext":{"url":"https://appcms.cs4k.top","dataKey":"Hui6595253......","dataIv":"Hui6595253......","deviceId":"","version":""}},
