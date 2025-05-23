@@ -61,6 +61,9 @@
 {"key":"drpy_js_小宝影院[飞]","name":"🧸小寶","type":3,"api":"http://150.158.112.123/js/dr/drpy2.min.js","ext":"https://raw.githubusercontent.com/j67001/test/refs/heads/main/小宝影院2502.js"}, 
 {"key": "小宝影院XBPQ","name": "🧸小寶2","type": 3,"api": "csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/小寶影院XBPQ.js"},
 {"key": "libvio_XBPQ","name": "🦄利播2","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/LIBVIO.XBPQ.js"},
+
+{"key":"drpy_js_duck","name":"🦆小鴨","type":3,"api":"http://150.158.112.123/js/dr/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/duck.js"}, 
+
 {"key":"drpy_js_剧迷","name":"🎭劇迷","type":3,"api":"http://150.158.112.123/js/dr/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/剧迷.js"}, 
 {"key":"劇迷XBPQ","name":"🎭劇迷2","type":3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/劇迷XBPQ.js"},
 {"key": "欧乐","name": "😹歐樂","type": 3,"api": "csp_Olevod","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 0,"ext": "https://raw.githubusercontent.com/fangkuia/XPTV/refs/heads/main/js/ole.js"},
