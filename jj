@@ -103,13 +103,21 @@
 {"key":"倉鼠","name":"🐹倉鼠","type":3,"quickSearch":1,"api":"csp_AppGet","jar": "https://lz.qaiu.top/d/lz/i0fR72vesc2f","ext":{"url":"https://appcms.cs4k.top","dataKey":"Hui6595253......","dataIv":"Hui6595253......","deviceId":"","version":""}},
 {"key":"jpys","name":"🥇金牌","type":3,"api":"https://github.com/j67001/test/raw/main/金牌.py","searchable":1,"quickSearch":1,"filterable":1,"playerType":2,"ext":{"site":"https://www.cfkj86.com,https://www.sizhengxt.com,https://0996zp.com,https://9zhoukj.com,https://www.sizhengxt.com,https://cqzuoer.com,https://www.hkybqufgh.com"}},
 
-{"key":"hntv","name":"🌊海納","type":3,"api":"csp_XBPQ","ext":{"主页url":"https://hainatv.net/","分类url":"https://hainatv.net/index.php/vod/show/area/{area}/by/{by}/id/{cateId}/lang/{lang}/letter/{letter}/page/{catePg}/year/{year}.html","分类":"电影$1#剧集$2#综艺$3#动漫$4#短剧$59"}},
+{"key": "hipy_js_fxzhz","name": "🍈瓜子","type": 3,
+  "api": "https://gh-proxy.com/https://raw.githubusercontent.com/maoystv/api/refs/heads/main/JS/drpy2.min.js",
+  "ext": "https://gh-proxy.com/https://raw.githubusercontent.com/maoystv/TV/refs/heads/master/JS/分享GZ.js"},
+{"key":"hntv","name":"🌊海納","type": 3,
+  "api": "https://gh-proxy.com/https://raw.githubusercontent.com/maoystv/api/refs/heads/main/JS/drpy2.min.js",
+  "ext": "https://gh-proxy.com/https://raw.githubusercontent.com/maoystv/TV/refs/heads/master/JS/分享海纳.js"},
+
+
+//{"key":"hntv","name":"🌊海納","type":3,"api":"csp_XBPQ","ext":{"主页url":"https://hainatv.net/","分类url":"https://hainatv.net/index.php/vod/show/area/{area}/by/{by}/id/{cateId}/lang/{lang}/letter/{letter}/page/{catePg}/year/{year}.html","分类":"电影$1#剧集$2#综艺$3#动漫$4#短剧$59"}},
 {"key":"ddmf","name":"🌞艾旦","type":3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"影片年代":"<divclass=\"module-info-tag\">&&</div>","影片状态":"备注：&&</div>","影片类型":"module-info-tag\">&&立即播放","简介":"  +style=\"line-height:20px;\"&&</div>","线路数组":"data-dropdown-value=&&</div>","线路标题":"<span>&&</span>","分类url":"https://www.ddmf.net/vodshow/1-----------/area/{area}/by/{by}/class/{class}/id/{cateId}/page/{catePg}/year/{year}.html","分类":"电影$1#电视剧$2#动漫$4#综艺$3"}},
 
 {"key":"小蘋果2","name":"🍎蘋果2","type":3,"api":"csp_LiteAppleGuard","searchable":1,"quickSearch":1,"filterable":1},
 {"key":"文采2","name":"💮文采2","type":3,"api":"csp_JpysGuard","playerType":2,"searchable":1,"quickSearch":1,"changeable":1},
 
-{"key":"瓜子","name":"🍈瓜子","type": 3,"api":"csp_GuaziGuard","searchable":1,"quickSearch":1,"filterable":1,"jar":"https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1746629246668/f0508.txt;md5;fe5929df64eb2358effeb032359732e5"},
+//{"key":"瓜子","name":"🍈瓜子","type": 3,"api":"csp_GuaziGuard","searchable":1,"quickSearch":1,"filterable":1,"jar":"https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1746629246668/f0508.txt;md5;fe5929df64eb2358effeb032359732e5"},
 {"key":"文采","name":"💮文采","type":3,"api":"csp_JpysGuard","playerType":2,"searchable":1,"quickSearch":1,"changeable":1,"jar":"https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1746629246668/f0508.txt;md5;fe5929df64eb2358effeb032359732e5"},
 {"key":"糯米","name":"🍓糯米","type":3,"api":"csp_NmyswvGuard","searchable":1,"quickSearch":1,"changeable":1,"jar":"https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1746629246668/f0508.txt;md5;fe5929df64eb2358effeb032359732e5"},
 {"key": "drpy_js_yiys","name": "🐚壹影視","type": 3,"api":"https://github.com/cluntop/cluntop.github.io/raw/main/js/yiys.js","searchable": 1,"quickSearch":1,"changeable": 1,"filterable":1},
