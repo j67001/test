@@ -63,6 +63,7 @@
 {"key":"drpy_js_小宝影院[飞]","name":"🧸小寶","type":3,"api":"http://150.158.112.123/js/dr/drpy2.min.js","ext":"https://raw.githubusercontent.com/j67001/test/refs/heads/main/小宝影院2502.js"}, 
 {"key": "小宝影院XBPQ","name": "🧸小寶2","type": 3,"api": "csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/小寶影院XBPQ.js"},
 {"key":"drpy_js_小宝影院3","name":"🧸小寶3","type":3,"api":"https://github.com/maoystv/api/raw/main/JS/drpy2.min.js","ext":"https://github.com/n3rddd/N3RD/heads/master/JN/EXT/JS/小宝影院.js"}, 
+{"key":"csp_小宝影院4","name":"🧸小寶4","type": 3,"api":"csp_XBPQ","jar":"https://raw.githubusercontent.com/newrecha/TVBOX/refs/heads/main/jar/xyqxbpq.jar","searchable":1,"quickSearch":1,"filterable":1,"ext":{"简介":"+display: none;\">&&</span>","分类url":"https://xiaoxintv.cc/index.php/vod/show/by/time/id/{cateId}/page/{catePg}/year/{year}.html","分类": "電視劇$6#電影$7#動漫$5#綜藝$3#紀錄片$21#短劇$64"}},
 
 
 {"key": "libvio_XBPQ","name": "🦄利播2","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/LIBVIO.XBPQ.js"},
