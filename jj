@@ -65,13 +65,7 @@
 {"key":"drpy_js_小宝影院3","name":"🧸小寶3","type":3,"api":"https://github.com/maoystv/api/raw/main/JS/drpy2.min.js","ext":"https://github.com/n3rddd/N3RD/heads/master/JN/EXT/JS/小宝影院.js"}, 
 {"key":"csp_小宝影院4","name":"🧸小寶4","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"简介":"sketch content\">&&</span>","分类url":"https://xiaoxintv.cc/index.php/vod/show/area/{area}/by/{by}/id/{cateId}/page/{catePg}/year/{year}.html","分类": "電視劇$6#電影$7#動漫$5#綜藝$3#紀錄片$21#短劇$64"}},
 
-{"key":"搜狗_XBPQ","name":"搜狗","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,
-"ext":{
-"请求头":"User-Agent$MOBILE_UA",
-"编码":"UTF-8",
-"简介":"+display: none;\">&&</span>",
-"分类url":"https://waptv.sogou.com/list?listTab={cateId}&zone={area}&year={year}&order={by}&class=1&fr=filter",
-"分类": "電視劇$teleplay#電影$film#動漫$cartoon#綜藝$tvshow#紀錄片$documentary"}},
+{"key":"drpy_js_搜狗","name":"🐕‍🦺搜狗","type":3,"api":"https://github.com/maoystv/api/raw/main/JS/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/sogo.js"},
 
 {"key":"LIBVIO_XBPQ","name":"🦄利播2","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,
 "ext":{
