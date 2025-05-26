@@ -77,7 +77,8 @@
 "ext":{
 "请求头":"User-Agent$PC_UA",
 "编码":"UTF-8",
-"播放链接": "href=\"&&\"",
+"播放标题": "BD5播放#HD5播放#BD播放",
+//"播放链接": "href=\"&&\"",
 "跳转播放链接": "src: \"&&\"",
 "简介":"+display: none;\">&&</span>",
 "分类url":"https://www.libvio.fun/show/{cateId}-{area}-{by}------{catePg}---{year}.html",
