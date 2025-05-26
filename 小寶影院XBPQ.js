@@ -4,6 +4,8 @@
     "分类url": "https://xiaoxintv.cc/index.php/vod/show/id/{cateId}{area}{by}{year}/page/{catePg}.html",
     "分类": "电视剧&电影&动漫&综艺&短剧",
     "分类值": "6&7&5&3&64",
+
+    "简介":"+display: none;\">&&</span>",
 /*
   "数组": "data-&&</h4>",
   "图片": "original=\"&&\"",
