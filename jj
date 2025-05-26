@@ -168,6 +168,12 @@
 {"key":"hntv","name":"🌊海納","type":3,"api":"csp_XBPQ","ext":{"简介":"hl-content-text\">&&</span>","分类url":"https://hainatv.net/index.php/vod/show/area/{area}/by/{by}/id/{cateId}/page/{catePg}/year/{year}.html","分类":"电影$1#剧集$2#综艺$3#动漫$4#短剧$59"}},
 
 //{"key":"hntv","name":"🌊海納","type":3,"api":"csp_XBPQ","ext":{"主页url":"https://hainatv.net/","分类url":"https://hainatv.net/index.php/vod/show/area/{area}/by/{by}/id/{cateId}/lang/{lang}/letter/{letter}/page/{catePg}/year/{year}.html","分类":"电影$1#剧集$2#综艺$3#动漫$4#短剧$59"}},
+
+{"key": "kimi_XBPQ","name": "🐹奇米","type":3,"api":"csp_XBPQ","ext":{
+"简介":"+right-align\">&&</p",
+"分类url":"https://kimivod.com/vod/show/area/{area}/by/{by}/id/{cateId}/page/{catePg}/year/{year}.html",
+"分类":"电影$2#电视剧$1#动漫$3#综艺$4#短剧$39"}},
+
 {"key":"ddmf","name":"🌞艾旦","type":3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"影片年代":"<divclass=\"module-info-tag\">&&</div>","影片状态":"备注：&&</div>","影片类型":"module-info-tag\">&&立即播放","简介":"  +style=\"line-height:20px;\"&&</div>","线路数组":"data-dropdown-value=&&</div>","线路标题":"<span>&&</span>","分类url":"https://www.ddmf.net/vodshow/1-----------/area/{area}/by/{by}/class/{class}/id/{cateId}/page/{catePg}/year/{year}.html","分类":"电影$1#电视剧$2#动漫$4#综艺$3"}},
 
 {"key":"小蘋果2","name":"🍎蘋果2","type":3,"api":"csp_LiteAppleGuard","searchable":1,"quickSearch":1,"filterable":1},
