@@ -97,7 +97,7 @@
 "分类url":"https://777tv.ai/vod/show/area/{area}/by/{by}/id/{cateId}/page/{catePg}/year/{year}.html",
 "分类": "電影$1#電視劇$2#動漫$30#綜藝$29#短劇$34"}},
 
-{"key":"飛兔_XBPQ","name":"🐇飛兔"2,"type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,
+{"key":"飛兔_XBPQ","name":"🐇飛兔2","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,
 "ext":{
 "请求头":"User-Agent$PC_UA",
 "编码":"UTF-8",
