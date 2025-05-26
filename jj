@@ -65,6 +65,9 @@
 {"key":"drpy_js_小宝影院3","name":"🧸小寶3","type":3,"api":"https://github.com/maoystv/api/raw/main/JS/drpy2.min.js","ext":"https://github.com/n3rddd/N3RD/heads/master/JN/EXT/JS/小宝影院.js"}, 
 {"key":"csp_小宝影院4","name":"🧸小寶4","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"简介":"sketch content\">&&</span>","分类url":"https://xiaoxintv.cc/index.php/vod/show/area/{area}/by/{by}/id/{cateId}/page/{catePg}/year/{year}.html","分类": "電視劇$6#電影$7#動漫$5#綜藝$3#紀錄片$21#短劇$64"}},
 
+{"key":"drpy_js_movieffm","name":"movieffm","type":3,"api":"https://github.com/debaters6/XYQ/raw/master/lib/drpy2.min.js","ext":"https://github.com/ht98006/sheeptvbox/raw/main/js/movieffm.js"},
+
+
 {"key":"drpy_js_搜狗","name":"🐕‍🦺搜狗","type":3,"api":"https://github.com/maoystv/api/raw/main/JS/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/sogo.js"},
 {"key":"drpy_js_搜狗2","name":"🐕‍🦺搜狗2","type":3,"api":"https://github.com/debaters6/XYQ/raw/master/lib/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/sogo.js"},
 {"key":"drpy_js_搜狗3","name":"🐕‍🦺搜狗3","type":3,"api":"https://github.com/maoystv/api/raw/main/JS/drpy2.min.js","ext":"https://github.com/debaters6/XYQ/raw/master/js/菜狗.js"},
@@ -187,11 +190,7 @@
 "3":[{"key":"area","name":"地区","value":[{"n":"全部","v":""},{"n":"大陆","v":"大陆"},{"n":"香港","v":"香港"},{"n":"台湾","v":"台湾"},{"n":"日本","v":"日本"},{"n":"韩国","v":"韩国"},{"n":"欧美","v":"欧美"}]},{"key":"year","name":"年份","value":[{"n":"全部","v":""},{"n":"2025","v":"2025"},{"n":"2024","v":"2024"},{"n":"2023","v":"2023"},{"n":"2022","v":"2022"},{"n":"2021","v":"2021"},{"n":"2020","v":"2020"},{"n":"2019","v":"2019"},{"n":"2018","v":"2018"},{"n":"2017","v":"2017"},{"n":"2016","v":"2016"},{"n":"2015","v":"2015"},{"n":"2014","v":"2014"},{"n":"2013","v":"2013"},{"n":"2012","v":"2012"},{"n":"2011","v":"2011"},{"n":"2010-2000","v":"2010-2000"},{"n":"90年代","v":"90年代"},{"n":"80年代","v":"80年代"},{"n":"更早","v":"更早"}]},{"key":"by","name":"排序","value":[{"n":"最新","v":"time"},{"n":"最热","v":"hits"},{"n":"评分","v":"score"}]}]}}},
 
 {"key":"红狐狸_XBPQ","name":"🦊狐狸","type":3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"请求头":"User-Agent$PC_UA","编码":"UTF-8","简介":"margin-top: 10px;\">&&</div>","分类url":"https://honghuli.com/show/{cateId}-{area}-{by}------{catePg}---{year}.html","分类": "電影$1#電視劇$2#動漫$4#綜藝$3#短劇$35"}},
-{"key":"movieffm_XBPQ","name":"Movieffm","type":3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{
-"请求头":"User-Agent$PC_UA","编码":"UTF-8",
-"简介":"margin-bottom: 10px;\">&&</p>",
-"分类url":"https://www.movieffm.net/{cateId}/page/{catePg}/?genres&region={area}&dtyear={year}&cats&orderby={by}&tvtype",
-"分类": "電影$movies#連續劇$drama#電視劇$tvshows#成人$jav"}},
+
 
 {"key":"csp_YGP","name":"🚀新片預告","type":3,"api":"csp_YGP","searchable":0,"quickSearch":0,"changeable":0},
 
