@@ -186,6 +186,11 @@
 "分类url":"https://www.ddmf.net/vodshow/{cateId}-{area}-{by}------{catePg}---{year}.html",
 "分类":"电影$1#电视剧$2#动漫$4#综艺$3"}},
 
+{"key":"大师兄","name":"🥋大師","type":3,"api":"csp_XBPQ","ext":{
+"影片类型":"text-muted\">&&立即播放",
+"简介":"dsplay: none;\">&&</p>",
+"分类url":"https://www.dsxysproo.com/dqvodshow/{cateId}-{area}--{class}-----{catePg}---{year}.html",
+"分类":"电视剧$2#电影$1#动漫$4#综艺$3"}},
 
 {"key":"小蘋果2","name":"🍎蘋果2","type":3,"api":"csp_LiteAppleGuard","searchable":1,"quickSearch":1,"filterable":1},
 {"key":"文采2","name":"💮文采2","type":3,"api":"csp_JpysGuard","playerType":2,"searchable":1,"quickSearch":1,"changeable":1},
