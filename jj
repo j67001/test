@@ -114,6 +114,8 @@
 
 {"key":"倉鼠","name":"🐹倉鼠","type":3,"quickSearch":1,"api":"csp_AppGet","jar": "https://lz.qaiu.top/d/lz/i0fR72vesc2f","ext":{"url":"https://appcms.cs4k.top","dataKey":"Hui6595253......","dataIv":"Hui6595253......","deviceId":"","version":""}},
 {"key":"jpys","name":"🥇金牌","type":3,"api":"https://github.com/j67001/test/raw/main/金牌.py","searchable":1,"quickSearch":1,"filterable":1,"playerType":2,"ext":{"site":"https://www.cfkj86.com,https://www.sizhengxt.com,https://0996zp.com,https://9zhoukj.com,https://www.sizhengxt.com,https://cqzuoer.com,https://www.hkybqufgh.com"}},
+{"key":"jpys-XBPQ1","name":"🥇金牌X1","type":3,"type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"简介":"+display: none;\">&&</span>","分类url":"https://www.sizhengxt.com/vod/show/id/{cateId}/year/{year}/sortType/1/area/{area}/page/{catePg}","分类": "電影$1#電視劇$2#動漫$4#綜藝$3"}},
+{"key":"jpys-XBPQ2","name":"🥇金牌X2","type":3,"type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"简介":"+display: none;\">&&</span>","分类url":"https://ndhfiohk.com/vod/show/id/{cateId}/year/{year}/sortType/1/area/{area}/page/{catePg}","分类": "電影$1#電視劇$2#動漫$4#綜藝$3"}},
 
 {"key": "hipy_js_fxzhz","name": "🍈瓜子","type": 3,
   "api": "https://gh-proxy.com/https://raw.githubusercontent.com/maoystv/api/refs/heads/main/JS/drpy2.min.js",
