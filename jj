@@ -65,13 +65,61 @@
 {"key":"drpy_js_小宝影院3","name":"🧸小寶3","type":3,"api":"https://github.com/maoystv/api/raw/main/JS/drpy2.min.js","ext":"https://github.com/n3rddd/N3RD/heads/master/JN/EXT/JS/小宝影院.js"}, 
 {"key":"csp_小宝影院4","name":"🛫小寶影院4","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"简介":"+display: none;\">&&</span>","分类url":"https://xiaoxintv.cc/index.php/vod/show/area/{area}/by/{by}/id/{cateId}/page/{catePg}/year/{year}.html","分类": "電視劇$6#電影$7#動漫$5#綜藝$3#紀錄片$21#短劇$64"}},
 
+{"key":"搜狗_XBPQ","name":"搜狗","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,
+"ext":{
+"请求头":"User-Agent$MOBILE_UA",
+"编码":"UTF-8",
+"简介":"+display: none;\">&&</span>",
+"分类url":"https://waptv.sogou.com/list?listTab={cateId}&zone={area}&year={year}&order={by}&class=1&fr=filter",
+"分类": "電視劇$teleplay#電影$film#動漫$cartoon#綜藝$tvshow#紀錄片$documentary"}},
 
-{"key": "libvio_XBPQ","name": "🦄利播2","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/LIBVIO.XBPQ.js"},
+{"key":"LIBVIO_XBPQ","name":"🦄利播2","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,
+"ext":{
+"请求头":"User-Agent$PC_UA",
+"编码":"UTF-8",
+"简介":"+display: none;\">&&</span>",
+"分类url":"https://www.libvio.fun/show/{cateId}-{area}-{by}------{catePg}---{year}.html",
+"分类": "電影$1#電視劇$2#動漫$4#綜藝$3#日韓劇$15#歐美劇$16"}},
+
+{"key":"劇迷_XBPQ","name":"🎭劇迷2","type":3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,
+"ext":{
+"请求头":"User-Agent$PC_UA",
+"编码":"UTF-8",
+"简介":"+display: none;\">&&</span>",
+"分类url":"https://gimy.video/genre/{cateId}-{area}-{year}-{catePg}/by/{by}.html",
+"分类": "電影$1#電視劇$2#動漫$30#綜藝$29#短劇$34"}},
+
+{"key":"小鴨_XBPQ","name": "🦆小鴨2","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,
+"ext":{
+"请求头":"User-Agent$PC_UA",
+"编码":"UTF-8",
+"简介":"+display: none;\">&&</span>",
+"分类url":"https://777tv.ai/vod/show/area/{area}/by/{by}/id/{cateId}/page/{catePg}/year/{year}.html",
+"分类": "電影$1#電視劇$2#動漫$30#綜藝$29#短劇$34"}},
+
+{"key":"飛兔_XBPQ","name":"🐇飛兔"2,"type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,
+"ext":{
+"请求头":"User-Agent$PC_UA",
+"编码":"UTF-8",
+"简介":"+display: none;\">&&</span>",
+"分类url":"https://www.feitu.tv/filter/{cateId}/area/{area}/by/{by}/page/{catePg}/year/{year}/",
+"分类": "電影$1#電視劇$2#動漫$4#綜藝$3#超爽短劇$110#紀錄片$51#體育賽事$50#電影解說$76"}},
+
+{"key":"海兔_XBPQ","name":"🐰海兔2","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,
+"ext":{
+"请求头":"User-Agent$PC_UA",
+"编码":"UTF-8",
+"简介":"+display: none;\">&&</span>",
+"分类url":"https://www.haitu.xyz/vodshow/{cateId}-{area}-{by}------{catePg}---{year}.html",
+"分类": "電影$1#電視劇$2#動畫電影$35#動漫$4#綜藝$3#短劇$42#倫理$21"}},
+
+
+{"key": "libvio_XBPQ","name": "🦄利播3","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/LIBVIO.XBPQ.js"},
 
 {"key":"drpy_js_duck","name":"🦆小鴨","type":3,"api":"http://150.158.112.123/js/dr/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/duck.js"}, 
 
 {"key":"drpy_js_剧迷","name":"🎭劇迷","type":3,"api":"http://150.158.112.123/js/dr/drpy2.min.js","ext":"https://github.com/j67001/test/raw/main/剧迷.js"}, 
-{"key":"劇迷XBPQ","name":"🎭劇迷2","type":3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/劇迷XBPQ.js"},
+{"key":"劇迷XBPQ","name":"🎭劇迷3","type":3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/劇迷XBPQ.js"},
 {"key": "欧乐","name": "😹歐樂","type": 3,"api": "csp_Olevod","searchable": 1,"quickSearch": 1,"filterable": 1,"changeable": 0,"ext": "https://raw.githubusercontent.com/fangkuia/XPTV/refs/heads/main/js/ole.js"},
 //{"key": "酷狗","name": "🐶酷狗","type": 3,"api": "csp_Kugou","searchable": 1,"changeable": 0},
 {"key":"ystv_PG","name":"📽️影視","type":3,"api":"csp_YingShi","searchable":1,"changeable":1},
@@ -114,8 +162,6 @@
 
 {"key":"倉鼠","name":"🐹倉鼠","type":3,"quickSearch":1,"api":"csp_AppGet","jar": "https://lz.qaiu.top/d/lz/i0fR72vesc2f","ext":{"url":"https://appcms.cs4k.top","dataKey":"Hui6595253......","dataIv":"Hui6595253......","deviceId":"","version":""}},
 {"key":"jpys","name":"🥇金牌","type":3,"api":"https://github.com/j67001/test/raw/main/金牌.py","searchable":1,"quickSearch":1,"filterable":1,"playerType":2,"ext":{"site":"https://www.cfkj86.com,https://www.sizhengxt.com,https://0996zp.com,https://9zhoukj.com,https://www.sizhengxt.com,https://cqzuoer.com,https://www.hkybqufgh.com"}},
-{"key":"jpys-XBPQ1","name":"🥇金牌X1","type":3,"type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"简介":"+display: none;\">&&</span>","分类url":"https://www.sizhengxt.com/vod/show/id/{cateId}/year/{year}/sortType/1/area/{area}/page/{catePg}","分类": "電影$1#電視劇$2#動漫$4#綜藝$3"}},
-{"key":"jpys-XBPQ2","name":"🥇金牌X2","type":3,"type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"简介":"+display: none;\">&&</span>","分类url":"https://ndhfiohk.com/vod/show/id/{cateId}/year/{year}/sortType/1/area/{area}/page/{catePg}","分类": "電影$1#電視劇$2#動漫$4#綜藝$3"}},
 
 {"key": "hipy_js_fxzhz","name": "🍈瓜子","type": 3,
   "api": "https://gh-proxy.com/https://raw.githubusercontent.com/maoystv/api/refs/heads/main/JS/drpy2.min.js",
