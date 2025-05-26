@@ -170,10 +170,7 @@
 //{"key":"hntv","name":"🌊海納","type":3,"api":"csp_XBPQ","ext":{"主页url":"https://hainatv.net/","分类url":"https://hainatv.net/index.php/vod/show/area/{area}/by/{by}/id/{cateId}/lang/{lang}/letter/{letter}/page/{catePg}/year/{year}.html","分类":"电影$1#剧集$2#综艺$3#动漫$4#短剧$59"}},
 
 {"key": "kimi_XBPQ","name": "🐹奇米","type":3,"api":"csp_XBPQ","ext":{
-"数组": "默认--post\">&&</a||首页--<article&&</a||短剧--<div class=\"s6&&</a",
 "图片": "data-src=\"&&\"",
-"标题": "title=\"&&\"",
-"副标题": "默认--text\">&&</div||首页--text*\">&&</div",
 "简介":"+right-align\">&&</p",
 "分类url":"https://kimivod.com/vod/show/area/{area}/by/{by}/id/{cateId}/page/{catePg}/year/{year}.html",
 "分类":"电影$2#电视剧$1#动漫$3#综艺$4#短剧$39"}},
