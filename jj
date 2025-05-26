@@ -77,8 +77,8 @@
 "ext":{
 "请求头":"User-Agent$PC_UA",
 "编码":"UTF-8",
-"简介":"+display: none;\">&&</span>",
 "链接": "<iframe src=\"&&\"",
+"简介":"+display: none;\">&&</span>",
 "分类url":"https://www.libvio.fun/show/{cateId}-{area}-{by}------{catePg}---{year}.html",
 "分类": "電影$1#電視劇$2#動漫$4#綜藝$3#日韓劇$15#歐美劇$16"}},
 
@@ -86,7 +86,7 @@
 "ext":{
 "请求头":"User-Agent$PC_UA",
 "编码":"UTF-8",
-"简介":"+display: none;\">&&</span>",
+"简介":"col-pd text-collapse content\">&&</p>",
 "分类url":"https://gimy.video/genre/{cateId}-{area}-{year}-{catePg}/by/{by}.html",
 "分类": "電影$1#電視劇$2#動漫$30#綜藝$29#短劇$34"}},
 
@@ -94,7 +94,7 @@
 "ext":{
 "请求头":"User-Agent$PC_UA",
 "编码":"UTF-8",
-"简介":"+display: none;\">&&</span>",
+"简介":"stui-content__desc col-pd clearfix\">&&</p>",
 "分类url":"https://777tv.ai/vod/show/area/{area}/by/{by}/id/{cateId}/page/{catePg}/year/{year}.html",
 "分类": "電影$1#電視劇$2#動漫$30#綜藝$29#短劇$34"}},
 
@@ -102,7 +102,7 @@
 "ext":{
 "请求头":"User-Agent$PC_UA",
 "编码":"UTF-8",
-"简介":"+display: none;\">&&</span>",
+//"简介":"+display: none;\">&&</span>",
 "分类url":"https://www.feitu.tv/filter/{cateId}/area/{area}/by/{by}/page/{catePg}/year/{year}/",
 "分类": "電影$1#電視劇$2#動漫$4#綜藝$3#超爽短劇$110#紀錄片$51#體育賽事$50#電影解說$76"}},
 
