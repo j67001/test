@@ -208,8 +208,8 @@
 {"key": "ACG_XBPQ","name": "🌞ACG動漫","type":3,"api":"csp_XBPQ","ext":{
 //"影片类型":"module-info-tag\">&&立即播放",
 "简介":"video_detail_desc*\">&&</div>",
-"线路数组":"presentation\">&&</li>",
-"线路标题":">&&</button>",
+"线路数组":"tab\">&&</button>",
+"线路标题":"tab\">&&</button>",
 "分类url":"https://www.agefans.la/catalog/all-{year}-all-all-all-time-{catePg}-{cateId}-all-all",
 "分类":"日漫$日本#國漫$中国#歐美$欧美"}},
 
