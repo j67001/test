@@ -205,6 +205,14 @@
 
 {"key":"csp_xpath_dmw","name":"🏝️動漫島2","type":3,"api":"csp_XPathMacFilter","searchable":1,"quickSearch":1,"filterable":1,"ext":"https://github.com/takagen99/channel/raw/master/CATVOD/main/xp/dmw.json"},
 
+{"key":"Ysj","name":"🎀異界動漫","type":3,"api":"csp_XBPQ","ext":{
+"简介":"　　+剧情介绍&&</span>",
+"分类url":"https://www.dmmiku.net/index.php/vod/show/by/{by}/class/{class}/id/{cateId}/page/{catePg}/year/{year}.html",
+"分类":"新番$22#日漫$20#國漫$29"
+}},
+
+{"key":"Ysj2","name":"🎀異界動漫2","type":3,"api":"csp_YsjGuard","searchable":1,"quickSearch":1,"changeable":1},
+
 
 
 {"key":"小蘋果2","name":"🍎蘋果2","type":3,"api":"csp_LiteAppleGuard","searchable":1,"quickSearch":1,"filterable":1},
