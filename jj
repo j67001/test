@@ -214,6 +214,13 @@
 
 {"key":"Ysj2","name":"🎀異界動漫2","type":3,"api":"csp_Ysj","searchable":1,"quickSearch":1,"changeable":1},
 
+{"key":"sakura_XBPQ","name":"🌸櫻花動漫","type":3,"api":"csp_XBPQ","ext":{
+"简介":"display: none;\">&&</p>",
+"分类url":"https://www.857kan.com/show/{cateId}--{by}-{class}-----{catePg}---{year}.html",
+"分类":"日本動漫$ribendongman#國產動漫$guochandongman#歐美動漫$omeidongman#動漫電影$dongmandianying"
+}},
+
+{"key":"csp_YHDM","name":"🌸櫻花動漫2","type":3,"api":"csp_YHDM","searchable":1,"quickSearch":1,"filterable":1},
 
 
 {"key":"小蘋果2","name":"🍎蘋果2","type":3,"api":"csp_LiteAppleGuard","searchable":1,"quickSearch":1,"filterable":1},
