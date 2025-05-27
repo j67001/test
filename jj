@@ -195,7 +195,6 @@
 {"key":"動漫島_XBPQ","name":"🏝️動漫島","type":3,"api":"csp_XBPQ","ext":{
 "图片":"list_pic\" src=\"&&\"",
 "标题":"alt=\"&&\"",
-"线路数组":"[排序:线路2>线路3>线路1]",
 "链接": "<a href=\"&&\"",
 "简介":"　　+des\">&&</div>",
 "分类url":"https://www.dmand5.com/vod-list-id-{cateId}-pg-{catePg}-order--by-{by}-class-{class}-year-{year}-letter--area--lang-.html",
@@ -205,22 +204,6 @@
 
 {"key":"csp_xpath_dmw","name":"🏝️動漫島2","type":3,"api":"csp_XPathMacFilter","searchable":1,"quickSearch":1,"filterable":1,"ext":"https://github.com/takagen99/channel/raw/master/CATVOD/main/xp/dmw.json"},
 
-{"key":"Ysj","name":"🎀異界動漫","type":3,"api":"csp_XBPQ","ext":{
-"简介":"content_desc context clearfix\"*>&&</p>",
-"分类url":"https://www.dmmiku.net/index.php/vod/show/by/{by}/class/{class}/id/{cateId}/page/{catePg}/year/{year}.html",
-"分类":"新番$22#日漫$20#國漫$29",
-"剧情":"奇幻&恋爱&后宫&学園&热血&神魔&萝莉&治愈&搞笑&百合&冒险&魔法&机战&战争&战斗&犯罪&悬疑&推理&科幻&竞技&运动&耽美&其他&OVA&剧场版&1月新番&4月新番&7月新番&10月新番||BD无修&奇幻&恋爱&后宫&学園&热血&神魔&萝莉&治愈&搞笑&百合&冒险&魔法&机战&战争&战斗&犯罪&悬疑&推理&科幻&竞技&运动&耽美&其他&OVA&剧场版&1月新番&4月新番&7月新番&10月新番||国漫"
-}},
-
-{"key":"Ysj2","name":"🎀異界動漫2","type":3,"api":"csp_Ysj","searchable":1,"quickSearch":1,"changeable":1},
-
-{"key":"sakura_XBPQ","name":"🌸櫻花動漫","type":3,"api":"csp_XBPQ","ext":{
-"简介":"display: none;\">&&</p>",
-"分类url":"https://www.857kan.com/show/{cateId}--{by}-{class}-----{catePg}---{year}.html",
-"分类":"日本動漫$ribendongman#國產動漫$guochandongman#歐美動漫$omeidongman#動漫電影$dongmandianying"
-}},
-
-{"key":"csp_YHDM","name":"🌸櫻花動漫2","type":3,"api":"csp_YHDM","searchable":1,"quickSearch":1,"filterable":1},
 
 
 {"key":"小蘋果2","name":"🍎蘋果2","type":3,"api":"csp_LiteAppleGuard","searchable":1,"quickSearch":1,"filterable":1},
