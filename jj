@@ -200,6 +200,14 @@
 "分类url":"https://dm84.net/show-{cateId}--{by}-{class}--{year}-{catePg}.html",
 "分类":"日漫$2#國漫$1#歐美動漫$3#動畫電影$4"}},
 
+{"key":"動漫巴士_XBPQ2","name":"🚌動漫巴士2","type":3,"api":"csp_XBPQ","ext":{
+"数组":"<div class=\"item\">&&</div>",
+"图片":"data-bg=\"&&\"",
+"标题":"\"title\"*>&&</a>",
+"副标题":"<span class=\"desc\">&&</span>",
+"分类url":"https://dm84.tv/show-{cateId}--{by}-{class}--{year}-{catePg}.html",
+"分类":"日漫$2#國漫$1#歐美動漫$3#動畫電影$4"}},
+
 {"key":"小蘋果2","name":"🍎蘋果2","type":3,"api":"csp_LiteAppleGuard","searchable":1,"quickSearch":1,"filterable":1},
 {"key":"文采2","name":"💮文采2","type":3,"api":"csp_JpysGuard","playerType":2,"searchable":1,"quickSearch":1,"changeable":1},
 
