@@ -197,7 +197,7 @@
 "图片":"data-bg=\"&&\"",
 "标题":"\"title\"*>&&</a>",
 "副标题":"<span class=\"desc\">&&</span>",
-"简介":"intro\"*>&&<div class",
+"简介":"剧情：+剧情：&&<div class",
 "倒序": "1",
 "分类url":"https://dm84.tv/show-{cateId}--{by}-{class}--{year}-{catePg}.html",
 "分类":"日漫$2#國漫$1#歐美動漫$3#動畫電影$4"}},
