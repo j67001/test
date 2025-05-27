@@ -204,7 +204,10 @@
 
 {"key":"csp_xpath_dmw","name":"🏝️動漫島2","type":3,"api":"csp_XPathMacFilter","searchable":1,"quickSearch":1,"filterable":1,"ext":"https://github.com/takagen99/channel/raw/master/CATVOD/main/xp/dmw.json"},
 
-
+{"key":"ximalaya_XBPQ","name":"🌸喜馬拉雅","type":3,"api":"csp_XBPQ","ext":{
+"分类url":"https://www.ximalaya.com/category/a{cateId}/",
+"分类":"音乐$2#有声书$3#娱乐$4#外语$5#儿童$6#商业财经$8#历史$9#相声评书$12#个人成长$13#广播剧$15#有声图书$1001#人文国学$1002#热点$1005#生活$1006#新红色频道$1054#悬疑$1061#健康$1062#汽车$1065",
+}},
 
 {"key":"小蘋果2","name":"🍎蘋果2","type":3,"api":"csp_LiteAppleGuard","searchable":1,"quickSearch":1,"filterable":1},
 {"key":"文采2","name":"💮文采2","type":3,"api":"csp_JpysGuard","playerType":2,"searchable":1,"quickSearch":1,"changeable":1},
