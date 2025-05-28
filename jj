@@ -62,8 +62,8 @@
 {"key": "djwo_XBPQ","name": "🐚短劇窩","type":3,"api":"csp_XBPQ","ext":{
 "简介":"card-body*\">&&</div>",
 "线路数组":"card card-reboot*\">&&</li>",
-//"线路标题":">&&</button>",
-//"播放数组": "video_detail_episode\">&&</ul>",
+"线路标题":">&&</h3>",
+"播放数组": "vod-list row\">&&</div>",
 "分类url": "https://www.idjw.cc/show/1{by}{class}{year}/page/{catePg}",
 "分类": "短剧$1",
 "筛选": {
