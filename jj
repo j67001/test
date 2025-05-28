@@ -100,7 +100,25 @@
     "filterable":0,
     "ext":"https://raw.githubusercontent.com/ht98006/TVBox/main/js/movieffm.js"
 },
-
+  {
+            "key": "movieffm3",
+            "name": "❤️‍🔥movieffm3",
+            "type": 3,
+            "api": "csp_XBPQ",
+           
+            "ext": {
+                "首页": "",
+                "数组": "<article&&class=\"genres&&</article>",
+                "图片": "data-lazy-src=\"&&\"",
+                "标题": "alt=\"&&\"",
+                "副标题": "class=\"update\">&&</div>",
+                "链接": "href=\"&&\"",
+                "链接前缀": "",
+                "直接播放": "电影",
+                "分类": "电影$movies#连续剧$drama#电视剧$tvshows",
+                "分类url": "https://www.movieffm.net/{cateId}/page/{catePg}"
+            }
+        },
 
 
 
