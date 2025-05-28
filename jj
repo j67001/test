@@ -208,7 +208,7 @@
 
 {"key": "AGE_XBPQ","name": "🌞AGE動漫","type":3,"api":"csp_XBPQ","ext":{
 "简介":"video_detail_desc*\">&&</div>",
-"线路数组":"tablist\">&&</ul>",
+"线路数组":"tab-content\">&&video_detail_wrapper",
 "线路标题":"tab\">&&</button>",
 "分类url":"https://www.agefans.la/catalog/all-{year}-all-{class}-all-time-{catePg}-{cateId}-all-all",
 "分类": "日漫&國漫&歐美","分类值": "日本&中国&欧美",
