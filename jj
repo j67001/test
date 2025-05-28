@@ -72,14 +72,11 @@
 
 {"key": "djwo_XBPQ2","name": "🐚短劇窩2","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/djwo.XBPQ.js"},
 
-    {
-      "key": "YingShi",
-      "name": "影视TV",
-      "api": "csp_YingShi",
-      "type": 3,
-      "jar": "https://raw.githubusercontent.com/13998394872/TVBox/main/jar/pg.jar"
-      //"ext": "socks5://192.168.50.1:23456"
-    },
+{"key":"優視頻_XBPQ","name":"💎優視頻","type": 3,"api":"csp_XBPQ",
+"ext":{
+"简介":"简介：&&</span>",
+"分类url":"https://www.uvod.tv/fil.html?parent_category_id={cateId}&year={year}&region={area}&page={catePg}&pagesize=42",
+"分类": "電影$100#電視劇$101#動漫$103#綜藝$102"}},
 
 
 
