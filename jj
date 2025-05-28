@@ -81,16 +81,25 @@
 "链接": "href=\"&&\"",
 "线路数组":"ctuijian\">&&</a>",
 "线路标题":">&&<",
-"播放数组": "videourls:&&tbcur:",
-"播放列表": "name\":&&\"",    
-"播放标题": "\"&&\"",   
-"播放链接": "url\":\"&&\"",   
+//"播放数组": "videourls:&&tbcur:",
+//"播放列表": "name\":&&\"",    
+//"播放标题": "\"&&\"",   
+//"播放链接": "url\":\"&&\"",   
 "简介":"margin-bottom: 10px;\">&&</div>",
 "分类url": "https://www.movieffm.net/{cateId}/page/{catePg}/",
 "分类": "Netflix電影$cats\/netflix#Netflix劇集$network\/netflix#電影$movies#連續劇$drama#電視劇$tvshows"
 }},
 
-
+{
+    "key":"movieffm",
+    "name":"🐑movieffm",
+    "type":3,
+    "api":"https://raw.githubusercontent.com/ht98006/TVBox/main/libs/drpy2.js",
+    "searchable":2,
+    "quickSearch":0,
+    "filterable":0,
+    "ext":"https://raw.githubusercontent.com/ht98006/TVBox/main/js/movieffm.js"
+},
 
 
 
