@@ -199,6 +199,7 @@
 "图片": "list_pic\" src=\"&&\"",
 "链接": "href=\"&&\"",
 "线路数组": "<label class=\"tabs_*\">&&</label>",
+"线路标题": "\">&&<em>",
 "简介":"　　+des\">&&</div>",
 "分类url":"https://www.dmand5.com/vod-list-id-{cateId}-pg-{catePg}-order--by-{by}-class-{class}-year-{year}-letter--area--lang-.html",
 "分类":"新番連載$1#完結日漫$3#熱門國漫$4#劇場動漫$16",
