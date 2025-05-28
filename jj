@@ -198,7 +198,7 @@
 "副标题": "font color=\"*>&&</font>",
 "图片": "list_pic\" src=\"&&\"",
 "链接": "href=\"&&\"",
-"线路数组": "<label class=\"tabs_*\">&&</label>",
+"线路数组": "<label class=\"tabs_*\">&&</label>[替换:1>> 1#2>> 2#3>> 3#4>> 4#5>> 5]",
 "线路标题": "线路&&<",
 "简介":"　　+des\">&&</div>",
 "分类url":"https://www.dmand5.com/vod-list-id-{cateId}-pg-{catePg}-order--by-{by}-class-{class}-year-{year}-letter--area--lang-.html",
@@ -222,11 +222,13 @@
 }}},
 
 {"key": "ACG_XBPQ","name": "🌞ACG動漫","type":3,"api":"csp_XBPQ","ext":{
+"请求头":"User-Agent$PC_UA","编码":"UTF-8",
 //"数组": "Ibga_ACacIHE__aec\">&&</a",
 //"标题": "title=\"&&\"",
 //"副标题": "<span class=\"Iec_GGIe text-right\">&&</b>",
 //"图片": "data-original=\"&&\"",
 //"链接": "href=\"&&\"",
+"图片代理": "1",
 "简介":"detail-content\"*>&&</span>",
 "分类url":"https://www.acgbibi.com/show/{cateId}-----------.html",
 "分类": "日漫$1#国漫$2#美漫$3#动画$5"
