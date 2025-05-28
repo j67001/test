@@ -73,7 +73,7 @@
 {"key": "djwo_XBPQ2","name": "🐚短劇窩2","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/djwo.XBPQ.js"},
 
 
-{"key": "ffm_XBPQ","name": "🐚MovieFFM","type": 3,"api":"csp_XBPQ",,"ext":{
+{"key": "ffm_XBPQ","name": "🐚MovieFFM","type": 3,"api":"csp_XBPQ","ext":{
 "简介":"margin-bottom: 10px;\">&&</div>",
 "分类url": "https://www.movieffm.net/{cateId}/page/{catePg}/",
 "分类": "Netflix電影$cats/netflix#Netflix劇集$network/netflix#電影$movies#連續劇$drama#電視劇$tvshows"
