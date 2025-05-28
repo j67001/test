@@ -227,7 +227,7 @@
 //"图片": "data-original=\"&&\"",
 //"链接": "href=\"&&\"",
 "简介":"detail-content\"*>&&</span>",
-"分类url":"https://www.acgbibi.com/show/{cateId}--{by}------{catePg}---{year}.html",
+"分类url":"https://www.acgbibi.com/show/{cateId}--------{catePg}---.html",
 "分类": "日漫$1#國漫$2#美漫$3#動畫$5#劇場$24#特攝$4"
 }},
 
