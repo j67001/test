@@ -74,13 +74,13 @@
 
 {"key":"優視頻_XBPQ","name":"💎優視頻","type": 3,"api":"csp_XBPQ",
 "ext":{
-"数组": "class=\"content-list\">&&</span></div>",
-"标题": "title=\"&&\"",
-"副标题": "latest_score\">&&<",
-"图片": "src=\"&&\"",
+"数组": "filbox_list1\">&&</a>",
+"标题": "title=\"&&\"><img",
+"副标题": "mfilbox_bottom-fraction\">&&<",
+"图片": "ok\" src=\"",
 "链接": "href=\"&&\"",
 "简介":"简介：&&</span>",
-"分类url":"https://www.uvod.tv/fil.html?parent_category_id={cateId}&year={year}&region={area}&page={catePg}&pagesize=42",
+"分类url":"https://m.uvod.tv/search/?parent_category_id={cateId}&year={year}&region={area}&page={catePg}&pagesize=42",
 "分类": "電影$100#電視劇$101#動漫$103#綜藝$102"}},
 
 
