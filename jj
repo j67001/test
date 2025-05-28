@@ -77,8 +77,11 @@
 "数组": "<article id=\"post-*\"&&</article>",
 "标题": "alt=\"&&\"",
 "副标题": "upinfo\">&&</div>",
-"图片": "<img src=\"&&\"",
+"图片": "<noscript><img src=\"&&\"",
 "链接": "href=\"&&\"",
+"线路数组":"dooplay_player_option\">&&</li>",
+"线路标题":"title\">&&</span>",
+"播放数组": "jujiepisodios\">&&</div>",
 "简介":"margin-bottom: 10px;\">&&</div>",
 "分类url": "https://www.movieffm.net/{cateId}/page/{catePg}/",
 "分类": "Netflix電影$cats\/netflix#Netflix劇集$network\/netflix#電影$movies#連續劇$drama#電視劇$tvshows"
