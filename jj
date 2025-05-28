@@ -219,6 +219,11 @@
 }}},
 
 {"key": "ACG_XBPQ","name": "🌞ACG動漫","type":3,"api":"csp_XBPQ","ext":{
+"数组": "Ibga_ACacIHE__aec\">&&</a",
+"标题": "title=\"&&\"",
+"副标题": "<span class=\"Iec_GGIe text-right\">&&</b>",
+"图片": "data-original=\"&&\"",
+"链接": "href=\"&&\"",
 "简介":"detail-content\"*>&&</span>",
 "分类url":"https://www.acgbibi.com/show/{cateId}--{by}-{class}-----{catePg}---{year}.html",
 "分类": "日漫$1#國漫$2#美漫$3#動畫$5#劇場$24#特攝$4"
