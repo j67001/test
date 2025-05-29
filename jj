@@ -133,23 +133,31 @@
 "22":[{"key":"year","name":"年份","value":[{"n":"全部","v":""},{"n":"2025","v":"/year/2025"},{"n":"2024","v":"/year/2024"},{"n":"2023","v":"/year/2023"},{"n":"2022","v":"/year/2022"},{"n":"更早","v":"/year/更早"}]},{"key":"by","name":"排序","value":[{"n":"新上线","v":"/by/time"},{"n":"热播榜","v":"/by/hits_day"},{"n":"好评榜","v":"/by/score"}]}]}}},
 
 
-
-
-
-
-
-
-
-
-
-
-        {
+{
             "key": "壹影视(js)",
             "name": "壹影视(js)",
             "type": 3,
             "api": "https://raw.githubusercontent.com/leilingzero/moyu/master/XYQ/lib3/drpy2.min.js",
             "ext": "https://raw.githubusercontent.com/leilingzero/moyu/master/XYQ/js/壹影视1.js"
         },
+
+{"key":"麥田短劇_XBPQ","name":"🌝麥田短劇","type": 3,"api":"csp_XBPQ",
+"ext":{
+"请求头":"User-Agent$MOBILE_UA",
+"编码":"UTF-8",
+//"数组": "group-hover:rounded-lg\"&&</div><span class",
+//"图片": "src=\"&&\"",
+//"标题": "font-bold\">&&</span>",
+//"副标题": "text-xs truncate\">&&</p>",
+//"链接": "href=\"&&\"",
+//"简介": "text-sm text-ellipsis overflow-hidden\">&&</code>",
+"分类url": "https://www.ryehub.com/h5/"
+//"分类": "电影$1#电视剧$2#动漫$4#综艺$3#短劇$22",
+}},
+
+
+
+
 
 
 
