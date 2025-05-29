@@ -115,12 +115,15 @@
 
 {"key":"壹影視_XBPQ","name":"🌝壹影視","type": 3,"api":"csp_XBPQ",
 "ext":{
-
+"数组": "desktop-hover-effect\">&&vertical",
+"图片": "src=\"&&\"",
+"标题": "font-bold\">&&</span>",
+"副标题": "text-xs truncate">&&</p>",
+"链接": "href=\"&&\"",
 "简介": "text-sm text-ellipsis overflow-hidden\">&&</code>",
 "分类url": "https://light-ios.yiys04.com/vod/show/by/time/id/{cateId}/class/{class}/area/{area}/year/{year}/by/{by}/page/{catePg}",
 "分类": "电影$1#电视剧$2#动漫$4#综艺$3#短劇$22"
 }},
-
 
 
 {"key":"drpy_js_小宝影院[飞]","name":"🧸小寶","type":3,"api":"http://150.158.112.123/js/dr/drpy2.min.js","ext":"https://raw.githubusercontent.com/j67001/test/refs/heads/main/小宝影院2502.js"}, 
