@@ -113,16 +113,12 @@
 "分类": "电影$1#电视剧$2#國產劇$14#动漫$3#综艺$4"
 }},
 
-{"key":"HDtoday_XBPQ","name":"⛲HDtoday","type": 3,"api":"csp_XBPQ",
+{"key":"壹影視_XBPQ","name":"🌝壹影視","type": 3,"api":"csp_XBPQ",
 "ext":{
-"数组": "flw-item\">&&</span></div></div>",
-"标题": "title=\"&&\"",
-"副标题": "mfilbox_bottom-fraction\">&&<",
-"图片": "img data-src=\"&&\"",
-"链接": "href=\"&&\"",
-"简介": "description\">&&</div>",
-"分类url": "https://hdtodayz.to/filter?quality=all&release_year=all&country=all&genre=all&type={cateId}&page={catePg}",
-"分类": "電影$movie#電視劇$tv"
+
+"简介": "text-sm text-ellipsis overflow-hidden\">&&</code>",
+"分类url": "https://light-ios.yiys04.com/vod/show/by/time/id/{cateId}/class/{class}/area/{area}/year/{year}/by/{by}/page/{catePg}",
+"分类": "电影$1#电视剧$2#动漫$4#综艺$3#短劇$22"
 }},
 
 
