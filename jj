@@ -94,7 +94,7 @@
 "分类url":"https://m.uvod.tv/search/?parent_category_id={cateId}",
 "分类": "電影$100#電視劇$101#動漫$103#綜藝$102"}},
 
-{"key":"euvod_XBPQ","name":"💎歐影視","type": 3,"api":"csp_XBPQ",
+{"key":"euvod_XBPQ","name":"⛲歐影視","type": 3,"api":"csp_XBPQ",
 "ext":{
  "数组": "\"module-item-pic\"&&\"module-item\"",
 "图片": "data-src=\"&&\"",
@@ -107,7 +107,7 @@
 "播放列表": "<a&&/a>",    
 "播放标题": "<span>&&</span>",   
 "播放链接": "href=\"&&\"",   
-"影片类型":"tag-link\">&&slash\"",
+"影片类型":"slash\">&&</div></div>",
 "简介": "vod_content\">&&</span>",
 "分类url": "https://euvod.tv/vodshow/{cateId}-{area}-{by}-{class}-----{catePg}---{year}.html",
 "分类": "电影$1#电视剧$2#动漫$3#综艺$4#短剧$38"
