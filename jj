@@ -115,7 +115,7 @@
 
 {"key":"壹影視_XBPQ","name":"🌝壹影視","type": 3,"api":"csp_XBPQ",
 "ext":{
-"数组": "desktop-hover-effect\">&&vertical",
+"数组": "flex flex-col items-center desktop-hover-effect\">&&vertical;",
 "图片": "src=\"&&\"",
 "标题": "font-bold\">&&</span>",
 "副标题": "text-xs truncate">&&</p>",
