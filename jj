@@ -113,6 +113,13 @@
 "分类": "电影$1#电视剧$2#國產劇$14#动漫$3#综艺$4"
 }},
 
+{"key":"HDtoday_XBPQ","name":"⛲HDtoday","type": 3,"api":"csp_XBPQ",
+"ext":{
+"简介": "description\">&&</div>",
+"分类url": "https://hdtodayz.to/filter?quality=all&release_year=all&country=all&genre=all&type={cateId}&page={catePg}",
+"分类": "電影$movie#電視劇$tv"
+}},
+
 
 
 {"key":"drpy_js_小宝影院[飞]","name":"🧸小寶","type":3,"api":"http://150.158.112.123/js/dr/drpy2.min.js","ext":"https://raw.githubusercontent.com/j67001/test/refs/heads/main/小宝影院2502.js"}, 
