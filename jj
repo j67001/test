@@ -113,17 +113,8 @@
 "分类": "电影$1#电视剧$2#國產劇$14#动漫$3#综艺$4"
 }},
 
-{"key":"csp_BiliGuard","name":"哔哩哔哩 1","type":3,"api":"csp_BiliGuard","searchable":0,"quickSearch":0,"filterable":0,
-"jar": "https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/lem0525.jar",
-"ext":{"https://raw.githubusercontent.com/n3rddd/N3RD/master/JN/EXT/XB/Bili1.json"}},
+{"key":"csp_GM_爱壹帆","name":"🐵爱壹帆(SCRIPT)","api":"csp_GM","type":3,"searchable":1,"changeable":1,"quickSearch":0,"jar":"https://github.com/n3rddd/N3RD/raw/refs/heads/master/JN/N3RD/J/gm.jar","ext":{"userScript":"https://github.com/n3rddd/N3RD/raw/refs/heads/master/JN/EXT/userScripts/ysfp.user.js","debug":false,"webViewSettings":{"blockNetworkImage":true,"blockList":["*.png*","*.mp3*","*.css*","https://*.googletagmanager.com/*","https://*.google-analytics.com/*"]},"spider":{"homeContent":{"loadUrl":"https://m.yfsp.tv/"},"categoryContent":{"loadUrl":"https://m.yfsp.tv/list/${tid}?type=${index-0:-0}${index-1:-,0}${index-2:-,0}${index-3:-,0}${index-4:-,0}${index-5:-}"},"detailContent":{"loadUrl":"https://m.yfsp.tv/play/${id}"},"playerContent":{"loadUrl":"https://m.yfsp.tv/play/${mediaKey}?id=${episodeKey}"},"searchContent":{"loadUrl":"https://m.yfsp.tv/search"}}}},
 
-{"key":"csp_BiliGuard2","name":"哔哩哔哩 2","type":3,"api":"csp_BiliGuard","searchable":0,"quickSearch":0,"filterable":0,
-"jar": "https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/lem0525.jar",
-"ext":{"https://gitlab.com/fantaiying/ext/-/raw/main/bilibili.json"}},
-
-{"key":"csp_BiliGuard3","name":"哔哩哔哩 3","type":3,"api":"csp_BiliGuard","searchable":0,"quickSearch":0,"filterable":0,
-"jar": "https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/lem0525.jar",
-"ext":{"https://gitlab.com/fantaiying/ext/-/raw/main/biliych.json"}},
 
 
 
