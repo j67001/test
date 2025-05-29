@@ -113,14 +113,17 @@
 "分类": "电影$1#电视剧$2#國產劇$14#动漫$3#综艺$4"
 }},
 
-{"key":"csp_BiliGuard","name":"哔哩哔哩 1","type":3,"api":"csp_BiliGuard","searchable":0,"quickSearch":0,"filterable":0,"ext":{
-"json":"https://raw.githubusercontent.com/n3rddd/N3RD/master/JN/EXT/XB/Bili1.json"}},
+{"key":"csp_BiliGuard","name":"哔哩哔哩 1","type":3,"api":"csp_BiliGuard","searchable":0,"quickSearch":0,"filterable":0,
+"jar": "https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/lem0525.jar",
+"ext":{"json":"https://raw.githubusercontent.com/n3rddd/N3RD/master/JN/EXT/XB/Bili1.json"}},
 
-{"key":"csp_BiliGuard2","name":"哔哩哔哩 2","type":3,"api":"csp_BiliGuard","searchable":0,"quickSearch":0,"filterable":0,"ext":{
-"json":"https://gitlab.com/fantaiying/ext/-/raw/main/bilibili.json"}},
+{"key":"csp_BiliGuard2","name":"哔哩哔哩 2","type":3,"api":"csp_BiliGuard","searchable":0,"quickSearch":0,"filterable":0,
+"jar": "https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/lem0525.jar",
+"ext":{"json":"https://gitlab.com/fantaiying/ext/-/raw/main/bilibili.json"}},
 
-{"key":"csp_BiliGuard3","name":"哔哩哔哩 3","type":3,"api":"csp_BiliGuard","searchable":0,"quickSearch":0,"filterable":0,"ext":{
-"json":"https://gitlab.com/fantaiying/ext/-/raw/main/biliych.json"}},
+{"key":"csp_BiliGuard3","name":"哔哩哔哩 3","type":3,"api":"csp_BiliGuard","searchable":0,"quickSearch":0,"filterable":0,
+"jar": "https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/lem0525.jar",
+"ext":{"json":"https://gitlab.com/fantaiying/ext/-/raw/main/biliych.json"}},
 
 
 
