@@ -107,10 +107,10 @@
 "播放列表": "<a&&/a>",    
 "播放标题": "<span>&&</span>",   
 "播放链接": "href=\"&&\"",   
-"影片类型":"slash\">&&</div></div>",
+"影片类型":"tag-link\">&&</div></div>",
 "简介": "vod_content\">&&</span>",
 "分类url": "https://euvod.tv/vodshow/{cateId}-{area}-{by}-{class}-----{catePg}---{year}.html",
-"分类": "电影$1#电视剧$2#动漫$3#综艺$4#短剧$38"
+"分类": "电影$1#电视剧$2#國產劇$14#动漫$3#综艺$4"
 }},
 
 
