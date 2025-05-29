@@ -125,6 +125,16 @@
 "分类": "电影$1#电视剧$2#动漫$4#综艺$3#短劇$22"
 }},
 
+        {
+            "key": "壹影视(js)",
+            "name": "壹影视(js)",
+            "type": 3,
+            "api": "https://raw.githubusercontent.com/leilingzero/moyu/master/XYQ/lib3/drpy2.min.js",
+            "ext": "https://raw.githubusercontent.com/leilingzero/moyu/master/XYQ/js/壹影视1.js"
+        },
+
+
+
 
 {"key":"drpy_js_小宝影院[飞]","name":"🧸小寶","type":3,"api":"http://150.158.112.123/js/dr/drpy2.min.js","ext":"https://raw.githubusercontent.com/j67001/test/refs/heads/main/小宝影院2502.js"}, 
 {"key": "小宝影院XBPQ","name": "🧸小寶2","type": 3,"api": "csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/小寶影院XBPQ.js"},
