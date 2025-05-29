@@ -115,11 +115,13 @@
 
 {"key":"壹影視_XBPQ","name":"🌝壹影視","type": 3,"api":"csp_XBPQ",
 "ext":{
+"请求头":"User-Agent$PC_UA",
+"编码":"UTF-8",
 "数组": "desktop-hover-effect\">&&</div><span class",
 "图片": "src=\"&&\"",
-"标题": "font-bold\">&&</span>",
-"副标题": "text-xs truncate\">&&</p>",
-"链接": "href=\"&&\"",
+//"标题": "font-bold\">&&</span>",
+//"副标题": "text-xs truncate\">&&</p>",
+//"链接": "href=\"&&\"",
 "简介": "text-sm text-ellipsis overflow-hidden\">&&</code>",
 "分类url": "https://light-ios.yiys04.com/vod/show{by}/id/{cateId}{area}{year}/page/{catePg}",
 "分类": "电影$1#电视剧$2#动漫$4#综艺$3#短劇$22",
