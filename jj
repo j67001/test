@@ -169,7 +169,8 @@
 //"编码":"UTF-8",
 "简介":"wp-content\">&&</p>",
 "分类url":"https://www.4kvm.net/{cateId}/page/{catePg}",
-"分类": "電影$movies#電視劇$tvshows#美劇$meiju#陸劇$guochan#韓劇$hanju#日劇$riju#泰劇$taiju#動漫$fanju"}},
+"分类": "電影$movies#電視劇$tvshows#美劇$classify/meiju#陸劇$classify/guochan#韓劇$classify/hanju#日劇$classify/riju#泰劇$classify/taiju#動漫$classify/fanju"}},
+
 
 
 
