@@ -163,6 +163,13 @@
 
 {"key":"絕對影視","name":"4K影視","type": 3,"api":"csp_FourK","searchable":1,"quickSearch":1,"changeable":1,"ext":"https://www.4kvm.net/"},
 
+{"key":"4K影視_XBPQ","name":"4K影視2","type": 3,"api":"csp_XBPQ",
+"ext":{
+//"请求头":"User-Agent$MOBILE_UA",
+//"编码":"UTF-8",
+"简介":"wp-content\">&&</p>",
+"分类url":"https://www.4kvm.net/{cateId}/page/{catePg}",
+"分类": "電影$movies#電視劇$tvshows#美劇$meiju#陸劇$guochan#韓劇$hanju#日劇$riju#泰劇$taiju#動漫$fanju"}},
 
 
 
