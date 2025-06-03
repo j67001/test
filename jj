@@ -170,7 +170,7 @@
 "数组": "<article id=\"post-*&&</article>",
 "标题": "<h4>&&</h4>",
 "副标题": "IMDb: &&</span>",
-"图片": "https://+amp;src=&&\"",
+"图片": "https://+jpeg*src=&&\"",
 "链接": "href=\"&&\"",
 "简介":"wp-content\">&&</p>",
 "分类url":"https://www.4kvm.net/{cateId}/page/{catePg}",
