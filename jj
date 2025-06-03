@@ -167,6 +167,11 @@
 "ext":{
 //"请求头":"User-Agent$MOBILE_UA",
 //"编码":"UTF-8",
+"数组": "<article id=\"post-*&&</article>",
+"标题": "<h4>&&</h4>",
+"副标题": "IMDb: &&</span>",
+"图片": "https://+amp;src=&&\"",
+"链接": "href=\"&&\"",
 "简介":"wp-content\">&&</p>",
 "分类url":"https://www.4kvm.net/{cateId}/page/{catePg}",
 "分类": "電影$movies#電視劇$tvshows#美劇$classify/meiju#陸劇$classify/guochan#韓劇$classify/hanju#日劇$classify/riju#泰劇$classify/taiju#動漫$classify/fanju"}},
