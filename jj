@@ -178,7 +178,58 @@
 "分类url":"https://www.4kvm.net/{cateId}/page/{catePg}",
 "分类": "電影$movies#電視劇$tvshows#美劇$classify/meiju#陸劇$classify/guochan#韓劇$classify/hanju#日劇$classify/riju#泰劇$classify/taiju#動漫$classify/fanju"}},
 
+{
+            "key": "柯南",
+            "name": "柯南｜影视",
+            "type": 3,
+            "changeable": 1,
+            "searchable": 1,
+            "quickSearch": 0,
+            "filterable": 1,
+            "api": "csp_XBPQ",
+            "ext": {
+                "请求头": "https://www.knvod.cc/;get;UTF-8;{User-Agent@Mozilla/5.0 (Linux；； Android 12；； TAS-AN00 Build/HUAWEITAS-AN00；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/114.0.5735.196 Mobile Safari/537.36&&Cookie@ecPopup=1；； X-Robots-Tag=CDN-VERIFY&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9}",
+                "简介": "💮+class=\"text cor3&&</div>",
+                "数组": "public-list-div public-list-bj&&</div>",
+                "标题": "class=\"public-list-button\">*>&&</a>",
+                "副标题": "🔥+public-list-prb hide ft2\">&&</span>",
+                "图片": "data-src=\"&&\"",
+                "播放链接": "href=\"&&\"",
+                "线路数组": "a class=\"swiper-slide&&</a>",
+                "线路标题": "🎈+</i>&nbsp;&&</a>",
+                "播放数组": "anthology-list-play size&&</ul>",
+                "跳转播放链接": "src=\"&&\"",
+                "分类值": "1&2&4&6",
+                "分类": "电影&电视剧&综艺&短剧",
+                "搜索url": "https://www.knvod.cc/daxiaoren/-------------/?wd={wd}",
+                "分类url": "https://www.knvod.cc/show/{cateId}-{area}--{class}-----{catePg}---{year}/"
+            }
+        },
 
+{
+            "key": "csp_xbpq鸡",
+            "name": "蛋蛋🐔｜影视",
+            "type": 3,
+            "api": "csp_XBPQ",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "ext": {
+                "数组": "li class=\"item\">&&</li>",
+                "标题": "title=\"&&\"",
+                "副标题": "🔥+class=\"item-num\">&&</span>",
+                "图片": "data-echo=\"&&\"",
+                "播放链接": "href=\"&&\"",
+                "线路数组": "<a href=\"javascript:;&&/a>",
+                "线路标题": ">&&<",
+                "播放数组": "class=\"clearfix\">&&</ul>",
+                "播放列表": "<a&&</a>",
+                "跳转播放链接": "src=\"&&\"",
+                "搜索url": "",
+                "分类url": "https://www.dandanji.cc/list/{cateId}_{catePg}_desc_time_0_0___.html",
+                "分类": "电影$1#剧集$2#综艺$3#动漫$4"
+            }
+        },
 
 
 
