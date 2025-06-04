@@ -37,6 +37,13 @@
   "epg": "http://iptv.52sw.top:668/?ch={name}&date={date}",
   "logo":"https://epg.112114.xyz/logo/{name}.png"
   },{
+        "name": "PixMan.4GTV",
+        "type": 0,
+        "url": "http://",
+        "ua": "okhttp/3.15",
+        "epg": "http://epg.112114.xyz/?ch={name}&date={date}",
+        "logo": "https://epg.112114.xyz/logo/{name}.png"
+  },{
   "name":"嗅探",
   "boot":"true",
   "url":"https://github.com/j67001/test/raw/main/ts.swf",
