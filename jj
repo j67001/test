@@ -239,7 +239,7 @@
             }
         },
 
-{"key": "哆啦新番社","name": "🗾哆啦新番社","type": 3,"api": "csp_XBPQ","style":{"type":"rect","ratio":2},
+{"key": "哆啦新番社","name": "🗾哆啦新番社","type": 3,"api": "csp_XBPQ","style":{"type":"rect","ratio":3},
 "ext": {
     "请求头": "User-Agent$MOBILE_UA",
     "编码": "UTF-8",
