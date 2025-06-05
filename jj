@@ -303,7 +303,7 @@
                 ##"分类url": "https://www.hmaotv.com/vod/index.html?page={catePg}&type_id={cateId}",
                "分类url": "https://www.hmaotv.com/vod/index.html?type_id={cateId}",
                 "播放url": "https://www.hmaotv.com/vod/player.html?cate_id={cateId}&id={Id}&line_id={catelineId}&type_id={catetyId}"
-            }
+            }},
 
 
 
