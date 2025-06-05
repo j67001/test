@@ -274,6 +274,8 @@
 "副标题": "class=\"unit\">&&</div>",
 "链接": "<a href=\"&&\"",
 "简介": "label>*&&</div>",
+"线路数组": "layui-tab-title playline-tabs-title\">&&/ul>,
+"线路标题": ">&&<",
 "播放数组": "layui-tab layui-tab-card tem_ref_dom\">&&</section>",    
 "播放列表": "{\"id\":&&},",    
 "播放标题": "\"name\":\"&&\"",   
