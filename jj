@@ -168,77 +168,6 @@
 
 {"key":"csp_XBPQ_文才2","name":"🍚文才2","type":3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"滤词":"","直接播放":"0","播放请求头":"User-Agent$Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36#Origin$www.whbax.cn#Referer$www.whbax.cn#Cookie$PHPSESSID=7da46a353cf8bac46b4f8226f06042ad","首页":"90","起始页":"1","分类url":"https://api.zeqaht.com/api.php/provide/vod/?ac=list&ac=detail&t={cateId}&pg={catePg};;rc","分类":"电影&电视剧&动漫&综艺","分类值":"1&14&75&69","二次截取":"list\":\\[&&\\]","数组":"{&&}[不包含:伦理剧]","图片":"vod_pic\":\"&&\"","标题":"vod_name\":\"&&\"","副标题":"vod_remarks\":\"&&\"+_+vod_pubdate\":\"&&\"","链接":"https://m.cfkj86.com/detail/+vod_id\":&&,","线路二次截取":"","线路数组":"span class=\"label\">&&/span>","线路标题":".:雷蒙影视:.","播放数组":"episodeList\":\\[&&\\][替换:nid\":>>nid\":/1/]","播放列表":"{&&}","播放标题":"name\":\"&&\"","播放请求头":"User-Agent$Mozilla/5.0 (Linux; Android 12; TAS-AL00 Build/HUAWEITAS-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/99.0.4844.88 Mobile Safari/537.36#Referer$https://m.cfkj86.com/","播放链接前缀":"https://m.cfkj86.com/vod/play/+data\":{\"vodId\":&&,","播放链接":"nid\":&&,","倒序":"0","跳转解析":"","跳转播放链接":"","影片类型":"vod_class\":\"&&\"","影片年代":"vod_year\":\"&&\"","影片地区":"vod_area\":\"&&\"","导演":"vod_director\":\"&&\"","主演":"vod_actor\":\"&&\"","简介":"vod_content\":\"&&\"","搜索url":"/api.php/provide/vod/?ac=detail&wd={wd}&pg={pg}","搜索模式":"1","搜索二次截取":"list\":\\[&&\\]","搜索数组":"{&&}[不包含:伦理]","搜索图片":"vod_pic\":\"&&\"","搜索标题":"vod_name\":\"&&\"","搜索副标题":"vod_remarks\":\"&&\"","搜索链接":"https://m.cfkj86.com/detail/+vod_id\":&&,","筛选":"1","类型":"喜剧$22#动作$23#战争$25#爱情$26#悬疑$27#武侠$28#科幻$30#冒险$31#警匪$32#动画$33#惊悚$34#犯罪$35#恐怖$36#剧情$37#历史$38#纪录$39#传记$40#歌舞$41||国产剧$14#欧美剧$15#港台剧$16#日韩剧$62#其他剧$68||国产动漫$75#日韩动漫$76#欧美动漫$77#港台动漫$78#其他动漫$80||国产综艺$69#港台综艺$70#日韩综艺$72#欧美综艺$73#其他综艺$74"}},
 
-{"key":"絕對影視","name":"4K影視","type": 3,"api":"csp_FourK","searchable":1,"quickSearch":1,"changeable":1,"ext":"https://www.4kvm.net/"},
-
-{"key":"4K影視_XBPQ","name":"4K影視2","type": 3,"api":"csp_XBPQ",
-"ext":{
-//"请求头":"User-Agent$MOBILE_UA",
-//"编码":"UTF-8",
-"数组": "<article id=\"post-*&&</article>",
-"标题": "<h4>&&</h4>",
-"副标题": "IMDb: &&</span>",
-"图片": "src=\"&&\"",
-//"图片代理": "1",
-
-"链接": "href=\"&&\"",
-"简介":"wp-content\">&&</p>",
-"分类url":"https://www.4kvm.net/{cateId}/page/{catePg}",
-"分类": "電影$movies#電視劇$tvshows#美劇$classify/meiju#陸劇$classify/guochan#韓劇$classify/hanju#日劇$classify/riju#泰劇$classify/taiju#動漫$classify/fanju"}},
-
-{
-            "key": "柯南",
-            "name": "柯南｜影视",
-            "type": 3,
-            "changeable": 1,
-            "searchable": 1,
-            "quickSearch": 0,
-            "filterable": 1,
-            "api": "csp_XBPQ",
-            "ext": {
-    "请求头": "https://www.knvod.cc/;get;UTF-8;{User-Agent@Mozilla/5.0 (Linux；； Android 12；； TAS-AN00 Build/HUAWEITAS-AN00；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/114.0.5735.196 Mobile Safari/537.36&&Cookie@ecPopup=1；； X-Robots-Tag=CDN-VERIFY&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9}",
-        "主页url":"https://www.knvod.com/",
-        "分类url":"https://www.knvod.com/show/{cateId}-{area}-time-{class}-{lang}-{by}---{catePg}---{year}/",
-        "分类": "电影$1#电视剧$2#动漫$3#综艺$4#纪录片$5#短片$6",
-    "二次截取":"page-whole top20&&pages top20",
-        "数组":"public-list-div&&</a>",
-        "标题":"title=\"&&\"",
-        "图片":"data-src=\"&&\"",
-        "链接":"href=\"&&\"",#/list/169316/
-        "播放数组":"anthology-list-play&&</ul>",
-        "播放列表":"<a&&</a>",
-        "播放标题":">&&</a>",
-        "嗅探词":"video",
-        "线路数组":"swiper-slide&&</a>",
-        "线路标题":">&&<",
-        "搜索url":"https://www.knvod.com/daxiaoren/-------------/?wd={wd}"
-      }
-},
-
-{
-            "key": "csp_xbpq鸡",
-            "name": "蛋蛋🐔｜影视",
-            "type": 3,
-            "api": "csp_XBPQ",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "ext": {
-                "数组": "li class=\"item\">&&</li>",
-                "标题": "title=\"&&\"",
-                "副标题": "🔥+class=\"item-num\">&&</span>",
-                "图片": "data-echo=\"&&\"",
-                "播放链接": "href=\"&&\"",
-                "线路数组": "<a href=\"javascript:;&&/a>",
-                "线路标题": ">&&<",
-                "播放数组": "class=\"clearfix\">&&</ul>",
-                "播放列表": "<a&&</a>",
-                "跳转播放链接": "src=\"&&\"",
-                "搜索url": "",
-                "分类url": "https://www.dandanji.cc/list/{cateId}_{catePg}_desc_time_0_0___.html",
-                "分类": "电影$1#剧集$2#综艺$3#动漫$4"
-            }
-        },
-
 {"key": "哆啦新番社","name": "🗾哆啦新番社","type": 3,"api": "csp_XBPQ","style":{"type":"list","ratio":1.6},
 "ext": {
     "请求头": "User-Agent$MOBILE_UA",
@@ -259,52 +188,7 @@
     "排序": "全部$0#完结$2#连载$1#待定$-1"
 }},
 
-/*
-{
-"key": "黑猫影视",
-"name": "黑猫影视",
-"type": 3,
-"api": "csp_XBPQ",
-"searchable": 1,
-"quickSearch": 1,
-"filterable": 1,
-"ext": {
-"数组": "class=\"vertical-box cs-itembox\">&&class=\"vid_item_mask\"",
-"图片": "data-original=\"&&\"",
-"标题": "class=\"title\">&&</a>",
-"副标题": "class=\"unit\">&&</div>",
-"链接": "<a href=\"&&\"",
-"简介": "label>*&&</div>",
-"线路数组": "layui-tab-title playline-tabs-title\">&&/ul>,
-"线路标题": ">&&<",
-"播放数组": "layui-tab layui-tab-card tem_ref_dom\">&&</section>",    
-"播放列表": "\"id\":&&}",    
-"播放标题": "\"name\":\"&&\"",   
-"播放链接": "\"url\":\"&&\"",   
-"分类": "电影$229#电视剧$230#动漫$232#综艺$231",
-"分类url": "https://www.hmaotv.com/vod/index.html?page={catePg}&type_id={cateId}"
-}},
-*/
-       {
-            "key": "黑猫影视2",
-            "name": "黑猫影视2",
-            "type": 3,
-            "api": "csp_XBPQ",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "ext": {
-                "数组": "class=\"vertical-box cs-itembox\">&&class=\"vid_item_mask\"",
-                "图片": "data-original=\"&&\"",
-                "标题": "class=\"title\">&&</a>",
-                "副标题": "class=\"unit\">&&</div>",
-                "链接": "<a href=\"&&\"",
-                "简介": "label>*&&</div>",
-                "分类": "电影$229#电视剧$230#动漫$232#综艺$231",
-                //"分类url": "https://www.hmaotv.com/vod/index.html?page={catePg}&type_id={cateId}",
-               "分类url": "https://www.hmaotv.com/vod/index.html?type_id={cateId}",
-                "播放url": "https://www.hmaotv.com/vod/player.html?cate_id={cateId}&id={Id}&line_id={catelineId}&type_id={catetyId}"
-            }},
+
 
 
 
