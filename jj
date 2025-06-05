@@ -275,9 +275,9 @@
 "链接": "<a href=\"&&\"",
 "简介": "label>*&&</div>",
 "播放数组": "layui-tab layui-tab-card tem_ref_dom\">&&</section>",    
-"播放列表": "<a&&/a>",    
-"播放标题": ">&&<",   
-"播放链接": "href=\"&&\"",   
+"播放列表": "{\"id\":&&},",    
+"播放标题": "\"name\":\"&&\"",   
+"播放链接": "\"url\":\"&&\"",   
 "分类": "电影$229#电视剧$230#动漫$232#综艺$231",
 "分类url": "https://www.hmaotv.com/vod/index.html?page={catePg}&type_id={cateId}"
 }},
