@@ -259,6 +259,7 @@
     "排序": "全部$0#完结$2#连载$1#待定$-1"
 }},
 
+/*
 {
 "key": "黑猫影视",
 "name": "黑猫影视",
@@ -283,7 +284,7 @@
 "分类": "电影$229#电视剧$230#动漫$232#综艺$231",
 "分类url": "https://www.hmaotv.com/vod/index.html?page={catePg}&type_id={cateId}"
 }},
-
+*/
        {
             "key": "黑猫影视2",
             "name": "黑猫影视2",
@@ -300,7 +301,7 @@
                 "链接": "<a href=\"&&\"",
                 "简介": "label>*&&</div>",
                 "分类": "电影$229#电视剧$230#动漫$232#综艺$231",
-                ##"分类url": "https://www.hmaotv.com/vod/index.html?page={catePg}&type_id={cateId}",
+                //"分类url": "https://www.hmaotv.com/vod/index.html?page={catePg}&type_id={cateId}",
                "分类url": "https://www.hmaotv.com/vod/index.html?type_id={cateId}",
                 "播放url": "https://www.hmaotv.com/vod/player.html?cate_id={cateId}&id={Id}&line_id={catelineId}&type_id={catetyId}"
             }},
