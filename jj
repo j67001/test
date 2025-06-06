@@ -279,56 +279,31 @@
             },
             "timeout": 10
         },
-        {
-            "key": "老白听书",
-            "name": "🎶老白听书🎶",
-            "type": 3,
-            "api": "csp_BookLaoBai",
-            "searchable": 1,
-            "quickSearch": 0,
-            "changeable": 0,
-            "style": {
-                "type": "rect",
-                "ratio": 1.433
-            },
-            "ext": "https://apk-lb-json.fodexin.com##"
-        },
-{
-            "key": "爱听听书",
-            "name": "🎶爱听听书🎶",
-            "type": 3,
-            "api": "csp_BookYSTS",
-            "searchable": 1,
-            "quickSearch": 0,
-            "changeable": 0,
-            "style": {
-                "type": "rect",
-                "ratio": 1.433
-            }
-        },
-    {
-      "key": "韩小圈",
-      "name": "🍥韩小圈┃蓝光",
-      "type": 3,
-      "api": "csp_HanXiaoQuan",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
 {"key":"蝴蝶","name":"💡蝴蝶｜影视","type":3,"api":"csp_Hudie","playerType":2,"ext":"eaHR0cHM6Ly9kLmRjbW92aWUudG9w"},
-{"key":"看客影视","name":"💡看客｜影视","type":3,"api":"csp_Kanke","searchable":1,"quickSearch":1,"filterable":1},
-{"key":"csp_Lggys","name":"💗️攻阁","type":3,"api":"csp_Lggys","searchable":1,"quickSearch":1,"filterable":1},
-        {
-            "key": "小米良人",
-            "name": "良人｜APP",
-            "type": 3,
-            "searchable": 1,
-            "quickSearch": 1,
-            "api": "csp_LiangRenApp"
-        },
-{"key":"游戏直播","name":"🙀游戏直播","type":3,"api":"csp_Living","searchable":1,"changeable":0,"ext":"https://lemonlive25.pages.dev"},
-{"key":"csp_Lkdy","name":"🏔️来看","type":3,"api":"csp_Lkdy","searchable":1,"quickSearch":1,"filterable":1},
 {"key":"麻花","name":"🎦麻花｜影视","type":3,"searchable":1,"quickSearch":1,"api":"csp_MaHuaApp"},
+{"key":"csp_Sp360","name":"📺360","type":3,"api":"csp_Sp360"},
+{"key":"csp_QQ","name":"🐧腾讯","type":3,"api":"csp_QQ"},
+{"key":"csp_Iqiyi","name":"👾奇艺","type":3,"api":"csp_Iqiyi"},
+{"key":"csp_Mgtv","name":"🍋芒果","type":3,"api":"csp_Mgtv"},
+{"key":"csp_YouKu","name":"💡优酷","type":3,"api":"csp_YouKu"},
+{"key":"csp_MiTuApp","name":"🐰米兔┃1080P","type":3,"quickSearch":0,"api":"csp_MiTuApp","ext":"s1/kf8dfHZAgs5H4ledT0oVFC1n/KhNfQfc0onBTauGjjbKin/VdMFrfJlKKnt/ClccntSyJqzbI1hHzGUUmZg7v02l1fvcdAH0iCUzGlopNgnI3rkeQtAwS54GySfRT0IRokasLwr5Rr6pm8/lTNJXMTEkq+9mzK976Dvv80seU9riYmFeBD+EBp8RzurdP02PNc0S2aZPlMbdm5yTIQfI8QeSRJGz+0AIsFOyBoPr4LDptq0AAc37KMhnWDCXF"},
+{"key":"csp_电影","name":"🎬电影┃1080P","type":3,"quickSearch":0,"api":"csp_MiTuApp","ext":"s1/kf8dfHZAgs5H4ledT0gNpK7vQhd67t79FMOlp/3hon97gPN02BO+erk3EBCNXM6SamStX8E1N/eOSW8iHnh/V/WWXQik712AKDkDyClacr4JX917KX00fvnFi+PAJCJmEjfkTIInNogcntp+7cErzTorQY87aZkXQz64jcMNBTxpU+OGhfwZ2WqemvRRoQcF3TRFQdK9yVcAPrcKlPHxNivbPun5GntvfOIbWqYyWQSzU7f8y5TSHoXNt3Ag7WpEtt5DdeFwKFlYQ/RcwUw=="},
+{"key":"csp_悠悠","name":"🍔悠悠┃1080P","type":3,"quickSearch":0,"api":"csp_MiTuApp","ext":"sHR2rlsfjI4L3t4RXQMknzkBg7Vkp4iTNqyeosAJpHnw6roDAjVKHwM/MZzlXynRCKNQf+PEtIE3pKftvdy035HammwEvPJdXnu53vPsiVjInePtgdaIgmcH8QzBLPlDKW1pNMfczNnMzBOp9pYad354sdlKgFnUBsFuy5KfTh6NymaocNlwJqN85IfMUV4M"},
+{"key":"小米电影","name":"🎦小米电影","type":3,"searchable":1,"quickSearch":1,"api":"csp_MovieApp"},
+{"key":"csp_Muou_驿站_QJ","name":"雷蒙影视 | 🚗驿站(SP)","type":3,"api":"csp_Muou","playerType":2,"ext":"7lj763gg402i7942403h83i2h945858hljhji148i18k2837535112l2qiaojik9075l17028i49g192419i8g3245h3j1l9gi02h6k7732650h3h09jkg759j65hj39l50347k3gj97l4g12l7h6418h6k9j04l26i1glgj3631973hh280lkihjh "},
+{"key":"csp_Muou_主角_QJ","name":"雷蒙影视 | 👓主角(SP)","type":3,"api":"csp_Muou","playerType":2,"ext":"7lj763gg402i794247258k9jh6598585l3g6ij13il8g20g9qiaoji8j9i9k1g3k90h7i507i213k5j602"},
+{"key":"csp_Muou_柚子_QJ","name":"雷蒙影视 | 🍈柚子(SP)","type":3,"api":"csp_Muou","playerType":2,"ext":"7lj763gg0939795i0678i481k40hi2i3ghlg840i98j9667qiaoji000134jg7k591gjjk9j5lg53255g2i7gl2749l3j2h8g5"},
+{"key":"csp_Muou_永夜_QJ","name":"雷蒙影视 | 🌙永夜(SP)","type":3,"api":"csp_Muou","playerType":2,"ext":"7lj763gg0939790i413gi4jjh545959lhighi4414qiaoji964ihg48l909l2l019kgii607i213k5j602"},
+{"key":"csp_Muou_趣看_QJ","name":"雷蒙影视 | 🥽趣看(SP)","type":3,"api":"csp_Muou","playerType":2,"ext":"7lj763gg402i7942463j9j9jg1499j87l9g9i413il8gqiaoji20g7g4919j3g019296lk9351hh3k5gg38lj0754il3jg"},
+{"key":"csp_Xdai_专业_QJ","name":"雷蒙影视 | 👔专业(SP)","type":3,"api":"csp_Xdai","playerType":1,"ext":"7lj763gg402i7942503g9gj0hj4li298lllii113j8862i3j79713kl8j2367k3j229l0kklhh63978g27368jg6ljj739i2i3597j0jhi91lgl828996ig236"},
+{"key":"csp_Xdai_星河_QJ","name":"雷蒙影视 | 💫星河(SP)","type":3,"api":"csp_Xdai","playerType":2,"ext":"7lj763gg0939791954248jihg5529587lig9i654j59i326l5j5208hklg19161j139753h090539gig3g11h49gk3l21hl4hk637h53ghg6ikl2219j28lj76h8430kkkklj6hkl022272g8h5g69068hli583061k3l9373hk09hg9j79l31l43h06187l37j675lhkg57k511jk"},
+{"key":"csp_Xdai_时常_QJ","name":"雷蒙影视 | 🏛时常(SP)","type":3,"api":"csp_Xdai","playerType":1,"ext":"7lj763gg0939795i007hi482k80ii2i3ghl084099ij36j70031107l2kg105816139i56g38h03i1j06k4gkk9ll7kl1lk4k8687k55l0g19ggk72j06gg073li1j11"},
+{"key":"csp_Xdai_晴空_QJ","name":"雷蒙影视 | ⛅晴空(SP)","type":3,"api":"csp_Xdai","playerType":2,"ext":"7lj763gg402i7942463j9j9jg8558j9jlgh1j913il86313j776l14ljjh3l5k383999648j9064g6h22738938il8jk30k2i6427h67jkhglji910996ig539"},
+{"key":"csp_Xdai_鲨鱼_QJ","name":"雷蒙影视 | 🦈鲨鱼(SP)","type":3,"api":"csp_Xdai","playerType":2,"ext":"7lj763gg402i794240208hi3g05l8181hihhjl53988272355j5107k0jh0l4g362jh008g7h97g91g3210l959lk5jk00l6i856520hl493k3lk019l2ljh73li1i19"},
+{"key":"csp_Xdai_雨滴_QJ","name":"雷蒙影视 | 💧雨滴(SP)","type":3,"api":"csp_Xdai","playerType":1,"ext":"7lj763gg402i794252729j81hl4gjh87g7hlij0lj6j8337942134gl0h7165707028353h48h1i9088321kh6j9g4gh40hkg97i7l07khk1jhgk25jj3lg462lk5710l5gljkg9gl787168ij416457i5lg1h7i22hkg27276h69k"},
+{"key":"csp_Xdai_优质_QJ","name":"雷蒙影视 | 🌈优质(SP)","type":3,"api":"csp_Xdai","playerType":2,"ext":"7lj763gg402i7942503g83j2g04i8090khhh8451ik902l6l53510hg9gi410i5607974jhk994283883904gk88l3k549h1g87i754kkjh3jhki2g8724k064g85411gigljkl3g620"},
+{"key":"csp_Xdai_木叶_QJ","name":"雷蒙影视 | 🍃木叶(SP)","type":3,"api":"csp_Xdai","playerType":2,"ext":"7lj763gg0939795i0079i487k512jki6g1k6980k9li631344h4455k7k103473i0kh8049hgg4484h0091ggjh2l8ki33lhi2755g07i880jjkh12h73gk35kg35j6hk6g296l5"},
+
 
 
 
