@@ -304,7 +304,12 @@
 {"key":"csp_Xdai_优质_QJ","name":"雷蒙影视 | 🌈优质(SP)","type":3,"api":"csp_Xdai","playerType":2,"ext":"7lj763gg402i7942503g83j2g04i8090khhh8451ik902l6l53510hg9gi410i5607974jhk994283883904gk88l3k549h1g87i754kkjh3jhki2g8724k064g85411gigljkl3g620"},
 {"key":"csp_Xdai_木叶_QJ","name":"雷蒙影视 | 🍃木叶(SP)","type":3,"api":"csp_Xdai","playerType":2,"ext":"7lj763gg0939795i0079i487k512jki6g1k6980k9li631344h4455k7k103473i0kh8049hgg4484h0091ggjh2l8ki33lhi2755g07i880jjkh12h73gk35kg35j6hk6g296l5"},
 
-
+{"key":"極愛動漫_XBPQ","name":"💖極愛動漫","type":3,"api":"csp_XBPQ","ext":{
+"简介":"check selected\">&&</div>",
+"分类url":"https://anime.girigirilove.com/show/{cateId}--{by}-{class}-----{catePg}---{year}/",
+"分类":"日番$2#美番$3#劇場版$21#真人番劇$20#BD副音軌$24#其他$26",
+"剧情": "喜剧&爱情&恐怖&动作&科幻&剧情&战争&奇幻&冒险&悬疑&校园&后宫&热血||搞笑&爱情&恐怖&动作&科幻&剧情&战争&奇幻&冒险&悬疑&校园&后宫&热血||喜剧&爱情&恐怖&动作&科幻&剧情&战争&奇幻&冒险&悬疑&校园&后宫&热血"
+}},
 
 
 
