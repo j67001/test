@@ -310,8 +310,8 @@
 "副标题": "ft2\">&&</span>",
 "图片": "no-referrer\" src=\"&&\"",
 "链接": "href=\"&&\"",
-"线路数组": "swiper-wrapper\"&&</a></div>",
-"线路标题": "</i>&&</a>",
+"线路数组": "swiper-*\"&&</a></div>",
+"线路标题": "</i>&&<",
 "简介":"check selected\">&&</div>",
 "分类url":"https://anime.girigirilove.com/show/{cateId}--{by}-{class}-----{catePg}---{year}/",
 "分类":"日番$2#美番$3#劇場版$21#真人番劇$20#BD副音軌$24#其他$26"
