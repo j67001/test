@@ -305,6 +305,11 @@
 {"key":"csp_Xdai_木叶_QJ","name":"雷蒙影视 | 🍃木叶(SP)","type":3,"api":"csp_Xdai","playerType":2,"ext":"7lj763gg0939795i0079i487k512jki6g1k6980k9li631344h4455k7k103473i0kh8049hgg4484h0091ggjh2l8ki33lhi2755g07i880jjkh12h73gk35kg35j6hk6g296l5"},
 
 {"key":"極愛動漫_XBPQ","name":"💖極愛動漫","type":3,"api":"csp_XBPQ","ext":{
+"数组": "public-list-box&&</div></div>",
+"标题": "title=\"&&\"",
+"副标题": "ft2\">&&</span>",
+"图片": "no-referrer\" src=\"&&\"",
+"链接": "href=\"&&\"",
 "简介":"check selected\">&&</div>",
 "分类url":"https://anime.girigirilove.com/show/{cateId}--{by}-{class}-----{catePg}---{year}/",
 "分类":"日番$2#美番$3#劇場版$21#真人番劇$20#BD副音軌$24#其他$26",
