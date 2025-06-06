@@ -310,7 +310,7 @@
 "副标题": "ft2\">&&</span>",
 "图片": "data-src=\"&&\"",
 "链接": "href=\"&&\"",
-"线路数组": "role=\"group\"&&</a>",
+"线路数组": "class=\"swiper-slide&&</a>",
 "线路标题": "</i>&&<",
 "简介":"check selected\">&&</div>",
 "分类url":"https://anime.girigirilove.com/show/{cateId}--{by}-{class}-----{catePg}---{year}/",
