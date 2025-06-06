@@ -311,7 +311,7 @@
 "图片": "data-src=\"&&\"",
 "链接": "href=\"&&\"",
 "线路数组": "class=\"swiper-slide&&</a>",
-"线路标题": "</i>&&</a>[替换:<span class=\"badge\">>> \ ]",
+//"线路标题": "</i>&&</a>[替换:<span class=\"badge\">>> \ ]",
 "简介":"check selected\">&&</div>",
 "分类url":"https://anime.girigirilove.com/show/{cateId}--{by}-{class}-----{catePg}---{year}/",
 "分类":"日番$2#美番$3#劇場版$21#真人番劇$20#BD副音軌$24#其他$26"
