@@ -239,13 +239,13 @@
 
 {"key":"動漫巴士2_XBPQ","name":"🚌動漫巴士5","type":3,"api":"csp_XBPQ",
 "ext":{
-"请求头": "referer$https://dm84.net/top.html#User-Agent$Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Mobile Safari/537.36",
-"编码": "UTF-8",
-"数组":"<div class=\"item\">&&</div>",
-"图片":"data-bg=\"&&\"",
-"标题":"title=\"&&\"",
-"副标题":"<span class=\"desc\">&&</span>",
-"简介":"　　+剧情：&&<div class",
+//"请求头": "referer$https://dm84.net/top.html#User-Agent$Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Mobile Safari/537.36",
+//"编码": "UTF-8",
+//"数组":"<div class=\"item\">&&</div>",
+//"图片":"data-bg=\"&&\"",
+//"标题":"title=\"&&\"",
+//"副标题":"<span class=\"desc\">&&</span>",
+//"简介":"　　+剧情：&&<div class",
 "倒序": "1",
 "分类url":"https://dm84.net/show-{cateId}------{catePg}.html",
 "分类":"日漫$2#國漫$1#歐美動漫$3#動畫電影$4"
