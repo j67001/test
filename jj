@@ -207,8 +207,7 @@
 "标题": "h2>&&<",
 "副标题": "date\">&&</span>",
 "图片": "data-bg=\"&&\"",
-"链接": "href=\"&&\"",
-"分类url": "https://www.movieffm.net/category/{cateId}/page/{catePg}/"
+"链接": "href=\"&&\""
 }},
 
 
