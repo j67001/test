@@ -200,7 +200,24 @@
 "排序":"按時間$date#按人氣$view"
 }},
 
-
+{"key": "mffmav_XBPQ","name": "🐚MFFMAV","type": 3,"api":"csp_XBPQ","style":{"type":"rect","ratio":1.333},"ext":{
+"请求头":"User-Agent$MOBILE_UA",
+"编码":"UTF-8",
+"数组": "post\">&&</p>",
+"标题": "<h2>&&</h2>",
+"副标题": "date\">&&</span>",
+"图片": "url(\"&&\")",
+"链接": "href=\"&&\"",
+//"线路数组":"\"FL&&\"",
+//"线路标题":"線路+V&&",
+"播放数组": "zdydown/">&&</div>",
+"播放列表": "<h3>&&</a>",
+"播放标题": "DOWNLOAD(&&)", 
+"播放链接": "https://mixdrop.ag/e/+href=\"//mixdrop.ag/f/&&?download",
+"简介":"<title>&&</title>",
+"分类url": "https://www.movieffm.net/{cateId}page/{catePg}/",
+"分类": "熱門推薦$category/popular-jav/#中文字幕$category/chinese-subtitles/#中文無碼破解$tag/無碼破解/#有碼$category/hd-censored/#素人$category/amateur/#無碼$category/hd-uncensored/"
+}},
 
 
 
