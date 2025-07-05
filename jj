@@ -180,7 +180,7 @@
 "分类": "Netflix電影$cats\/netflix#Netflix劇集$network\/netflix#電影$movies#連續劇$drama#電視劇$tvshows"
 }},
 
-{"key": "javffm_XBPQ","name": "🐚JAVFFM","type": 3,"api":"csp_XBPQ","ratio":1.333,"ext":{
+{"key": "javffm_XBPQ","name": "🐚JAVFFM","type": 3,"api":"csp_XBPQ","style":{"type":"rect","ratio":1.333},"ext":{
 "数组": "poster\">&&</a>",
 "标题": "alt=\"&&\"",
 "副标题": "alt=\"&& ",
@@ -190,7 +190,7 @@
 "线路标题":"V&&<",
 "播放数组": "videourls:[[&&]",
 "播放列表": "{&&}",
-"播放标题": "name\":\"", 
+"播放标题": "name\":\"&&\"", 
 "播放链接": "url\":\"&&\"",
 "简介":"data\"><h1>&&</h1>",
 "分类url": "https://www.javffm.com/drama/page/{catePg}/?orderby={by}&tvtype={cateId}",
