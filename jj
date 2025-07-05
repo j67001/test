@@ -201,7 +201,7 @@
 }},
 
 {"key": "mffmav_XBPQ","name": "🐚MFFMAV","type": 3,"api":"csp_XBPQ","style":{"type":"rect","ratio":1.333},"ext":{
-"请求头":"User-Agent$MOBILE_UA",
+"请求头":"User-Agent$PC_UA",
 "编码":"UTF-8",
 "数组": "class=\"post\">&&</p>",
 "标题": "h2>&&<",
