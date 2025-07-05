@@ -180,6 +180,28 @@
 "分类": "Netflix電影$cats\/netflix#Netflix劇集$network\/netflix#電影$movies#連續劇$drama#電視劇$tvshows"
 }},
 
+{"key": "javffm_XBPQ","name": "🐚JAVFFM","type": 3,"api":"csp_XBPQ","ext":{
+"数组": "poster\">&&</a>",
+"标题": "alt=\"&&\"",
+"副标题": "alt=\"&& ",
+"图片": "<img src=\"&&\"",
+"链接": "href=\"&&\"",
+"线路数组":"selected\">&&</a>",
+"线路标题":">&&<",
+"播放数组": "videourls:[[&&]",
+"播放列表": "{&&}",
+"播放标题": "name\":&&,", 
+"播放链接": "url\":\"&&\"",
+"简介":"margin-bottom: 10px;\">&&</div>",
+"分类url": "https://www.javffm.com/drama/page/{catePg}/?orderby={by}&tvtype={cateId}",
+"分类": "全部$0#&無碼破解$7#國產$chinese-av-porn#傳媒出品$8#亞洲無碼$asian-uncensored#中文字幕$chinese-subtitles",
+"排序":"按時間$date#按人氣$view"
+}},
+
+
+
+
+
 
 {"key":"csp_GM_爱壹帆","name":"🐵爱壹帆(SCRIPT)","api":"csp_GM","type":3,"searchable":1,"changeable":1,"quickSearch":0,"jar":"https://github.com/n3rddd/N3RD/raw/refs/heads/master/JN/N3RD/J/gm.jar","ext":{"userScript":"https://github.com/n3rddd/N3RD/raw/refs/heads/master/JN/EXT/userScripts/ysfp.user.js","debug":false,"webViewSettings":{"blockNetworkImage":true,"blockList":["*.png*","*.mp3*","*.css*","https://*.googletagmanager.com/*","https://*.google-analytics.com/*"]},"spider":{"homeContent":{"loadUrl":"https://m.yfsp.tv/"},"categoryContent":{"loadUrl":"https://m.yfsp.tv/list/${tid}?type=${index-0:-0}${index-1:-,0}${index-2:-,0}${index-3:-,0}${index-4:-,0}${index-5:-}"},"detailContent":{"loadUrl":"https://m.yfsp.tv/play/${id}"},"playerContent":{"loadUrl":"https://m.yfsp.tv/play/${mediaKey}?id=${episodeKey}"},"searchContent":{"loadUrl":"https://m.yfsp.tv/search"}}}},
 
