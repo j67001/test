@@ -206,11 +206,11 @@
 "数组": "post\">&&</p>",
 "标题": "<h2>&&</h2>",
 "副标题": "date\">&&</span>",
-"图片": "url(\"&&\"",
+//"图片": "url(\"&&\"",
 "链接": "href=\"&&\"",
 "播放数组": "zdydown/">&&</div>",
 "播放列表": "<h3>&&</a>",
-"播放标题": "DOWNLOAD&&", 
+//"播放标题": "DOWNLOAD&&", 
 "播放链接": "href=\"&&download",
 "简介":"<title>&&</title>",
 "分类url": "https://www.movieffm.net/category/{cateId}/page/{catePg}/"
