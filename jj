@@ -171,15 +171,17 @@
 				"图片": "data-original=\"&&\"",
 				"副标题": "<h4>&&</h4>",
 				"链接": "href=\"&&\"",
-				"播放数组": "class=\"numList\"&&</ul>",
+				"播放数组": "stui-content__playlist playlink clearfix\">&&</ul>",
 				"播放列表": "<a&&a>",
-				"播放链接": "href=\"&&\"",
-				"播放标题": ">&&</",
-				"线路数组": "<li><a href=\"javascript:;&&</li>",
-				"线路标题": "\">&&</a>",
+				"播放链接": "href=\'&&\'",
+				"播放标题": "title=\'&&\'",
+				"线路数组": "stui-pannel clearfix\">&&</div>",
+				"线路标题": "title\">&&<",
 				"搜索url": "https://www.wwsisi.com/vod-search",
 				"分类url": "https://www.wwsisi.com/catalog-id-{cateId}-m--lz--y-{year}-l-{by}-o-{sort}-a-{area}-p-1-page-{catePg}.html",
-				"分类":"电影$1#电视剧$2#动漫$3#综艺$4","类型":"动作片$8#喜剧片$9#爱情片$10#科幻片$11#恐怖片$12#故事片$14||陆剧$15#港剧$16#台剧$17#韩剧$18#日剧$19#泰剧$23#美剧$24#英剧$25#新加坡剧$26#印度剧$27||国产动漫$28#日韩动漫$29#欧美动漫$30#其它动漫$31||大陆综艺$32#港台综艺$33#日韩综艺$34#欧美综艺$35","排序":"按时间$addtime#按人气$hits#按推荐$gold"}},
+				"分类":"电影$1#电视剧$2#动漫$3#综艺$4","类型":"动作片$8#喜剧片$9#爱情片$10#科幻片$11#恐怖片$12#故事片$14||陆剧$15#港剧$16#台剧$17#韩剧$18#日剧$19#泰剧$23#美剧$24#英剧$25#新加坡剧$26#印度剧$27||国产动漫$28#日韩动漫$29#欧美动漫$30#其它动漫$31||大陆综艺$32#港台综艺$33#日韩综艺$34#欧美综艺$35","排序":"按时间$addtime#按人气$hits#按推荐$gold"
+			}},
+
 
 {"key":"csp_GM_爱壹帆","name":"🐵爱壹帆(SCRIPT)","api":"csp_GM","type":3,"searchable":1,"changeable":1,"quickSearch":0,"jar":"https://github.com/n3rddd/N3RD/raw/refs/heads/master/JN/N3RD/J/gm.jar","ext":{"userScript":"https://github.com/n3rddd/N3RD/raw/refs/heads/master/JN/EXT/userScripts/ysfp.user.js","debug":false,"webViewSettings":{"blockNetworkImage":true,"blockList":["*.png*","*.mp3*","*.css*","https://*.googletagmanager.com/*","https://*.google-analytics.com/*"]},"spider":{"homeContent":{"loadUrl":"https://m.yfsp.tv/"},"categoryContent":{"loadUrl":"https://m.yfsp.tv/list/${tid}?type=${index-0:-0}${index-1:-,0}${index-2:-,0}${index-3:-,0}${index-4:-,0}${index-5:-}"},"detailContent":{"loadUrl":"https://m.yfsp.tv/play/${id}"},"playerContent":{"loadUrl":"https://m.yfsp.tv/play/${mediaKey}?id=${episodeKey}"},"searchContent":{"loadUrl":"https://m.yfsp.tv/search"}}}},
 
