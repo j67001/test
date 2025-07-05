@@ -181,6 +181,8 @@
 }},
 
 {"key": "javffm_XBPQ","name": "🐚JAVFFM","type": 3,"api":"csp_XBPQ","style":{"type":"rect","ratio":1.333},"ext":{
+"请求头":"User-Agent$MOBILE_UA",
+"编码":"UTF-8",
 "数组": "poster\">&&</a>",
 "标题": "alt=\"&&\"",
 //"副标题": "alt=\"&& ",
