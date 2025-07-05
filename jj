@@ -215,8 +215,10 @@
 "播放标题": "DOWNLOAD(&&)", 
 "播放链接": "https://mixdrop.ag/e/+href=\"//mixdrop.ag/f/&&?download",
 "简介":"<title>&&</title>",
-"分类url": "https://www.movieffm.net/{cateId}/page/{catePg}/",
-"分类": "熱門推薦$category\/popular-jav#中文字幕$category\/chinese-subtitles#中文無碼破解$tag\/無碼破解#有碼$category\/hd-censored#素人$category\/amateur#無碼$category\/hd-uncensored"
+//"分类url": "https://www.movieffm.net/{cateId}/page/{catePg}/",
+//"分类": "熱門推薦$category\/popular-jav#中文字幕$category\/chinese-subtitles#中文無碼破解$tag\/無碼破解#有碼$category\/hd-censored#素人$category\/amateur#無碼$category\/hd-uncensored"
+"分类url": "https://www.movieffm.net/category/{cateId}/page/{catePg}/",
+"分类": "熱門推薦$popular-jav#中文字幕$chinese-subtitles#有碼$hd-censored#素人$amateur#無碼$hd-uncensored"
 }},
 
 
