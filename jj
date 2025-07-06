@@ -614,7 +614,7 @@
 "简介":"module-info-introduction-content\">&&</p>",
 "线路数组":"module-tab-item tab-item&&</div>",
 "线路标题":"<span>&&</small>[替换:</span><small>>>更]",
-"播放数组": "his-tab-list&&</a></div>",
+"播放数组": "his-tab-list&&</div></div>",
 "播放列表": "<a&&</a>",
 "播放标题": "<span>&&</span>", 
 "播放链接": "href=\"&&\"",
