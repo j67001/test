@@ -130,7 +130,7 @@
 "播放标题": "<span>&&</span>", 
 "播放链接": "href=\"&&\"",
 "搜索url": "https://www.nivod.vip/s/{wd}----------{catePg}---/",
-"搜索数组": "module-card-item module-item\">&&</a></div>",
+"搜索数组": "module-item-cover\">&&</strong></a>",
 "搜索图片": "data-original=\"&&\"",
 "搜索标题": "alt=\"&&\"",
 "搜索链接": "href=\"&&\"",
