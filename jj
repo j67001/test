@@ -199,15 +199,15 @@
 "分类": "Netflix電影$cats\/netflix#Netflix劇集$network\/netflix#電影$movies#連續劇$drama#電視劇$tvshows"
 }},
 
-{"key": "ffm2_XBPQ","name": "🐚MovieFFM3","type": 3,"api":"csp_XBPQ","ext":{
+{"key": "ffm2_XBPQ","name": "🐚MovieFFM4","type": 3,"api":"csp_XBPQ","ext":{
 "数组": "<article id=\"post-*\"&&</article>",
 "标题": "alt=\"&&\" class",
 "副标题": "upinfo\">&&</div>",
 "图片": "<noscript><img src=\"&&\"",
 "链接": "href=\"&&\"",
-"线路数组":"ctuijian\">&&</a>",
-"线路标题":">&&<",
-//"播放数组": "\"source&&}",
+"线路数组":"FLV&&cl",
+//"线路标题":">&&<",
+"播放数组": "[{&&]",
 //"播放列表": "urc&&type",
 //"播放标题": "e\":\"&&,", 
 "播放链接": "url\":\"&&\"",
@@ -215,18 +215,6 @@
 "分类url": "https://www.movieffm.net/{cateId}/page/{catePg}/",
 "分类": "Netflix電影$cats\/netflix#Netflix劇集$network\/netflix#電影$movies#連續劇$drama#電視劇$tvshows"
 }},
-
-{"key":"csp_XBPQ_雲飛2","name":"🍚雲飛2","type":3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{
-"简介":"简介：&&</p>",
-"线路数组":"<span class=\"more text-muted pull-right&&</h3></div>",
-"线路标题":"title\">&&<",
-//"播放数组":"class=\"stui-content__playlist clearfix\">&&</ul>",
-//"播放列表":"<a&&</a[不包含:🎁美女直播]",
-//"播放标题":">&&</a",
-"播放链接":"href=\"&&\"",
-"跳转播放链接":"var player_*\"url\":\"&&\"",
-"分类url":"https://yfeil.com/show/{cateId}-{area}-{by}------{catePg}---{year}/",
-"分类":"电影$1#电视剧$2#动漫$4#综艺$3"}},
 
 {"key": "javffm_XBPQ","name": "🐚JAVFFM","type": 3,"api":"csp_XBPQ","style":{"type":"rect","ratio":1.333},"ext":{
 "请求头":"User-Agent$MOBILE_UA",
