@@ -199,19 +199,19 @@
 "分类": "Netflix電影$cats\/netflix#Netflix劇集$network\/netflix#電影$movies#連續劇$drama#電視劇$tvshows"
 }},
 
-{"key": "ffm2_XBPQ","name": "🐚MovieFFM5","type": 3,"api":"csp_XBPQ","ext":{
+{"key": "ffm2_XBPQ","name": "🐚MovieFFM6","type": 3,"api":"csp_XBPQ","ext":{
 "数组": "<article id=\"post-*\"&&</article>",
 "标题": "alt=\"&&\" class",
 "副标题": "upinfo\">&&</div>",
 "图片": "<noscript><img src=\"&&\"",
 "链接": "href=\"&&\"",
 "线路数组":"FLV&&cl",
-//"线路标题":">&&<",
-"播放数组": "[{&&]",
+"线路标题":"线路",
+"播放数组": "[{\"&&][不包含:@type]",
 "播放列表": "e\"&&}",
 "播放标题": ":\"&&\"", 
 "播放链接": "url\":\"&&\"",
-"简介":"wp-content\">&&</p>",
+"简介":"wp-content\"&&</p>",
 "分类url": "https://www.movieffm.net/{cateId}/page/{catePg}/",
 "分类": "Netflix電影$cats\/netflix#Netflix劇集$network\/netflix#電影$movies#連續劇$drama#電視劇$tvshows"
 }},
