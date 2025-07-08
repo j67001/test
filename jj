@@ -199,14 +199,14 @@
 "分类": "Netflix電影$cats\/netflix#Netflix劇集$network\/netflix#電影$movies#連續劇$drama#電視劇$tvshows"
 }},
 
-{"key": "ffm2_XBPQ","name": "🐚MovieFFM2","type": 3,"api":"csp_XBPQ","ext":{
+{"key": "ffm2_XBPQ","name": "🐚MovieFFM3","type": 3,"api":"csp_XBPQ","ext":{
 "数组": "<article id=\"post-*\"&&</article>",
 "标题": "alt=\"&&\" class",
 "副标题": "upinfo\">&&</div>",
 "图片": "<noscript><img src=\"&&\"",
 "链接": "href=\"&&\"",
-//"线路数组":"icon-play3\'>&&</li>[不包含:預告片]",
-//"线路标题":"線路+FLV片源&&loader",
+"线路数组":"ctuijian\">&&</a>",
+"线路标题":">&&<",
 //"播放数组": "\"source&&}",
 //"播放列表": "urc&&type",
 //"播放标题": "e\":\"&&,", 
