@@ -256,7 +256,7 @@
 "分类": "熱門推薦$category\/popular-jav#中文字幕$category\/chinese-subtitles#中文無碼破解$tag\/%E7%84%A1%E7%A2%BC%E7%A0%B4%E8%A7%A3#有碼$category\/hd-censored#素人$category\/amateur#無碼$category\/hd-uncensored"
 }},
 
-{"key":"csp_MMOV","name":"MMOV","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://www.mmov.app/vodshow{cateId}-{area}-------{catePg}---{year}.html","分类": "電視劇$2#電影$1#動漫$4#綜藝$3#福利$56"}},
+{"key":"csp_MMOV","name":"MMOV","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://www.mmov.app/vodshow{cateId}-{area}-------{catePg}---{year}.html","分类": "電視劇$2#電影$1#動漫$4#綜藝$3#福利$56","地区": "大陸&韓國&日本&台灣&香港&歐美&泰國&印度&海外&美國&英國&加拿大&西班牙&其它"}},
 
 
 
