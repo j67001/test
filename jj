@@ -199,7 +199,7 @@
 "分类": "Netflix電影$cats\/netflix#Netflix劇集$network\/netflix#電影$movies#連續劇$drama#電視劇$tvshows"
 }},
 
-{"key": "ffm9_XBPQ","name": "🐚MovieFFM5","type": 3,"api":"csp_XBPQ","ext":{
+{"key": "ffm9_XBPQ","name": "🐚MovieFFM7","type": 3,"api":"csp_XBPQ","ext":{
 "数组": "<article id=\"post-*\"&&</article>",
 "标题": "alt=\"&&\" class",
 "副标题": "</noscript>&&</div>",
@@ -210,7 +210,7 @@
 "线路数组":"FLV&&cl",
 "线路标题":"线路",
 "播放数组": "[{\"&&][不包含:@type#document]|seasons\'>&&</div></div></div>",
-"播放列表": "e\"&&}",
+"播放列表": "e\"&&}|title\'>&&</a>",
 "播放标题": ":\"&&\"[替换:http*.m3u8>>HD]",
 "播放链接": "http+http&&\"",
 "演员": "演員：|主演：&&</div>",
@@ -223,7 +223,7 @@
 "排序": "按時間$date#按評分$rating#按更新$modified#總人氣$view#月人氣$month#周人氣$week#日人氣$day"
 }},
 
-{"key": "ffm0_XBPQ","name": "🐚MovieFFM4","type": 3,"api":"csp_XBPQ","ext":{
+{"key": "ffm0_XBPQ","name": "🐚MovieFFM8","type": 3,"api":"csp_XBPQ","ext":{
 "数组": "<article id=\"post-*\"&&</article>",
 "标题": "alt=\"&&\" class",
 "副标题": "</noscript>&&<a href",
@@ -231,12 +231,12 @@
 "链接": "href=\"&&\"",
 "多线数组": "seasons\'>&&</div></div></div>",
 "多线链接": "href=\"&&\"",
-"线路数组":"\"ht\":\"|title\'>&&cl",
-"线路标题":"&&",
-"播放数组": "[{\"&&][不包含:@type#document]",
-"播放列表": "e\"&&}",
+"线路数组":"FLV&&cl",
+"线路标题":"线路",
+"播放数组": "seasons\'>&&</div></div></div>|[{\"&&][不包含:@type#document]",
+"播放列表": "title\'>&&</a>|e\"&&}",
 "播放标题": ":\"&&\"[替换:http*.m3u8>>HD]",
-"播放链接": "url\":\"&&\"",
+"播放链接": "http+http&&\"",
 "状态": "共 +季數</b> <span class=\"valor\">&&</span>+ 季",
 "演员": "演員：&&</div>|主演：&&</div>",
 "简介":"wp-content\"&&</p>[替换:style=\"margin-bottom: 10px;\">> ]",
