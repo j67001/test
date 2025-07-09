@@ -199,9 +199,9 @@
 "分类": "Netflix電影$cats\/netflix#Netflix劇集$network\/netflix#電影$movies#連續劇$drama#電視劇$tvshows"
 }},
 
-{"key": "ffm0_XBPQ","name": "🐚MovieFFM5","type": 3,"api":"csp_XBPQ","ext":{
+{"key": "ffm0_XBPQ","name": "🐚MovieFFM7","type": 3,"api":"csp_XBPQ","ext":{
 "标题": "alt=\"&&\" class",
-"副标题": "</noscript>&&</div>[包含:update]",
+"副标题": "</noscript>&&</div>",
 "图片": "<noscript><img src=\"&&\"",
 "链接": "href=\"&&\"",
 "多线数组": "class=\'se-c\'>&&</div>",
@@ -221,12 +221,14 @@
 "排序": "按時間$date#按評分$rating#按更新$modified#總人氣$view#月人氣$month#周人氣$week#日人氣$day"
 }},
 
-{"key": "ffm1_XBPQ","name": "🐚MovieFFM6","type": 3,"api":"csp_XBPQ","ext":{
+{"key": "ffm1_XBPQ","name": "🐚MovieFFM8","type": 3,"api":"csp_XBPQ","ext":{
 "标题": "alt=\"&&\" class",
-"副标题": "</noscript>&&<a href[替换:,>>   ]",
+"副标题": "</noscript>&&<a href",
 "图片": "<noscript><img src=\"&&\"",
 "链接": "href=\"&&\"",
-"多线数组": "seasons\">&&</div></div></div>",
+"多线数组": "seasons\'>&&</div></div></div>",
+"多线列表": "class=\'se-q\'>&&</a>",
+"多线标题": "title\">&&</span>",
 "多线链接": "href=\"&&\"",
 "线路数组":"FLV&&cl",
 "线路标题":"线路",
