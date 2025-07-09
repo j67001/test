@@ -199,11 +199,9 @@
 "分类": "Netflix電影$cats\/netflix#Netflix劇集$network\/netflix#電影$movies#連續劇$drama#電視劇$tvshows"
 }},
 
-{"key": "ffm4_XBPQ","name": "🐚MovieFFM1","type": 3,"api":"csp_XBPQ","ext":{
-"请求头":"User-Agent$PC_UA","编码":"UTF-8",
-"数组": "<article id=\"post-*\"&&</article>",
+{"key": "ffm0_XBPQ","name": "🐚MovieFFM3","type": 3,"api":"csp_XBPQ","ext":{
 "标题": "alt=\"&&\" class",
-"副标题": "upinfo\">&&</div>",
+"副标题": "</noscript>&&</div>",
 "图片": "<noscript><img src=\"&&\"",
 "链接": "href=\"&&\"",
 "多线数组": "class=\'se-c\'>&&</div>",
@@ -216,18 +214,16 @@
 "播放链接": "url\":\"&&\"",
 "简介":"wp-content\"&&</p>[替换:style=\"margin-bottom: 10px;\">> ]",
 "分类url": "https://www.movieffm.net/{cateId}/page/{catePg}/?{class}&region={area}&dtyear={year}&orderby={by}",
-"分类": "電影$movies#連續劇$drama#動漫$tvtype/anime#綜藝$tvtype/10#短劇$tvtype/miniseries",
-"剧情": "Netflix$cats=netflix#動畫$genres=animation#動作$genres=action#冒險$genres=adventure#喜劇$genres=comedy#驚悚$genres=thriller#奇幻$genres=fantasy#劇情$genres=drama#科幻$genres=science-fiction#犯罪$genres=crime#災難$genres=disaster#戰爭$genres=war#懸疑$genres=mystery#愛情$genres=romance#恐怖$genres=horror#西部$genres=western#家庭$genres=family#音樂$genres=music#運動$genres=sports#紀錄$genres=documentary#歷史$genres=history#寫真$genres=photo#情色$genres=erotic#傳記$genres=biography||Netflix$tvtype=netflixtv#陸劇$tvtype=cndrama#韓劇$tvtype=krdrama#日劇$tvtype=jpdrama#台劇$tvtype=twdrama#美劇$tvtype=usdrama#港劇$tvtype=hkdrama#海外劇$tvtype=11#泰劇$tvtype=thdrama#紀錄片$tvtype=documentary-film||空||空||空",
-"地区": "大陸&韓國&日本&台灣&香港&歐美&泰國&印度&海外&美國&英國&加拿大&西班牙&其它||大陸&韓國&日本&台灣&香港&歐美&泰國&印度&海外&美國&英國&加拿大&西班牙&其它||大陸&韓國&日本&台灣&香港&歐美&泰國&印度&海外&美國&英國&加拿大&西班牙&其它||大陸&韓國&日本&台灣&香港&歐美&泰國&印度&海外&美國&英國&加拿大&西班牙&其它||空","地区值":"*",
-"年份": "2025&2024&2023&2022&2021&2020&2019&2018&2017&2016&2015&2014&2013&2012&2011&2010&2009&2008&2007-1970||2025&2024&2023&2022&2021&2020&2019&2018&2017&2016&2015&2014&2013&2012&2011&2010&2009&2008&2007-1970||2025&2024&2023&2022&2021&2020&2019&2018&2017&2016&2015&2014&2013&2012&2011&2010&2009&2008&2007-1970||2025&2024&2023&2022&2021&2020&2019&2018&2017&2016&2015&2014&2013&2012&2011&2010&2009&2008&2007-1970||2025&2024&2023&2022&2021&2020&2019&2018&2017&2016&2015&2014&2013&2012&2011&2010&2009&2008&2007-1970","年份值":"*",
-"排序": "按時間$date#按更新$modified#總人氣$view#月人氣$month#周人氣$week#日人氣$day#按評分$rating"
+"分类": "電影$movies#劇集$tvshows#連續劇$drama#動漫$tvtype/anime#綜藝$tvtype/10#短劇$tvtype/miniseries",
+"剧情": "Netflix$cats=netflix#動畫$genres=animation#動作$genres=action#冒險$genres=adventure#喜劇$genres=comedy#驚悚$genres=thriller#奇幻$genres=fantasy#劇情$genres=drama#科幻$genres=science-fiction#犯罪$genres=crime#災難$genres=disaster#戰爭$genres=war#懸疑$genres=mystery#愛情$genres=romance#恐怖$genres=horror#西部$genres=western#家庭$genres=family#音樂$genres=music#運動$genres=sports#紀錄$genres=documentary#歷史$genres=history#寫真$genres=photo#情色$genres=erotic#傳記$genres=biography||動畫$genres=animation#動作$genres=action#冒險$genres=adventure#喜劇$genres=comedy#驚悚$genres=thriller#奇幻$genres=fantasy#劇情$genres=drama#科幻$genres=science-fiction#犯罪$genres=crime#災難$genres=disaster#戰爭$genres=war#懸疑$genres=mystery#愛情$genres=romance#恐怖$genres=horror#西部$genres=western#家庭$genres=family#音樂$genres=music#運動$genres=sports#紀錄$genres=documentary#歷史$genres=history#寫真$genres=photo#情色$genres=erotic#傳記$genres=biography||Netflix$tvtype=netflixtv#陸劇$tvtype=cndrama#韓劇$tvtype=krdrama#日劇$tvtype=jpdrama#台劇$tvtype=twdrama#美劇$tvtype=usdrama#港劇$tvtype=hkdrama#海外劇$tvtype=11#泰劇$tvtype=thdrama#紀錄片$tvtype=documentary-film||空||空||空",
+"地区": "大陸&韓國&日本&台灣&香港&歐美&海外&泰國&印度||大陸&韓國&日本&台灣&香港&歐美&海外&泰國&印度||大陸&韓國&日本&台灣&香港&歐美&泰國&印度&海外&美國&英國&加拿大&西班牙&其它||日本&歐美&大陸&韓國&台灣&美國&英國&加拿大&西班牙&海外&其它||台灣&大陸&韓國&日本&香港&歐美&美國&英國&加拿大&西班牙&泰國&印度&其它||空","地区值":"*",
+"年份": "2025&2024&2023&2022&2021&2020&2019&2018&2017&2016&2015&2014&2013&2012&2011&2010&2009&2008&2007-1970||2025&2024&2023&2022&2021&2020&2019&2018&2017&2016&2015&2014&2013&2012&2011&2010&2009&2008&2007-1970||2025&2024&2023&2022&2021&2020&2019&2018&2017&2016&2015&2014&2013&2012&2011&2010&2009&2008&2007-1970||2025&2024&2023&2022&2021&2020&2019&2018&2017&2016&2015&2014&2013&2012&2011&2010&2009&2008&2007-1970||2025&2024&2023&2022&2021&2020&2019&2018&2017&2016&2015&2014&2013&2012&2011&2010&2009&2008&2007-1970||2025&2024","年份值":"*",
+"排序": "按時間$date#按評分$rating#按更新$modified#總人氣$view#月人氣$month#周人氣$week#日人氣$day"
 }},
 
-{"key": "ffm5_XBPQ","name": "🐚MovieFFM2","type": 3,"api":"csp_XBPQ","ext":{
-"请求头":"User-Agent$MOBILE_UA","编码":"UTF-8",
-"数组": "<article id=\"post-*\"&&</article>",
+{"key": "ffm1_XBPQ","name": "🐚MovieFFM4","type": 3,"api":"csp_XBPQ","ext":{
 "标题": "alt=\"&&\" class",
-"副标题": "upinfo\">&&</div>",
+"副标题": "</noscript>&&<a href",
 "图片": "<noscript><img src=\"&&\"",
 "链接": "href=\"&&\"",
 "多线数组": "class=\'se-c\'>&&</div>",
@@ -240,11 +236,11 @@
 "播放链接": "url\":\"&&\"",
 "简介":"wp-content\"&&</p>[替换:style=\"margin-bottom: 10px;\">> ]",
 "分类url": "https://www.movieffm.net/{cateId}/page/{catePg}/?{class}&region={area}&dtyear={year}&orderby={by}",
-"分类": "電影$movies#連續劇$drama#動漫$tvtype/anime#綜藝$tvtype/10#短劇$tvtype/miniseries",
-"剧情": "Netflix$cats=netflix#動畫$genres=animation#動作$genres=action#冒險$genres=adventure#喜劇$genres=comedy#驚悚$genres=thriller#奇幻$genres=fantasy#劇情$genres=drama#科幻$genres=science-fiction#犯罪$genres=crime#災難$genres=disaster#戰爭$genres=war#懸疑$genres=mystery#愛情$genres=romance#恐怖$genres=horror#西部$genres=western#家庭$genres=family#音樂$genres=music#運動$genres=sports#紀錄$genres=documentary#歷史$genres=history#寫真$genres=photo#情色$genres=erotic#傳記$genres=biography||Netflix$tvtype=netflixtv#陸劇$tvtype=cndrama#韓劇$tvtype=krdrama#日劇$tvtype=jpdrama#台劇$tvtype=twdrama#美劇$tvtype=usdrama#港劇$tvtype=hkdrama#海外劇$tvtype=11#泰劇$tvtype=thdrama#紀錄片$tvtype=documentary-film||空||空||空",
-"地区": "大陸&韓國&日本&台灣&香港&歐美&泰國&印度&海外&美國&英國&加拿大&西班牙&其它||大陸&韓國&日本&台灣&香港&歐美&泰國&印度&海外&美國&英國&加拿大&西班牙&其它||大陸&韓國&日本&台灣&香港&歐美&泰國&印度&海外&美國&英國&加拿大&西班牙&其它||大陸&韓國&日本&台灣&香港&歐美&泰國&印度&海外&美國&英國&加拿大&西班牙&其它||空","地区值":"*",
-"年份": "2025&2024&2023&2022&2021&2020&2019&2018&2017&2016&2015&2014&2013&2012&2011&2010&2009&2008&2007-1970||2025&2024&2023&2022&2021&2020&2019&2018&2017&2016&2015&2014&2013&2012&2011&2010&2009&2008&2007-1970||2025&2024&2023&2022&2021&2020&2019&2018&2017&2016&2015&2014&2013&2012&2011&2010&2009&2008&2007-1970||2025&2024&2023&2022&2021&2020&2019&2018&2017&2016&2015&2014&2013&2012&2011&2010&2009&2008&2007-1970||2025&2024&2023&2022&2021&2020&2019&2018&2017&2016&2015&2014&2013&2012&2011&2010&2009&2008&2007-1970","年份值":"*",
-"排序": "按時間$date#按更新$modified#總人氣$view#月人氣$month#周人氣$week#日人氣$day#按評分$rating"
+"分类": "電影$movies#劇集$tvshows#連續劇$drama#動漫$tvtype/anime#綜藝$tvtype/10#短劇$tvtype/miniseries",
+"剧情": "Netflix$cats=netflix#動畫$genres=animation#動作$genres=action#冒險$genres=adventure#喜劇$genres=comedy#驚悚$genres=thriller#奇幻$genres=fantasy#劇情$genres=drama#科幻$genres=science-fiction#犯罪$genres=crime#災難$genres=disaster#戰爭$genres=war#懸疑$genres=mystery#愛情$genres=romance#恐怖$genres=horror#西部$genres=western#家庭$genres=family#音樂$genres=music#運動$genres=sports#紀錄$genres=documentary#歷史$genres=history#寫真$genres=photo#情色$genres=erotic#傳記$genres=biography||動畫$genres=animation#動作$genres=action#冒險$genres=adventure#喜劇$genres=comedy#驚悚$genres=thriller#奇幻$genres=fantasy#劇情$genres=drama#科幻$genres=science-fiction#犯罪$genres=crime#災難$genres=disaster#戰爭$genres=war#懸疑$genres=mystery#愛情$genres=romance#恐怖$genres=horror#西部$genres=western#家庭$genres=family#音樂$genres=music#運動$genres=sports#紀錄$genres=documentary#歷史$genres=history#寫真$genres=photo#情色$genres=erotic#傳記$genres=biography||Netflix$tvtype=netflixtv#陸劇$tvtype=cndrama#韓劇$tvtype=krdrama#日劇$tvtype=jpdrama#台劇$tvtype=twdrama#美劇$tvtype=usdrama#港劇$tvtype=hkdrama#海外劇$tvtype=11#泰劇$tvtype=thdrama#紀錄片$tvtype=documentary-film||空||空||空",
+"地区": "大陸&韓國&日本&台灣&香港&歐美&海外&泰國&印度||大陸&韓國&日本&台灣&香港&歐美&海外&泰國&印度||大陸&韓國&日本&台灣&香港&歐美&泰國&印度&海外&美國&英國&加拿大&西班牙&其它||日本&歐美&大陸&韓國&台灣&美國&英國&加拿大&西班牙&海外&其它||台灣&大陸&韓國&日本&香港&歐美&美國&英國&加拿大&西班牙&泰國&印度&其它||空","地区值":"*",
+"年份": "2025&2024&2023&2022&2021&2020&2019&2018&2017&2016&2015&2014&2013&2012&2011&2010&2009&2008&2007-1970||2025&2024&2023&2022&2021&2020&2019&2018&2017&2016&2015&2014&2013&2012&2011&2010&2009&2008&2007-1970||2025&2024&2023&2022&2021&2020&2019&2018&2017&2016&2015&2014&2013&2012&2011&2010&2009&2008&2007-1970||2025&2024&2023&2022&2021&2020&2019&2018&2017&2016&2015&2014&2013&2012&2011&2010&2009&2008&2007-1970||2025&2024&2023&2022&2021&2020&2019&2018&2017&2016&2015&2014&2013&2012&2011&2010&2009&2008&2007-1970||2025&2024","年份值":"*",
+"排序": "按時間$date#按評分$rating#按更新$modified#總人氣$view#月人氣$month#周人氣$week#日人氣$day"
 }},
 
 {"key":"csp_XBPQ_雲飛","name":"🍚雲飛2","type":3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{
