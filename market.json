@@ -22,6 +22,12 @@
         "url": "https://raw.githubusercontent.com/FongMi/Release/main/apk/kitkat/leanback.apk",
         "icon": "https://ooo.0x0.ooo/2023/06/09/O5fYsj.th.png",
         "version": "v7a"
+      },
+      {
+        "name": "本地包",
+        "url": "https://github.com/j67001/test/raw/main/j.zip",
+        "icon": "https://ooo.0x0.ooo/2023/06/09/O5fYsj.th.png",
+        "version": "v.j"
       }
     ]
   },
