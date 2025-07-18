@@ -24,10 +24,10 @@
         "version": "v7a"
       },
       {
-        "name": "本地包",
-        "url": "https://github.com/j67001/test/raw/main/j.zip",
+        "name": "本地包-k.zip",
+        "url": "https://github.com/j67001/test/raw/main/k.zip",
         "icon": "https://ooo.0x0.ooo/2023/06/09/O5fYsj.th.png",
-        "version": "v.j"
+        "version": "v.250716"
       }
     ]
   },
@@ -263,6 +263,53 @@
         "url": "https://raw.githubusercontent.com/FongMi/Release/fongmi/apk/dev/mobile-python-arm64_v8a.apk",
         "icon": "https://ooo.0x0.ooo/2023/06/09/O5fYsj.th.png",
         "version": "v8a"
+      }
+    ]
+  },
+  {
+    "name": "本地包",
+    "list": [
+      {
+        "name": "本地包-k.zip",
+        "url": "https://github.com/j67001/test/raw/main/k.zip",
+        "icon": "https://ooo.0x0.ooo/2023/06/09/O5fYsj.th.png",
+        "version": "v.250716"
+      },
+      {
+        "name": "主接口-k",
+        "url": "https://github.com/j67001/test/raw/main/k",
+        "icon": "https://ooo.0x0.ooo/2023/06/09/O5fYsj.th.png",
+        "version": "v.250716"
+      },
+      {
+        "name": "雷蒙-lem.jar",
+        "url": "https://github.com/j67001/test/raw/main/lem0518h3.jar",
+        "icon": "https://ooo.0x0.ooo/2023/06/09/O5fYsj.th.png",
+        "version": "lem0518h3.jar"
+      },
+      {
+        "name": "蜂蜜-custom_spider.jar",
+        "url": "https://github.com/FongMi/CatVodSpider/raw/main/jar/custom_spider.jar",
+        "icon": "https://ooo.0x0.ooo/2023/06/09/O5fYsj.th.png",
+        "version": "custom_spider.jar"
+      },
+      {
+        "name": "熊貓-pg.jar",
+        "url": "https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/pg.jar",
+        "icon": "https://ooo.0x0.ooo/2023/06/09/O5fYsj.th.png",
+        "version": "250616-1742"
+      },
+      {
+        "name": "飯-fan.txt.jar",
+        "url": "https://github.com/j67001/test/raw/main/fan.txt.jar",
+        "icon": "https://ooo.0x0.ooo/2023/06/09/O5fYsj.th.png",
+        "version": "fan.txt.jar"
+      },
+      {
+        "name": "XBPQ-xyqxbpq.jar",
+        "url": "https://github.com/j67001/test/raw/main/xyqxbpq.jar",
+        "icon": "https://ooo.0x0.ooo/2023/06/09/O5fYsj.th.png",
+        "version": "xyqxbpq.jar"
       }
     ]
   }
