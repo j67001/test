@@ -172,6 +172,37 @@
 {"key":"csp_MMOV","name":"MMOV","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{"分类url":"https://www.mmov.app/vodshow{cateId}-{area}-------{catePg}---{year}.html","分类": "電視劇$2#電影$1#動漫$4#綜藝$3#福利$56","地区": "大陸&韓國&日本&台灣&香港&歐美&泰國&印度&海外&美國&英國&加拿大&西班牙&其它"}},
 
 
+{
+"站名":"Jable翻墙",
+"请求头":"手机",
+"直接播放":"1",
+"主页url":"https://jable.tv/",
+"数组":"<div class=\"img-box cover-md\">&&</h6>",
+"图片":"data-src=\"&&\"",
+"标题":"class=\"title\">&&</a>",
+"链接":"href=\"&&\"",
+"链接前缀":"https://jable.tv",
+"副标题":"<span class=\"label\">&&</span>",
+"搜索模式":"1",
+"搜索url":"https://jable.tv/search/{wd}/",
+"搜索数组":"<div class=\"img-box cover-md\">&&</h6>",
+"搜索图片":"data-src=\"&&\"",
+"搜索标题":"class=\"title\">&&</a>",
+"搜索链接":"href=\"&&\"",
+"搜索副标题":"<span class=\"label\">&&</span>",
+"播放数组":"<h6&&</h6>",
+"播放列表":"<a&&/a>",
+"播放标题":">&&<",
+"播放链接":"href=\"&&\"",
+"分类":"最近更新$latest-updates#最新上市$new-release#主奴调教$categories/bdsm#直接开啪$categories/sex-only#中文字幕$categories/chinese-subtitle#凌辱强暴$categories/rape#制服诱惑$categories/uniform#角色剧情$categories/roleplay#盗摄偷拍$categories/hidden-cam#无码解放$categories/uncensored#男友视角$categories/pov#多P群交$categories/groupsex#丝袜美腿$categories/pantyhose#女同欢愉$categories/lesbian",
+"分类url":"https://jable.tv/{cateId}/{catePg}/",
+"嗅探词":".m3u8#.mp4#.flv#.m4a#.avi#.mkv#.mov#.3gp#.asf#.rm#.rmvb#.wmv#.mpg#.mpeg#.mpe#.ts#.vob#.mp3#.wma"
+},
+
+
+
+
+
 
 
 {"key":"csp_GM_爱壹帆","name":"🐵爱壹帆(SCRIPT)","api":"csp_GM","type":3,"searchable":1,"changeable":1,"quickSearch":0,"jar":"https://github.com/n3rddd/N3RD/raw/refs/heads/master/JN/N3RD/J/gm.jar","ext":{"userScript":"https://github.com/n3rddd/N3RD/raw/refs/heads/master/JN/EXT/userScripts/ysfp.user.js","debug":false,"webViewSettings":{"blockNetworkImage":true,"blockList":["*.png*","*.mp3*","*.css*","https://*.googletagmanager.com/*","https://*.google-analytics.com/*"]},"spider":{"homeContent":{"loadUrl":"https://m.yfsp.tv/"},"categoryContent":{"loadUrl":"https://m.yfsp.tv/list/${tid}?type=${index-0:-0}${index-1:-,0}${index-2:-,0}${index-3:-,0}${index-4:-,0}${index-5:-}"},"detailContent":{"loadUrl":"https://m.yfsp.tv/play/${id}"},"playerContent":{"loadUrl":"https://m.yfsp.tv/play/${mediaKey}?id=${episodeKey}"},"searchContent":{"loadUrl":"https://m.yfsp.tv/search"}}}},
