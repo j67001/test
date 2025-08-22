@@ -786,6 +786,15 @@
       ]
     },
     {
+      "name": "Jable AV",
+      "hosts": [
+        "jable.tv"
+      ],
+      "script": [
+        "document.getElementsByClassName('vjs-big-play-button')[0].click()"
+      ]
+    },
+    {
       "name": "夜市點擊",
       "hosts": [
         "yeslivetv.com"
