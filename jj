@@ -137,7 +137,7 @@
 {"key": "電影天堂_XBPQ","name": "📽️電影天堂2","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{
 "数组": "<tr class=\"bg-green-50*\"&&</tr>",
 "标题": "text-blue-500\">&&<",
-"副标题": "rounded\">&&</div>",
+"副标题": "rounded\">&&</div> + text-green-900\">&&</p>",
 "图片": "src=\"&&\"",
 "链接": "href=\"&&\"",
 "线路数组":"<h4>&&</h4>[排序:dyttm3u8>dytt]",
@@ -146,7 +146,7 @@
 "播放列表": "<a class=&&</a>",
 "播放标题": "title=\"&&\"",
 "播放链接": "href=\"&&\"",
-"状态": "豆瓣：  +豆瓣</td><td translate=\"no\" class=\"py-1 pl-2 leading-5 whitespace-normal\">&&</td>",
+"状态": "豆瓣：  +豆瓣</td><td translate=\"no\" class=\"py-1 pl-2 leading-5 whitespace-normal\">&&</td>  +分",
 "导演": "导演</td><td translate=\"no\" class=\"py-1 pl-2 leading-5 whitespace-normal\">&&</td>",
 "演员": "演员</td><td translate=\"no\" class=\"py-1 pl-2 leading-5 whitespace-normal\">&&</td>",
 "简介": "scrollbar-track-extra-grey\"><p>&&</p>",
