@@ -137,7 +137,7 @@
 {"key": "電影天堂_XBPQ","name": "📽️電影天堂2","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{
 "数组": "<tr class="bg-green-50*\"&&</tr>",
 "标题": "text-blue-500\">&&<",
-"副标题": "rounded\">&&</div> + text-green-900\">&&</p>",
+"副标题": "text-green-900\">&&</p>",
 "图片": "src=\"&&\"",
 "链接": "href=\"&&\"",
 "分类url": "http://www.dyttzy.tv/index.php/vod/type/id/{cateId}/year/{year}/{area}/by/{by}/page/{catePg}.html",
