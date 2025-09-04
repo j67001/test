@@ -135,7 +135,11 @@
 
 {"key": "電影天堂_api","name": "📽️電影天堂","type":1,"api": "http://caiji.dyttzyapi.com/api.php/provide/vod/?ac=list","searchable":1,"changeable":1,"quickSearch":1,"filterable":1,"categories":["短剧","动画片","动作片","喜剧片","爱情片","科幻片","恐怖片","剧情片","战争片","记录片","国产剧","香港剧","韩国剧","欧美剧","台湾剧","日本剧","泰国剧","海外剧","日韩动漫","欧美动漫","国产动漫","港台动漫","海外动漫","港台综艺","大陆综艺","日韩综艺","欧美综艺"]},
 {"key": "電影天堂_XBPQ","name": "📽️電影天堂2","type": 3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{
-
+"数组": "<tr class="bg-green-50*\"&&</tr>",
+"标题": "text-blue-500\">&&<",
+"副标题": "rounded\">&&</div> + text-green-900\">&&</p>",
+"图片": "src=\"&&\"",
+"链接": "href=\"&&\"",
 "分类url": "http://http://www.dyttzy.tv//index.php/vod/type/id/{cateId}/year/{year}/area/{area}/by/{by}/page/{catePg}.html",
 "分类": "電影$1#連續劇$2#動漫$4#綜藝$3#短劇$36",
 "地区": "大陆&美国&日本&韩国&香港&台湾&法国&英国&德国&泰国&印度&意大利&西班牙&加拿大&俄罗斯&其它||大陆&台湾&韩国&日本&香港&美国&泰国&英国&加拿大&印度&新加坡&其它||日本&大陆&美国&韩国&台湾&欧美&其它||台湾&港台&大陆&韩国&日本&美国&英国&其它",
