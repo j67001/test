@@ -137,8 +137,8 @@
 
 {"key": "XBPQ_餃子","name": "🥟餃子","type": 3,"api": "csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{
 "状态": "豆瓣：  +class=\"branch\">&&</span>",
-"导演": "导演：&&</a>",
-"演员": "演员：&&</a>",
+"导演": "导演：&&</p>",
+"演员": "演员：&&</p>",
 "简介": "剧情：&&</p>",
 "分类url": "https://www.jiaozi.me/search.php?searchtype=5&tid={cateId}&area={area}&year={year}&order={by}&page={catePg}",
 "分类": "電影$1#連續劇$2#動漫$41#動畫$32",
