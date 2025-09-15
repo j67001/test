@@ -811,6 +811,15 @@
         "document.getElementsByClassName('vjs-big-play-button')[0].click()"
       ]
     },
+        {
+            "name": "okzy",
+            "hosts": [
+                "bxgbnet"
+            ],
+            "regex": [
+                "#EXT-X-DISCONTINUITY\\r*\\n*[\\s\\S]*?#EXTINF:(0.120000|0.120000),[\\s\\S]*?#EXT-X"
+            ]
+        },
     {
       "name": "夜市點擊",
       "hosts": [
