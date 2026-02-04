@@ -136,7 +136,15 @@
 //{"key": "電影天堂_api","name": "📽️電影天堂","type":1,"api": "http://caiji.dyttzyapi.com/api.php/provide/vod/?ac=list","searchable":1,"changeable":1,"quickSearch":1,"filterable":1,"categories":["短剧","动画片","动作片","喜剧片","爱情片","科幻片","恐怖片","剧情片","战争片","记录片","国产剧","香港剧","韩国剧","欧美剧","台湾剧","日本剧","泰国剧","海外剧","日韩动漫","欧美动漫","国产动漫","港台动漫","海外动漫","港台综艺","大陆综艺","日韩综艺","欧美综艺"]},
 
 {"key":"IGua_php","name":"🍈爱瓜","type":4,"api":"https://zhangqun66.xyz/aigua1.php","quickSearch":1, "changeable":1, "filterable":1},
-
+{
+            "key": "专享",
+            "name": "专享php",
+            "type": 4,
+            "api": "http://sspa8.top:99/php/%E4%B8%93%E4%BA%AB.php",
+            "searchable": 1,
+            "quickSearch": 1,
+            "changeable": 0
+        },
 
 {"key": "XBPQ_餃子","name": "🥟餃子","type": 3,"api": "csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,"ext":{
 //"状态": "豆瓣：  +class=\"branch\">&&</span>",
