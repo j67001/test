@@ -4,7 +4,7 @@
 //"spider":"https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/xbpg.jar",
 //"spider": "https://github.com/j67001/test/raw/main/lem0518h3.jar",
 //"spider": "https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/lem0202.jar",
-"spider": "https://github.com/j67001/test/raw/refs/heads/main/lem0202h1.jar",
+"spider": "https://github.com/j67001/test/raw/refs/heads/main/lem0202h2.jar",
 
 "logo":"https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/W/ICONSGIF.gif",
 
@@ -83,10 +83,10 @@
 {"key":"Bili","name":"🤖嗶哩影視","type":3,"api":"csp_BiliGuard","style":{"type":"rect","ratio":1.597},"searchable":1,"quickSearch":0,"changeable":0,"ext":"https://gitlab.com/fantaiying/ext/-/raw/main/bilibili.json"},
 {"key":"Biliych","name":"🎸明星┃MV","type":3,"api":"csp_BiliGuard","style":{"type":"rect","ratio":1.597},"searchable":1,"quickSearch":0,"changeable":0,"ext":"https://gitlab.com/fantaiying/ext/-/raw/main/biliych.json"},
 
-//{"key":"教育","name":"📦盒子教育","type":3,"api":"csp_AppYsV2Guard","searchable":1,"playerType":1,"quickSearch":1,"filterable":0,"ext":"http://y.nihaohezi.com/api.php/app/"},
+{"key":"教育","name":"📦盒子教育","type":3,"api":"csp_AppYsV2","searchable":1,"playerType":1,"quickSearch":1,"filterable":0,"ext":"http://y.nihaohezi.com/api.php/app/"},
 //{"key":"drpy_js_博看听书","name":"🎧博看聽書","type":3,"api":"https://github.com/maoystv/api/raw/main/JS/drpy2.min.js","ext":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/js/博看听书.js","playerType":"2"},
 {"key":"T4_博看","name":"🎧博看聽書","type":4,"api":"https://catbox.n13.club/t9/bookan.php"},
-{"key":"csp_BookTing","name":"📚聽書網","type":3,"playerType":2,"api":"csp_BookTing","searchable":0,"ext":"https://m.i275.com","style":{"type":"rect","ratio":1.333}},
+{"key":"csp_BookTing","name":"📚聽書網","type":3,"playerType":2,"api":"csp_Tingshu275Guard","searchable":0,"ext":"https://m.i275.com","style":{"type":"rect","ratio":1.333}},
 
 {"key":"csp_YGP","name":"🚀新片預告","type":3,"api":"csp_YGPGuard","searchable":0,"quickSearch":0,"changeable":0},
 {"key": "應用商店","name": "🏪應用商店","type": 3,"api": "csp_Market","searchable": 0,"changeable": 0,"jar": "https://github.com/FongMi/CatVodSpider/raw/main/jar/custom_spider.jar","ext": "https://github.com/j67001/test/raw/main/market.json"},
