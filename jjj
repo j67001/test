@@ -79,8 +79,8 @@
 {"key":"csp_Youtube_PG","name":"🎈YouTube2","type":3,"api":"csp_Youtube","searchable":1,"quickSearch":1,"changeable":0,"jar":"https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/pg.jar","ext":{"json":"https://github.com/j67001/test/raw/main/ytc.js"},"style":{"type":"rect","ratio":1.3}},
 
 {"key":"csp_Kugou","name":"🐶酷狗音樂","type":3,"api":"csp_Kugou","playerType":2,"ext":{"classes":[{"type_name":"酷狗","type_id":"kugou"}]}},
-{"key":"Bili","name":"🤖嗶哩影視","type":3,"api":"csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":1,"quickSearch":0,"changeable":0,"ext":"https://gitlab.com/fantaiying/ext/-/raw/main/bilibili.json"},
-{"key":"Biliych","name":"🎸明星┃MV","type":3,"api":"csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":1,"quickSearch":0,"changeable":0,"ext":"https://gitlab.com/fantaiying/ext/-/raw/main/biliych.json"},
+{"key":"Bili","name":"🤖嗶哩影視","type":3,"api":"csp_BiliGuard","style":{"type":"rect","ratio":1.597},"searchable":1,"quickSearch":0,"changeable":0,"ext":"https://gitlab.com/fantaiying/ext/-/raw/main/bilibili.json"},
+{"key":"Biliych","name":"🎸明星┃MV","type":3,"api":"csp_BiliGuard","style":{"type":"rect","ratio":1.597},"searchable":1,"quickSearch":0,"changeable":0,"ext":"https://gitlab.com/fantaiying/ext/-/raw/main/biliych.json"},
 
 //{"key":"教育","name":"📦盒子教育","type":3,"api":"csp_AppYsV2Guard","searchable":1,"playerType":1,"quickSearch":1,"filterable":0,"ext":"http://y.nihaohezi.com/api.php/app/"},
 //{"key":"drpy_js_博看听书","name":"🎧博看聽書","type":3,"api":"https://github.com/maoystv/api/raw/main/JS/drpy2.min.js","ext":"https://raw.githubusercontent.com/hjdhnx/dr_py/main/js/博看听书.js","playerType":"2"},
