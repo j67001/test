@@ -351,6 +351,13 @@ class Spider(Spider):
             "User-Agent": self.ua,
             'referer': self.home_url,
         }
+        
+    # 建議先處理一遍，避免空值
+    suffix = f"{_type}{_class}{_area}{_year}{_lang}{_by}"
+    url = f'{self.home_url}/vod/show/id/{cid}{suffix}/page/{page}'
+    
+    print(f"正在請求分類網址: {url}") # 在控制台查看網址是否正確
+        
         try:
             res = requests.get(
                 f'{self.home_url}/vod/show/id/{t}{_type}{_class}{_area}{_year}{_lang}{_by}/page/{page}',
