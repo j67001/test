@@ -361,8 +361,7 @@ class Spider(Spider):
         
         try:
             res = requests.get(
-            	f'{self.home_url}/vod/show/id/{cid}{suffix}/page/{page}'
-                #f'{self.home_url}/vod/show/id/{t}{_type}{_class}{_area}{_year}{_lang}{_by}/page/{page}',
+            	f'{self.home_url}/vod/show/id/{cid}{suffix}/page/{page}',
                 headers=h)
             aa = re.findall(r'\\"list\\":(.*?)}}}]', res.text)
             if not aa:
