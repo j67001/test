@@ -70,7 +70,7 @@ class Spider(Spider):
                                                            for i in d["plotList"]]}]),
 
                 {"key": "area", "name": "地区",
-                 "value": [{"n": i["itemText"], "v": i["itemText"]} for i in d["districtList"]]},
+                 "value": [{"n": i["itemText"].replace('中国', ''), "v": i["itemText"]} for i in d["districtList"]]},
 
                 {"key": "year", "name": "年份",
                  "value": [{"n": i["itemText"], "v": i["itemText"]} for i in d["yearList"]]},
@@ -222,4 +222,5 @@ class Spider(Spider):
 
     def getvod(self, array):
         return [{self.convert_field_name(k): v for k, v in item.items()} for item in array]
+
 
