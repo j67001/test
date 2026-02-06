@@ -132,8 +132,8 @@
 {"key": "新浪_py","name": "🥝新浪","type": 3,"api": "https://github.com/qq1719248506/Video-interface/raw/main/py/新浪.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
 {"key": "金牌_py","name": "💮文采","type": 3,"api": "https://github.com/cluntop/tvbox/raw/main/py/金牌.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
 {"key": "xigua_py","name": "🥝瓜子","type": 3,"api": "https://github.com/cluntop/tvbox/raw/main/py/瓜子.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
-{"key": "苹果_py","name": "🍎蘋果","type": 3,"api": "https://github.com/cluntop/tvbox/raw/main/py/小苹果影视.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
-{"key": "嗷呜动漫_py","name": "🥝嗷呜动漫","type": 3,"api": "https://github.com/cluntop/tvbox/raw/main/py/嗷呜动漫.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
+{"key": "苹果_py","name": "🍎蘋果","type": 3,"api": "https://github.com/cluntop/tvbox/raw/main/py/小苹果APP.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
+{"key": "小红薯_py","name": "🥝小红薯","type": 3,"api": "https://github.com/cluntop/tvbox/raw/main/py/小红薯APP.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
 
 
 {"key": "文采影视","name": "🌼文采[XBPQ]","type": 3,"api": "csp_XBPQ","changeable": 0,"ext": {
