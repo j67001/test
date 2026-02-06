@@ -34,14 +34,21 @@ class Spider(Spider):
         return hashlib.sha1(data_md5.encode()).hexdigest()
 
     def homeContent(self, filter):
+        # 1. 定義分類 (確保 type_id 為字串)
+        classes = [
+            {'type_id': '1', 'type_name': '电影'},
+            {'type_id': '2', 'type_name': '电视剧'},
+            {'type_id': '3', 'type_name': '综艺'},
+            {'type_id': '4', 'type_name': '动漫'}
+        ]
+
+        # 2. 獲取篩選 (確保每個 ID 都有對應的配置)
+        all_filters = self.get_filters()
+
+        # 3. 檢查：移除那些沒有定義在 classes 中的 filter key，保持數據純淨
         res = {
-            'class': [
-                {'type_id': '1', 'type_name': '电影'},
-                {'type_id': '2', 'type_name': '电视剧'},
-                {'type_id': '3', 'type_name': '综艺'},
-                {'type_id': '4', 'type_name': '动漫'}
-            ],
-            'filters': self.get_filters()
+            'class': classes,
+            'filters': all_filters
         }
         return res
 
