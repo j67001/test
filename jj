@@ -130,8 +130,8 @@
 {"key": "优酷_py","name": "🥝优酷","type": 3,"api": "https://github.com/qq1719248506/Video-interface/raw/main/py/优酷.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
 {"key": "芒果_py","name": "🥝芒果","type": 3,"api": "https://github.com/qq1719248506/Video-interface/raw/main/py/芒果.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
 {"key": "新浪_py","name": "🥝新浪","type": 3,"api": "https://github.com/qq1719248506/Video-interface/raw/main/py/新浪.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
-{"key": "金牌_py","name": "🥝金牌","type": 3,"api": "https://github.com/qq1719248506/Video-interface/raw/main/py/金牌.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
-{"key": "晴天_py","name": "🥝晴天","type": 3,"api": "https://github.com/qq1719248506/Video-interface/raw/main/py/晴天.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
+{"key": "金牌_py","name": "🥝金牌","type": 3,"api": "https://github.com/cluntop/tvbox/raw/main/py/金牌.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
+{"key": "文才_py","name": "🥝文才","type": 3,"api": "https://github.com/cluntop/tvbox/raw/main/py/文才影视.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
 {"key": "xigua_py","name": "🥝西瓜","type": 3,"api": "https://github.com/qq1719248506/Video-interface/raw/main/py/xigua.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
 {"key": "苹果_py","name": "🥝苹果","type": 3,"api": "https://github.com/qq1719248506/Video-interface/raw/main/py/苹果.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
 
