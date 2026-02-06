@@ -346,6 +346,7 @@ class Spider(Spider):
         _year = ext.get('year') if ext.get('year') else ''
         _lang = ext.get('lang') if ext.get('lang') else ''
         _by = ext.get('by') if ext.get('by') else ''
+        suffix = f"{_type}{_class}{_area}{_year}{_lang}{_by}"
         video_list = []
         h = {
             "User-Agent": self.ua,
@@ -360,7 +361,6 @@ class Spider(Spider):
         
         try:
             res = requests.get(
-            	suffix = f"{_type}{_class}{_area}{_year}{_lang}{_by}"
             	f'{self.home_url}/vod/show/id/{cid}{suffix}/page/{page}'
                 #f'{self.home_url}/vod/show/id/{t}{_type}{_class}{_area}{_year}{_lang}{_by}/page/{page}',
                 headers=h)
