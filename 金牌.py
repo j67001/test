@@ -75,8 +75,8 @@ class Spider(Spider):
                 {"key": "year", "name": "年份",
                  "value": [{"n": i["itemText"], "v": i["itemText"]} for i in d["yearList"]]},
 
-                {"key": "lang", "name": "语言",
-                 "value": [{"n": i["itemText"], "v": i["itemText"]} for i in d["languageList"]]},
+                #{"key": "lang", "name": "语言",
+                # "value": [{"n": i["itemText"], "v": i["itemText"]} for i in d["languageList"]]},
 
                 {"key": "sort", "name": "排序", "value": current_sort_values}
             ]
@@ -222,5 +222,6 @@ class Spider(Spider):
 
     def getvod(self, array):
         return [{self.convert_field_name(k): v for k, v in item.items()} for item in array]
+
 
 
