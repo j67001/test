@@ -284,7 +284,7 @@ class Spider(Spider):
             if key in ext:
                 params += ext[key]
 
-        url = f"{self.home_url}/vod/show/id/2{params}/page/{page}"
+        url = f"{self.home_url}/vod/show/id/{cid}{params}/page/{page}"
         h = {"User-Agent": self.ua, "Referer": self.home_url}
 
         try:
