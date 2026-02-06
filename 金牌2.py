@@ -34,11 +34,11 @@ class Spider(Spider):
 
     def homeContent(self, filter):
         return {
-            'class': [{'type_id': '1', 'type_name': '电影'},
+'class': [{'type_id': '1', 'type_name': '电影'},
           {'type_id': '2', 'type_name': '电视剧'},
           {'type_id': '3', 'type_name': '综艺'},
           {'type_id': '4', 'type_name': '动漫'}],
-            'filters': {
+'filters': {
     '1': [
         {'key': 'type',
          'name': '类型',
@@ -59,6 +59,20 @@ class Spider(Spider):
                    {'n': '灾难', 'v': '/type/81'},
                    {'n': '伦理', 'v': '/type/83'},
                    {'n': '其他', 'v': '/type/43'}]},
+        {'key': 'class',
+         'name': '剧情',
+         'value': [{'n': '全部', 'v': ''},
+                   {'n': '爱情', 'v': '/class/爱情'},
+                   {'n': '动作', 'v': '/class/动作'},
+                   {'n': '喜剧', 'v': '/class/喜剧'},
+                   {'n': '战争', 'v': '/class/战争'},
+                   {'n': '科幻', 'v': '/class/科幻'},
+                   {'n': '剧情', 'v': '/class/剧情'},
+                   {'n': '武侠', 'v': '/class/武侠'},
+                   {'n': '冒险', 'v': '/class/冒险'},
+                   {'n': '枪战', 'v': '/class/枪战'},
+                   {'n': '恐怖', 'v': '/class/恐怖'},
+                   {'n': '其他', 'v': '/class/其他'}]},
         {'key': 'area',
          'name': '地区',
          'value': [{'n': '全部', 'v': ''},
@@ -327,7 +341,7 @@ class Spider(Spider):
     def categoryContent(self, cid, page, filter, ext):
         t = cid
         _type = ext.get('type') if ext.get('type') else ''
-        __class = ext.get('class') if ext.get('class') else ''
+        _class = ext.get('class') if ext.get('class') else ''
         _area = ext.get('area') if ext.get('area') else ''
         _year = ext.get('year') if ext.get('year') else ''
         _lang = ext.get('lang') if ext.get('lang') else ''
@@ -339,7 +353,7 @@ class Spider(Spider):
         }
         try:
             res = requests.get(
-                f'{self.home_url}/vod/show/id/{t}{_type}{__class}{_area}{_year}{_lang}{_by}/page/{page}',
+                f'{self.home_url}/vod/show/id/{t}{_type}{_class}{_area}{_year}{_lang}{_by}/page/{page}',
                 headers=h)
             aa = re.findall(r'\\"list\\":(.*?)}}}]', res.text)
             if not aa:
@@ -470,5 +484,3 @@ class Spider(Spider):
 
 if __name__ == '__main__':
     pass
-    
-
