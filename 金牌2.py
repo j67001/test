@@ -169,7 +169,7 @@ class Spider(Spider):
                    {'n': '韩语', 'v': '/lang/韩语'},
                    {'n': '日语', 'v': '/lang/日语'},
                    {'n': '泰语', 'v': '/lang/泰语'},
-                   {'n': '其他', 'v': '/lang/其他'}, ]},
+                   {'n': '其他', 'v': '/lang/其他'}]},
         {'key': 'by',
          'name': '排序',
          'value': [{'n': '最近更新', 'v': '/sortType/1/sortOrder/0'},
@@ -219,7 +219,7 @@ class Spider(Spider):
                    {'n': '粤语', 'v': '/lang/粤语'},
                    {'n': '韩语', 'v': '/lang/韩语'},
                    {'n': '日语', 'v': '/lang/日语'},
-                   {'n': '其他', 'v': '/lang/其他'}, ]},
+                   {'n': '其他', 'v': '/lang/其他'}]},
         {'key': 'by',
          'name': '排序',
          'value': [{'n': '最近更新', 'v': '/sortType/1/sortOrder/0'},
@@ -248,7 +248,7 @@ class Spider(Spider):
         {'key': 'area',
          'name': '地区',
          'value': [{'n': '全部', 'v': ''},
-                   {'n': '中国大陆', 'v': '/area/中国大陆'},
+                   {'n': '大陆', 'v': '/area/中国大陆'},
                    {'n': '日本', 'v': '/area/日本'},
                    {'n': '美国', 'v': '/area/美国'},
                    {'n': '其他', 'v': '/area/其他'}]},
@@ -470,3 +470,5 @@ class Spider(Spider):
 
 if __name__ == '__main__':
     pass
+    
+
