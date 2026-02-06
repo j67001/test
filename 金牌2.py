@@ -33,7 +33,7 @@ class Spider(Spider):
         pass
 
     def homeContent(self, filter):
-        return {
+        res = {
 		'class': [
           {'type_id': '2', 'type_name': '电视剧'},
 		  {'type_id': '1', 'type_name': '电影'},
@@ -63,7 +63,8 @@ class Spider(Spider):
                    {'n': '奇幻', 'v': '/class/奇幻'},
                    {'n': '剧情', 'v': '/class/剧情'},
                    {'n': '历史', 'v': '/class/历史'},
-                   {'n': '短片', 'v': '/class/短片'}]},
+                   {'n': '短片', 'v': '/class/短片'},
+                   {'n': '其他', 'v': '/class/其他'}]},
         {'key': 'area',
          'name': '地区',
          'value': [{'n': '全部', 'v': ''},
@@ -307,6 +308,7 @@ class Spider(Spider):
     ]
 }
         }
+return res
 
     def homeVideoContent(self):
         video_list = []
@@ -343,49 +345,52 @@ class Spider(Spider):
             'jx': 0
         }
 
-    def categoryContent(self, cid, page, filter, ext):
-        t = cid
-        _type = ext.get('type') if ext.get('type') else ''
-        _class = ext.get('class') if ext.get('class') else ''
-        _area = ext.get('area') if ext.get('area') else ''
-        _year = ext.get('year') if ext.get('year') else ''
-        _lang = ext.get('lang') if ext.get('lang') else ''
-        _by = ext.get('by') if ext.get('by') else ''
-        suffix = f"{_type}{_class}{_area}{_year}{_lang}{_by}"
-        video_list = []
-        h = {
-            "User-Agent": self.ua,
-            'referer': self.home_url,
-        }
-        
-    # 建議先處理一遍，避免空值
-    #suffix = f"{_type}{_class}{_area}{_year}{_lang}{_by}"
-    #url = f'{self.home_url}/vod/show/id/{cid}{suffix}/page/{page}'
+def categoryContent(self, cid, page, filter, ext):
+    video_list = []
+    # 構建基礎 URL
+    # 假設 ext.get('type') 拿到的是 '/type/22'
+    # 拼接結果應該像：/vod/show/id/1/type/22/area/中国/year/2024/page/1
     
-    #print(f"正在請求分類網址: {url}") # 在控制台查看網址是否正確
+    params = ""
+    for key in ['type', 'class', 'area', 'year', 'lang', 'by']:
+        if key in ext:
+            params += ext[key]
+
+    url = f"{self.home_url}/vod/show/id/{cid}{params}/page/{page}"
+    
+    # 偵錯用：如果在測試環境，可以 print(url) 看看網址對不對
+    h = {"User-Agent": self.ua, "referer": self.home_url}
         
-        try:
-            res = requests.get(
-            	f'{self.home_url}/vod/show/id/{cid}{suffix}/page/{page}',
-                #f'{self.home_url}/vod/show/id/{t}{_type}{_class}{_area}{_year}{_lang}{_by}/page/{page}',
-                headers=h)
-            aa = re.findall(r'\\"list\\":(.*?)}}}]', res.text)
-            if not aa:
-                return {'list': [], 'parse': 0, 'jx': 0}
+
+    try:
+        res = requests.get(url, headers=h, timeout=10)
+        # 這裡建議檢查 res.status_code
+        if res.status_code != 200:
+            return {'list': []}
+
+        # 修改正則表達式，增加兼容性
+        # 有些網頁 JSON 會被轉義，有些不會，這裡用更寬鬆的匹配
+        pattern = r'\\"list\\":\s*(\[.*?\])' 
+        aa = re.findall(pattern, res.text)
+        
+        if not aa:
+            # 嘗試匹配非轉義的格式
+            aa = re.findall(r'"list":\s*(\[.*?\])', res.text)
+
+        if aa:
             bb = aa[0].replace('\\"', '"')
             data_list = json.loads(bb)
             for i in data_list:
-                video_list.append(
-                    {
-                        'vod_id': i['vodId'],
-                        'vod_name': i['vodName'],
-                        'vod_pic': i['vodPic'],
-                        'vod_remarks': i['vodVersion'] if i['typeId1'] == 1 else i['vodRemarks']
-                    }
-                )
-        except requests.RequestException as e:
-            return {'list': [], 'msg': e}
-        return {'list': video_list, 'parse': 0, 'jx': 0}
+                video_list.append({
+                    'vod_id': i['vodId'],
+                    'vod_name': i['vodName'],
+                    'vod_pic': i['vodPic'],
+                    'vod_remarks': i.get('vodVersion') if i.get('typeId1') == 1 else i.get('vodRemarks', '')
+                })
+    except Exception as e:
+        print(f"Error in categoryContent: {e}")
+        
+    return {'list': video_list, 'parse': 0, 'jx': 0}
 
     def detailContent(self, did):
         ids = did[0]
