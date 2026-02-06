@@ -361,9 +361,11 @@ class Spider(Spider):
         
         try:
             res = requests.get(
-            	urls = f'{self.home_url}/vod/show/id/{cid}{suffix}/page/{page}',
-            	print(f"正在請求分類網址: {urls}",
+                f'{self.home_url}/vod/show/id/{cid}{suffix}/page/{page}',
                 headers=h)
+            
+            	print(f"正在請求分類網址: {res}"
+
             aa = re.findall(r'\\"list\\":(.*?)}}}]', res.text)
             if not aa:
                 return {'list': [], 'parse': 0, 'jx': 0}
