@@ -132,6 +132,17 @@
   "ext": "https://github.com/j67001/test/raw/main/txQ.js"
 },
 {
+    "key": "native_txy",
+    "name": "🎋騰雲駕霧[原生JS]",
+    "type": 3,
+    "api": "https://github.com/j67001/test/raw/main/txQ.js",
+    "searchable": 1,
+    "quickSearch": 1,
+    "filterable": 1,
+    "ext": ""
+},
+
+{
   "key": "drpy_txQpy",
   "name": "🎋騰訊 (QuickJS)py",
   "type": 3,
