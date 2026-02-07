@@ -1,5 +1,5 @@
 var rule = {
-    title: 'ÄË¶³¾rÃú[QuickJSª©]',
+    title: 'è…¾äº‘é©¾é›¾[QuickJSç‰ˆ]',
     host: 'https://v.qq.com',
     homeUrl: '/x/bu/pagesheet/list?_all=1&append=1&channel=cartoon&listpage=1&offset=0&pagesize=21&iarea=-1&sort=18',
     detailUrl: 'https://node.video.qq.com/x/api/float_vinfo2?cid=fyid',
@@ -13,16 +13,16 @@ var rule = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
     },
     timeout: 5000,
-    class_name: '¹q¼v&¹qµø¼@&ºîÃÀ&°Êº©&¤Ö¨à&¬ö¿ı¤ù',
+    class_name: 'ç”µå½±&ç”µè§†å‰§&ç»¼è‰º&åŠ¨æ¼«&å°‘å„¿&çºªå½•ç‰‡',
     class_url: 'movie&tv&variety&cartoon&child&doco',
     play_parse: true,
 
-    /* ­×¥¿¤@¡GÀu¤Æ¼½©ñ¦a§}Àò¨ú (Lazy Load)
-       ²¾°£ eval¡A§ï¥ÎÄY®æªº JSON ´£¨ú
+    /* ä¿®æ­£ä¸€ï¼šä¼˜åŒ–æ’­æ”¾åœ°å€è·å– (Lazy Load)
+       ç§»é™¤ evalï¼Œæ”¹ç”¨ä¸¥æ ¼çš„ JSON æå–
     */
     lazy: $js.toString(() => {
         let url = input.split("?")[0];
-        // ³o¸Ì¥i¥H°t¸m¦h­Ó³Æ¥Î¸ÑªR±µ¤f
+        // è¿™é‡Œå¯ä»¥é…ç½®å¤šä¸ªå¤‡ç”¨è§£ææ¥å£
         let jxUrl = "https://cache.json.icu/home/api?type=ys&uid=292796&key=fnoryABDEFJNPQV269&url=" + url;
         
         try {
@@ -36,34 +36,34 @@ var rule = {
                 };
             }
         } catch (e) {
-            console.log("¸ÑªR¥X¿ù: " + e.message);
+            console.log("è§£æå‡ºé”™: " + e.message);
         }
     }),
 
-    /* ­×¥¿¤G¡G¤@¯Å¦Cªí¸ÑªR 
+    /* ä¿®æ­£äºŒï¼šä¸€çº§åˆ—è¡¨è§£æ 
     */
-    ±ÀÂË: '.list_item;img&&alt;img&&src;a&&Text;a&&data-float',
-    ¤@¯Å: '.list_item;img&&alt;img&&src;a&&Text;a&&data-float',
+    æ¨è: '.list_item;img&&alt;img&&src;a&&Text;a&&data-float',
+    ä¸€çº§: '.list_item;img&&alt;img&&src;a&&Text;a&&data-float',
 
-    /* ­×¥¿¤T¡G¤G¯Å¸Ô±¡­¶¸ÑªR
-       ²¾°£ eval()¡A¤â°Ê¸ÑªRÄË°T«D¼Ğ·Ç JSON (QZOutputJson)
+    /* ä¿®æ­£ä¸‰ï¼šäºŒçº§è¯¦æƒ…é¡µè§£æ
+       ç§»é™¤ eval()ï¼Œæ‰‹åŠ¨è§£æè…¾è®¯éæ ‡å‡† JSON (QZOutputJson)
     */
-    ¤G¯Å: $js.toString(() => {
+    äºŒçº§: $js.toString(() => {
         VOD = {};
         let html = request(input);
         
-        // ´£¨ú¼v¤ù ID
+        // æå–å½±ç‰‡ ID
         let cid = input.includes("cid=") ? input.match(/cid=(\w+)/)[1] : input.split("/").pop().replace(".html", "");
 
         try {
-            // ²M²zÄË°T API ªğ¦^ªº«D¼Ğ®æ¦¡¡]¦p var QZOutputJson = ... ;¡^
+            // æ¸…ç†è…¾è®¯ API è¿”å›çš„éæ ‡æ ¼å¼ï¼ˆå¦‚ var QZOutputJson = ... ;ï¼‰
             let jsonStr = html.substring(html.indexOf('{'), html.lastIndexOf('}') + 1);
             let json = JSON.parse(jsonStr);
             
             VOD = {
                 vod_name: json.c.title,
-                type_name: json.typ ? json.typ.join(",") : "Ãş«¬¥¼ª¾",
-                vod_actor: json.nam ? json.nam.join(",") : "¥Dºt¥¼ª¾",
+                type_name: json.typ ? json.typ.join(",") : "ç±»å‹æœªçŸ¥",
+                vod_actor: json.nam ? json.nam.join(",") : "ä¸»æ¼”æœªçŸ¥",
                 vod_year: json.c.year,
                 vod_content: json.c.description,
                 vod_remarks: json.rec || "",
@@ -71,7 +71,7 @@ var rule = {
             };
 
             let playUrls = [];
-            // ³B²z¿ï¶°ÅŞ¿è
+            // å¤„ç†é€‰é›†é€»è¾‘
             if (json.c.video_ids && json.c.video_ids.length > 0) {
                 json.c.video_ids.forEach((vid, index) => {
                     let title = (index + 1).toString();
@@ -79,23 +79,23 @@ var rule = {
                     playUrls.push(title + "$" + playUrl);
                 });
             } else {
-                playUrls.push("¥¿¤ù$https://v.qq.com/x/cover/" + cid + ".html");
+                playUrls.push("æ­£ç‰‡$https://v.qq.com/x/cover/" + cid + ".html");
             }
             
-            VOD.vod_play_from = "ÄË°TµøÀW";
+            VOD.vod_play_from = "è…¾è®¯è§†é¢‘";
             VOD.vod_play_url = playUrls.join("#");
             
         } catch (e) {
-            console.log("¸Ô±¡­¶¸ÑªR¥¢±Ñ: " + e.message);
+            console.log("è¯¦æƒ…é¡µè§£æå¤±è´¥: " + e.message);
         }
     }),
 
-    /* ­×¥¿¥|¡G·j¯ÁÅŞ¿è
+    /* ä¿®æ­£å››ï¼šæœç´¢é€»è¾‘
     */
-    ·j¯Á: $js.toString(() => {
+    æœç´¢: $js.toString(() => {
         let d = [];
         let html = request(input);
-        // ¨Ï¥Î FongMi ¤º¸mªº pdfa ´£¨ú¦Cªí
+        // ä½¿ç”¨ FongMi å†…ç½®çš„ pdfa æå–åˆ—è¡¨
         let items = pdfa(html, 'body&&.result_item_v');
         
         items.forEach(it => {
@@ -104,7 +104,7 @@ var rule = {
             let content = pdfh(it, '.desc_text&&Text');
             let rData = pdfh(it, 'div&&r-data');
             
-            // ¨Ï¥Î¥¿«h¦w¥ş´£¨ú CID
+            // ä½¿ç”¨æ­£åˆ™å®‰å…¨æå– CID
             let cidMatch = rData.match(/cid=(.*?)&/) || rData.match(/\/([a-zA-Z0-9]+)\.html/);
             if (cidMatch) {
                 let cid = cidMatch[1];
