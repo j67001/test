@@ -128,8 +128,8 @@
   "key": "drpy_txQ",
   "name": "🎋騰訊 (QuickJS)",
   "type": 3,
-  "api": "https://fastly.jsdelivr.net/gh/maoystv/api@main/JS/drpy2.min.js", 
-  "ext": "https://fastly.jsdelivr.net/gh/j67001/test@main/txQ.js"
+  "api": "https://github.com/maoystv/api/raw/main/JS/drpy2.min.js", 
+  "ext": "https://github.com/j67001/test/raw/main/txQ.js"
 },
 
 
