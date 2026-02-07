@@ -124,6 +124,16 @@
 {"key": "七味_XBPQ","name": "🥪七味","type": 3,"api": "csp_XBPQ","searchable": 1,"quickSearch": 1,"filterable": 1,"ext": {"线路数组": "<li  class=\"&&</li>","线路标题": ">&&<div","播放数组":"bf-w\"  >&&</ul>","播放列表": "<a&&/a>","播放标题": ">&&<","播放链接": "href=\"&&\"","分类url": "https://www.pcmp4.com/vt/{cateId}/area/{area}/class/{class}/lang/{lang}/year/{year}/page/{catePg}.html","分类": "电影$1#剧集$2#动漫$4#综艺$3"}},
 {"key":"mgtv_XBPQ","name":"🦅美視","type": 3,"api":"csp_XBPQ","ext":{ "数组": "vod/detail&&</a>","图片": "data-original=\"&&\"","标题": "alt=\"&&\"","副标题": "module-item-note\">&&</div>","链接": "https://www.mgtv.fun/index.php/vod/detail/id/+/id/&&\"","线路数组": "<div class=\"module-tab-item&&</div>","线路标题": "<span>&&</small>[替换:</span><small>>> -更新至]","播放数组":"module-play-list-content&&</div>","播放列表": "<a&&/a>","播放标题": "<span>&&</span>","播放链接": "href=\"&&\"","简介": "module-info-introduction-content\">&&</p>","分类url": "https://www.mgtv.fun/index.php/vod/show/area/{area}/by/{by}/id/{cateId}/page/{catePg}/year/{year}.html","分类": "电影$1#电视剧$2#动漫$4#综艺$3#短劇$5","地区": "大陆$中国大陆#香港$中国香港#台湾$中国台湾#日本$日本#韩国$韩国#美国$美国#英国$英国#泰国$泰国#法国$法国#其他$其他||大陆$中国大陆#香港$中国香港#台湾$中国台湾#日本$日本#韩国$韩国#美国$美国#英国$英国#泰国$泰国#法国$法国#其他$其他||大陆$中国大陆#香港$中国香港#台湾$中国台湾#日本$日本#韩国$韩国#美国$美国||大陆$中国大陆#香港$中国香港#台湾$中国台湾#日本$日本#韩国$韩国#美国$美国||空"}},
 
+{
+  "key": "drpy_txQ",
+  "name": "🎋騰訊 (QuickJS)",
+  "type": 3,
+  "api": "https://fastly.jsdelivr.net/gh/maoystv/api@main/JS/drpy2.min.js", 
+  "ext": "https://fastly.jsdelivr.net/gh/j67001/test@main/txQ.js"
+}
+
+
+
 {"key": "腾讯_py","name": "🎋腾訊","type": 3,"api": "https://github.com/fish2018/lib/raw/main/js/dr_py/js/腾讯.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
 {"key": "爱奇艺_py1","name": "🥝爱奇艺1","type": 3,"api": "https://github.com/fish2018/lib/raw/main/js/dr_py/js/爱奇艺.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
 {"key": "爱奇艺_py2","name": "🥝爱奇艺2","type": 3,"api": "https://github.com/cluntop/tvbox/raw/main/py/爱奇艺.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
