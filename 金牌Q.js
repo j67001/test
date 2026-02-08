@@ -1,3 +1,5 @@
+#https://github.com/woshishiq1/hipy-drpy/raw/main/dr/cat/综/cat_金牌影院.js
+
 import 'assets://js/lib/crypto-js.js';
 const { HOSTS, KEY, USER_AGENT } = {
   HOSTS: ["https://hnytxj.com","https://www.hkybqufgh.com","https://www.sizhengxt.com","https://www.sdzhgt.com","https://www.jiabaide.cn","https://m.9zhoukj.com","https://m.cqzuoer.com","https://www.hellosht52bwb.com"],
