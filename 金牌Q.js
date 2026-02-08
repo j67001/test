@@ -58,7 +58,7 @@ async function home() {
   ]);
   const classes = (cRes.data || []).map(k => ({ type_name: k.typeName, type_id: k.typeId.toString() }));
   const filters = {};
-  const baseSort = [{ n: "最近更新", v: "2" }, { n: "人气高低", v: "3" }, { n: "评分高低", v: "4" }];
+  const baseSort = [{"n": "最近更新", "v": "1"},{"n": "添加时间", "v": "2"}, { n: "人气高低", v: "3" }, { n: "评分高低", v: "4" }];
   for (const [tid, d] of Object.entries(fRes.data || {})) {
     const sortValues = tid === '1' ? baseSort.slice(1) : baseSort;
     const arr = [
