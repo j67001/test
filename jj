@@ -168,6 +168,9 @@
 
 {"key": "ylys_Qjs","name": "🌞永樂Qjs","type": 3,"api": "https://github.com/woshishiq1/hipy-drpy/raw/main/dr/cat/综/cat_永乐视频.js","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1},
 
+{"key": "Guazi_Qjs","name": "🍈瓜子Qjs","type": 3,"api": "https://github.com/woshishiq1/hipy-drpy/raw/main/dr/cat/综/cat_瓜子.js","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1},
+
+
 {"key": "xigua_py","name": "🥝瓜子","type": 3,"api": "https://github.com/cluntop/tvbox/raw/main/py/瓜子.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
 {"key": "苹果_py","name": "🍎蘋果","type": 3,"api": "https://github.com/cluntop/tvbox/raw/main/py/小苹果APP.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
 
