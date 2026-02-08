@@ -1,5 +1,3 @@
-#https://github.com/woshishiq1/hipy-drpy/raw/main/dr/cat/综/cat_金牌影院.js
-
 import 'assets://js/lib/crypto-js.js';
 const { HOSTS, KEY, USER_AGENT } = {
   HOSTS: ["https://hnytxj.com","https://www.hkybqufgh.com","https://www.sizhengxt.com","https://www.sdzhgt.com","https://www.jiabaide.cn","https://m.9zhoukj.com","https://m.cqzuoer.com","https://www.hellosht52bwb.com"],
@@ -58,7 +56,7 @@ async function home() {
   ]);
   const classes = (cRes.data || []).map(k => ({ type_name: k.typeName, type_id: k.typeId.toString() }));
   const filters = {};
-  const baseSort = [{"n": "最近更新", "v": "1"},{"n": "添加时间", "v": "2"}, { n: "人气高低", v: "3" }, { n: "评分高低", v: "4" }];
+  const baseSort = [{n: "最近更新", v: "1"},{n: "添加时间", v: "2"}, { n: "人气高低", v: "3" }, { n: "评分高低", v: "4" }];
   for (const [tid, d] of Object.entries(fRes.data || {})) {
     const sortValues = tid === '1' ? baseSort.slice(1) : baseSort;
     const arr = [
