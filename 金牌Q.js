@@ -89,14 +89,12 @@ async function category(tid, pg, _, ext = {}) {
   const params = {
     area: ext.area || '',
     filterStatus: "1",
-    lang: ext.lang || '',
     pageNum: pg,
     pageSize: "30",
     sort: ext.sort || '1',
     sortBy: "1",
     type: ext.type || '',
     type1: tid,
-    v_class: ext.v_class || '',
     year: ext.year || ''
   };
   const url = `${currentHost}/api/mw-movie/anonymous/video/list?${toQueryString(params)}`;
