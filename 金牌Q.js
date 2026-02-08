@@ -62,8 +62,10 @@ async function home() {
   for (const [tid, d] of Object.entries(fRes.data || {})) {
     const sortValues = tid === '1' ? baseSort.slice(1) : baseSort;
     const arr = [
+      { key: "type", name: "类型", value: (d.typeList || []).map(i => ({ n: i.itemText, v: i.itemValue })) },
       { key: "area", name: "地区", value: (d.districtList || []).map(i => ({ n: i.itemText.replace('中国', ''), v: i.itemText })) },
       { key: "year", name: "年份", value: (d.yearList || []).map(i => ({ n: i.itemText, v: i.itemText })) },
+      { key: "lang", name: "语言", value: (d.languageList || []).map(i => ({ n: i.itemText, v: i.itemText })) },
       { key: "sort", name: "排序", value: sortValues }
     ];
     if (d.plotList?.length) arr.splice(1, 0, { key: "v_class", name: "剧情", value: d.plotList.map(i => ({ n: i.itemText, v: i.itemText })) });
