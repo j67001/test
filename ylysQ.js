@@ -8,6 +8,13 @@ const headers = {
   "Cache-Control": "max-age=0"
 };
 
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+async function delayedRequest(url, options = {}) {
+  await delay(Math.random() * 1000); // 隨機延遲 0-1秒
+  return req(url, options);
+}
+
 async function init() {}
 
 async function extractVideos(html) {
@@ -53,8 +60,8 @@ async function generateFilters() {
 }
 
 async function homeVod() {
-    const resp = await req(host, { headers });
-    return JSON.stringify({ list: await extractVideos(resp?.content || '') });
+  const resp = await delayedRequest(host, { headers });
+  return JSON.stringify({ list: await extractVideos(resp?.content || '') });
 }
 
 async function home() {
