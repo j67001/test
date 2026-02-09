@@ -1,122 +1,139 @@
+import 'assets://js/lib/crypto-js.js';
 let host = 'https://www.ylys.tv';
 let headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
     "Referer": host + "/",
     "Accept-Language": "zh-CN,zh;q=0.9"
 };
-
-const init = async (config) => {
-    // 新版建議保留 config 傳入，即便目前沒用到
-};
-
-const extractVideos = (html) => {
+const init = async () => {};
+const extractVideos = html => {
     if (!html) return [];
-    // 修正選擇器可能存在的空格問題
-    let items = pdfa(html, '.module-item, .module-card-item');
-    return items.map(it => {
+    return pdfa(html, '.module-item,.module-card-item').map(it => {
         const href = pdfh(it, 'a&&href') || '';
-        const idMatch = href.match(/voddetail\/(\d+)/);
-        if (!idMatch) return null;
-        
-        const name = pdfh(it, 'a&&title') || pdfh(it, '.module-item-title&&Text') || "";
+        const id = href.match(/voddetail\/(\d+)/)?.[1];
+        const name = pdfh(it, 'a&&title') || pdfh(it, 'strong&&Text') || pdfh(it, '.module-item-title&&Text') || "";
         const pic = pdfh(it, 'img&&data-original') || pdfh(it, 'img&&src') || "";
         const remarks = pdfh(it, '.module-item-text&&Text') || pdfh(it, '.module-item-note&&Text') || "";
-        
+        if (!id || !name) return null;
         return {
-            vod_id: idMatch[1],
+            vod_id: id,
             vod_name: name.trim(),
             vod_pic: pic.startsWith('/') ? host + pic : pic,
             vod_remarks: remarks.trim()
         };
-    }).filter(it => it !== null);
+    }).filter(Boolean);
 };
-
+const generateFilters = () => {
+    const currentYear = new Date().getFullYear();
+    const years = [{n:"全部",v:""}, ...Array.from({length:15},(_,i)=>{const y=currentYear-i;return{n:y+"",v:y+""}})];
+    return {
+        "1": [{"key":"class","name":"类型","value":[{"n":"全部","v":""},{"n":"动作片","v":"6"},{"n":"喜剧片","v":"7"},{"n":"爱情片","v":"8"},{"n":"科幻片","v":"9"},{"n":"恐怖片","v":"11"}]},{"key":"year","name":"年份","value":years}],
+        "2": [{"key":"class","name":"类型","value":[{"n":"全部","v":""},{"n":"国产剧","v":"13"},{"n":"港台剧","v":"14"},{"n":"日剧","v":"15"},{"n":"韩剧","v":"33"},{"n":"欧美剧","v":"16"}]},{"key":"year","name":"年份","value":years}],
+        "3": [{"key":"class","name":"类型","value":[{"n":"全部","v":""},{"n":"内地综艺","v":"27"},{"n":"港台综艺","v":"28"},{"n":"日本综艺","v":"29"},{"n":"韩国综艺","v":"36"}]},{"key":"year","name":"年份","value":years}],
+        "4": [{"key":"class","name":"类型","value":[{"n":"全部","v":""},{"n":"国产动漫","v":"31"},{"n":"日本动漫","v":"32"},{"n":"欧美动漫","v":"42"},{"n":"其他动漫","v":"43"}]},{"key":"year","name":"年份","value":years}]
+    };
+};
+const homeVod = async () => {
+    const resp = await req(host, { headers });
+    return JSON.stringify({ list: extractVideos(resp?.content || '') });
+};
 const home = async () => {
-    try {
-        const resp = await req(host, { headers });
-        const list = extractVideos(resp?.content || '');
-        return JSON.stringify({
-            class: [
-                {type_id:"1",type_name:"电影"},
-                {type_id:"2",type_name:"剧集"},
-                {type_id:"3",type_name:"综艺"},
-                {type_id:"4",type_name:"动漫"}
-            ],
-            filters: generateFilters(),
-            list: list
-        });
-    } catch (e) {
-        return JSON.stringify({ list: [] });
-    }
-};
-
-const category = async (tid, pg, filter, extend) => {
-    const cat = extend?.class || tid;
-    const year = extend?.year || '';
-    // 修正 URL 拼接，確保分頁參數正確
-    const url = `${host}/vodshow/${cat}--------${pg}---${year}/`;
-    const resp = await req(url, { headers });
-    const html = resp?.content || '';
-    const list = extractVideos(html);
-    
-    // 更加魯棒的總頁數判定
-    let pageCount = 1;
-    const lastPageMatch = html.match(/page\/(\d+)\/[^>]*>尾页/);
-    if (lastPageMatch) {
-        pageCount = parseInt(lastPageMatch[1]);
-    } else {
-        // 如果找不到尾頁，檢查當前是否有列表，有則假設還有下一頁
-        pageCount = list.length > 0 ? parseInt(pg) + 1 : parseInt(pg);
-    }
-
+    const { list } = JSON.parse(await homeVod());
     return JSON.stringify({
-        list: list,
-        page: parseInt(pg),
-        pagecount: pageCount,
-        limit: 20
+        class: [
+            {type_id:"1",type_name:"电影"},
+            {type_id:"2",type_name:"剧集"},
+            {type_id:"3",type_name:"综艺"},
+            {type_id:"4",type_name:"动漫"}
+        ],
+        filters: generateFilters(),
+        list
     });
 };
-
-const detail = async (id) => {
-    try {
-        const url = `${host}/voddetail/${id}/`;
-        const resp = await req(url, { headers });
-        const html = resp?.content || '';
-        if (!html) return JSON.stringify({ list: [] });
-
-        const tabs = pdfa(html, '.module-tab-item');
-        const lists = pdfa(html, '.module-play-list-content');
-        
-        const playFrom = tabs.map(t => pdfh(t, 'span&&Text') || "线路").join('$$$');
-        const playUrl = lists.map(l => {
-            return pdfa(l, 'a').map(a => {
-                const name = pdfh(a, 'span&&Text') || "播放";
-                const href = pdfh(a, 'a&&href') || "";
-                const vidMatch = href.match(/play\/([^\/]+)/);
-                return vidMatch ? `${name}$${vidMatch[1]}` : null;
-            }).filter(Boolean).join('#');
-        }).join('$$$');
-
-        // 修正演員抓取方式，避免使用 matchAll
-        const actorMatch = html.match(/主演：(.*?)<\/div>/);
-        const actors = actorMatch ? actorMatch[1].replace(/<[^>]+>/g, "").trim() : "";
-
-        return JSON.stringify({
-            list: [{
-                vod_id: id,
-                vod_name: pdfh(html, 'h1&&Text') || "",
-                vod_pic: host + (html.match(/data-original="(.*?)"/)?.[1] || ""),
-                vod_content: pdfh(html, '.introduction-content&&Text')?.trim() || "暂无简介",
-                vod_play_from: playFrom,
-                vod_play_url: playUrl,
-                vod_actor: actors
-            }]
-        });
-    } catch (e) {
-        return JSON.stringify({ list: [] });
-    }
+const category = async (tid, pg, _, extend) => {
+    const cat = extend?.class || tid;
+    const year = extend?.year || '';
+    const url = `${host}/vodshow/${cat}--------${pg}---${year}/`;
+    const html = (await req(url, { headers }))?.content || '';
+    const list = extractVideos(html);
+    const pagecount = html.match(/page\/(\d+)\/[^>]*>尾页/) ? +RegExp.$1 : 999;
+    return JSON.stringify({ list, page: +pg, pagecount, limit: 20 });
 };
+const detail = async id => {
+    const html = (await req(`${host}/voddetail/${id}/`, { headers }))?.content || '';
+    if (!html) return JSON.stringify({ list: [] });
+    let tabs = pdfa(html, '.module-tab-item');
+    const lists = pdfa(html, '.module-play-list-content');
+    if (tabs.length === 0 && lists.length > 0) tabs = ["默认"];
+    const playFrom = tabs.map(t => pdfh(t, 'span&&Text') || "线路").join('$$$');
+    const playUrl = lists.slice(0, tabs.length).map(l =>
+        pdfa(l, 'a').map(a => {
+            const name = pdfh(a, 'span&&Text') || "播放";
+            const vid = (pdfh(a, 'a&&href') || "").match(/play\/([^\/]+)/)?.[1];
+            return vid ? `${name}$${vid}` : null;
+        }).filter(Boolean).join('#')
+    ).join('$$$');
+    if (!playFrom || !playUrl) return JSON.stringify({ list: [] });
+    return JSON.stringify({
+        list: [{
+            vod_id: id,
+            vod_name: (html.match(/<h1>(.*?)<\/h1>/) || ["", ""])[1],
+            vod_pic: (() => {
+                const pic = (html.match(/data-original="(.*?)"/) || ["", ""])[1];
+                return pic?.startsWith('/') ? host + pic : pic || "";
+            })(),
+            vod_content: ((html.match(/introduction-content">.*?<p>(.*?)<\/p>/s) || ["", ""])[1]?.replace(/<.*?>/g, "") || "暂无简介"),
+            vod_year: (html.match(/href="\/vodshow\/\d+-----------(\d{4})\//) || ["", ""])[1] || "",
+            vod_director: (html.match(/导演：.*?<a[^>]*>([^<]+)<\/a>/) || ["", ""])[1] || "",
+            vod_actor: [...html.matchAll(/主演：.*?<a[^>]*>([^<]+)<\/a>/g)]
+                .map(m => m[1])
+                .filter(Boolean)
+                .join(" / "),
+            vod_play_from: playFrom,
+            vod_play_url: playUrl
+        }]
+    });
+};
+const search = async (wd, _, pg = 1) => {
+    const url = `${host}/vodsearch/${encodeURIComponent(wd)}----------${pg}---/`;
+    const resp = await req(url, { headers });
+    return JSON.stringify({ list: extractVideos(resp?.content || '') });
+};
+const play = async (flag, id, flags) => {
+    const url = `${host}/play/${id}/`;
+    const resp = await req(url, { headers });
+    const content = resp?.content || "";
+    
+    // 嘗試從 player_aaaa 變量中提取
+    let playUrl = "";
+    const playerMatch = content.match(/player_aaaa\s*=\s*({.*?})/);
+    if (playerMatch) {
+        try {
+            const config = JSON.parse(playerMatch[1]);
+            playUrl = config.url;
+        } catch (e) {
+            console.log("解析播放配置失敗");
+        }
+    }
 
-// ... generateFilters, search, play 保持邏輯但加上 try-catch ...
+    // 如果上面沒抓到，再用正則
+    if (!playUrl) {
+        const m3u8 = content.match(/"url"\s*:\s*"([^"]+\.m3u8[^"]*)"/);
+        if (m3u8) playUrl = m3u8[1].replace(/\\/g, "");
+    }
 
-export default { init, home, category, detail, search, play };
+    if (playUrl) {
+        return JSON.stringify({
+            parse: 0,
+            url: playUrl,
+            header: {
+                ...headers,
+                "Referer": url // 動態設置 Referer
+            }
+        });
+    }
+
+    // 實在找不到則交給 App 解析
+    return JSON.stringify({ parse: 1, url: url, header: headers });
+};
+export default { init, home, homeVod, category, detail, search, play };
