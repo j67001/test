@@ -56,9 +56,13 @@ async function generateFilters() {
     };
 }
 
-async function homeVod() {
+async function homeVod(extend = {}) {
   try {
-    const resp = await req(host, { headers });
+    // 根據篩選條件生成 URL
+    const { class: filterClass, year } = extend || {}; // 例如：extend 可能包含類型和年份
+    const url = `${host}/vodshow/${filterClass}--------1---${year}/`; // 假設此 URL 格式適合篩選
+
+    const resp = await req(url, { headers });
     if (!resp || !resp.content) {
       throw new Error('Failed to fetch content from the homepage');
     }
