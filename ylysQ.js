@@ -1,4 +1,3 @@
-import 'assets://js/lib/crypto-js.js';
 let host = 'https://www.ylys.tv';
 let headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
@@ -10,16 +9,37 @@ async function init() {}
 
 async function extractVideos(html) {
     if (!html) return [];
-    return pdfa(html, '.module-item,.module-card-item').map(it => {
+    
+    // 增加 .module-card-item 備選，確保能抓到不同版塊
+    const items = pdfa(html, '.module-item, .module-card-item, .module-main .module-item');
+    
+    return items.map(it => {
         const href = pdfh(it, 'a&&href') || '';
-        const id = href.match(/voddetail\/(\d+)/)?.[1];
-        const name = pdfh(it, 'a&&title') || pdfh(it, 'strong&&Text') || pdfh(it, '.module-item-title&&Text') || "";
-        const pic = pdfh(it, 'img&&data-original') || pdfh(it, 'img&&src') || "";
-        const remarks = pdfh(it, '.module-item-text&&Text') || pdfh(it, '.module-item-note&&Text') || "";
+        // 修正 ID 提取正則，適應 /voddetail/123.html 或 /voddetail/123/
+        const idMatch = href.match(/voddetail\/(\d+)/);
+        const id = idMatch ? idMatch[1] : null;
+
+        // 優先抓取 .module-item-title 的文本，這通常是最準確的名稱
+        let name = pdfh(it, '.module-item-title&&Text') || 
+                   pdfh(it, '.module-card-item-title&&Text') || 
+                   pdfh(it, 'a&&title') || 
+                   pdfh(it, 'strong&&Text') || "";
+        
+        // 圖片抓取：增加 data-src 備選
+        let pic = pdfh(it, 'img&&data-original') || 
+                  pdfh(it, 'img&&data-src') || 
+                  pdfh(it, 'img&&src') || "";
+
+        // 備註/狀態
+        const remarks = pdfh(it, '.module-item-note&&Text') || 
+                        pdfh(it, '.module-item-text&&Text') || "";
+
         if (!id || !name) return null;
+
         return {
             vod_id: id,
             vod_name: name.trim(),
+            // 確保圖片地址完整
             vod_pic: pic.startsWith('/') ? host + pic : pic,
             vod_remarks: remarks.trim()
         };
@@ -143,7 +163,4 @@ async function play(flag, id, flags) {
     return JSON.stringify({ parse: 1, url: url, header: headers });
 }
 
-// 修改匯出方式
-export function __jsEvalReturn() {
-    return { init, home, homeVod, category, detail, search, play };
-}
+export default { init, home, homeVod, category, detail, search, play };
