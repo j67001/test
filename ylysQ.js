@@ -9,7 +9,7 @@ const headers = {
 };
 
 
-async function init() {
+async function init(cfg) {
   return true; // 確保init()返回true
 }
 
@@ -165,13 +165,15 @@ async function play(flag, id, flags) {
   return JSON.stringify({ parse: 1, url: url, header: headers });
 }
 
-// 在腳本最後，確保變數被正確導出
-globalThis.spider = {
-    init: init,
-    home: home,
-    homeVod: homeVod,
-    category: category,
-    detail: detail,
-    search: search,
-    play: play
-};
+// 最後確保回傳__jsEvalReturn()
+export function __jsEvalReturn() {
+  return {
+    init,
+    home,
+    homeVod,
+    category,
+    detail,
+    search,
+    play
+  };
+}
