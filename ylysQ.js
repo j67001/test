@@ -14,52 +14,36 @@ async function init() {
 }
 
 async function extractVideos(html) {
-  if (!html) {
-    console.error("No HTML content to parse");
-    return [];
-  }
+  if (!html) return [];
 
-  try {
-    const videos = pdfa(html, '.module-item,.module-card-item').map(function(it) {
-      const href = pdfh(it, 'a&&href') || '';
-      const idMatch = href.match(/voddetail\/(\d+)/);
-      const id = idMatch ? idMatch[1] : null;
+  // 解析頁面，提取影片資料
+  return pdfa(html, '.module-item,.module-card-item').map(function(it) {
+    const href = pdfh(it, 'a&&href') || '';
+    const idMatch = href.match(/voddetail\/(\d+)/);
+    const id = idMatch ? idMatch[1] : null;
 
-      let name = pdfh(it, '.module-item-title&&Text') || 
-        pdfh(it, '.module-card-item-title&&Text') || 
-        pdfh(it, 'a&&title') || 
-        pdfh(it, 'strong&&Text') || '';
+    let name = pdfh(it, '.module-item-title&&Text') || 
+               pdfh(it, '.module-card-item-title&&Text') || 
+               pdfh(it, 'a&&title') || 
+               pdfh(it, 'strong&&Text') || '';
 
-      let pic = pdfh(it, 'img&&data-original') || 
-        pdfh(it, 'img&&data-src') || 
-        pdfh(it, 'img&&src') || '';
+    let pic = pdfh(it, 'img&&data-original') || 
+              pdfh(it, 'img&&data-src') || 
+              pdfh(it, 'img&&src') || '';
 
-      const remarks = pdfh(it, '.module-item-note&&Text') ||
-        pdfh(it, '.module-item-text&&Text') || '';
+    const remarks = pdfh(it, '.module-item-note&&Text') || 
+                    pdfh(it, '.module-item-text&&Text') || '';
 
-      if (!id || !name) return null;
+    if (!id || !name) return null;
 
-      return {
-        vod_id: id,
-        vod_name: name.trim(),
-        vod_pic: pic.startsWith('/') ? host + pic : pic,
-        vod_remarks: remarks.trim()
-      };
-    }).filter(Boolean);
-
-    if (videos.length === 0) {
-      console.warn("No videos found in extractVideos");
-    }
-
-    return videos;
-
-  } catch (error) {
-    console.error("Error extracting videos:", error);
-    return [];
-  }
+    return {
+      vod_id: id,
+      vod_name: name.trim(),
+      vod_pic: pic.startsWith('/') ? host + pic : pic,
+      vod_remarks: remarks.trim()
+    };
+  }).filter(Boolean);
 }
-
-
 
 async function generateFilters() {
     const currentYear = new Date().getFullYear();
@@ -72,43 +56,13 @@ async function generateFilters() {
     };
 }
 
-async function homeVod(extend = {}) {
-  try {
-    // 根據篩選條件生成 URL，確保篩選條件正確
-    const { class: filterClass, year } = extend || {}; // 例如：extend 可能包含類型和年份
-    const url = `${host}/vodshow/${filterClass}--------1---${year}/`; // 假設此 URL 格式適合篩選
-
-    console.log("Requesting URL for homeVod:", url);
-
-    const resp = await req(url, { headers });
-
-    if (!resp || !resp.content) {
-      console.error("Failed to fetch content from the homepage");
-      throw new Error('Failed to fetch content from the homepage');
-    }
-
-    console.log("Response content for homeVod:", resp.content);
-
-    // 提取視頻列表
-    const videos = await extractVideos(resp.content);
-    if (videos.length === 0) {
-      console.warn("No videos found in homeVod response");
-    }
-
-    return JSON.stringify({ list: videos });
-
-  } catch (error) {
-    console.error("Error in homeVod:", error);
-    return JSON.stringify({ list: [] });
-  }
+async function homeVod() {
+  const resp = await req(host, { headers });
+  return JSON.stringify({ list: await extractVideos(resp && resp.content ? resp.content : '') });
 }
 
-
 async function home() {
-  const vodResponse = await homeVod();
-  const vodData = JSON.parse(vodResponse);
-  const list = vodData.list || [];
-
+  const { list } = JSON.parse(await homeVod());
   return JSON.stringify({
     class: [
       { type_id: "1", type_name: "电影" },
@@ -121,33 +75,15 @@ async function home() {
   });
 }
 
-
 async function category(tid, pg, _, extend) {
   const cat = extend && extend.class ? extend.class : tid;
   const year = extend && extend.year ? extend.year : '';
   const url = `${host}/vodshow/${cat}--------${pg}---${year}/`;
-  
-  console.log("Requesting URL for category:", url);
-
-  try {
-    const html = (await req(url, { headers }))?.content || '';
-    
-    if (!html) {
-      console.error("Failed to fetch category page content");
-      return JSON.stringify({ list: [], page: pg, pagecount: 0 });
-    }
-
-    const list = await extractVideos(html);
-    const pagecount = html.match(/page\/(\d+)\/[^>]*>尾页/) ? +RegExp.$1 : 999;
-
-    console.log(`Category page ${pg}:`, list);
-    return JSON.stringify({ list, page: +pg, pagecount, limit: 20 });
-  } catch (error) {
-    console.error("Error in category:", error);
-    return JSON.stringify({ list: [], page: pg, pagecount: 0 });
-  }
+  const html = (await req(url, { headers })) && (await req(url, { headers })).content || '';
+  const list = await extractVideos(html);
+  const pagecount = html.match(/page\/(\d+)\/[^>]*>尾页/) ? +RegExp.$1 : 999;
+  return JSON.stringify({ list, page: +pg, pagecount, limit: 20 });
 }
-
 
 async function detail(id) {
     const html = (await req(`${host}/voddetail/${id}/`, { headers }))?.content || '';
