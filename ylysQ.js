@@ -5,9 +5,9 @@ let headers = {
     "Accept-Language": "zh-CN,zh;q=0.9"
 };
 
-/**
- * 核心：封裝通用的視頻列表提取邏輯
- */
+// ------------------------------------------------------------------------------------------------
+// 核心解析函數
+// ------------------------------------------------------------------------------------------------
 async function extractVideos(html) {
     if (!html) return [];
     try {
@@ -29,14 +29,18 @@ async function extractVideos(html) {
                 vod_pic: pic.startsWith('/') ? host + pic : pic,
                 vod_remarks: remarks.trim()
             };
-        }).filter(Boolean);
+        }).filter(it => it !== null);
     } catch (e) {
         return [];
     }
 }
 
+// ------------------------------------------------------------------------------------------------
+// 接口函數
+// ------------------------------------------------------------------------------------------------
+
 async function init(config) {
-    // 初始化邏輯
+    // 預留初始化
 }
 
 async function generateFilters() {
@@ -50,21 +54,11 @@ async function generateFilters() {
     };
 }
 
-async function homeVod() {
-    try {
-        const resp = await req(host, { headers });
-        const list = await extractVideos(resp?.content || '');
-        return JSON.stringify({ list });
-    } catch (e) {
-        return JSON.stringify({ list: [] });
-    }
-}
-
 async function home() {
     try {
         const resp = await req(host, { headers });
         const list = await extractVideos(resp?.content || '');
-        const filters = await generateFilters();
+        const filterData = await generateFilters();
         return JSON.stringify({
             class: [
                 {type_id:"1",type_name:"电影"},
@@ -72,7 +66,7 @@ async function home() {
                 {type_id:"3",type_name:"综艺"},
                 {type_id:"4",type_name:"动漫"}
             ],
-            filters: filters,
+            filters: filterData,
             list: list
         });
     } catch (e) {
@@ -84,23 +78,24 @@ async function category(tid, pg, filter, extend) {
     try {
         const cat = extend?.class || tid;
         const year = extend?.year || '';
-        const url = `${host}/vodshow/${cat}--------${pg}---${year}/`;
+        const page = parseInt(pg) || 1;
+        const url = `${host}/vodshow/${cat}--------${page}---${year}/`;
+        
         const resp = await req(url, { headers });
         const html = resp?.content || '';
         const list = await extractVideos(html);
         
-        // 判定總頁數
         const lastPageMatch = html.match(/page\/(\d+)\/[^>]*>尾页/);
-        const pagecount = lastPageMatch ? parseInt(lastPageMatch[1]) : (list.length > 0 ? parseInt(pg) + 1 : parseInt(pg));
+        const pagecount = lastPageMatch ? parseInt(lastPageMatch[1]) : (list.length > 0 ? page + 1 : page);
 
         return JSON.stringify({ 
-            list, 
-            page: parseInt(pg), 
-            pagecount, 
+            list: list, 
+            page: page, 
+            pagecount: pagecount, 
             limit: 20 
         });
     } catch (e) {
-        return JSON.stringify({ list: [], page: parseInt(pg), pagecount: 1 });
+        return JSON.stringify({ list: [], page: 1, pagecount: 1 });
     }
 }
 
@@ -114,7 +109,6 @@ async function detail(id) {
         const tabs = pdfa(html, '.module-tab-item');
         const lists = pdfa(html, '.module-play-list-content');
         
-        // 處理播放源
         let playFrom = tabs.map(t => pdfh(t, 'span&&Text') || "线路").join('$$$');
         if (!playFrom && lists.length > 0) playFrom = "默认";
 
@@ -124,20 +118,20 @@ async function detail(id) {
                 const href = pdfh(a, 'a&&href') || "";
                 const vidMatch = href.match(/play\/([^\/]+)/);
                 return vidMatch ? `${name}$${vidMatch[1]}` : null;
-            }).filter(Boolean).join('#');
+            }).filter(it => it !== null).join('#');
         }).join('$$$');
 
-        // 演員與簡介 (使用更穩定的正則)
-        const vod_name = (html.match(/<h1>(.*?)<\/h1>/) || ["", ""])[1];
-        const vod_pic = host + (html.match(/data-original="(.*?)"/)?.[1] || "");
-        const vod_content = (html.match(/introduction-content">.*?<p>(.*?)<\/p>/s) || ["", ""])[1]?.replace(/<.*?>/g, "") || "暂无简介";
+        // 優化元數據抓取
+        const name = (html.match(/<h1>(.*?)<\/h1>/) || ["", ""])[1];
+        const pic = (html.match(/data-original="(.*?)"/) || ["", ""])[1];
+        const content = (html.match(/introduction-content">.*?<p>(.*?)<\/p>/s) || ["", ""])[1];
 
         return JSON.stringify({
             list: [{
                 vod_id: id,
-                vod_name: vod_name.trim(),
-                vod_pic: vod_pic,
-                vod_content: vod_content.trim(),
+                vod_name: name.trim(),
+                vod_pic: pic.startsWith('/') ? host + pic : pic,
+                vod_content: (content || "暂无简介").replace(/<.*?>/g, "").trim(),
                 vod_play_from: playFrom,
                 vod_play_url: playUrl
             }]
@@ -149,11 +143,11 @@ async function detail(id) {
 
 async function search(wd, quick, pg) {
     try {
-        const page = pg || 1;
+        const page = parseInt(pg) || 1;
         const url = `${host}/vodsearch/${encodeURIComponent(wd)}----------${page}---/`;
         const resp = await req(url, { headers });
         const list = await extractVideos(resp?.content || '');
-        return JSON.stringify({ list });
+        return JSON.stringify({ list: list });
     } catch (e) {
         return JSON.stringify({ list: [] });
     }
@@ -166,20 +160,21 @@ async function play(flag, id, flags) {
         const content = resp?.content || "";
         
         let playUrl = "";
-        // 優先從 player_aaaa 獲取
         const playerMatch = content.match(/player_aaaa\s*=\s*({.*?})/);
         if (playerMatch) {
             const config = JSON.parse(playerMatch[1]);
             playUrl = config.url || "";
         }
 
-        // 備選正則提取 m3u8
         if (!playUrl) {
             const m3u8 = content.match(/"url"\s*:\s*"([^"]+\.m3u8[^"]*)"/);
             if (m3u8) playUrl = m3u8[1].replace(/\\/g, "");
         }
 
         if (playUrl) {
+            // 處理相對路徑
+            if (playUrl.startsWith('/')) playUrl = host + playUrl;
+            
             return JSON.stringify({
                 parse: 0,
                 url: playUrl,
@@ -192,4 +187,4 @@ async function play(flag, id, flags) {
     }
 }
 
-export default { init, home, homeVod, category, detail, search, play };
+export default { init, home, category, detail, search, play };
