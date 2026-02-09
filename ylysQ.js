@@ -11,25 +11,59 @@ let headers = {
 async function extractVideos(html) {
     if (!html) return [];
     try {
-        let items = pdfa(html, '.module-item, .module-card-item');
-        return items.map(it => {
-            const href = pdfh(it, 'a&&href') || '';
-            const idMatch = href.match(/voddetail\/(\d+)/);
-            if (!idMatch) return null;
-            
-            const name = pdfh(it, 'a&&title') || pdfh(it, '.module-item-title&&Text') || pdfh(it, 'strong&&Text') || "";
-            const pic = pdfh(it, 'img&&data-original') || pdfh(it, 'img&&src') || "";
-            const remarks = pdfh(it, '.module-item-text&&Text') || pdfh(it, '.module-item-note&&Text') || "";
-            
-            if (!name) return null;
+        // 1. 擴大選擇範圍，適應不同版塊
+        let items = pdfa(html, '.module-item, .module-card-item, .video-list-item');
+        let videos = items.map(it => {
+            try {
+                const href = pdfh(it, 'a&&href') || '';
+                const idMatch = href.match(/voddetail\/(\d+)/);
+                if (!idMatch) return null;
 
-            return {
-                vod_id: idMatch[1],
-                vod_name: name.trim(),
-                vod_pic: pic.startsWith('/') ? host + pic : pic,
-                vod_remarks: remarks.trim()
-            };
+                // 2. 多重備案提取名稱 (Name)
+                const name = pdfh(it, '.module-item-title&&Text') || 
+                             pdfh(it, '.module-card-item-title&&Text') || 
+                             pdfh(it, 'a&&title') || 
+                             pdfh(it, 'strong&&Text') || "";
+
+                // 3. 多重備案提取圖片 (Pic)
+                const pic = pdfh(it, 'img&&data-original') || 
+                            pdfh(it, 'img&&data-src') || 
+                            pdfh(it, 'img&&src') || "";
+
+                // 4. 提取備註 (Remarks)
+                const remarks = pdfh(it, '.module-item-note&&Text') || 
+                                pdfh(it, '.module-item-text&&Text') || 
+                                pdfh(it, '.video-remarks&&Text') || "";
+
+                if (!name && !pic) return null;
+
+                return {
+                    vod_id: idMatch[1],
+                    vod_name: name.trim(),
+                    vod_pic: pic.startsWith('/') ? host + pic : pic,
+                    vod_remarks: remarks.trim()
+                };
+            } catch (e) {
+                return null;
+            }
         }).filter(it => it !== null);
+
+        // 5. 兜底方案：如果上面沒抓到，嘗試用正則直接從 HTML 抓 (針對某些特殊的渲染方式)
+        if (videos.length === 0) {
+            // 這種方式比較暴力，但能確保在選擇器失效時仍有內容
+            const regex = /<a[^>]+href="\/voddetail\/(\d+)\/"[^>]+title="(.*?)"/g;
+            let m;
+            while ((m = regex.exec(html)) !== null) {
+                videos.push({
+                    vod_id: m[1],
+                    vod_name: m[2],
+                    vod_pic: "", // 正則抓圖較複雜，先確保名稱出來
+                    vod_remarks: ""
+                });
+            }
+        }
+        
+        return videos;
     } catch (e) {
         return [];
     }
