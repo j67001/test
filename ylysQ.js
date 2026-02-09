@@ -10,25 +10,18 @@ async function init() {}
 async function extractVideos(html) {
     if (!html) return [];
     
-    // 增加 .module-card-item 備選，確保能抓到不同版塊
-    const items = pdfa(html, '.module-item, .module-card-item');
-    
-    return items.map(it => {
+        return pdfa(html, '.module-item,.module-card-item').map(it => {
         const href = pdfh(it, 'a&&href') || '';
-        // 修正 ID 提取正則，適應 /voddetail/123.html 或 /voddetail/123/
         const id = href.match(/voddetail\/(\d+)/)?.[1];
 
-        // 優先抓取 .module-item-title 的文本，這通常是最準確的名稱
         let name = pdfh(it, '.module-item-title&&Text') || 
                    pdfh(it, 'a&&title') || 
                    pdfh(it, 'strong&&Text') || "";
         
-        // 圖片抓取：增加 data-src 備選
         let pic = pdfh(it, 'img&&data-original') || 
                   pdfh(it, 'img&&data-src') || 
                   pdfh(it, 'img&&src') || "";
 
-        // 備註/狀態
         const remarks = pdfh(it, '.module-item-note&&Text') || 
                         pdfh(it, '.module-item-text&&Text') || "";
 
@@ -37,7 +30,6 @@ async function extractVideos(html) {
         return {
             vod_id: id,
             vod_name: name.trim(),
-            // 確保圖片地址完整
             vod_pic: pic.startsWith('/') ? host + pic : pic,
             vod_remarks: remarks.trim()
         };
