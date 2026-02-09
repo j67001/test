@@ -11,7 +11,7 @@ async function extractVideos(html) {
     if (!html) return [];
     
     // 增加 .module-card-item 備選，確保能抓到不同版塊
-    const items = pdfa(html, '.module-item, .module-card-item, .module-main .module-item');
+    const items = pdfa(html, '.module-item, .module-card-item');
     
     return items.map(it => {
         const href = pdfh(it, 'a&&href') || '';
@@ -20,7 +20,6 @@ async function extractVideos(html) {
 
         // 優先抓取 .module-item-title 的文本，這通常是最準確的名稱
         let name = pdfh(it, '.module-item-title&&Text') || 
-                   pdfh(it, '.module-card-item-title&&Text') || 
                    pdfh(it, 'a&&title') || 
                    pdfh(it, 'strong&&Text') || "";
         
