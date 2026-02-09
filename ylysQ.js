@@ -10,15 +10,7 @@ async function init() {
   return true;
 }
 
-// 2. 抽離重複的請求邏輯，增加防錯
-async function request(url) {
-  try {
-    const res = await req(url, { headers: headers });
-    return res && res.content ? res.content : "";
-  } catch (e) {
-    return "";
-  }
-}
+
 
 async function extractVideos(html) {
   if (!html) return [];
