@@ -74,11 +74,22 @@ async function category(tid, pg, _, extend) {
     const cat = extend?.class || tid;
     const year = extend?.year || '';
     const url = `${host}/vodshow/${cat}--------${pg}---${year}/`;
+
     const html = (await req(url, { headers }))?.content || '';
     const list = await extractVideos(html);
-    const pagecount = html.match(/page\/(\d+)\/[^>]*>尾页/) ? +RegExp.$1 : 999;
-    return JSON.stringify({ list, page: +pg, pagecount, limit: 20 });
+
+    let pagecount = 1;
+    const m = html.match(/共\s*(\d+)\s*页/);
+    if (m) pagecount = parseInt(m[1]);
+
+    return JSON.stringify({
+        list,
+        page: parseInt(pg),
+        pagecount,
+        limit: 20
+    });
 }
+
 
 async function detail(id) {
     const html = (await req(`${host}/voddetail/${id}/`, { headers }))?.content || '';
@@ -154,7 +165,14 @@ async function play(flag, id, flags) {
             header: { ...headers, "Referer": url }
         });
     }
-    return JSON.stringify({ parse: 1, url: url, header: headers });
+    return JSON.stringify({
+    parse: 0,
+    url: playUrl,
+    header: {
+        "User-Agent": headers["User-Agent"],
+        "Referer": url
+      }
+    });
 }
 
 export default { init, home, homeVod, category, detail, search, play };
