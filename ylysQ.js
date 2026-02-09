@@ -10,9 +10,7 @@ async function init() {}
 async function extractVideos(html) {
     if (!html) return [];
     
-    const items = pdfa(html, '.module-item, .module-card-item, .module-main .module-item');
-    
-    return items.map(it => {
+    return pdfa(html, '.module-item,.module-card-item').map(it => {
         const href = pdfh(it, 'a&&href') || '';
         const idMatch = href.match(/voddetail\/(\d+)/);
         const id = idMatch ? idMatch[1] : null;
