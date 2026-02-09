@@ -6,7 +6,7 @@ const headers = {
 };
 
 // 1. 適配新版 init
-async function init(cfg) {
+async function init() {
   return true;
 }
 
@@ -148,6 +148,7 @@ export function __jsEvalReturn() {
   return {
     init,
     home,
+    homeVod,
     category,
     detail,
     search,
