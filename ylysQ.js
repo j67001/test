@@ -10,11 +10,15 @@ async function init() {}
 async function extractVideos(html) {
     if (!html) return [];
     
-        return pdfa(html, '.module-item,.module-card-item').map(it => {
+    const items = pdfa(html, '.module-item, .module-card-item, .module-main .module-item');
+    
+    return items.map(it => {
         const href = pdfh(it, 'a&&href') || '';
-        const id = href.match(/voddetail\/(\d+)/)?.[1];
+        const idMatch = href.match(/voddetail\/(\d+)/);
+        const id = idMatch ? idMatch[1] : null;
 
         let name = pdfh(it, '.module-item-title&&Text') || 
+                   pdfh(it, '.module-card-item-title&&Text') || 
                    pdfh(it, 'a&&title') || 
                    pdfh(it, 'strong&&Text') || "";
         
