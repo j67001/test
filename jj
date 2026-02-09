@@ -169,6 +169,7 @@
 {"key": "ylys_Qjs","name": "🌞永樂Qjs","type": 3,"api": "https://github.com/woshishiq1/hipy-drpy/raw/main/dr/cat/综/cat_永乐视频.js","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1},
 {"key": "ylys_Qjs2","name": "🌞永樂Qjs2","type": 3,"api": "https://github.com/LIUJEI/TB/raw/master/XB/永乐.js","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1},
 {"key": "ylys_Qjs3","name": "🌞永樂Qjs3","type": 3,"api": "https://github.com/j67001/test/raw/main/ylysQ.js","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1},
+{"key": "ylys_Qjs4","name": "🌞永樂Qjs4","type": 3,"api": "csp_Config", "ext": "https://github.com/j67001/test/raw/main/ylysQ.js","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1},
 
 {"key": "Guazi_Qjs","name": "🍈瓜子Qjs","type": 3,"api": "https://github.com/woshishiq1/hipy-drpy/raw/main/dr/cat/综/cat_瓜子.js","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1},
 {"key":"cat_聚合短剧[短]","name":"🥝聚合短剧[短][CAT]","type":3,"api":"https://github.com/woshishiq1/hipy-drpy/raw/main/dr/cat/短/cat_聚合短剧[短].js"},
