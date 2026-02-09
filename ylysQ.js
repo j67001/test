@@ -90,13 +90,14 @@ async function category(tid, pg, _, extend) {
     });
 }
 
-
 async function detail(id) {
     const html = (await req(`${host}/voddetail/${id}/`, { headers }))?.content || '';
     if (!html) return JSON.stringify({ list: [] });
+
     let tabs = pdfa(html, '.module-tab-item');
     const lists = pdfa(html, '.module-play-list-content');
     if (tabs.length === 0 && lists.length > 0) tabs = ["默认"];
+    
     const playFrom = tabs.map(t => pdfh(t, 'span&&Text') || "线路").join('$$$');
     const playUrl = lists.slice(0, tabs.length).map(l =>
         pdfa(l, 'a').map(a => {
@@ -105,8 +106,9 @@ async function detail(id) {
             return vid ? `${name}$${vid}` : null;
         }).filter(Boolean).join('#')
     ).join('$$$');
+
     if (!playFrom || !playUrl) return JSON.stringify({ list: [] });
-    
+
     // 這裡保留你的原始正則邏輯
     const vod_name = (html.match(/<h1>(.*?)<\/h1>/) || ["", ""])[1];
     const vod_pic = (() => {
@@ -143,7 +145,7 @@ async function play(flag, id, flags) {
     const url = `${host}/play/${id}/`;
     const resp = await req(url, { headers });
     const content = resp?.content || "";
-    
+
     let playUrl = "";
     const playerMatch = content.match(/player_aaaa\s*=\s*({.*?})/);
     if (playerMatch) {
@@ -165,14 +167,7 @@ async function play(flag, id, flags) {
             header: { ...headers, "Referer": url }
         });
     }
-    return JSON.stringify({
-    parse: 0,
-    url: playUrl,
-    header: {
-        "User-Agent": headers["User-Agent"],
-        "Referer": url
-      }
-    });
+    return JSON.stringify({ parse: 1, url: url, header: headers });
 }
 
 export default { init, home, homeVod, category, detail, search, play };
