@@ -16,8 +16,7 @@ async function extractVideos(html) {
     return items.map(it => {
         const href = pdfh(it, 'a&&href') || '';
         // 修正 ID 提取正則，適應 /voddetail/123.html 或 /voddetail/123/
-        const idMatch = href.match(/voddetail\/(\d+)/);
-        const id = idMatch ? idMatch[1] : null;
+        const id = href.match(/voddetail\/(\d+)/)?.[1];
 
         // 優先抓取 .module-item-title 的文本，這通常是最準確的名稱
         let name = pdfh(it, '.module-item-title&&Text') || 
