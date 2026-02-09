@@ -17,7 +17,10 @@ async function delayedRequest(url, options = {}) {
   return req(url, options);
 }
 
-async function init() {}
+async function init() {
+  return true;
+}
+
 
 async function extractVideos(html) {
     if (!html) return [];
@@ -182,4 +185,15 @@ async function play(flag, id, flags) {
     return JSON.stringify({ parse: 1, url: url, header: headers });
 }
 
-export default { init, home, homeVod, category, detail, search, play };
+export function __jsEvalReturn() {
+  return {
+    init,
+    home,
+    homeVod,
+    category,
+    detail,
+    search,
+    play,
+    proxy: null
+  };
+}
