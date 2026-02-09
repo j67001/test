@@ -9,7 +9,7 @@ const headers = {
 };
 
 
-async function init(cfg) {
+async function init() {
   return true; // 確保init()返回true
 }
 
