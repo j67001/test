@@ -57,8 +57,16 @@ async function generateFilters() {
 }
 
 async function homeVod() {
-  const resp = await req(host, { headers });
-  return JSON.stringify({ list: await extractVideos(resp && resp.content ? resp.content : '') });
+  try {
+    const resp = await req(host, { headers });
+    if (!resp || !resp.content) {
+      throw new Error('Failed to fetch content from the homepage');
+    }
+    return JSON.stringify({ list: await extractVideos(resp.content) });
+  } catch (error) {
+    console.error("Error in homeVod:", error);
+    return JSON.stringify({ list: [] });
+  }
 }
 
 async function home() {
