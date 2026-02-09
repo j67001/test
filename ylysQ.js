@@ -86,53 +86,48 @@ async function category(tid, pg, _, extend) {
 }
 
 async function detail(id) {
-  const html = (await req(`${host}/voddetail/${id}/`, { headers })) && (await req(`${host}/voddetail/${id}/`, { headers })).content || '';
-  if (!html) return JSON.stringify({ list: [] });
+    const html = (await req(`${host}/voddetail/${id}/`, { headers }))?.content || '';
+    if (!html) return JSON.stringify({ list: [] });
 
-  let tabs = pdfa(html, '.module-tab-item');
-  const lists = pdfa(html, '.module-play-list-content');
-  if (tabs.length === 0 && lists.length > 0) tabs = ["默认"];
+    let tabs = pdfa(html, '.module-tab-item');
+    const lists = pdfa(html, '.module-play-list-content');
+    if (tabs.length === 0 && lists.length > 0) tabs = ["默认"];
+    
+    const playFrom = tabs.map(t => pdfh(t, 'span&&Text') || "线路").join('$$$');
+    const playUrl = lists.slice(0, tabs.length).map(l =>
+        pdfa(l, 'a').map(a => {
+            const name = pdfh(a, 'span&&Text') || "播放";
+            const vid = (pdfh(a, 'a&&href') || "").match(/play\/([^\/]+)/)?.[1];
+            return vid ? `${name}$${vid}` : null;
+        }).filter(Boolean).join('#')
+    ).join('$$$');
 
-  const playFrom = tabs.map(function(t) {
-    return pdfh(t, 'span&&Text') || "线路";
-  }).join('$$$');
+    if (!playFrom || !playUrl) return JSON.stringify({ list: [] });
 
-  const playUrl = lists.slice(0, tabs.length).map(function(l) {
-    return pdfa(l, 'a').map(function(a) {
-      const name = pdfh(a, 'span&&Text') || "播放";
-      const vid = (pdfh(a, 'a&&href') || "").match(/play\/([^\/]+)/) ? RegExp.$1 : null;
-      return vid ? `${name}$${vid}` : null;
-    }).filter(Boolean).join('#');
-  }).join('$$$');
+    // 這裡保留你的原始正則邏輯
+    const vod_name = (html.match(/<h1>(.*?)<\/h1>/) || ["", ""])[1];
+    const vod_pic = (() => {
+        const pic = (html.match(/data-original="(.*?)"/) || ["", ""])[1];
+        return pic?.startsWith('/') ? host + pic : pic || "";
+    })();
+    const vod_content = ((html.match(/introduction-content">.*?<p>(.*?)<\/p>/s) || ["", ""])[1]?.replace(/<.*?>/g, "") || "暂无简介");
+    const vod_year = (html.match(/href="\/vodshow\/\d+-----------(\d{4})\//) || ["", ""])[1] || "";
+    const vod_director = (html.match(/导演：.*?<a[^>]*>([^<]+)<\/a>/) || ["", ""])[1] || "";
+    const vod_actor = [...html.matchAll(/主演：.*?<a[^>]*>([^<]+)<\/a>/g)].map(m => m[1]).filter(Boolean).join(" / ");
 
-  if (!playFrom || !playUrl) return JSON.stringify({ list: [] });
-
-  const vod_name = (html.match(/<h1>(.*?)<\/h1>/) || ["", ""])[1];
-  const vod_pic = (() => {
-    const pic = (html.match(/data-original="(.*?)"/) || ["", ""])[1];
-    return pic && pic.startsWith('/') ? host + pic : pic || "";
-  })();
-
-  const vod_content = ((html.match(/introduction-content">.*?<p>(.*?)<\/p>/s) || ["", ""])[1]?.replace(/<.*?>/g, "") || "暂无简介");
-  const vod_year = (html.match(/href="\/vodshow\/\d+-----------(\d{4})\//) || ["", ""])[1] || "";
-  const vod_director = (html.match(/导演：.*?<a[^>]*>([^<]+)<\/a>/) || ["", ""])[1] || "";
-  const vod_actor = [...html.matchAll(/主演：.*?<a[^>]*>([^<]+)<\/a>/g)].map(function(m) {
-    return m[1];
-  }).filter(Boolean).join(" / ");
-
-  return JSON.stringify({
-    list: [{
-      vod_id: id,
-      vod_name,
-      vod_pic,
-      vod_content,
-      vod_year,
-      vod_director,
-      vod_actor,
-      vod_play_from: playFrom,
-      vod_play_url: playUrl
-    }]
-  });
+    return JSON.stringify({
+        list: [{
+            vod_id: id,
+            vod_name,
+            vod_pic,
+            vod_content,
+            vod_year,
+            vod_director,
+            vod_actor,
+            vod_play_from: playFrom,
+            vod_play_url: playUrl
+        }]
+    });
 }
 
 async function search(wd, _, pg = 1) {
