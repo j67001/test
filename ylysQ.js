@@ -1,8 +1,11 @@
 let host = 'https://www.ylys.tv';
-let headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-    "Referer": host + "/",
-    "Accept-Language": "zh-CN,zh;q=0.9"
+const headers = {
+  "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.6478.61 Safari/537.36",
+  "Referer": host + "/",
+  "Accept-Language": "zh-CN,zh;q=0.9",
+  "Connection": "keep-alive",
+  "Upgrade-Insecure-Requests": "1",
+  "Cache-Control": "max-age=0"
 };
 
 async function init() {}
