@@ -1,4 +1,13 @@
 let host = 'https://www.ylys.tv';
+const headers = {
+  "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.6478.61 Safari/537.36",
+  "Referer": host + "/",
+  "Accept-Language": "zh-CN,zh;q=0.9",
+  "Connection": "keep-alive",
+  "Upgrade-Insecure-Requests": "1",
+  "Cache-Control": "max-age=0"
+};
+
 
 async function init() {
   return true; // 確保init()返回true
@@ -34,6 +43,17 @@ async function extractVideos(html) {
       vod_remarks: remarks.trim()
     };
   }).filter(Boolean);
+}
+
+async function generateFilters() {
+    const currentYear = new Date().getFullYear();
+    const years = [{n:"全部",v:""}, ...Array.from({length:15},(_,i)=>{const y=currentYear-i;return{n:y+"",v:y+""}})];
+    return {
+        "1": [{"key":"class","name":"类型","value":[{"n":"全部","v":""},{"n":"动作片","v":"6"},{"n":"喜剧片","v":"7"},{"n":"爱情片","v":"8"},{"n":"科幻片","v":"9"},{"n":"恐怖片","v":"11"}]},{"key":"year","name":"年份","value":years}],
+        "2": [{"key":"class","name":"类型","value":[{"n":"全部","v":""},{"n":"国产剧","v":"13"},{"n":"港台剧","v":"14"},{"n":"日剧","v":"15"},{"n":"韩剧","v":"33"},{"n":"欧美剧","v":"16"}]},{"key":"year","name":"年份","value":years}],
+        "3": [{"key":"class","name":"类型","value":[{"n":"全部","v":""},{"n":"内地综艺","v":"27"},{"n":"港台综艺","v":"28"},{"n":"日本综艺","v":"29"},{"n":"韩国综艺","v":"36"}]},{"key":"year","name":"年份","value":years}],
+        "4": [{"key":"class","name":"类型","value":[{"n":"全部","v":""},{"n":"国产动漫","v":"31"},{"n":"日本动漫","v":"32"},{"n":"欧美动漫","v":"42"},{"n":"其他动漫","v":"43"}]},{"key":"year","name":"年份","value":years}]
+    };
 }
 
 async function homeVod() {
