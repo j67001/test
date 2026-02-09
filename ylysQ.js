@@ -1,4 +1,3 @@
-const axios = require('axios');
 const host = 'https://www.ylys.tv';
 
 const headers = {
@@ -10,23 +9,7 @@ const headers = {
   "Cache-Control": "max-age=0"
 };
 
-// 如果遇到 SSL 问题，你可以通过如下方式跳过证书验证（仅限开发环境）
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';  // 禁用 SSL 证书验证
-
-// 用 axios 发送请求的函数
-async function req(url, options) {
-  try {
-    const response = await axios.get(url, {
-      headers: options.headers
-    });
-    return { content: response.data };  // 返回响应内容
-  } catch (error) {
-    console.error("请求失败: ", error);
-    return null;
-  }
-}
-
-// 确保 init() 返回 true
+/ 确保 init() 返回 true
 async function init() {
   return true;
 }
