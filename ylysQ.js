@@ -14,36 +14,45 @@ async function init() {
 }
 
 async function extractVideos(html) {
-  if (!html) return [];
+  if (!html) {
+    console.error("No HTML content to parse");
+    return [];
+  }
 
-  // 解析頁面，提取影片資料
-  return pdfa(html, '.module-item,.module-card-item').map(function(it) {
-    const href = pdfh(it, 'a&&href') || '';
-    const idMatch = href.match(/voddetail\/(\d+)/);
-    const id = idMatch ? idMatch[1] : null;
+  try {
+    // 提取影片資料的邏輯
+    return pdfa(html, '.module-item,.module-card-item').map(function (it) {
+      const href = pdfh(it, 'a&&href') || '';
+      const idMatch = href.match(/voddetail\/(\d+)/);
+      const id = idMatch ? idMatch[1] : null;
 
-    let name = pdfh(it, '.module-item-title&&Text') || 
-               pdfh(it, '.module-card-item-title&&Text') || 
-               pdfh(it, 'a&&title') || 
-               pdfh(it, 'strong&&Text') || '';
+      let name = pdfh(it, '.module-item-title&&Text') ||
+        pdfh(it, '.module-card-item-title&&Text') ||
+        pdfh(it, 'a&&title') ||
+        pdfh(it, 'strong&&Text') || '';
 
-    let pic = pdfh(it, 'img&&data-original') || 
-              pdfh(it, 'img&&data-src') || 
-              pdfh(it, 'img&&src') || '';
+      let pic = pdfh(it, 'img&&data-original') ||
+        pdfh(it, 'img&&data-src') ||
+        pdfh(it, 'img&&src') || '';
 
-    const remarks = pdfh(it, '.module-item-note&&Text') || 
-                    pdfh(it, '.module-item-text&&Text') || '';
+      const remarks = pdfh(it, '.module-item-note&&Text') ||
+        pdfh(it, '.module-item-text&&Text') || '';
 
-    if (!id || !name) return null;
+      if (!id || !name) return null;
 
-    return {
-      vod_id: id,
-      vod_name: name.trim(),
-      vod_pic: pic.startsWith('/') ? host + pic : pic,
-      vod_remarks: remarks.trim()
-    };
-  }).filter(Boolean);
+      return {
+        vod_id: id,
+        vod_name: name.trim(),
+        vod_pic: pic.startsWith('/') ? host + pic : pic,
+        vod_remarks: remarks.trim()
+      };
+    }).filter(Boolean);
+  } catch (error) {
+    console.error("Error extracting videos:", error);
+    return [];
+  }
 }
+
 
 async function generateFilters() {
     const currentYear = new Date().getFullYear();
@@ -56,21 +65,9 @@ async function generateFilters() {
     };
 }
 
-async function homeVod(extend = {}) {
-  try {
-    // 根據篩選條件生成 URL
-    const { class: filterClass, year } = extend || {}; // 例如：extend 可能包含類型和年份
-    const url = `${host}/vodshow/${filterClass}--------1---${year}/`; // 假設此 URL 格式適合篩選
-
-    const resp = await req(url, { headers });
-    if (!resp || !resp.content) {
-      throw new Error('Failed to fetch content from the homepage');
-    }
-    return JSON.stringify({ list: await extractVideos(resp.content) });
-  } catch (error) {
-    console.error("Error in homeVod:", error);
-    return JSON.stringify({ list: [] });
-  }
+async function homeVod() {
+  const resp = await req(host, { headers });
+  return JSON.stringify({ list: await extractVideos(resp && resp.content ? resp.content : '') });
 }
 
 async function home() {
