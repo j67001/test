@@ -62,7 +62,10 @@ async function homeVod() {
 }
 
 async function home() {
-  const { list } = JSON.parse(await homeVod());
+  const vodResponse = await homeVod();
+  const vodData = JSON.parse(vodResponse);
+  const list = vodData.list || [];
+
   return JSON.stringify({
     class: [
       { type_id: "1", type_name: "电影" },
@@ -74,6 +77,7 @@ async function home() {
     list
   });
 }
+
 
 async function category(tid, pg, _, extend) {
   const cat = extend && extend.class ? extend.class : tid;
