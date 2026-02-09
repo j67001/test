@@ -1,3 +1,4 @@
+import 'assets://js/lib/crypto-js.js';
 let host = 'https://www.ylys.tv';
 let headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
@@ -80,21 +81,27 @@ async function detail(id) {
         }).filter(Boolean).join('#')
     ).join('$$$');
     if (!playFrom || !playUrl) return JSON.stringify({ list: [] });
+    
+    // 這裡保留你的原始正則邏輯
+    const vod_name = (html.match(/<h1>(.*?)<\/h1>/) || ["", ""])[1];
+    const vod_pic = (() => {
+        const pic = (html.match(/data-original="(.*?)"/) || ["", ""])[1];
+        return pic?.startsWith('/') ? host + pic : pic || "";
+    })();
+    const vod_content = ((html.match(/introduction-content">.*?<p>(.*?)<\/p>/s) || ["", ""])[1]?.replace(/<.*?>/g, "") || "暂无简介");
+    const vod_year = (html.match(/href="\/vodshow\/\d+-----------(\d{4})\//) || ["", ""])[1] || "";
+    const vod_director = (html.match(/导演：.*?<a[^>]*>([^<]+)<\/a>/) || ["", ""])[1] || "";
+    const vod_actor = [...html.matchAll(/主演：.*?<a[^>]*>([^<]+)<\/a>/g)].map(m => m[1]).filter(Boolean).join(" / ");
+
     return JSON.stringify({
         list: [{
             vod_id: id,
-            vod_name: (html.match(/<h1>(.*?)<\/h1>/) || ["", ""])[1],
-            vod_pic: (() => {
-                const pic = (html.match(/data-original="(.*?)"/) || ["", ""])[1];
-                return pic?.startsWith('/') ? host + pic : pic || "";
-            })(),
-            vod_content: ((html.match(/introduction-content">.*?<p>(.*?)<\/p>/s) || ["", ""])[1]?.replace(/<.*?>/g, "") || "暂无简介"),
-            vod_year: (html.match(/href="\/vodshow\/\d+-----------(\d{4})\//) || ["", ""])[1] || "",
-            vod_director: (html.match(/导演：.*?<a[^>]*>([^<]+)<\/a>/) || ["", ""])[1] || "",
-            vod_actor: [...html.matchAll(/主演：.*?<a[^>]*>([^<]+)<\/a>/g)]
-                .map(m => m[1])
-                .filter(Boolean)
-                .join(" / "),
+            vod_name,
+            vod_pic,
+            vod_content,
+            vod_year,
+            vod_director,
+            vod_actor,
             vod_play_from: playFrom,
             vod_play_url: playUrl
         }]
@@ -118,9 +125,7 @@ async function play(flag, id, flags) {
         try {
             const config = JSON.parse(playerMatch[1]);
             playUrl = config.url;
-        } catch (e) {
-            console.log("解析播放配置失敗");
-        }
+        } catch (e) { }
     }
 
     if (!playUrl) {
@@ -132,14 +137,13 @@ async function play(flag, id, flags) {
         return JSON.stringify({
             parse: 0,
             url: playUrl,
-            header: {
-                ...headers,
-                "Referer": url
-            }
+            header: { ...headers, "Referer": url }
         });
     }
-
     return JSON.stringify({ parse: 1, url: url, header: headers });
 }
 
-export default { init, home, homeVod, category, detail, search, play };
+// 修改匯出方式
+export function __jsEvalReturn() {
+    return { init, home, homeVod, category, detail, search, play };
+}
