@@ -300,6 +300,12 @@
         "version": "250616-1742"
       },
       {
+        "name": "OK-ok.jar",
+        "url": "https://github.com/n3rddd/N3RD/raw/master/JN/N3RD/J/pg.jar",
+        "icon": "https://ooo.0x0.ooo/2023/06/09/O5fYsj.th.png",
+        "version": "260126"
+      },
+      {
         "name": "飯-fan.txt.jar",
         "url": "https://github.com/j67001/test/raw/main/fan.txt.jar",
         "icon": "https://ooo.0x0.ooo/2023/06/09/O5fYsj.th.png",
@@ -329,5 +335,6 @@
 */
 
 ]
+
 
 
