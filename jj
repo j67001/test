@@ -83,6 +83,9 @@
 
 {"key": "djwo_XBPQ2","name": "🐚短劇窩2","type": 3,"api":"csp_XBPQ","searchable": 1,"quickSearch":1,"filterable":1,"ext": "https://github.com/j67001/test/raw/main/djwo.XBPQ.js"},
 
+{"key":"優視頻_PY","name":"💎優視頻py","type": 3,"api":"https://github.com/alantang1977/X/raw/main/py/UVod.py","searchable":1,"filterable":1,"quickSearch":1,"changeable":1"},
+
+
 {"key":"優視頻_XBPQ","name":"💎優視頻","type": 3,"api":"csp_XBPQ",
 "ext":{
 "请求头":"User-Agent$Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15",
