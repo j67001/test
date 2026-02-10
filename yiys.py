@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # 本资源来源于互联网公开渠道，仅可用于个人学习爬虫技术。
 # 严禁将其用于任何商业用途，下载后请于 24 小时内删除，搜索结果均来自源站，本人不承担任何责任。
-#https://github.com/woshishiq1/hipy-drpy/raw/main/dr/py/综/壹影视.py
-#https://github.com/zengjian03/han/raw/master/py/壹影视.py
+#https://github.com/woshishiq1/hipy-drpy/raw/main/dr/py/综/
+#https://github.com/zengjian03/han/raw/master/py/
 
 from base.spider import Spider
 from Crypto.PublicKey import RSA
