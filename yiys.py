@@ -167,7 +167,7 @@ class Spider(Spider):
                     for j in i['vodPlayList']['urls']:
                         urls.append(f"{j['name']}${i['sourceCode']}@{j['url']}")
                 play_urls.append('#'.join(urls))
-                show.append(i['sourceName'])
+                show.append(i['sourceName'].replace('（视频内广告勿信）', ''))
         video = {
             'vod_id': data['vodId'],
             'vod_name': data['vodName'],
