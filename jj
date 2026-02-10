@@ -182,8 +182,8 @@
 
 {"key": "Guazi_Qjs","name": "🍈瓜子Qjs","type": 3,"api": "https://github.com/woshishiq1/hipy-drpy/raw/main/dr/cat/综/cat_瓜子.js","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1},
 {"key":"cat_聚合短剧[短]","name":"🥝聚合短剧[短][CAT]","type":3,"api":"https://github.com/woshishiq1/hipy-drpy/raw/main/dr/cat/短/cat_聚合短剧[短].js"},
-{"key": "py_壹影视","name": "🍑壹影视[影][PY]","type": 3,"api": "https://github.com/woshishiq1/hipy-drpy/raw/main/dr/py/综/壹影视.py"},
-{"key": "py_壹影视2","name": "🍑壹影视2[PY]","type": 3,"api": "https://github.com/zengjian03/han/raw/master/py/壹影视.py"},
+{"key": "py_壹影视","name": "🍑壹影视[影][PY]","type": 3,"api": "https://github.com/woshishiq1/hipy-drpy/raw/main/dr/py/综/壹影视.py","searchable":1,"quickSearch":1,"filterable":1},
+{"key": "py_壹影视2","name": "🍑壹影视2[PY]","type": 3,"api": "https://github.com/zengjian03/han/raw/master/py/壹影视.py","searchable":1,"quickSearch":1,"filterable":1},
 
 
 {"key": "xigua_py","name": "🥝瓜子","type": 3,"api": "https://github.com/cluntop/tvbox/raw/main/py/瓜子.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
