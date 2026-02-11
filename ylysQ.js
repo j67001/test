@@ -31,8 +31,6 @@ function getList(html) {
 }
 
 async function home(filter) {
-//    let currentYear = new Date().getFullYear();
-//    let years = [{ n: "全部", v: "" }, ...Array.from({length:15},(_, i)=>{ let y = currentYear - i;return{n:y+"",v:y+""};})];
     return JSON.stringify({
         "class": [
             {"type_id":"1","type_name":"电影"},
@@ -60,7 +58,6 @@ async function category(tid, pg, filter, extend) {
     let area = extend && extend.area ? extend.area : '';
     let year = extend && extend.year ? extend.year : '';
     let by = extend && extend.by ? extend.by : '';
-//    let url = host + "/vodshow/" + targetId + "/" + (parseInt(p) > 1 ? "page/" + p + "/" : ""+"year/" + year + "/" : "");
     let url = `${host}/vodshow/${targetId}-${area}-${by}------${p}---${year}/`;
     let resp = await req(url, { headers: headers });
     return JSON.stringify({ 
