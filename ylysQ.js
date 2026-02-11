@@ -31,8 +31,8 @@ function getList(html) {
 }
 
 async function home(filter) {
-    const currentYear = new Date().getFullYear();
-    const years = [{n:"全部",v:""}, ...Array.from({length:15},(_,i)=>{const y=currentYear-i;return{n:y+"",v:y+""}})];
+    let currentYear = new Date().getFullYear();
+    let years = [{ n: "全部", v: "" }, ...Array.from({length:15},(_, i)=>{ let y = currentYear - i;return{n:y+"",v:y+""};})];
     return JSON.stringify({
         "class": [
             {"type_id":"1","type_name":"电影"},
