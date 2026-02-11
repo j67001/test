@@ -175,13 +175,13 @@
 {"key": "金牌_py2","name": "💮文采2","type": 3,"api": "https://github.com/cluntop/tvbox/raw/main/py/金牌.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
 {"key": "金牌_Qjs","name": "💮文采Qjs","type": 3,"api": "https://github.com/j67001/test/raw/main/金牌Q.js","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1},
 
-{"key": "ylys_Qjs","name": "🌞永樂Qjs","type": 3,"api": "https://github.com/woshishiq1/hipy-drpy/raw/main/dr/cat/综/cat_永乐视频.js","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1},
-{"key": "ylys_Qjs2","name": "🌞永樂Qjs2","type": 3,"api": "https://github.com/LIUJEI/TB/raw/master/XB/永乐.js","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1},
-{"key": "ylys_Qjs3","name": "🌞永樂Qjs3","type": 3,"api": "https://github.com/j67001/test/raw/main/ylysQ.js","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1},
+{"key": "ylys_Qjs","name": "🌞永樂Qjs","type": 3,"api": "https://github.com/woshishiq1/hipy-drpy/raw/main/dr/cat/综/cat_永乐视频.js","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"jar":"https://github.com/alantang1977/X/raw/main/jar/zhang.jar"},
+{"key": "ylys_Qjs2","name": "🌞永樂Qjs2","type": 3,"api": "https://github.com/LIUJEI/TB/raw/master/XB/永乐.js","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"jar":"https://github.com/alantang1977/X/raw/main/jar/zhang.jar"},
+{"key": "ylys_Qjs3","name": "🌞永樂Qjs3","type": 3,"api": "https://github.com/j67001/test/raw/main/ylysQ.js","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"jar":"https://github.com/alantang1977/X/raw/main/jar/zhang.jar"},
 {"key": "ylys_Qjs4","name": "🌞永樂Qjs4","type": 3,"api": "csp_Config", "ext": "https://github.com/j67001/test/raw/main/ylysQ.js","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1},
 
 {"key": "Guazi_Qjs","name": "🍈瓜子Qjs","type": 3,"api": "https://github.com/woshishiq1/hipy-drpy/raw/main/dr/cat/综/cat_瓜子.js","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1},
-{"key":"cat_聚合短剧[短]","name":"🥝聚合短剧[短][CAT]","type":3,"api":"https://github.com/woshishiq1/hipy-drpy/raw/main/dr/cat/短/cat_聚合短剧[短].js"},
+{"key":"cat_聚合短剧[短]","name":"🥝聚合短剧[短][CAT]","type":3,"api":"https://github.com/woshishiq1/hipy-drpy/raw/main/dr/cat/短/cat_聚合短剧[短].js","jar":"https://github.com/alantang1977/X/raw/main/jar/zhang.jar"},
 {"key": "py_壹影视","name": "🍑壹影视PY","type": 3,"api": "https://github.com/j67001/test/raw/main/yiys.py","searchable":1,"quickSearch":1,"filterable":1},
 {"key": "py_壹影视2","name": "🍑壹影视2[PY]","type": 3,"api": "https://github.com/zengjian03/han/raw/master/py/壹影视.py","searchable":1,"quickSearch":1,"filterable":1},
 
