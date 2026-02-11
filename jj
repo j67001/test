@@ -196,6 +196,8 @@
 {"key": "apple0","name": "🍒 apple 影视","type": 3,"api": "https://github.com/alantang1977/X/raw/main/js/apple.js","style": {"type": "rect","ratio": 1.33},"changeable": 1},
 {"key":"MTV1","name":"🎙️易听音乐┃带歌词","type":3,"api":"csp_MusicGuard","style":{"type":"rect","ratio":1},"playerType":2,"searchable":1,"quickSearch":0,"changeable":0},
 {"key": "UVod0","name": "🛣️优视频","type": 3,"api": "https://github.com/alantang1977/X/raw/main/py/UVod.py","style": {"type": "rect","ratio": 1.33},"changeable": 1},
+{"key": "1永乐视频","name": "👮┃永乐视频1","type": 3,"api": "https://github.com/alantang1977/X/raw/main/laozhang/永乐视频.js","style": {"type": "rect","ratio": 1.33},"changeable": 1,"jar":"https://github.com/alantang1977/X/raw/main/jar/zhang.jar"},
+{"key": "2永乐视频","name": "👮┃永乐视频2","type": 3,"api": "https://github.com/alantang1977/X/raw/main/laozhang/永乐视频.js","style": {"type": "rect","ratio": 1.33},"changeable": 1},
 
 
 
