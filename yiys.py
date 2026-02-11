@@ -112,7 +112,7 @@ class Spider(Spider):
  #               if ext.get('lang'):
  #                   type_filters.append(build_filter('lang', '语言', ext['lang']))
                 if ext.get('year'):
-                    type_filters.append(build_filter('year', '年份', ext['year']))
+                    type_filters.append(build_filter('year', '年份', ext['year'].replace('2025', '2026,2025')))
                 type_filters.append(build_filter('sort', '排序', '', True))
                 if type_filters:
                     filters[tid] = type_filters
