@@ -58,7 +58,8 @@ async function category(tid, pg, filter, extend) {
     let p = pg || 1;
     let targetId = (extend && extend.class) ? extend.class : tid;
     let year = extend && extend.year ? extend.year : '';
-    let url = host + "/vodtype/" + targetId + "/" + (parseInt(p) > 1 ? "page/" + p + "/" : ""+"year/" + year + "/" : "");
+//    let url = host + "/vodshow/" + targetId + "/" + (parseInt(p) > 1 ? "page/" + p + "/" : ""+"year/" + year + "/" : "");
+    let url = `${host}/vodshow/${targetId}--------${p}---${year}/`;
     let resp = await req(url, { headers: headers });
     return JSON.stringify({ 
         "list": getList(resp.content), 
