@@ -189,6 +189,19 @@
 {"key": "xigua_py","name": "🥝瓜子","type": 3,"api": "https://github.com/cluntop/tvbox/raw/main/py/瓜子.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
 {"key": "苹果_py","name": "🍎蘋果","type": 3,"api": "https://github.com/cluntop/tvbox/raw/main/py/小苹果APP.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
 
+{"key":"爱壹帆_PY","name": "⛵爱壹帆py","type": 3,"api": "https://github.com/alantang1977/X/raw/main/py/ayf.py","searchable": 1,"quickSearch": 1,"changeable": 1,"filterable": 1,"timeout": 10},	
+{"key": "电影天堂js","name": "🚔电影天堂js","type": 3,"api": "https://github.com/alantang1977/X/raw/main/js/电影天堂.js","style": {"type": "rect","ratio": 1.33},"changeable": 1},
+{"key": "Emby_Nya","name": "🏎Emby_Nya,"type": 3,"api": "./js/Emby.js","style": {"type": "rect","ratio": 1.33},"changeable": 1},
+{"key": "小苹果PHP","name": "🪼┃小苹果┃PHP","type": 4,"api": "https://tangstudio.dpdns.org/小苹果.php","style": {"type": "rect","ratio": 1.33},"changeable": 1},
+{"key": "apple","name": "🍒┃apple┃影视","type": 3,"api": "./js/apple.js","style": {"type": "rect","ratio": 1.33},"changeable": 1},
+
+
+
+
+
+
+
+
 
 {"key": "文采影视","name": "🌼文采[XBPQ]","type": 3,"api": "csp_XBPQ","changeable": 0,"ext": {
         "主页url": "https://www.hkybqufgh.com/",
