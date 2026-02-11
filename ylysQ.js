@@ -2,53 +2,36 @@ let host = 'https://www.ylys.tv';
 const headers = {
   "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.6478.61 Safari/537.36",
   "Referer": host + "/",
-  "Accept-Language": "zh-CN,zh;q=0.9",
-  "Connection": "keep-alive",
-  "Upgrade-Insecure-Requests": "1",
-  "Cache-Control": "max-age=0"
+  "Accept-Language": "zh-CN,zh;q=0.9"
 };
 
 
-async function init() {
-  return true; // 確保init()返回true
-}
+async function init(cfg) {}
 
 async function extractVideos(html) {
   if (!html) return [];
+  // 使用 pdfa 獲取列表，若 pdfa 失效則頁面會空白
+  let items = pdfa(html, '.module-item,.module-card-item');
+  return items.map(it => {
+    // 優先使用正則提取 ID，因為新版 Fongmi 對 pdfh 的 a&&href 處理有時會有差異
+    let idMatch = it.match(/voddetail\/(\d+)/) || it.match(/detail\/(\d+)/);
+    let id = idMatch ? idMatch[1] : null;
 
-  // 通用的提取函数，支持默认选择器和自定义选择器
-  const extractField = (element, selector, defaultValue = '') => {
-    return pdfh(element, selector) || defaultValue;
-  };
+    let name = pdfh(it, '.module-item-title&&Text') || 
+               pdfh(it, '.module-card-item-title&&Text') || 
+               (it.match(/title="(.*?)"/) || ["", ""])[1];
 
-  // 解析页面，提取影片数据
-  return pdfa(html, '.module-item,.module-card-item').map(it => {
-    const href = extractField(it, 'a&&href');
-    const idMatch = href.match(/voddetail\/(\d+)/);
-    const id = idMatch ? idMatch[1] : null;
+    let pic = pdfh(it, 'img&&data-original') || 
+              pdfh(it, 'img&&src') || "";
 
-    let name = extractField(it, '.module-item-title&&Text') || 
-               extractField(it, '.module-card-item-title&&Text') || 
-               extractField(it, 'a&&title') || 
-               extractField(it, 'strong&&Text') || '';
+    let remarks = pdfh(it, '.module-item-note&&Text') || "";
 
-    let pic = extractField(it, 'img&&data-original') || 
-              extractField(it, 'img&&data-src') || 
-              extractField(it, 'img&&src') || '';
-
-    const remarks = extractField(it, '.module-item-note&&Text') || 
-                    extractField(it, '.module-item-text&&Text') || '';
-
-    // 如果没有 id 或 name，则跳过
     if (!id || !name) return null;
-
-    // 确保图片链接是完整的
-    pic = pic.startsWith('/') ? host + pic : pic;
 
     return {
       vod_id: id,
       vod_name: name.trim(),
-      vod_pic: pic,
+      vod_pic: pic.startsWith('/') ? host + pic : pic,
       vod_remarks: remarks.trim()
     };
   }).filter(Boolean);
@@ -175,15 +158,5 @@ async function play(flag, id, flags) {
   return JSON.stringify({ parse: 1, url: url, header: headers });
 }
 
-// 最後確保回傳__jsEvalReturn()
-export function __jsEvalReturn() {
-  return {
-    init,
-    home,
-    homeVod,
-    category,
-    detail,
-    search,
-    play
-  };
-}
+export default { init, home, homeVod, category, detail, search, play };
+
