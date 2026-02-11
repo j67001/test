@@ -57,7 +57,8 @@ async function homeVod() {
 async function category(tid, pg, filter, extend) {
     let p = pg || 1;
     let targetId = (extend && extend.class) ? extend.class : tid;
-    let url = host + "/vodtype/" + targetId + "/" + (parseInt(p) > 1 ? "page/" + p + "/" : "");
+    let year = extend && extend.year ? extend.year : '';
+    let url = host + "/vodtype/" + targetId + "/" + (parseInt(p) > 1 ? "page/" + p + "/" : ""+"year/" + year + "/" : "");
     let resp = await req(url, { headers: headers });
     return JSON.stringify({ 
         "list": getList(resp.content), 
@@ -85,6 +86,9 @@ async function detail(id) {
             'vod_name': (html.match(/<h1>(.*?)<\/h1>/) || ["", ""])[1],
             'vod_pic': (html.match(/data-original="(.*?)"/) || ["", ""])[1],
             'vod_content': (html.match(/introduction-content">.*?<p>(.*?)<\/p>/s) || ["", ""])[1].replace(/<.*?>/g, ""),
+            'vod_year': (html.match(/href="\/vodshow\/\d+-----------(\d{4})\//) || ["", ""])[1] || "",
+            'vod_director': (html.match(/导演：.*?<a[^>]*>([^<]+)<\/a>/) || ["", ""])[1] || "",
+            'vod_actor': [...html.matchAll(/主演：.*?<a[^>]*>([^<]+)<\/a>/g)].map(m => m[1]).filter(Boolean).join(" / "),
             'vod_play_from': playFrom,
             'vod_play_url': playUrl
         }]
