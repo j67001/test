@@ -189,13 +189,13 @@
 {"key": "xigua_py","name": "🥝瓜子","type": 3,"api": "https://github.com/cluntop/tvbox/raw/main/py/瓜子.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
 {"key": "苹果_py","name": "🍎蘋果","type": 3,"api": "https://github.com/cluntop/tvbox/raw/main/py/小苹果APP.py","searchable": 1,"changeable": 1,"quickSearch": 1,"filterable": 1,"playerType": 2},
 
-{"key":"爱壹帆_PY","name": "⛵爱壹帆py","type": 3,"api": "https://github.com/alantang1977/X/raw/main/py/ayf.py","searchable": 1,"quickSearch": 1,"changeable": 1,"filterable": 1,"timeout": 10},	
+{"key":"爱壹帆_PY","name": "⛵爱壹帆py","type": 3,"api": "https://github.com/alantang1977/X/raw/main/py/ayf.py","searchable": 1,"quickSearch": 1,"changeable": 1,"filterable": 1,"timeout": 10},
 {"key": "电影天堂js","name": "🚔电影天堂js","type": 3,"api": "https://github.com/alantang1977/X/raw/main/js/电影天堂.js","style": {"type": "rect","ratio": 1.33},"changeable": 1},
-{"key": "Emby_Nya","name": "🏎Emby_Nya,"type": 3,"api": "https://github.com/alantang1977/X/raw/main/js/Emby.js","style": {"type": "rect","ratio": 1.33},"changeable": 1},
+{"key": "Emby_Nya","name": "🚔Emby_Nya,"type": 3,"api": "https://github.com/alantang1977/X/raw/main/js/Emby.js","style": {"type": "rect","ratio": 1.33},"changeable": 1},
 {"key": "小苹果PHP","name": "🍒 小苹果 PHP","type": 4,"api": "https://tangstudio.dpdns.org/小苹果.php","style": {"type": "rect","ratio": 1.33},"changeable": 1},
-{"key": "apple","name": "🍒 apple 影视","type": 3,"api": "https://github.com/alantang1977/X/raw/main/js/apple.js","style": {"type": "rect","ratio": 1.33},"changeable": 1},
+{"key": "apple0","name": "🍒 apple 影视","type": 3,"api": "https://github.com/alantang1977/X/raw/main/js/apple.js","style": {"type": "rect","ratio": 1.33},"changeable": 1},
 {"key":"MTV1","name":"🎙️易听音乐┃带歌词","type":3,"api":"csp_MusicGuard","style":{"type":"rect","ratio":1},"playerType":2,"searchable":1,"quickSearch":0,"changeable":0},
-{"key": "UVod","name": "🛣️优视频","type": 3,"api": "https://github.com/alantang1977/X/raw/main/py/UVod.py","style": {"type": "rect","ratio": 1.33},"changeable": 1},
+{"key": "UVod0","name": "🛣️优视频","type": 3,"api": "https://github.com/alantang1977/X/raw/main/py/UVod.py","style": {"type": "rect","ratio": 1.33},"changeable": 1},
 
 
 
