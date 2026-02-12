@@ -23,15 +23,29 @@ function powerMod(base, exp, mod) {
 
 function rsaPublicDecrypt(base64Str) {
     try {
-        const c = BigInt('0x' + CryptoJS.enc.Base64.parse(base64Str).toString(CryptoJS.enc.Hex));
-        const n = BigInt('0x' + PUBLIC_KEY_N), e = BigInt('0x' + PUBLIC_KEY_E);
-        let mHex = powerMod(c, e, n).toString(16);
-        while (mHex.length < 512) mHex = '0' + mHex; // 補足位數
-        const hex = mHex.toLowerCase();
-        // 尋找 PKCS1 分隔符 00 (通常在 00 02 ... 之後)
-        const idx = hex.indexOf('00', 4); 
-        return CryptoJS.enc.Hex.parse(hex.substring(idx + 2)).toString(CryptoJS.enc.Utf8);
-    } catch (e) { return ""; }
+        const bytes = CryptoJS.enc.Base64.parse(base64Str);
+        const c = BigInt('0x' + bytes.toString(CryptoJS.enc.Hex));
+        const n = BigInt('0x' + PUBLIC_KEY_N);
+        const e = BigInt('0x' + PUBLIC_KEY_E);
+        
+        // 核心運算
+        let m = powerMod(c, e, n);
+        let hex = m.toString(16);
+        if (hex.length % 2 !== 0) hex = '0' + hex;
+
+        // 核心修正：尋找 PKCS1 填充的數據尾部
+        // 標準 PKCS1 公鑰加密數據格式為：00 02 [非零填充] 00 [實際數據]
+        // 這裡我們直接尋找最後一個 00 之後的內容
+        let lastZeroIdx = hex.lastIndexOf('00');
+        if (lastZeroIdx !== -1 && lastZeroIdx < hex.length - 2) {
+            hex = hex.substring(lastZeroIdx + 2);
+        }
+        
+        return CryptoJS.enc.Hex.parse(hex).toString(CryptoJS.enc.Utf8);
+    } catch (err) {
+        console.log('RSA解密失敗: ' + err);
+        return "";
+    }
 }
 
 // --- 通用請求封裝 ---
