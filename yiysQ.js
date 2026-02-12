@@ -1,207 +1,200 @@
-import 'assets://js/lib/crypto-js.js';
+var resType = 'json';
+var HOST = 'https://aleig4ah.yiys05.com';
 
-const HOST = "https://aleig4ah.yiys05.com";
-const USER_AGENT = "Android/OkHttp";
-
-let appId = '';
-let token = '';
-
-const guid = () =>
-  [...Array(16)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
-
-const sha256 = s => CryptoJS.SHA256(s).toString();
-
-function getHeaders(params = {}) {
-  const headers = {
-    "User-Agent": USER_AGENT,
-    "Connection": "Keep-Alive",
-    "Accept-Encoding": "gzip",
-    "APP-ID": appId
-  };
-
-  if (params && token) {
-    const sortedKeys = Object.keys(params).sort();
-    const query = sortedKeys.map(k => `${k}=${params[k]}`).join("&");
-    const signStr = `${query}&token=${token}`;
-    headers["X-HASH-Data"] = sha256(signStr);
-  }
-
-  return headers;
-}
-
-async function reqSafe(url, options = {}) {
-  try {
-    const res = await req(url, options);
-    return JSON.parse(res.content);
-  } catch (e) {
-    return {};
-  }
-}
-
-async function refreshToken() {
-  const ts = Math.floor(Date.now() / 1000).toString();
-  const payload = { appID: appId, timestamp: ts };
-
-  const headers = {
-    "User-Agent": USER_AGENT,
-    "APP-ID": appId,
-    "X-Auth-Flow": "1"
-  };
-
-  const res = await reqSafe(`${HOST}/vod-app/index/getGenerateKey`, {
-    method: "POST",
-    data: payload,
-    headers
-  });
-
-  if (res.data) {
-    token = res.data; // ⚠ 这里无法做 RSA 解密
-    return true;
-  }
-
-  return false;
-}
-
-async function init() {
-  appId = guid();
-  await refreshToken();
-  return true;
-}
-
-async function home() {
-  const ts = Math.floor(Date.now() / 1000).toString();
-  const params = { timestamp: ts };
-
-  const res = await reqSafe(`${HOST}/vod-app/type/list?timestamp=${ts}`, {
-    headers: getHeaders(params)
-  });
-
-  const classes = [];
-  const filters = {};
-
-  (res.data || []).forEach(i => {
-    const tid = i.typeId.toString();
-    classes.push({
-      type_id: tid,
-      type_name: i.typeName
-    });
-  });
-
-  return JSON.stringify({ class: classes, filters });
-}
-
-async function homeVod() {
-  const ts = Math.floor(Date.now() / 1000).toString();
-  const params = { timestamp: ts };
-
-  const res = await reqSafe(`${HOST}/vod-app/rank/hotHits?timestamp=${ts}`, {
-    headers: getHeaders(params)
-  });
-
-  let list = [];
-
-  (res.data || []).forEach(i => {
-    if (i.vodBeans) list.push(...i.vodBeans);
-  });
-
-  return JSON.stringify({ list });
-}
-
-async function category(tid, pg) {
-  const payload = {
-    tid,
-    page: pg.toString(),
-    limit: "12",
-    timestamp: Math.floor(Date.now() / 1000).toString()
-  };
-
-  const res = await reqSafe(`${HOST}/vod-app/vod/list`, {
-    method: "POST",
-    data: payload,
-    headers: getHeaders(payload)
-  });
-
-  const data = res.data || {};
-
-  return JSON.stringify({
-    list: data.data || [],
-    page: +pg,
-    pagecount: data.totalPageCount || 1
-  });
-}
-
-async function detail(id) {
-  const payload = {
-    vodId: id,
-    timestamp: Math.floor(Date.now() / 1000).toString()
-  };
-
-  const res = await reqSafe(`${HOST}/vod-app/vod/info`, {
-    method: "POST",
-    data: payload,
-    headers: getHeaders(payload)
-  });
-
-  const data = res.data || {};
-
-  const vod = {
-    vod_id: data.vodId,
-    vod_name: data.vodName,
-    vod_pic: data.vodPic,
-    vod_content: data.vodContent,
-    vod_play_from: "",
-    vod_play_url: ""
-  };
-
-  return JSON.stringify({ list: [vod] });
-}
-
-async function play(_, id) {
-  const [sourceCode, rawUrl] = id.split("@");
-
-  const payload = {
-    sourceCode,
-    timestamp: Math.floor(Date.now() / 1000).toString(),
-    urlEncode: rawUrl
-  };
-
-  const res = await reqSafe(`${HOST}/vod-app/vod/playUrl`, {
-    method: "POST",
-    data: payload,
-    headers: getHeaders(payload)
-  });
-
-  const url = res.data?.url || rawUrl;
-
-  return JSON.stringify({
-    parse: 0,
-    url,
-    header: {
-      "User-Agent": USER_AGENT
+/**
+ * 封装 RSA 公钥解密逻辑 (方案一)
+ */
+function rsaDecrypt(ciphertext) {
+    const pubKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw4qpeOgv+MeXi57MVPqZF7SRmHR3FUelCTfrvI6vZ8kgTPpe1gMyP/8ZTvedTYjTDMqZBmn8o8Ym98yTx3zHaskPpmDR80e+rcRciPoYZcWNpwpFkrHp1l6Pjs9xHLXzf3U+N3a8QneY+jSMvgMbr00DC4XfvamfrkPMXQ+x9t3gNcP5YtuRhGFREBKP2q20gP783MCOBFwyxhZTIAsFiXrLkgZ97uaUAtqW6wtKR4HWpeaN+RLLxhBdnVjuMc9jaBl6sHMdSvTJgAajBTAd6LLA9cDmbGTxH7RGp//iZU86kFhxGl5yssZvBcx/K95ADeTmLKCsabexZVZ0Fu3dDQIDAQAB";
+    try {
+        // 调用 DRPY 内置 RSA 接口，解密模式通常为 PKCS1
+        return rsa(ciphertext, pubKey, false, "RSA/ECB/PKCS1Padding");
+    } catch (e) {
+        log("RSA解密失败: " + e.message);
+        return "";
     }
-  });
 }
 
-async function search(wd, _, pg = "1") {
-  const payload = {
-    key: wd,
-    limit: "20",
-    page: pg,
-    timestamp: Math.floor(Date.now() / 1000).toString()
-  };
-
-  const res = await reqSafe(`${HOST}/vod-app/vod/segSearch`, {
-    method: "POST",
-    data: payload,
-    headers: getHeaders(payload)
-  });
-
-  return JSON.stringify({
-    list: res.data?.data || [],
-    page: +pg
-  });
+/**
+ * 获取签名 Headers
+ */
+function getHeaders(params, token, appId) {
+    let headers = {
+        'User-Agent': 'Android/OkHttp',
+        'APP-ID': appId,
+        'Connection': 'Keep-Alive'
+    };
+    if (token) {
+        let keys = Object.keys(params).sort();
+        let queryStr = keys.map(k => k + "=" + params[k]).join("&");
+        let signStr = queryStr + "&token=" + token;
+        headers['X-HASH-Data'] = sha256(signStr);
+    } else {
+        headers['X-Auth-Flow'] = '1';
+    }
+    return headers;
 }
 
-export function __jsEvalReturn() {
-  return { init, home, homeVod, category, detail, play, search };
-}
+var spider = {
+    // 全局变量存储
+    token: '',
+    appId: '',
+
+    init: function (ext) {
+        this.host = ext || HOST;
+        // 获取或生成设备 ID
+        this.appId = getItem('yiys_app_id', '');
+        if (!this.appId) {
+            this.appId = Math.random().toString(16).slice(2, 18);
+            setItem('yiys_app_id', this.appId);
+        }
+        this.refreshToken();
+    },
+
+    refreshToken: function () {
+        let ts = Math.floor(new Date().getTime() / 1000).toString();
+        let payload = { 'appID': this.appId, 'timestamp': ts };
+        let headers = getHeaders(payload, '', this.appId);
+        
+        try {
+            let res = post(this.host + '/vod-app/index/getGenerateKey', { body: payload, headers: headers });
+            let json = JSON.parse(res);
+            if (json.data) {
+                this.token = rsaDecrypt(json.data);
+                return true;
+            }
+        } catch (e) {
+            log("刷新Token异常: " + e.message);
+        }
+        return false;
+    },
+
+    home: function (filter) {
+        let ts = Math.floor(new Date().getTime() / 1000).toString();
+        let params = { 'timestamp': ts };
+        let headers = getHeaders(params, this.token, this.appId);
+        
+        let res = request(this.host + '/vod-app/type/list?timestamp=' + ts, { headers: headers });
+        let json = JSON.parse(res);
+        
+        let classes = [];
+        let filters = {};
+
+        json.data.forEach(it => {
+            let tid = it.typeId.toString();
+            classes.push({ type_id: tid, type_name: it.typeName });
+
+            // 处理筛选逻辑
+            if (it.type_extend_obj) {
+                let ext = it.type_extend_obj;
+                let filterArr = [];
+
+                // 1. 类型筛选
+                if (ext.class) {
+                    filterArr.push({
+                        key: "class", name: "类型",
+                        value: [{ n: "全部", v: "" }].concat(ext.class.split(',').map(v => ({ n: v, v: v })))
+                    });
+                }
+                // 2. 地区筛选
+                if (ext.area) {
+                    filterArr.push({
+                        key: "area", name: "地区",
+                        value: [{ n: "全部", v: "" }].concat(ext.area.split(',').map(v => ({ n: v, v: v })))
+                    });
+                }
+                // 3. 年份筛选 (包含您要求的 2026 补齐逻辑)
+                if (ext.year) {
+                    let years = ext.year;
+                    if (!years.includes('2026') && years.includes('2025')) {
+                        years = '2026,2025' + years.split('2025')[1];
+                    }
+                    filterArr.push({
+                        key: "year", name: "年份",
+                        value: [{ n: "全部", v: "" }].concat(years.split(',').map(v => ({ n: v, v: v })))
+                    });
+                }
+                // 4. 排序筛选 (固定项)
+                filterArr.push({
+                    key: "sort", name: "排序",
+                    value: [
+                        { n: "新上线", v: "time" },
+                        { n: "热播榜", v: "hits_day" },
+                        { n: "好评榜", v: "score" }
+                    ]
+                });
+
+                filters[tid] = filterArr;
+            }
+        });
+
+        return JSON.stringify({ class: classes, filters: filters });
+    },
+
+    homeVod: function () {
+        let ts = Math.floor(new Date().getTime() / 1000).toString();
+        let headers = getHeaders({ 'timestamp': ts }, this.token, this.appId);
+        let res = JSON.parse(request(this.host + '/vod-app/rank/hotHits?timestamp=' + ts, { headers: headers }));
+        
+        let list = [];
+        res.data.forEach(box => {
+            if (box.vodBeans) {
+                box.vodBeans.forEach(v => {
+                    list.push({
+                        vod_id: v.id,
+                        vod_name: v.name,
+                        vod_pic: v.vodPic,
+                        vod_remarks: v.vodRemarks || v.vodYear
+                    });
+                });
+            }
+        });
+        return JSON.stringify({ list: list });
+    },
+
+    category: function (tid, pg, filter, extend) {
+        let ts = Math.floor(new Date().getTime() / 1000).toString();
+        let body = {
+            'tid': tid,
+            'page': pg.toString(),
+            'limit': '12',
+            'timestamp': ts,
+            'by': extend.sort || 'time'
+        };
+        if (extend.class) body.classType = extend.class;
+        if (extend.area) body.area = extend.area;
+        if (extend.year) body.year = extend.year;
+
+        let headers = getHeaders(body, this.token, this.appId);
+        let res = JSON.parse(post(this.host + '/vod-app/vod/list', { body: body, headers: headers }));
+        
+        let list = res.data.data.map(v => ({
+            vod_id: v.id,
+            vod_name: v.name,
+            vod_pic: v.vodPic,
+            vod_remarks: v.vodRemarks
+        }));
+
+        return JSON.stringify({
+            list: list,
+            page: pg,
+            pagecount: res.data.totalPageCount
+        });
+    },
+
+    detail: function (id) {
+        let ts = Math.floor(new Date().getTime() / 1000).toString();
+        let body = { 'tid': '', 'timestamp': ts, 'vodId': id.toString() };
+        let headers = getHeaders(body, this.token, this.appId);
+        
+        let res = JSON.parse(post(this.host + '/vod-app/vod/info', { body: body, headers: headers }));
+        let it = res.data;
+
+        let from = [];
+        let urls = [];
+
+        it.vodSources.sort((a, b) => (a.sort || 0) - (b.sort || 0)).forEach(src => {
+            from.push(src.sourceName.replace(/（视频内广告勿信）/g, ''));
+            let subUrls = src.vodPlayList.urls.map(u => u.name + '$' + src.sourceCode + '@' + u.url);
+            urls.push(subUrls.join('#'));
+        });
