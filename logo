@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>隨機哆啦A夢 GIF</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff;
+            font-family: sans-serif;
+        }
+        .container {
+            text-align: center;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #0091da;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="gif-container">
+        </div>
+    <br>
+    <button onclick="getRandomGif()">再看一個！</button>
+</div>
+
+<script>
+    const gifs = [
+        "https://hinhnenonline.com/wp-content/uploads/2025/01/doraemon-gif-1.gif",
+        "https://hinhnenonline.com/wp-content/uploads/2025/01/doraemon-gif-2.gif",
+        "https://hinhnenonline.com/wp-content/uploads/2025/01/doraemon-gif-3.gif",
+        "https://hinhnenonline.com/wp-content/uploads/2025/01/doraemon-gif-4.gif",
+        "https://hinhnenonline.com/wp-content/uploads/2025/01/doraemon-gif-5.gif",
+        "https://hinhnenonline.com/wp-content/uploads/2025/01/doraemon-gif-6.gif",
+        "https://hinhnenonline.com/wp-content/uploads/2025/01/doraemon-gif-7.gif"
+    ];
+
+    function getRandomGif() {
+        const randomIndex = Math.floor(Math.random() * gifs.length);
+        const container = document.getElementById('gif-container');
+        container.innerHTML = `<img src="${gifs[randomIndex]}" alt="Doraemon GIF">`;
+    }
+
+    // 初始載入
+    getRandomGif();
+</script>
+
+</body>
+</html>
