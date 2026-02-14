@@ -34,20 +34,10 @@ var rule = {
     class_name: '国产动漫&日本动漫&欧美动漫&电影',
     class_url: '1&2&3&4',
 
-    proxy_rule: '',
-    sniffer: 0,
-    isVideo: '',
-    play_parse: true,
-    parse_url: '',
-    lazy: `js:
-let html = request(input);
-let kurl = pdfh(html,'body&&iframe').match(/src="(.*?)"/)[1];
-input= kurl
-`,
-
-    limit: 9,
-    double: false,
-    推荐: '*',
+    play_parse:true,
+    lazy:'',
+    limit:6,
+    推荐:'*',
 //列表;标题;图片;描述;链接;详情(可不写)
     一级: '.v_list li;a&&title;a&&data-bg;.desc&&Text;a&&href',
     二级: {
