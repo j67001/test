@@ -20,11 +20,11 @@ var rule = {
     一级:'.list-wrapper&&.item-link;h2--span&&Text;img&&src;.status&&Text;a&&href',
     二级:{
         "title":".book-title&&Text;.text:eq(0)&&Text",
-        "img":".img&&data-cfsrc",
+        "img":".img&&src",
         "desc":".update-time&&Text;;;.text:eq(1)&&Text;.text:eq(2)&&Text",
         "content":".book-intro&&Text",
         "tabs":".operate-bar&&.total-num",
-        "lists":".book-list:eq(#id)&&.list-item"
+        "lists":".book-list:eq(#id) a"
     },
     搜索:'*',
 }
