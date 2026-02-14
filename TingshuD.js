@@ -1,6 +1,6 @@
 var rule = {
     title: 'i275听书',
-    host: 'https://m.i275.com',
+    host: 'https://app.365ting.com/',
     // url: '/category/fyclass/2.html?page=fypage',
     url:'/category/fyclass/fyfilter/fypage.html',
     filterable:1,//是否启用分类筛选,
