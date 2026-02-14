@@ -18,13 +18,13 @@ var rule = {
     limit:6,
     推荐:'*',
     一级:'.list-wrapper&&.item-link;h2--span&&Text;img&&src;.status&&Text;a&&href',
-    二级:{
-        "title":".book-title&&Text;.text:eq(0)&&Text",
-        "img":".img&&src",
-        "desc":".update-time&&Text;;;.text:eq(1)&&Text;.text:eq(2)&&Text",
-        "content":".book-intro&&Text",
-        "tabs":".operate-bar&&.total-num",
-        "lists": ".book-list:eq(#id) a[title]"
-    },
+"二级": {
+    "title": ".book-title&&Text",
+    "img": ".img&&src",
+    "desc": ".text:eq(1)&&Text",
+    "content": ".book-intro&&Text",
+    "tabs": "js: '播放列表'",
+    "lists": "js: var items=pdfh.getArray(html,'.book-list a');var list=[];for(var i=0;i<items.length;i++){var t=pdfh.parse(items[i],'a&&title');var u=pdfh.parse(items[i],'a&&href');list.push(t+'$'+u)}LISTS=list;"
+}
     搜索:'*',
 }
