@@ -1,124 +1,140 @@
-import 'assets://js/lib/cat.js';
-import 'assets://js/lib/crypto-js.js';
+//import 'assets://js/lib/cat.js';
+//import 'assets://js/lib/crypto-js.js';
+import { _ } from 'lib/cat.js';
 
+// å…¨åŸŸè®Šé‡å­˜å„²é…ç½®æ•¸æ“š
 let datas = [];
 const TAG = "Market";
 
 /**
- * ªì©l¤Æ¤èªk
- * @param {string} extend - °t¸m¦a§}©Î JSON ¦r²Å¦ê
+ * åˆå§‹åŒ–é…ç½®
+ * @param {string} extend - å¯ä»¥æ˜¯é ç«¯ URL æˆ– JSON å­—ç¬¦ä¸²
  */
 export async function init(extend) {
-    if (extend.startsWith("http")) {
-        const res = await req(extend);
-        extend = res.content;
+    try {
+        let content = extend;
+        if (extend.startsWith("http")) {
+            const res = await req(extend, { method: 'get' });
+            content = res.content;
+        }
+        // è§£æ JSONï¼Œç¢ºä¿ datas å§‹çµ‚ç‚ºæ•¸çµ„
+        const json = JSON.parse(content);
+        datas = Array.isArray(json) ? json : [json];
+    } catch (e) {
+        console.log(`[${TAG}] Init Error: ${e.message}`);
+        datas = [];
     }
-    datas = JSON.parse(extend);
 }
 
 /**
- * ­º­¶¤º®e
+ * ç²å–åˆ†é¡æ¸…å–®
  */
 export async function home(filter) {
-    const classes = [];
-    if (datas.length > 1) {
-        for (let i = 1; i < datas.length; i++) {
-            classes.push({
-                type_id: datas[i].name,
-                type_name: datas[i].name
-            });
-        }
-    }
+    const classes = datas.slice(1).map(item => ({
+        type_id: item.name,
+        type_name: item.name
+    }));
+
     return JSON.stringify({
         class: classes,
-        list: datas[0].vod || []
+        list: datas[0]?.vod || [] // ç¬¬ä¸€ç­†é€šå¸¸æ˜¯é»˜èªæ¨è–¦
     });
 }
 
 /**
- * ¤ÀÃş¤º®e
+ * ç²å–åˆ†é¡ä¸‹çš„åˆ—è¡¨
  */
 export async function category(tid, pg, filter, extend) {
-    for (const data of datas) {
-        if (data.name === tid) {
-            return JSON.stringify({
-                page: 1,
-                pagecount: 1,
-                limit: data.vod.length,
-                total: data.vod.length,
-                list: data.vod
-            });
-        }
-    }
-    return "{}";
+    const target = datas.find(d => d.name === tid);
+    if (!target) return JSON.stringify({ list: [] });
+
+    return JSON.stringify({
+        page: 1,
+        pagecount: 1,
+        limit: target.vod.length,
+        total: target.vod.length,
+        list: target.vod
+    });
 }
 
 /**
- * °õ¦æ¤U¸ü©Î¯S©w°Ê§@
- * @param {string} action - ¤U¸ü³sµ²©Î«ü¥O
+ * æ ¸å¿ƒï¼šæ¨¡æ“¬ Java çš„ä¸‹è¼‰ã€è§£å£“èˆ‡è‡ªå‹•åŸ·è¡Œé‚è¼¯
  */
-export async function action(action) {
-    try {
-        const fileName = action.split('/').pop();
-        // Åã¥Ü³qª¾
-        await notify("¥¿¦b¤U¸ü..." + fileName);
+export async function action(actionUrl) {
+    if (!actionUrl) return JSON.stringify({ msg: "ç„¡æ•ˆé€£çµ", type: 3 });
 
-        // °õ¦æ¤U¸üÅŞ¿è (¨Ì¿à±J¥DÀô¹Ò´£¨Ñªº¤U¸ü±µ¤f)
-        // ¦b CatVodJS ¤¤³q±`¨Ï¥Î¯S©w«ü¥O©Î³q¹L¼½©ñ¾¹½Õ¥Î
-        const downloadPath = "download/" + fileName;
-        const res = await req(action, {
-            timeout: 60000,
-            buffer: 1 // §iª¾½Ğ¨Dªğ¦^ buffer
+    try {
+        const uri = actionUrl.split('?')[0]; // å»é™¤åƒæ•¸
+        const fileName = uri.substring(uri.lastIndexOf('/') + 1);
+        
+        // 1. é¡¯ç¤º UI é€šçŸ¥ (èª¿ç”¨æ®¼ç«¯çš„ Notify)
+        await notify(`æ­£åœ¨ä¸‹è¼‰: ${fileName}`);
+
+        // 2. åŸ·è¡Œä¸‹è¼‰ (ä½¿ç”¨ buffer æ¨¡å¼ç²å–åŸå§‹æ•¸æ“š)
+        // æ³¨æ„ï¼šæŸäº›å¼•æ“ req æ”¯æŒç›´æ¥ download åƒæ•¸ï¼Œè‹¥ä¸æ”¯æŒå‰‡ç”¨ content
+        const res = await req(actionUrl, {
+            method: 'get',
+            timeout: 0, // ä¸‹è¼‰å¤§æ–‡ä»¶å»ºè­°ä¸è¨­é™æ™‚
+            buffer: 2   // 2 é€šå¸¸ä»£è¡¨ä¸‹è¼‰åˆ°æš«å­˜æ–‡ä»¶æˆ–è¿”å› bytes
         });
 
-        // «O¦s¤å¥ó
-        await local.save(downloadPath, res.content);
+        // 3. å®šç¾©è·¯å¾‘ (ä¾æ“š Path.download() é‚è¼¯)
+        const downloadDir = "cache://download/";
+        const filePath = `${downloadDir}${fileName}`;
 
-        // ¤å¥ó«áºó³B²z
+        // 4. ä¿å­˜ä¸¦è™•ç†æ–‡ä»¶
+        // å‡è¨­ local æ’ä»¶æä¾› IO æ“ä½œ
+        await local.save(filePath, res.content);
+
         if (fileName.endsWith(".zip")) {
-            await local.unzip(downloadPath, "download/");
+            await local.unzip(filePath, downloadDir);
         } else if (fileName.endsWith(".apk")) {
-            await local.openFile(downloadPath);
+            // è‡ªå‹•èª¿ç”¨ç³»çµ±å®‰è£å™¨
+            await local.openFile(filePath);
         }
 
-        // ÀË¬d¨Ã½Æ»s¤å¥»
-        checkCopy(action);
+        // 5. åŸ·è¡Œ Java ä¸­çš„ checkCopy é‚è¼¯
+        checkCopy(actionUrl);
 
         return JSON.stringify({
-            msg: "¤U¸ü§¹¦¨",
-            type: 3 // ³qª¾Ãş«¬
+            msg: "è™•ç†å®Œæˆ",
+            type: 3
         });
+
     } catch (e) {
+        console.log(`[${TAG}] Action Error: ${e.message}`);
         return JSON.stringify({
-            msg: "¿ù»~: " + e.message,
+            msg: `ä¸‹è¼‰å¤±æ•—: ${e.message}`,
             type: 3
         });
     }
 }
 
 /**
- * ¨p¦³¤èªk¡GÀË¬d¨Ã½Æ»s¨ì°Å¶KÃ¯
+ * ç§æœ‰é‚è¼¯ï¼šæª¢æŸ¥ä¸¦è¤‡è£½æ–‡æœ¬åˆ°å‰ªè²¼ç°¿
  */
 function checkCopy(url) {
     for (const data of datas) {
-        const item = data.list.find(i => i.url === url);
+        const item = (data.list || []).find(i => i.url === url);
         if (item && item.copy) {
-            // ½Õ¥Î¨t²Î°Å¶KÃ¯
-            Util.copy(item.copy);
+            // èª¿ç”¨ JS æ©‹æ¥çš„è¤‡è£½åŠŸèƒ½
+            if (typeof bash !== 'undefined' && bash.copy) {
+                bash.copy(item.copy);
+            } else {
+                console.log(`[Copy]: ${item.copy}`);
+            }
             break;
         }
     }
 }
 
 /**
- * ¾P·´¤èªk
+ * éŠ·æ¯€è³‡æº
  */
 export async function destroy() {
-    // °±¤î©Ò¦³·í«e TAG ªº½Ğ¨D
-    // req.cancel(TAG); 
+    // æ¸…ç†é–‰åŒ…æˆ–å–æ¶ˆæœªå®Œæˆçš„è«‹æ±‚
 }
 
-// ¾É¥X¹ï¶H
 export default {
     init,
     home,
