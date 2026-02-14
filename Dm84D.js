@@ -1,7 +1,7 @@
 var rule = {
     author: '小可乐/240526/第一版',
     title: '动漫巴士[漫]',
-    host: 'http://dm84.vip',
+    host: 'https://dmbus.cc',
     hostJs: 'print(HOST);let html=request(HOST,{headers:{"User-Agent":MOBILE_UA}});let src= jsp.pdfh(html,"ul&&a:eq(0)&&href");print(src);HOST=src',
     headers: {'User-Agent': 'MOBILE_UA'},
     编码: 'utf-8',
