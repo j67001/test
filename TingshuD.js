@@ -24,7 +24,7 @@ var rule = {
         "desc":".update-time&&Text;;;.text:eq(1)&&Text;.text:eq(2)&&Text",
         "content":".book-intro&&Text",
         "tabs":".operate-bar&&.total-num",
-        "lists":".book-list:eq(#id) a"
+        "lists": ".book-list:eq(#id) a&&title"
     },
     搜索:'*',
 }
