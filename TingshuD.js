@@ -24,7 +24,7 @@ var rule = {
         "desc":".update-time&&Text;;;.text:eq(1)&&Text;.text:eq(2)&&Text",
         "content":".book-intro&&Text",
         "tabs":".operate-bar&&.total-num",
-        "lists": "js: var items=pdfh.getArray(html,'.book-list a');var list=[];for(var i=0;i<items.length;i++){var t=pdfh.parse(items[i],'a&&title');var u=pdfh.parse(items[i],'a&&href');list.push(t+'$'+u)}LISTS=list;"
+        "lists": ".book-list:eq(#id) a"
    },
     搜索:'*',
 }
