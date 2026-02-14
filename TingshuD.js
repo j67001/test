@@ -24,7 +24,16 @@ var rule = {
         "desc":".update-time&&Text;;;.text:eq(1)&&Text;.text:eq(2)&&Text",
         "content":".book-intro&&Text",
         "tabs":".operate-bar&&.total-num",
-        "lists": ".book-list:eq(#id) a"
+        "lists": "js:
+    var items = pdfh.getArray(html, '.book-list:eq(#id) a');
+    var list = [];
+    for(var i=0; i<items.length; i++){
+        var title = pdfh.parse(items[i], 'a&&title').replace('偷香高手有声小说 ', '');
+        var url = pdfh.parse(items[i], 'a&&href');
+        list.push(title + '$' + url);
+    }
+    LISTS = list;
+"
     },
     搜索:'*',
 }
