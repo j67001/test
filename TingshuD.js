@@ -17,7 +17,7 @@ var rule = {
     lazy:'',
     limit:6,
     推荐:'*',
-    一级:'.list-wrapper&&.item-link;h2--span&&Text;img&&data-cfsrc;.status&&Text;a&&href',
+    一级:'.list-wrapper&&.item-link;h2--span&&Text;img&&src;.status&&Text;a&&href',
     二级:{
         "title":".book-title&&Text;.text:eq(0)&&Text",
         "img":".img&&data-cfsrc",
