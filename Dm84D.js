@@ -1,24 +1,19 @@
 var rule = {
-    author: '小可乐/240526/第一版',
     title: '动漫巴士[漫]',
-    host: 'https://dm84.vip',
-    hostJs: 'print(HOST);let html=request(HOST,{headers:{"User-Agent":MOBILE_UA}});let src= jsp.pdfh(html,"ul&&a:eq(0)&&href");print(src);HOST=src',
-    headers: {'User-Agent': 'MOBILE_UA'},
-    编码: 'utf-8',
-    timeout: 2000,
-
-    homeUrl: '/',
+    host: 'https://dmbus.cc/',
+    headers:{'User-Agent':'MOBILE_UA'},
     url: '/show-fyclass--fyfilter-fypage.html',
+    filterable:1,//是否启用分类筛选,
     filter_url: '{{fl.by}}-{{fl.class}}--{{fl.year}}',
+    filter_def: {},
     detailUrl: '',
     searchUrl: '/s-**---------fypage.html',
     searchable: 1,
     quickSearch: 1,
-    filterable: 1,
 
     class_name: '国产动漫&日本动漫&欧美动漫&电影',
     class_url: '1&2&3&4',
-    filter_def: {},
+
 
     proxy_rule: '',
     sniffer: 0,
