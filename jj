@@ -130,6 +130,9 @@
 }},
 
 
+{"key":"drpy_js_修罗影视","name":"修罗影视drpy","type":3,"api":"https://github.com/maoystv/api/raw/main/JS/drpy2.min.js","ext":"https://github.com/xiaoxiao2020/xiao/raw/master/js/修罗影视.js"}.
+
+
 {"key": "原創_XBPQ","name": "☀原創XBPQ","type":3,"api":"csp_XBPQ","searchable":1,"quickSearch":1,"filterable":1,
 "ext":{
     "站名": "修罗影视",
