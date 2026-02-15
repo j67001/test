@@ -273,19 +273,19 @@
         "name": "本地包-k.zip",
         "url": "https://github.com/j67001/test/raw/main/k.zip",
         "icon": "https://ooo.0x0.ooo/2023/06/09/O5fYsj.th.png",
-        "version": "v.260204"
+        "version": "v.260214"
       },
       {
         "name": "主接口-k",
         "url": "https://github.com/j67001/test/raw/main/k",
         "icon": "https://ooo.0x0.ooo/2023/06/09/O5fYsj.th.png",
-        "version": "v.260204"
+        "version": "v.260214"
       },
       {
         "name": "雷蒙-lem.jar",
-        "url": "https://github.com/j67001/test/raw/main/lem0202h1.jar",
+        "url": "https://github.com/j67001/test/raw/main/lem0202h2.jar",
         "icon": "https://ooo.0x0.ooo/2023/06/09/O5fYsj.th.png",
-        "version": "lem0202h1.jar"
+        "version": "lem0202h2.jar"
       },
       {
         "name": "蜂蜜-custom_spider.jar",
@@ -335,6 +335,7 @@
 */
 
 ]
+
 
 
 
