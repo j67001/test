@@ -1,1 +1,168 @@
-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
+//https://github.com/LIUJEI/TB/blob/master/XB/金牌.js
+
+import 'assets://js/lib/crypto-js.js';
+const { HOSTS, KEY, USER_AGENT } = {
+  HOSTS: ["https://www.sizhengxt.com","https://www.sdzhgt.com","https://www.hkybqufgh.com","https://www.jiabaide.cn","https://m.9zhoukj.com","https://m.cqzuoer.com","https://610pkea.com","https://www.hellosht52bwb.com"],
+  KEY: "cb808529bae6b6be45ecfab29a4889bc",
+  USER_AGENT: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.6478.61 Safari/537.36"
+};
+let currentHost = '';
+const guid = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+  const r = Math.random() * 16 | 0;
+  return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+});
+const md5 = s => CryptoJS.MD5(s).toString();
+const sha1 = s => CryptoJS.SHA1(s).toString();
+const toQueryString = obj => Object.keys(obj).filter(k => obj[k] != null && obj[k] !== '').map(k => `${k}=${obj[k]}`).join('&');
+const getHeaders = (params = {}) => {
+  const t = Date.now().toString();
+  const sign = sha1(md5(toQueryString({ ...params, key: KEY, t })));
+  return {
+    'User-Agent': USER_AGENT,
+    'Accept': 'application/json, text/plain, */*',
+    'sign': sign,
+    't': t,
+    'deviceid': guid()
+  };
+};
+const normalizeFieldName = k => {
+  const l = k.toLowerCase();
+  if (l.startsWith('vod') && l.length > 3) return 'vod_' + l.slice(3);
+  if (l.startsWith('type') && l.length > 4) return 'type_' + l.slice(4);
+  return l;
+};
+const normalizeVodList = list => (list || []).map(item => {
+  const res = {};
+  for (const [k, v] of Object.entries(item || {})) if (v != null) res[normalizeFieldName(k)] = v;
+  return res;
+});
+
+async function reqSafe(url, options = {}) {
+  try {
+    const res = await req(url, options);
+    return JSON.parse(res.content);
+  } catch {
+    return {};
+  }
+}
+
+async function init() {
+  currentHost = HOSTS[Math.floor(Math.random() * HOSTS.length)];
+  return true;
+}
+
+async function home() {
+  const [cRes, fRes] = await Promise.all([
+    reqSafe(`${currentHost}/api/mw-movie/anonymous/get/filer/type`, { headers: getHeaders() }),
+    reqSafe(`${currentHost}/api/mw-movie/anonymous/v1/get/filer/list`, { headers: getHeaders() })
+  ]);
+  const classes = (cRes.data || []).map(k => ({ type_name: k.typeName, type_id: k.typeId.toString() }));
+  const filters = {};
+  const baseSort = [{n: "最近更新", v: "1"},{n: "添加时间", v: "2"}, { n: "人气高低", v: "3" }, { n: "评分高低", v: "4" }];
+  for (const [tid, d] of Object.entries(fRes.data || {})) {
+    const sortValues = tid === '1' ? baseSort.slice(1) : baseSort;
+    const arr = [
+      { key: "area", name: "地区", value: (d.districtList || []).map(i => ({ n: i.itemText.replace('中国', ''), v: i.itemText })) },
+      { key: "year", name: "年份", value: (d.yearList || []).map(i => ({ n: i.itemText, v: i.itemText })) },
+      { key: "sort", name: "排序", value: sortValues }
+    ];
+    if (d.plotList?.length) arr.splice(1, 0, { key: "v_class", name: "剧情", value: d.plotList.map(i => ({ n: i.itemText, v: i.itemText })) });
+    filters[tid] = arr;
+  }
+  return JSON.stringify({ class: classes, filters });
+}
+
+async function homeVod() {
+  const [r1, r2] = await Promise.all([
+    reqSafe(`${currentHost}/api/mw-movie/anonymous/v1/home/all/list`, { headers: getHeaders() }),
+    reqSafe(`${currentHost}/api/mw-movie/anonymous/home/hotSearch`, { headers: getHeaders() })
+  ]);
+  let list = [];
+  const data1 = r1.data || {};
+  for (const k in data1) if (data1[k]?.list) list.push(...data1[k].list);
+  if (Array.isArray(r2.data)) list.push(...r2.data);
+  return JSON.stringify({ list: normalizeVodList(list) });
+}
+
+async function category(tid, pg, _, ext = {}) {
+  const params = {
+    area: ext.area || '',
+    filterStatus: "1",
+    lang: ext.lang || '',
+    pageNum: pg,
+    pageSize: "30",
+    sort: ext.sort || '1',
+    sortBy: "1",
+    type: ext.type || '',
+    type1: tid,
+    v_class: ext.v_class || '',
+    year: ext.year || ''
+  };
+  const url = `${currentHost}/api/mw-movie/anonymous/video/list?${toQueryString(params)}`;
+  const res = await reqSafe(url, { headers: getHeaders(params) });
+  const vodList = normalizeVodList(res.data?.list || []);
+  return JSON.stringify({
+    list: vodList,
+    page: +pg,
+    pagecount: 9999,
+    limit: 90,
+    total: 999999
+  });
+}
+
+async function detail(id) {
+  const res = await reqSafe(`${currentHost}/api/mw-movie/anonymous/video/detail?id=${id}`, {
+    headers: getHeaders({ id })
+  });
+  const vod = normalizeVodList([res.data])[0];
+  if (!vod) return JSON.stringify({ list: [{ vod_id: id, vod_name: '加载失败', vod_play_url: '' }] });
+  vod.vod_play_from = '金牌影院';
+  const eps = vod.episodelist || [];
+  if (eps.length === 0) {
+    vod.vod_play_url = `${vod.vod_name}$${id}@@1`;
+  } else if (eps.length === 1) {
+    vod.vod_play_url = `${vod.vod_name}$${id}@@${eps[0].nid}`;
+  } else {
+    vod.vod_play_url = eps.map(ep => {
+      const name = ep.name?.trim() || `第${ep.nid}集`;
+      return `${name}$${id}@@${ep.nid}`;
+    }).join('#');
+  }
+  delete vod.episodelist;
+  return JSON.stringify({ list: [vod] });
+}
+
+async function play(_, id) {
+  const [vid, nid] = id.split('@@');
+  const url = `${currentHost}/api/mw-movie/anonymous/v2/video/episode/url?clientType=1&id=${vid}&nid=${nid}`;
+  const res = await reqSafe(url, { headers: getHeaders({ clientType: '1', id: vid, nid }) });
+  const urls = [];
+  for (const item of res.data?.list || []) {
+    urls.push(item.resolutionName, item.url);
+  }
+  return JSON.stringify({
+    parse: 0,
+    url: urls,
+    header: {
+      'User-Agent': USER_AGENT,
+      'sec-ch-ua-platform': '"Windows"',
+      'DNT': '1',
+      'sec-ch-ua': '"Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126"',
+      'sec-ch-ua-mobile': '?0',
+      'Origin': currentHost,
+      'Referer': currentHost + '/'
+    }
+  });
+}
+
+async function search(wd, _, pg = "1") {
+  const params = { keyword: wd, pageNum: pg, pageSize: "8", sourceCode: "1" };
+  const url = `${currentHost}/api/mw-movie/anonymous/video/searchByWord?${toQueryString(params)}`;
+  const res = await reqSafe(url, { headers: getHeaders(params) });
+  const list = normalizeVodList(res.data?.result?.list || []);
+  return JSON.stringify({ list, page: +pg });
+}
+
+export function __jsEvalReturn() {
+  return { init, home, homeVod, category, detail, play, proxy: null, search };
+}
