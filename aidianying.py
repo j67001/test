@@ -340,6 +340,7 @@ class Spider(Spider):
 
     def categoryContent(self, cid, page, filter, ext):
         t = cid
+        # 確保所有參數都有預設空值
         _type = ext.get('type', '')
         __class = ext.get('class', '')
         _area = ext.get('area', '')
@@ -348,55 +349,57 @@ class Spider(Spider):
         _by = ext.get('by', '')
         
         video_list = []
-        h = {
-            "User-Agent": self.ua,
-            "referer": self.home_url,
-        }
+        h = {"User-Agent": self.ua, "referer": self.home_url}
         
         try:
-            # 拼接 URL
             url = f'{self.home_url}/vod/show/id/{t}{_type}{__class}{_area}{_year}{_lang}{_by}/page/{page}'
             res = requests.get(url, headers=h, timeout=10)
             res.encoding = 'utf-8'
+            html = res.text
 
-            # --- 修改正則表達式 ---
-            # 理由：不要匹配結尾的 }}}]，因為不同分類的嵌套層級可能不同
-            # 直接抓取 "list":[...] 這一段
-            match = re.search(r'\\"list\\":\s*(\[.*?\])(?:,|\\})', res.text)
+            # --- 核心改進：更具包容性的正則 ---
+            # 匹配 "list":[...] 且同時處理可能存在的多重反斜槓 \\\" 或 \"
+            # 這裡我們只抓取 [ 到 ] 之間的內容
+            pattern = r'\\"list\\":\s*(\[.*?\])'
+            match = re.search(pattern, html)
+            
+            # 如果上面的正則失敗，嘗試標準 JSON 格式的正則
             if not match:
-                # 備用正則：處理沒有轉義引號的情況
-                match = re.search(r'"list":\s*(\[.*?\])', res.text)
+                pattern = r'"list":\s*(\[.*?\])'
+                match = re.search(pattern, html)
 
             if match:
-                content = match.group(1).replace('\\"', '"')
-                data_list = json.loads(content)
+                # 取得匹配到的列表字串
+                json_str = match.group(1)
                 
-                for i in data_list:
-                    # --- 安全取值邏輯 ---
-                    # 這是最容易報錯導致列表清空的地方
-                    # 使用 .get() 確保 key 不存在時不會 crash
-                    
-                    # 判斷 remarks：電影通常用 vodVersion (如：HD國語)，電視劇用 vodRemarks (如：共30集)
-                    # 注意：i.get('typeId1') 取出來可能是 int 也可能是 str，統一轉字串比較保險
-                    tid1 = str(i.get('typeId1', ''))
-                    if tid1 == '1':
-                        remarks = i.get('vodVersion') or i.get('vodRemarks', '')
-                    else:
-                        remarks = i.get('vodRemarks', '')
-
-                    video_list.append({
-                        'vod_id': i.get('vodId'),
-                        'vod_name': i.get('vodName'),
-                        'vod_pic': i.get('vodPic'),
-                        'vod_remarks': remarks
-                    })
-            else:
-                # 如果正則沒抓到，建議印出 res.text[:500] 看看網頁結構是否變了
-                pass
-
+                # 處理轉義：將 \\\" 轉換為 \"，然後再將 \" 轉換為 "
+                # 這是為了處理網頁中極其混亂的 JSON 嵌套轉義
+                json_str = json_str.replace('\\\\\\"', '"').replace('\\"', '"')
+                
+                try:
+                    data_list = json.loads(json_str)
+                    for i in data_list:
+                        # 使用 .get 預防 KeyError 崩潰
+                        v_id = i.get('vodId') or i.get('id')
+                        v_name = i.get('vodName') or i.get('name')
+                        v_pic = i.get('vodPic') or i.get('pic')
+                        
+                        # 備註邏輯：優先取 vodRemarks，如果沒有則取 vodVersion
+                        # 這通常能相容電影(Version)與劇集(Remarks)
+                        remarks = i.get('vodRemarks') or i.get('vodVersion') or ''
+                        
+                        if v_id and v_name:
+                            video_list.append({
+                                'vod_id': v_id,
+                                'vod_name': v_name,
+                                'vod_pic': v_pic,
+                                'vod_remarks': str(remarks)
+                            })
+                except Exception as json_e:
+                    print(f"JSON 解析失敗: {json_e}")
+            
         except Exception as e:
-            # 打印錯誤訊息方便偵錯
-            print(f"解析出錯: {e}")
+            print(f"請求出錯: {e}")
             return {'list': [], 'msg': str(e)}
 
         return {'list': video_list, 'parse': 0, 'jx': 0}
