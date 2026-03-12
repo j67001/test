@@ -340,64 +340,68 @@ class Spider(Spider):
 
     def categoryContent(self, cid, page, filter, ext):
         t = cid
-        _type = ext.get('type', '')
-        __class = ext.get('class', '')
-        _area = ext.get('area', '')
-        _year = ext.get('year', '')
-        _lang = ext.get('lang', '')
-        _by = ext.get('by', '')
+        # 獲取過濾器參數，確保為字串
+        _type = str(ext.get('type', ''))
+        __class = str(ext.get('class', ''))
+        _area = str(ext.get('area', ''))
+        _year = str(ext.get('year', ''))
+        _lang = str(ext.get('lang', ''))
+        _by = str(ext.get('by', ''))
         
         video_list = []
-        h = {"User-Agent": self.ua, "referer": self.home_url}
+        # 建立請求頭
+        h = {
+            "User-Agent": self.ua,
+            "Referer": self.home_url
+        }
         
         try:
+            # 構造 URL
             url = f'{self.home_url}/vod/show/id/{t}{_type}{__class}{_area}{_year}{_lang}{_by}/page/{page}'
             res = requests.get(url, headers=h, timeout=10)
             res.encoding = 'utf-8'
-            html = res.text
-
-            # 1. 改進的正則：抓取 list 之後直到第一個不平衡的 ] 結束
-            # 這裡不寫死後面的結構，只確保抓到陣列
-            match = re.search(r'\\"list\\":\s*(\[.*?\])', html)
+            
+            # 使用更寬鬆的正則表達式，只抓取 "list":[ ... ] 部分
+            # 重點在於處理轉義符號 \\\"
+            match = re.search(r'\\"list\\":\s*(\[.*?\])', res.text)
             if not match:
-                match = re.search(r'"list":\s*(\[.*?\])', html)
+                # 備用方案：處理非轉義格式
+                match = re.search(r'"list":\s*(\[.*?\])', res.text)
 
             if match:
-                json_str = match.group(1).replace('\\\\\\"', '"').replace('\\"', '"')
-                try:
+                # 處理轉義並轉化為 JSON 物件
+                json_str = match.group(1).replace('\\"', '"')
+                data_list = json.loads(json_str)
+                
+                for i in data_list:
+                    # --- 安全取值邏輯 ---
+                    # 電影常無 vodRemarks，動漫常無 vodVersion，所以用 or 連結
+                    # 只要有一個有值，就顯示該值
+                    remarks = i.get('vodRemarks') or i.get('vodVersion') or i.get('remarks') or ''
+                    
+                    video_list.append({
+                        'vod_id': str(i.get('vodId', '')),
+                        'vod_name': str(i.get('vodName', '')),
+                        'vod_pic': str(i.get('vodPic', '')),
+                        'vod_remarks': str(remarks)
+                    })
+            
+            # 如果還是空，有可能是電影頁面用了不同的 Key (例如 data 或 result)
+            if not video_list:
+                match_alt = re.search(r'\\"(?:data|result)\\":\s*(\[.*?\])', res.text)
+                if match_alt:
+                    json_str = match_alt.group(1).replace('\\"', '"')
                     data_list = json.loads(json_str)
                     for i in data_list:
-                        # --- 重點：多重欄位取值 (兼容電影和動漫) ---
-                        # 有些分類用 vodId, 有些可能直接用 id
-                        v_id = i.get('vodId') or i.get('id')
-                        v_name = i.get('vodName') or i.get('name')
-                        v_pic = i.get('vodPic') or i.get('pic')
-                        
-                        # 備註處理：
-                        # 電影/動漫常有的欄位：vodVersion (HD1080P), vodRemarks (完結), remarks (高清)
-                        remarks = i.get('vodRemarks') or i.get('vodVersion') or i.get('remarks') or ''
-                        
-                        if v_id and v_name:
-                            # 確保 ID 是字串，避免跳轉失敗
-                            video_list.append({
-                                'vod_id': str(v_id),
-                                'vod_name': str(v_name),
-                                'vod_pic': str(v_pic),
-                                'vod_remarks': str(remarks)
-                            })
-                except:
-                    pass
-            
-            # 2. 備用方案：如果 JSON 抓取失敗，檢查是否因為電影頁面的 JSON 結構名稱變了
-            # 有些網站電影分類會把 "list" 改成 "data" 或其他名稱
-            if not video_list:
-                # 嘗試抓取所有可能是列表的 JSON 陣列 (針對電影分類可能存在的特殊 Key)
-                match_alt = re.search(r'\\"(?:data|vodList|result)\\":\s*(\[.*?\])', html)
-                if match_alt:
-                    # 重複上面的解析邏輯...
-                    pass
+                        video_list.append({
+                            'vod_id': str(i.get('vodId', i.get('id', ''))),
+                            'vod_name': str(i.get('vodName', i.get('name', ''))),
+                            'vod_pic': str(i.get('vodPic', i.get('pic', ''))),
+                            'vod_remarks': str(i.get('vodRemarks', i.get('vodVersion', '')))
+                        })
 
         except Exception as e:
+            # 發生錯誤時回傳空列表，不讓程式崩潰
             return {'list': [], 'msg': str(e)}
 
         return {'list': video_list, 'parse': 0, 'jx': 0}
