@@ -340,37 +340,65 @@ class Spider(Spider):
 
     def categoryContent(self, cid, page, filter, ext):
         t = cid
-        _type = ext.get('type') if ext.get('type') else ''
-        __class = ext.get('class') if ext.get('class') else ''
-        _area = ext.get('area') if ext.get('area') else ''
-        _year = ext.get('year') if ext.get('year') else ''
-        _lang = ext.get('lang') if ext.get('lang') else ''
-        _by = ext.get('by') if ext.get('by') else ''
+        _type = ext.get('type', '')
+        __class = ext.get('class', '')
+        _area = ext.get('area', '')
+        _year = ext.get('year', '')
+        _lang = ext.get('lang', '')
+        _by = ext.get('by', '')
+        
         video_list = []
         h = {
             "User-Agent": self.ua,
-            'referer': self.home_url,
+            "referer": self.home_url,
         }
+        
         try:
-            res = requests.get(
-                f'{self.home_url}/vod/show/id/{t}{_type}{__class}{_area}{_year}{_lang}{_by}/page/{page}',
-                headers=h)
-            aa = re.findall(r'\\"list\\":(.*?)}}}]', res.text)
-            if not aa:
-                return {'list': [], 'parse': 0, 'jx': 0}
-            bb = aa[0].replace('\\"', '"')
-            data_list = json.loads(bb)
-            for i in data_list:
-                video_list.append(
-                    {
-                        'vod_id': i['vodId'],
-                        'vod_name': i['vodName'],
-                        'vod_pic': i['vodPic'],
-                        'vod_remarks': i['vodVersion'] if i['typeId1'] == 1 else i['vodRemarks']
-                    }
-                )
-        except requests.RequestException as e:
-            return {'list': [], 'msg': e}
+            # 拼接 URL
+            url = f'{self.home_url}/vod/show/id/{t}{_type}{__class}{_area}{_year}{_lang}{_by}/page/{page}'
+            res = requests.get(url, headers=h, timeout=10)
+            res.encoding = 'utf-8'
+
+            # --- 修改正則表達式 ---
+            # 理由：不要匹配結尾的 }}}]，因為不同分類的嵌套層級可能不同
+            # 直接抓取 "list":[...] 這一段
+            match = re.search(r'\\"list\\":\s*(\[.*?\])(?:,|\\})', res.text)
+            if not match:
+                # 備用正則：處理沒有轉義引號的情況
+                match = re.search(r'"list":\s*(\[.*?\])', res.text)
+
+            if match:
+                content = match.group(1).replace('\\"', '"')
+                data_list = json.loads(content)
+                
+                for i in data_list:
+                    # --- 安全取值邏輯 ---
+                    # 這是最容易報錯導致列表清空的地方
+                    # 使用 .get() 確保 key 不存在時不會 crash
+                    
+                    # 判斷 remarks：電影通常用 vodVersion (如：HD國語)，電視劇用 vodRemarks (如：共30集)
+                    # 注意：i.get('typeId1') 取出來可能是 int 也可能是 str，統一轉字串比較保險
+                    tid1 = str(i.get('typeId1', ''))
+                    if tid1 == '1':
+                        remarks = i.get('vodVersion') or i.get('vodRemarks', '')
+                    else:
+                        remarks = i.get('vodRemarks', '')
+
+                    video_list.append({
+                        'vod_id': i.get('vodId'),
+                        'vod_name': i.get('vodName'),
+                        'vod_pic': i.get('vodPic'),
+                        'vod_remarks': remarks
+                    })
+            else:
+                # 如果正則沒抓到，建議印出 res.text[:500] 看看網頁結構是否變了
+                pass
+
+        except Exception as e:
+            # 打印錯誤訊息方便偵錯
+            print(f"解析出錯: {e}")
+            return {'list': [], 'msg': str(e)}
+
         return {'list': video_list, 'parse': 0, 'jx': 0}
 
     def detailContent(self, did):
@@ -484,3 +512,4 @@ class Spider(Spider):
 
 if __name__ == '__main__':
     pass
+
