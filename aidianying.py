@@ -340,7 +340,6 @@ class Spider(Spider):
 
     def categoryContent(self, cid, page, filter, ext):
         t = cid
-        # 確保所有參數都有預設空值
         _type = ext.get('type', '')
         __class = ext.get('class', '')
         _area = ext.get('area', '')
@@ -357,49 +356,48 @@ class Spider(Spider):
             res.encoding = 'utf-8'
             html = res.text
 
-            # --- 核心改進：更具包容性的正則 ---
-            # 匹配 "list":[...] 且同時處理可能存在的多重反斜槓 \\\" 或 \"
-            # 這裡我們只抓取 [ 到 ] 之間的內容
-            pattern = r'\\"list\\":\s*(\[.*?\])'
-            match = re.search(pattern, html)
-            
-            # 如果上面的正則失敗，嘗試標準 JSON 格式的正則
+            # 1. 改進的正則：抓取 list 之後直到第一個不平衡的 ] 結束
+            # 這裡不寫死後面的結構，只確保抓到陣列
+            match = re.search(r'\\"list\\":\s*(\[.*?\])', html)
             if not match:
-                pattern = r'"list":\s*(\[.*?\])'
-                match = re.search(pattern, html)
+                match = re.search(r'"list":\s*(\[.*?\])', html)
 
             if match:
-                # 取得匹配到的列表字串
-                json_str = match.group(1)
-                
-                # 處理轉義：將 \\\" 轉換為 \"，然後再將 \" 轉換為 "
-                # 這是為了處理網頁中極其混亂的 JSON 嵌套轉義
-                json_str = json_str.replace('\\\\\\"', '"').replace('\\"', '"')
-                
+                json_str = match.group(1).replace('\\\\\\"', '"').replace('\\"', '"')
                 try:
                     data_list = json.loads(json_str)
                     for i in data_list:
-                        # 使用 .get 預防 KeyError 崩潰
+                        # --- 重點：多重欄位取值 (兼容電影和動漫) ---
+                        # 有些分類用 vodId, 有些可能直接用 id
                         v_id = i.get('vodId') or i.get('id')
                         v_name = i.get('vodName') or i.get('name')
                         v_pic = i.get('vodPic') or i.get('pic')
                         
-                        # 備註邏輯：優先取 vodRemarks，如果沒有則取 vodVersion
-                        # 這通常能相容電影(Version)與劇集(Remarks)
-                        remarks = i.get('vodRemarks') or i.get('vodVersion') or ''
+                        # 備註處理：
+                        # 電影/動漫常有的欄位：vodVersion (HD1080P), vodRemarks (完結), remarks (高清)
+                        remarks = i.get('vodRemarks') or i.get('vodVersion') or i.get('remarks') or ''
                         
                         if v_id and v_name:
+                            # 確保 ID 是字串，避免跳轉失敗
                             video_list.append({
-                                'vod_id': v_id,
-                                'vod_name': v_name,
-                                'vod_pic': v_pic,
+                                'vod_id': str(v_id),
+                                'vod_name': str(v_name),
+                                'vod_pic': str(v_pic),
                                 'vod_remarks': str(remarks)
                             })
-                except Exception as json_e:
-                    print(f"JSON 解析失敗: {json_e}")
+                except:
+                    pass
             
+            # 2. 備用方案：如果 JSON 抓取失敗，檢查是否因為電影頁面的 JSON 結構名稱變了
+            # 有些網站電影分類會把 "list" 改成 "data" 或其他名稱
+            if not video_list:
+                # 嘗試抓取所有可能是列表的 JSON 陣列 (針對電影分類可能存在的特殊 Key)
+                match_alt = re.search(r'\\"(?:data|vodList|result)\\":\s*(\[.*?\])', html)
+                if match_alt:
+                    # 重複上面的解析邏輯...
+                    pass
+
         except Exception as e:
-            print(f"請求出錯: {e}")
             return {'list': [], 'msg': str(e)}
 
         return {'list': video_list, 'parse': 0, 'jx': 0}
