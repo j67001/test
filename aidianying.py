@@ -340,70 +340,37 @@ class Spider(Spider):
 
     def categoryContent(self, cid, page, filter, ext):
         t = cid
-        # 獲取過濾器參數，確保為字串
-        _type = str(ext.get('type', ''))
-        __class = str(ext.get('class', ''))
-        _area = str(ext.get('area', ''))
-        _year = str(ext.get('year', ''))
-        _lang = str(ext.get('lang', ''))
-        _by = str(ext.get('by', ''))
-        
+        _type = ext.get('type') if ext.get('type') else ''
+        __class = ext.get('class') if ext.get('class') else ''
+        _area = ext.get('area') if ext.get('area') else ''
+        _year = ext.get('year') if ext.get('year') else ''
+        _lang = ext.get('lang') if ext.get('lang') else ''
+        _by = ext.get('by') if ext.get('by') else ''
         video_list = []
-        # 建立請求頭
         h = {
             "User-Agent": self.ua,
-            "Referer": self.home_url
+            'referer': self.home_url,
         }
-        
         try:
-            # 構造 URL
-            url = f'{self.home_url}/vod/show/id/{t}{_type}{__class}{_area}{_year}{_lang}{_by}/page/{page}'
-            res = requests.get(url, headers=h, timeout=10)
-            res.encoding = 'utf-8'
-            
-            # 使用更寬鬆的正則表達式，只抓取 "list":[ ... ] 部分
-            # 重點在於處理轉義符號 \\\"
-            match = re.search(r'\\"list\\":\s*(\[.*?\])', res.text)
-            if not match:
-                # 備用方案：處理非轉義格式
-                match = re.search(r'"list":\s*(\[.*?\])', res.text)
-
-            if match:
-                # 處理轉義並轉化為 JSON 物件
-                json_str = match.group(1).replace('\\"', '"')
-                data_list = json.loads(json_str)
-                
-                for i in data_list:
-                    # --- 安全取值邏輯 ---
-                    # 電影常無 vodRemarks，動漫常無 vodVersion，所以用 or 連結
-                    # 只要有一個有值，就顯示該值
-                    remarks = i.get('vodRemarks') or i.get('vodVersion') or i.get('remarks') or ''
-                    
-                    video_list.append({
-                        'vod_id': str(i.get('vodId', '')),
-                        'vod_name': str(i.get('vodName', '')),
-                        'vod_pic': str(i.get('vodPic', '')),
-                        'vod_remarks': str(remarks)
-                    })
-            
-            # 如果還是空，有可能是電影頁面用了不同的 Key (例如 data 或 result)
-            if not video_list:
-                match_alt = re.search(r'\\"(?:data|result)\\":\s*(\[.*?\])', res.text)
-                if match_alt:
-                    json_str = match_alt.group(1).replace('\\"', '"')
-                    data_list = json.loads(json_str)
-                    for i in data_list:
-                        video_list.append({
-                            'vod_id': str(i.get('vodId', i.get('id', ''))),
-                            'vod_name': str(i.get('vodName', i.get('name', ''))),
-                            'vod_pic': str(i.get('vodPic', i.get('pic', ''))),
-                            'vod_remarks': str(i.get('vodRemarks', i.get('vodVersion', '')))
-                        })
-
-        except Exception as e:
-            # 發生錯誤時回傳空列表，不讓程式崩潰
-            return {'list': [], 'msg': str(e)}
-
+            res = requests.get(
+                f'{self.home_url}/vod/show/id/{t}{_type}{__class}{_area}{_year}{_lang}{_by}/page/{page}',
+                headers=h)
+            aa = re.findall(r'\\"list\\":(.*?)}}}]', res.text)
+            if not aa:
+                return {'list': [], 'parse': 0, 'jx': 0}
+            bb = aa[0].replace('\\"', '"')
+            data_list = json.loads(bb)
+            for i in data_list:
+                video_list.append(
+                    {
+                        'vod_id': i['vodId'],
+                        'vod_name': i['vodName'],
+                        'vod_pic': i['vodPic'],
+                        'vod_remarks': i['vodVersion'] if i['typeId1'] == 1 else i['vodRemarks']
+                    }
+                )
+        except requests.RequestException as e:
+            return {'list': [], 'msg': e}
         return {'list': video_list, 'parse': 0, 'jx': 0}
 
     def detailContent(self, did):
