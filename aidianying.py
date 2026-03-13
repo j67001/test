@@ -18,7 +18,7 @@ class Spider(Spider):
         return "Aidianying"
 
     def init(self, extend):
-        self.home_url = 'https://www.gs4x7nq4.com'
+        self.home_url = 'https://kuhh4jo.com'
         self.ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
         self.error_url = "https://sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/mp4/xgplayer-demo-720p.mp4"
 
@@ -484,4 +484,5 @@ class Spider(Spider):
 
 if __name__ == '__main__':
     pass
+
 
