@@ -426,7 +426,7 @@ def categoryContent(self, cid, page, filter, ext):
         wd = key
         video_list = []
         t = str(int(time.time() * 1000))
-        data = f'keyword={wd}&pageNum={page}&pageSize=12&key=cb808529bae6b6be45ecfab29a4889bc&t={t}'
+        data = f'pageNum={page}&pageSize=12&typeId={cid}&key=cb808529bae6b6be45ecfab29a4889bc&t={t}'
         data_md5 = hashlib.md5(data.encode()).hexdigest()
         data_sha1 = hashlib.sha1(data_md5.encode()).hexdigest()
         h = {
@@ -490,5 +490,6 @@ def categoryContent(self, cid, page, filter, ext):
 
 if __name__ == '__main__':
     pass
+
 
 
