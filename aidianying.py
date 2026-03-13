@@ -299,9 +299,9 @@ class Spider(Spider):
                    {'n': '添加时间', 'v': '/sortType/2/sortOrder/0'},
                    {'n': '人气高低', 'v': '/sortType/3/sortOrder/0'},
                    {'n': '评分高低', 'v': '/sortType/4/sortOrder/0'}]}
-    ]
+        ]
+    }
 }
-        }
 
     def homeVideoContent(self):
         video_list = []
@@ -342,39 +342,45 @@ def categoryContent(self, cid, page, filter, ext):
     video_list = []
     t = str(int(time.time() * 1000))
     
-    # 構造簽名所需的參數字符串
-    # 注意：API 請求的簽名通常需要包含所有傳入的參數，按字母順序排列
-    # 經分析，該站點分類接口的簽名公式如下：
+    # 這是最關鍵的簽名串，請確保順序與 searchContent 完全一致
+    # 格式：參數1=值1&參數2=值2...&key=...&t=...
     data = f'pageNum={page}&pageSize=12&typeId={cid}&key=cb808529bae6b6be45ecfab29a4889bc&t={t}'
     
     data_md5 = hashlib.md5(data.encode()).hexdigest()
-    data_sha1 = hashlib.sha1(data_md5.encode()).hexdigest()
+    sign = hashlib.sha1(data_md5.encode()).hexdigest()
     
     h = {
         "User-Agent": self.ua,
         "Referer": self.home_url,
         "t": t,
-        "sign": data_sha1
+        "sign": sign
     }
     
     try:
-        # 直接請求 API，不再解析 HTML
+        # 使用 API 請求
         api_url = f'{self.home_url}/api/mw-movie/anonymous/video/listByPage?typeId={cid}&pageNum={page}&pageSize=12'
         res = requests.get(api_url, headers=h, timeout=10)
-        res_json = res.json()
+        res_data = res.json()
         
-        # 該 API 返回的結構通常在 data -> result -> list 或 data -> list
-        data_list = res_json.get('data', {}).get('result', {}).get('list', [])
-        
-        for i in data_list:
+        # 自動適應兩種常見的 JSON 結構
+        items = []
+        if 'data' in res_data:
+            if 'result' in res_data['data']:
+                items = res_data['data']['result'].get('list', [])
+            else:
+                items = res_data['data'].get('list', [])
+
+        for i in items:
             video_list.append({
                 'vod_id': i['vodId'],
                 'vod_name': i['vodName'],
                 'vod_pic': i['vodPic'],
                 'vod_remarks': i.get('vodVersion') if i.get('typeId1') == 1 else i.get('vodRemarks', '')
             })
+            
     except Exception as e:
-        print(f"Error fetching category: {e}")
+        # 如果 API 失敗，這裡會返回空，方便調試
+        print(f"DEBUG: API Error -> {e}")
         return {'list': [], 'parse': 0, 'jx': 0}
 
     return {'list': video_list, 'parse': 0, 'jx': 0}
@@ -426,7 +432,7 @@ def categoryContent(self, cid, page, filter, ext):
         wd = key
         video_list = []
         t = str(int(time.time() * 1000))
-        data = f'pageNum={page}&pageSize=12&typeId={cid}&key=cb808529bae6b6be45ecfab29a4889bc&t={t}'
+        data = f'keyword={wd}&pageNum={page}&pageSize=12&key=cb808529bae6b6be45ecfab29a4889bc&t={t}'
         data_md5 = hashlib.md5(data.encode()).hexdigest()
         data_sha1 = hashlib.sha1(data_md5.encode()).hexdigest()
         h = {
@@ -490,6 +496,4 @@ def categoryContent(self, cid, page, filter, ext):
 
 if __name__ == '__main__':
     pass
-
-
 
