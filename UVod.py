@@ -151,27 +151,33 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
         # 如果是相對路徑，補全域名 (根據該站點特性，通常指向 web_url 或特定的靜態資源域)
         return self.web_url.rstrip('/') + '/' + url.lstrip('/')
 
-    def homeContent(self, filter):
-        data = self._post_api('/video/category', {})
-        classes = []
-        if data:
-            lst = data.get('list') or data.get('category') or []
-            for it in lst:
-                cid = it.get('id') or it.get('category_id') or it.get('value')
-                name = it.get('name') or it.get('label')
-                if cid and name:
-                    classes.append({'type_name': str(name), 'type_id': str(cid)})
-        
-        if not classes: classes = [{'type_name': '电影', 'type_id': '100'}, {'type_name': '电视剧', 'type_id': '101'}, {'type_name': '综艺', 'type_id': '102'}, {'type_name': '动漫', 'type_id': '103'}, {'type_name': '体育', 'type_id': '104'}, {'type_name': '纪录片', 'type_id': '105'}, {'type_name': '粤台专区', 'type_id': '106'}, {'type_name': '儿童', 'type_id': '107'}]
+def homeContent(self, filter):
+    # 1. 請求全部分類數據
+    data = self._post_api('/video/category', {})
+    classes = []
+    filters = {}
 
-        # 定義篩選器 (Key 必須對應 categoryContent 的 payload)
-        filters = {}
-        for cls in classes:
-            filters[cls['type_id']] = [
+    if data:
+        # 遍歷一級分類 (如：電影、電視劇)
+        for parent in data:
+            p_id = str(parent.get('id'))
+            p_name = parent.get('name')
+            classes.append({'type_name': p_name, 'type_id': p_id})
+
+            # 2. 提取該一級分類下的二級分類 (children)
+            sub_cats = [{"n": "全部", "v": ""}]
+            for child in parent.get('children', []):
+                sub_cats.append({
+                    "n": child.get('name'),
+                    "v": str(child.get('id'))
+                })
+
+            # 3. 將二級分類填入該節點的篩選器中
+            filters[p_id] = [
                 {
                     "key": "category_id",
-                    "name": "类型",
-                    "value": [{"n": "全部", "v": ""}] # 这里可根据实际 API 扩展子分类
+                    "name": "類型",
+                    "value": sub_cats
                 },
                 {
                     "key": "year",
