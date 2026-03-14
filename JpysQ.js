@@ -48,8 +48,10 @@ const normalizeVodList = list => (list || []).map(item => {
   // 模擬 XBPQ 的 <div>&&</div>+✨+score\">&&</div> 效果
   if (status && score) {
     res['vod_remarks'] = `${status} ✨ ${score}`;
+  } else if (score) {
+    res['vod_remarks'] = `✨ ${score}`;
   } else {
-    res['vod_remarks'] = status || ✨ || score || '';
+    res['vod_remarks'] = status;
   }
   // --- 結束處理 ---
 
