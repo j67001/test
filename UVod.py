@@ -154,13 +154,13 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
 
         # --- 核心修改：處理篩選參數 ---
         if extend:
-            for key in extend:
+            for k in extend:
                 # 如果 extend 裡的 key 在 payload 中存在，就覆蓋它
-                if key in payload:
-                    payload[key] = extend[key]
+                if k in payload:
+                    payload[k] = extend[k]
                 # 處理一些特殊的 key 名稱對應（如果有的話）
-                elif key == 'class': 
-                    payload['category_id'] = extend[key]
+                elif k == 'class': 
+                    payload['category_id'] = extend[k]
 
         # 呼叫 API
         data = self._post_api('/video/list', payload)
