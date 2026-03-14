@@ -41,7 +41,7 @@ const normalizeVodList = list => (list || []).map(item => {
   // 假設 API 欄位名為 releaseDate 或 videoYear，若無則從 item 取
   const rawDate = item.vodPubdate || "";
   if (rawDate && rawDate.length >= 7) {
-    // 提取前 7 碼，例如 "2026-02-22" -> "2026-02"
+    // 提取前 7 碼，例如 "2026-02-22" -> "2026-02" -> "2602"
     res['vod_year'] = rawDate.substring(2, 7).replace('-', '');
   }
   
