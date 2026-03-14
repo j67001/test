@@ -49,7 +49,7 @@ const normalizeVodList = list => (list || []).map(item => {
   if (status && score) {
     res['vod_remarks'] = `${status} ✨ ${score}`;
   } else {
-    res['vod_remarks'] = status || score || '';
+    res['vod_remarks'] = status || ✨ && score || '';
   }
   // --- 結束處理 ---
 
