@@ -42,9 +42,9 @@ const normalizeVodList = list => (list || []).map(item => {
   const rawDate = item.vodPubdate || "";
   if (rawDate && rawDate.length >= 7) {
     // 提取前 7 碼，例如 "2026-02-22" -> "2026-02"
-    res['vod_tag'] = rawDate.substring(0, 7); 
+    res['vod_year'] = rawDate.substring(0, 7); 
   } else {
-    res['vod_tag'] = rawDate;
+    res['vod_year'] = rawDate;
   }
   
 // --- 開始處理副標題 (vod_remarks) ---
