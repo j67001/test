@@ -37,23 +37,10 @@ const normalizeVodList = list => (list || []).map(item => {
     if (v != null) res[normalizeFieldName(k)] = v;
   }
 
-  // --- 開始處理副標題 (vod_remarks) ---
-  // 假設 API 回傳的原始欄位中：
-  // "remarks" 或 "vodRemarks" 通常代表更新狀態 (如：37全)
-  // "score" 或 "vodScore" 代表評分 (如：5.5)
-  
-  const status = item.remarks || item.vodRemarks || item.msg || ''; 
-  const score = item.score || item.vodDoubanScore || '';
-  
-  // 模擬 XBPQ 的 <div>&&</div>+✨+score\">&&</div> 效果
-  if (status && score) {
-    res['vod_remarks'] = `${status} ✨ ${score}`;
-  } else if (score) {
-    res['vod_remarks'] = `✨ ${score}`;
-  } else {
-    res['vod_remarks'] = status;
-  }
-  // --- 結束處理 ---
+  // 分開存儲，由 APP 介面決定顯示位置
+  res['vod_remarks'] = item.vodRemarks || ""; // 通常顯示在右下
+  res['vod_tag'] = item.vodDoubanScore ? `✨ ${item.vodDoubanScore}` : ""; // 部分殼支援顯示在左上/左下
+  res['vod_score'] = item.vodDoubanScore || ""; // 專門的評分欄位
 
   return res;
 });
