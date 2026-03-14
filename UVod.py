@@ -114,10 +114,10 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
 
         # 這裡定義篩選器內容
         filters = {
-            "100": [{"key": "years", "name": "年份", "value": [{"n": "全部", "v": ""}, {"n": "2024", "v": "2024"}, {"n": "2023", "v": "2023"}, {"n": "2022", "v": "2022"}]},
-                   {"key": "regions", "name": "地区", "value": [{"n": "全部", "v": ""}, {"n": "中国", "v": "中国"}, {"n": "香港", "v": "香港"}, {"n": "台湾", "v": "台湾"}, {"n": "美国", "v": "美国"}]},
-                   {"key": "sort_field", "name": "排序", "value": [{"n": "最新", "v": "create_time"}, {"n": "最热", "v": "v_views"}]}],
-            "101": [{"key": "years", "name": "年份", "value": [{"n": "全部", "v": ""}, {"n": "2024", "v": "2024"}, {"n": "2023", "v": "2023"}]}]
+            "100": [{"key": "year", "name": "年份", "value": [{"n": "全部", "v": ""}, {"n": "2024", "v": "2024"}, {"n": "2023", "v": "2023"}, {"n": "2022", "v": "2022"}]},
+                   {"key": "region", "name": "地区", "value": [{"n": "全部", "v": ""}, {"n": "中国", "v": "中国"}, {"n": "香港", "v": "香港"}, {"n": "台湾", "v": "台湾"}, {"n": "美国", "v": "美国"}]},
+                   {"key": "sort_field", "name": "排序", "value": [{"n": "最新", "v": "create_time"}, {"n": "最热", "v": "hits"}, {"n": "最热", "v": "hits"}]}],
+            "101": [{"key": "year", "name": "年份", "value": [{"n": "全部", "v": ""}, {"n": "2024", "v": "2024"}, {"n": "2023", "v": "2023"}]}]
             # 你可以依照網頁上的篩選項目繼續添加
         }
         return {'class': classes, 'filters': filters}
@@ -152,15 +152,9 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
             'sort_type': 'asc'
         }
 
-        # --- 核心修改：處理篩選參數 ---
-        if extend:
-            for k in extend:
-                # 如果 extend 裡的 key 在 payload 中存在，就覆蓋它
-                if k in payload:
-                    payload[k] = extend[k]
-                # 處理一些特殊的 key 名稱對應（如果有的話）
-                elif k == 'class': 
-                    payload['category_id'] = extend[k]
+        if isinstance(extend, dict):
+            for k in ['category_id', 'year', 'region', 'state', 'keyword', 'sort_field']:
+                if extend.get(k): payload[k] = extend[k]
 
         # 呼叫 API
         data = self._post_api('/video/list', payload)
