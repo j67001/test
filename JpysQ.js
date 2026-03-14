@@ -37,19 +37,16 @@ const normalizeVodList = list => (list || []).map(item => {
     if (v != null) res[normalizeFieldName(k)] = v;
   }
 
-    // --- 左上角標：上映年月 (2026-02) ---
+  // --- 1. 左上角標：上映年月 (2026-02) ---
   // 假設 API 欄位名為 releaseDate 或 videoYear，若無則從 item 取
   const rawDate = item.vodPubdate || "";
   if (rawDate && rawDate.length >= 7) {
     // 提取前 7 碼，例如 "2026-02-22" -> "2026-02"
-    tagValue = rawDate.substring(0, 7); 
+    res['vod_tag'] = rawDate.substring(0, 7); 
   } else {
-    tagValue = rawDate;
+    res['vod_tag'] = rawDate;
   }
-
-  // 設定左上角標籤
-  res['vod_tag'] = tagValue; 
-
+  
 // --- 開始處理副標題 (vod_remarks) ---
   // 假設 API 回傳的原始欄位中：
   // "remarks" 或 "vodRemarks" 通常代表更新狀態 (如：37全)
