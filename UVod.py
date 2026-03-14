@@ -151,52 +151,71 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
         # 如果是相對路徑，補全域名 (根據該站點特性，通常指向 web_url 或特定的靜態資源域)
         return self.web_url.rstrip('/') + '/' + url.lstrip('/')
 
-def homeContent(self, filter):
-    # 1. 請求全部分類數據
-    data = self._post_api('/video/category', {})
-    classes = []
-    filters = {}
+    def homeContent(self, filter):
+        # 1. 獲取全部分類數據
+        data = self._post_api('/video/category', {})
+        
+        # 兼容不同的返回格式
+        if isinstance(data, dict):
+            raw_list = data.get('list') or data.get('category') or []
+        elif isinstance(data, list):
+            raw_list = data
+        else:
+            raw_list = []
 
-    if data:
-        # 遍歷一級分類 (如：電影、電視劇)
-        for parent in data:
-            p_id = str(parent.get('id'))
-            p_name = parent.get('name')
-            classes.append({'type_name': p_name, 'type_id': p_id})
+        classes = []
+        filters = {}
 
-            # 2. 提取該一級分類下的二級分類 (children)
-            sub_cats = [{"n": "全部", "v": ""}]
-            for child in parent.get('children', []):
-                sub_cats.append({
-                    "n": child.get('name'),
-                    "v": str(child.get('id'))
-                })
+        # 2. 如果 API 有數據，動態解析
+        if raw_list:
+            for item in raw_list:
+                p_id = str(item.get('id') or item.get('category_id') or '')
+                p_name = str(item.get('name') or item.get('label') or '')
+                
+                if not p_id or not p_name:
+                    continue
+                
+                # 添加到一級分類導航
+                classes.append({'type_name': p_name, 'type_id': p_id})
+                
+                # 提取子分類 (例如: 喜劇、動作)
+                sub_cat_values = [{"n": "全部", "v": ""}]
+                children = item.get('children') or []
+                for child in children:
+                    c_name = child.get('name') or child.get('label')
+                    c_id = child.get('id') or child.get('value')
+                    if c_name and c_id:
+                        sub_cat_values.append({"n": str(c_name), "v": str(c_id)})
 
-            # 3. 將二級分類填入該節點的篩選器中
-            filters[p_id] = [
-                {
-                    "key": "category_id",
-                    "name": "類型",
-                    "value": sub_cats
-                },
-                {
-                    "key": "year",
-                    "name": "年份",
-                    "value": [{"n": "全部", "v": ""}] + [{"n": str(y), "v": str(y)} for y in range(2026, 2009, -1)]
-                },
-                {
-                    "key": "region",
-                    "name": "地区",
-                    "value": [{"n": "全部", "v": ""}, {"n": "大陆", "v": "大陆"}, {"n": "欧美", "v": "欧美"}, {"n": "香港", "v": "香港"}, {"n": "台湾", "v": "台湾"}, {"n": "日本", "v": "日本"}, {"n": "韩国", "v": "韩国"}, {"n": "新马泰", "v": "新马泰"}, {"n": "其他", "v": "其他"}]
-                },
-                {
-                    "key": "sort_field",
-                    "name": "排序",
-                    "value": [{"n": "最新", "v": "create_time"}, {"n": "最热", "v": "hits"}, {"n": "评分", "v": "score"}]
-                }
-            ]
+                # 3. 定義該分類專屬的篩選器
+                filters[p_id] = [
+                    {
+                        "key": "category_id",
+                        "name": "类型",
+                        "value": sub_cat_values
+                    },
+                    {
+                        "key": "year",
+                        "name": "年份",
+                        "value": [{"n": "全部", "v": ""}] + [{"n": str(y), "v": str(y)} for y in range(2026, 2009, -1)]
+                    },
+                    {
+                        "key": "region",
+                        "name": "地区",
+                        "value": [{"n": "全部", "v": ""}, {"n": "大陆", "v": "大陆"}, {"n": "欧美", "v": "欧美"}, {"n": "香港", "v": "香港"}, {"n": "台湾", "v": "台湾"}, {"n": "日本", "v": "日本"}, {"n": "韩国", "v": "韩国"}, {"n": "新马泰", "v": "新马泰"}, {"n": "其他", "v": "其他"}]
+                    },
+                    {
+                        "key": "sort_field",
+                        "name": "排序",
+                        "value": [{"n": "最新", "v": "create_time"}, {"n": "最热", "v": "hits"}, {"n": "评分", "v": "score"}]
+                    }
+                ]
+
+        # 4. 兜底邏輯：如果 API 沒回傳，使用硬編碼的基礎分類
+        if not classes: classes = [{'type_name': '电影', 'type_id': '100'}, {'type_name': '电视剧', 'type_id': '101'}, {'type_name': '综艺', 'type_id': '102'}, {'type_name': '动漫', 'type_id': '103'}, {'type_name': '体育', 'type_id': '104'}, {'type_name': '纪录片', 'type_id': '105'}, {'type_name': '粤台专区', 'type_id': '106'}, {'type_name': '儿童', 'type_id': '107'}]
             
         return {'class': classes, 'filters': filters}
+
 
     def homeVideoContent(self):
         data = self._post_api('/video/latest', {'parent_category_id': 101})
