@@ -80,34 +80,47 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
         ts = str(int(time.time() * 1000))
         token = self.token or ''
         
-        # 1. 關鍵：過濾掉空值，其餘全部參與簽名
+        # 過濾無效參數
         filtered = {k: v for k, v in payload.items() if v not in (0, '0', '', False, None)}
         
         if path == '/video/list':
-            # 2. 嚴格按照鍵名升序排列 (category_id 會排在 parent_category_id 前面)
             query_parts = []
             for k in sorted(filtered.keys()):
                 v = filtered[k]
-                # 中文需要編碼，數字轉字串
+                # 關鍵修復：除了 keyword，region 等中文參數通常也要進行編碼才能通過簽名校驗
                 if k in ['keyword', 'region']:
                     v = quote(str(v), safe='').lower()
                 query_parts.append(f"{k}={v}")
-            
             query_str = "&".join(query_parts)
-            # UVOD 的列表接口簽名格式通常是: -參數串-時間戳
             text = f"-{query_str}-{ts}"
+            
+        elif path == '/video/latest':
+            parent_id = filtered.get('parent_category_id', 101)
+            text = f"-parent_category_id={parent_id}-{ts}"
+            
+        elif path == '/video/info':
+            text = f"-id={filtered.get('id', '')}-{ts}"
+            
+        elif path == '/video/source':
+            q = filtered.get('quality', '')
+            fid = filtered.get('video_fragment_id', '')
+            vid = filtered.get('video_id', '')
+            text = f"-quality={q}&video_fragment_id={fid}&video_id={vid}-{ts}"
+            
         else:
-            # 分類接口或其他
-            text = f"-{ts}"
+            query = urlencode(sorted(filtered.items())).lower()
+            text = f"{token}-{query}-{ts}"
 
         sig = hashlib.md5(text.encode('utf-8')).hexdigest()
         
         return {
+            'Content-Type': 'application/json',
             'X-TOKEN': token,
             'X-TIMESTAMP': ts,
             'X-SIGNATURE': sig,
-            'Content-Type': 'application/json',
-            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15'
+            'Origin': self.web_url,
+            'Referer': self.web_url + '/',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36'
         }
 
     def _post_api(self, path: str, payload: dict):
