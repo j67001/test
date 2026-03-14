@@ -148,7 +148,7 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
             'paid': None,
             'page': page,
             'pagesize': 42,
-            'sort_field': 'create_time', # 預設排序
+            'sort_field': '', # 預設排序
             'sort_type': 'asc'
         }
 
