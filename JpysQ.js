@@ -49,7 +49,6 @@ const normalizeVodList = list => (list || []).map(item => {
 
   // 設定左上角標籤
   res['vod_tag'] = tagValue; 
-  res['type_name'] = tagValue; // 許多 JS 殼會抓 type_name 放左上角 
 
 // --- 開始處理副標題 (vod_remarks) ---
   // 假設 API 回傳的原始欄位中：
