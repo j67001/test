@@ -171,7 +171,11 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
                 {
                     "key": "category_id",
                     "name": "类型",
-                    "value": [{"n": "全部", "v": ""}, {"n": "喜劇", "v": "7"}] # 这里可根据实际 API 扩展子分类
+                    "value": [{"n": "全部", "v": ""},
+                    {"n": "喜剧", "v": "7"},
+                    {"n": "动作", "v": "8"},
+                    {"n": "爱情", "v": "9"},
+                    {"n": "科幻", "v": "10"}] # 这里可根据实际 API 扩展子分类
                 },
                 {
                     "key": "year",
