@@ -194,16 +194,13 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
 
     def homeVideoContent(self):
         data = self._post_api('/video/latest', {'parent_category_id': 101})
+        if isinstance(data, dict): lst = data.get('video_latest_list') or data.get('list') or data.get('rows') or data.get('items') or []
+        elif isinstance(data, list): lst = data
+        else: lst = []
         videos = []
-        if data:
-            lst = data.get('video_latest_list') or []
-            for k in lst:
-                videos.append({
-                    'vod_id': str(k.get('id')),
-                    'vod_name': k.get('title') or '',
-                    'vod_pic': self._fix_url(k.get('poster') or k.get('cover')),
-                    'vod_remarks': k.get('score') or ''
-                })
+        for k in lst:
+            vid = k.get('id') or k.get('video_id') or k.get('videoId')
+            if vid: videos.append({'vod_id': str(vid), 'vod_name': k.get('title') or k.get('name') or '', 'vod_pic': k.get('poster') or k.get('cover') or k.get('pic') or '', 'vod_remarks': k.get('score') or k.get('remarks') or ''})
         return {'list': videos}
 
     def categoryContent(self, tid, pg, filter, extend):
@@ -235,50 +232,50 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
         return {'list': videos, 'page': page, 'pagecount': (total // 42) + 1, 'limit': 42, 'total': total}
 
     def detailContent(self, ids):
-        vid = ids[0]
-        data = self._post_api('/video/info', {'id': int(vid) if str(vid).isdigit() else vid})
-        if not data: return {'list': []}
-        
-        v = data.get('video', {})
-        play_urls = []
-        for f in data.get('video_fragment_list', []):
-            name = f.get('symbol') or f"P{f.get('rank')}"
-            play_urls.append(f"{name}${vid}|{f.get('id')}|{max(f.get('qualities', [4]))}")
-        
-        vod = {
-            'vod_id': str(vid),
-            'vod_name': v.get('title') or '',
-            'vod_pic': self._fix_url(v.get('poster') or v.get('cover')),
-            'vod_year': v.get('year') or '',
-            'vod_content': v.get('description') or '',
-            'vod_play_from': 'UVOD',
-            'vod_play_url': '#'.join(play_urls)
-        }
+        vid = ids[0]; data = self._post_api('/video/info', {'id': vid}) or {}; video_info = data.get('video', {}) if isinstance(data, dict) else {}; fragments = data.get('video_fragment_list', []) if isinstance(data, dict) else []; play_urls = []
+        if fragments:
+            for fragment in fragments:
+                name = fragment.get('symbol', '播放'); fragment_id = fragment.get('id', ''); qualities = fragment.get('qualities', [])
+                if fragment_id and qualities: 
+                    
+                    max_quality = max(qualities) if qualities else 4
+                    play_urls.append(f"{name}${vid}|{fragment_id}|[{max_quality}]")
+        if not play_urls: play_urls.append(f"播放${vid}")
+        vod = {'vod_id': str(vid), 'vod_name': video_info.get('title') or video_info.get('name') or '', 'vod_pic': video_info.get('poster') or video_info.get('cover') or video_info.get('pic') or '', 'vod_year': video_info.get('year') or '', 'vod_remarks': video_info.get('duration') or '', 'vod_content': video_info.get('description') or video_info.get('desc') or '', 'vod_play_from': '优汁🍑源', 'vod_play_url': '#'.join(play_urls) + '$$$'}
         return {'list': [vod]}
 
     def searchContent(self, key, quick, pg="1"):
-        payload = {'keyword': key, 'page': int(pg), 'pagesize': 42, 'sort_type': 'asc', 'need_fragment': 1}
+        page = int(pg) if str(pg).isdigit() else 1
+        payload = {'parent_category_id': None, 'category_id': None, 'language': None, 'year': None, 'region': None, 'state': None, 'keyword': key, 'paid': None, 'page': page, 'pagesize': 42, 'sort_field': '', 'sort_type': 'asc', 'need_fragment': 1}
         data = self._post_api('/video/list', payload)
+        if isinstance(data, dict): lst = data.get('video_list') or data.get('list') or data.get('rows') or data.get('items') or []
+        elif isinstance(data, list): lst = data
+        else: lst = []
         videos = []
-        if data:
-            for k in (data.get('video_list') or []):
-                videos.append({
-                    'vod_id': str(k.get('id')),
-                    'vod_name': k.get('title') or '',
-                    'vod_pic': self._fix_url(k.get('poster') or k.get('cover')),
-                    'vod_remarks': k.get('score') or ''
-                })
+        for k in lst:
+            vid = k.get('id') or k.get('video_id') or k.get('videoId')
+            if vid: videos.append({'vod_id': str(vid), 'vod_name': k.get('title') or k.get('name') or '', 'vod_pic': k.get('poster') or k.get('cover') or k.get('pic') or '', 'vod_remarks': k.get('score') or ''})
         return {'list': videos}
 
+    def _extract_first_media(self, obj):
+        if not obj: return None
+        if isinstance(obj, str): s = obj.strip(); return s if self.isVideoFormat(s) else None
+        if isinstance(obj, (dict, list)):
+            for v in (obj.values() if isinstance(obj, dict) else obj):
+                r = self._extract_first_media(v)
+                if r: return r
+        return None
+
     def playerContent(self, flag, id, vipFlags):
-        parts = id.split('|')
-        payload = {
-            'video_id': int(parts[0]) if parts[0].isdigit() else parts[0],
-            'video_fragment_id': int(parts[1]) if len(parts)>1 and parts[1].isdigit() else 1,
-            'quality': int(parts[2]) if len(parts)>2 and parts[2].isdigit() else 4
-        }
-        data = self._post_api('/video/source', payload)
-        url = data.get('video', {}).get('url') if data else ""
-        return {'parse': 0, 'url': url, 'header': {'User-Agent': 'Mozilla/5.0', 'Referer': self.web_url}}
+        parts = id.split('|'); video_id = parts[0]
+        if len(parts) >= 3:
+            fragment_id = parts[1]; qualities_str = parts[2].strip('[]').replace(' ', ''); qualities = [q.strip() for q in qualities_str.split(',') if q.strip()]; quality = qualities[0] if qualities else '4'
+            payload = {'video_id': video_id, 'video_fragment_id': int(fragment_id) if str(fragment_id).isdigit() else fragment_id, 'quality': int(quality) if str(quality).isdigit() else quality, 'seek': None}
+        else: payload = {'video_id': video_id, 'video_fragment_id': 1, 'quality': 4, 'seek': None}
+        data = self._post_api('/video/source', payload) or {}
+        url = (data.get('video', {}).get('url', '') or data.get('url') or data.get('playUrl') or data.get('play_url') or self._extract_first_media(data) or '')
+        if not url: return {'parse': 1, 'url': id}
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', 'Referer': self.web_url + '/', 'Origin': self.web_url}
+        return {'parse': 0, 'url': url, 'header': headers}
 
     def localProxy(self, param): return None
