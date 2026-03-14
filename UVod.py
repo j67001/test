@@ -76,38 +76,28 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
             return pt.decode('utf-8', 'ignore')
         except Exception: return enc_text
 
-    def _build_headers(self, path: str, payload: dict):
+      def _build_headers(self, path: str, payload: dict):
         ts = str(int(time.time() * 1000))
         token = self.token or ''
         
-        # 過濾無效參數
+        # 關鍵：過濾掉空值，並確保所有參與請求的參數都進入簽名
         filtered = {k: v for k, v in payload.items() if v not in (0, '0', '', False, None)}
         
         if path == '/video/list':
+            # 排序後拼接參數串
             query_parts = []
             for k in sorted(filtered.keys()):
                 v = filtered[k]
-                # 關鍵修復：除了 keyword，region 等中文參數通常也要進行編碼才能通過簽名校驗
+                # 中文參數在計算簽名時必須先 URL 編碼
                 if k in ['keyword', 'region']:
                     v = quote(str(v), safe='').lower()
                 query_parts.append(f"{k}={v}")
             query_str = "&".join(query_parts)
             text = f"-{query_str}-{ts}"
-            
-        elif path == '/video/latest':
-            parent_id = filtered.get('parent_category_id', 101)
-            text = f"-parent_category_id={parent_id}-{ts}"
-            
         elif path == '/video/info':
             text = f"-id={filtered.get('id', '')}-{ts}"
-            
-        elif path == '/video/source':
-            q = filtered.get('quality', '')
-            fid = filtered.get('video_fragment_id', '')
-            vid = filtered.get('video_id', '')
-            text = f"-quality={q}&video_fragment_id={fid}&video_id={vid}-{ts}"
-            
         else:
+            # 通用邏輯
             query = urlencode(sorted(filtered.items())).lower()
             text = f"{token}-{query}-{ts}"
 
@@ -118,8 +108,6 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
             'X-TOKEN': token,
             'X-TIMESTAMP': ts,
             'X-SIGNATURE': sig,
-            'Origin': self.web_url,
-            'Referer': self.web_url + '/',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36'
         }
 
@@ -144,20 +132,11 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
         except:
             return None
 
-    def _fix_url(self, url):
-        """修復圖片 URL 無法顯示的問題"""
-        if not url: return ""
-        if url.startswith('http'): return url
-        # 如果是相對路徑，補全域名 (根據該站點特性，通常指向 web_url 或特定的靜態資源域)
-        return self.web_url.rstrip('/') + '/' + url.lstrip('/')
-
     def homeContent(self, filter):
         data = self._post_api('/video/category', {})
         
-        # 增加調試邏輯：確保我們能抓到數據列表
         raw_list = []
         if isinstance(data, dict):
-            # 嘗試所有可能的 Key
             raw_list = data.get('list') or data.get('category') or data.get('data') or []
         elif isinstance(data, list):
             raw_list = data
@@ -165,47 +144,38 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
         classes = []
         filters = {}
 
-        # 基礎分類清單（當 API 失敗時使用）
+        # 基礎分類清單
         default_classes = [
             {'type_name': '电影', 'type_id': '100'}, {'type_name': '电视剧', 'type_id': '101'},
             {'type_name': '综艺', 'type_id': '102'}, {'type_name': '动漫', 'type_id': '103'}
         ]
 
-        if not raw_list:
-            classes = default_classes
-        else:
-            for item in raw_list:
-                p_id = str(item.get('id') or item.get('category_id') or '')
-                p_name = str(item.get('name') or item.get('label') or '')
-                if not p_id: continue
-                
-                classes.append({'type_name': p_name, 'type_id': p_id})
-                
-                # 提取子分類
-                sub_cat_values = [{"n": "全部", "v": ""}]
-                # 注意：有些 API 的子分類 Key 是 sub_category 或 children
-                children = item.get('children') or item.get('sub_category') or []
-                for child in children:
-                    c_name = child.get('name') or child.get('label')
-                    c_id = child.get('id') or child.get('value')
-                    if c_name and c_id:
-                        sub_cat_values.append({"n": str(c_name), "v": str(c_id)})
+        # 處理分類數據
+        active_list = raw_list if raw_list else default_classes
+        
+        for item in active_list:
+            p_id = str(item.get('id') or item.get('category_id') or item.get('type_id') or '')
+            p_name = str(item.get('name') or item.get('type_name') or '')
+            if not p_id: continue
+            
+            classes.append({'type_name': p_name, 'type_id': p_id})
+            
+            # 提取子分類邏輯
+            sub_cat_values = [{"n": "全部", "v": ""}]
+            children = item.get('children') or item.get('sub_category') or []
+            for child in children:
+                c_name = child.get('name') or child.get('label')
+                c_id = child.get('id') or child.get('value')
+                if c_name and c_id:
+                    sub_cat_values.append({"n": str(c_name), "v": str(c_id)})
 
-                # 必須確保每個 tid 都有對應的 filters 內容
-                filters[p_id] = [
-                    {"key": "category_id", "name": "类型", "value": sub_cat_values},
-                    {"key": "year", "name": "年份", "value": [{"n": "全部", "v": ""}] + [{"n": str(y), "v": str(y)} for y in range(2026, 2010, -1)]},
-                    {"key": "region", "name": "地区", "value": [{"n": "全部", "v": ""}, {"n": "大陆", "v": "大陆"}, {"n": "欧美", "v": "欧美"}, {"n": "香港", "v": "香港"}, {"n": "台湾", "v": "台湾"}, {"n": "日本", "v": "日本"}, {"n": "韩国", "v": "韩国"}]},
-                    {"key": "sort_field", "name": "排序", "value": [{"n": "最新", "v": "create_time"}, {"n": "最热", "v": "hits"}]}
-                ]
-
-        # 如果 API 失敗，也要為默認分類手動補上 filters，否則無法點擊篩選
-        if not filters:
-            for c in classes:
-                filters[c['type_id']] = [
-                    {"key": "year", "name": "年份", "value": [{"n": "全部", "v": ""}, {"n": "2026", "v": "2026"}, {"n": "2025", "v": "2025"}]},
-                    {"key": "region", "name": "地区", "value": [{"n": "全部", "v": ""}, {"n": "大陆", "v": "大陆"}]}
-                ]
+            # 賦予篩選內容 (必須確保 key 正確)
+            filters[p_id] = [
+                {"key": "category_id", "name": "类型", "value": sub_cat_values},
+                {"key": "year", "name": "年份", "value": [{"n": "全部", "v": ""}] + [{"n": str(y), "v": str(y)} for y in range(2026, 2010, -1)]},
+                {"key": "region", "name": "地区", "value": [{"n": "全部", "v": ""}, {"n": "大陆", "v": "大陆"}, {"n": "欧美", "v": "欧美"}, {"n": "香港", "v": "香港"}, {"n": "台湾", "v": "台湾"}, {"n": "日本", "v": "日本"}, {"n": "韩国", "v": "韩国"}]},
+                {"key": "sort_field", "name": "排序", "value": [{"n": "最新", "v": "create_time"}, {"n": "最热", "v": "hits"}]}
+            ]
             
         return {'class': classes, 'filters': filters}
 
@@ -231,11 +201,13 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
             'need_fragment': 1 # 某些版本 API 需要這個才能正確返回
         }
 
-        # 邏輯：如果有子類 category_id，則使用子類；否則使用大類 tid
+        # 邏輯：優先使用篩選器選中的子類別 ID
         if extend and extend.get('category_id'):
             payload['category_id'] = extend['category_id']
         else:
-            payload['parent_category_id'] = tid
+            # TVBox 的 tid 通常是字符串，API 可能需要整數
+            payload['parent_category_id'] = int(tid) if str(tid).isdigit() else tid
+
 
         # 2. 注入篩選參數 (保持與原文一致的 key)
         if isinstance(extend, dict):
