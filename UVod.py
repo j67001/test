@@ -77,95 +77,188 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
         except Exception: return enc_text
 
     def _build_headers(self, path: str, payload: dict):
-        ts = str(int(time.time() * 1000)); token = self.token or ''
-        if path == '/video/latest':
-            parent_id = payload.get('parent_category_id', 101); text = f"-parent_category_id={parent_id}-{ts}"
-        elif path == '/video/list':
-            keyword = payload.get('keyword')
-            if keyword: keyword = quote(str(keyword), safe='').lower(); text = f"-keyword={keyword}&need_fragment=1&page=1&pagesize=42&sort_type=asc-{ts}"
-            else: page = payload.get('page', 1); pagesize = payload.get('pagesize', 42); parent_id = payload.get('parent_category_id', ''); text = f"-page={page}&pagesize={pagesize}&parent_category_id={parent_id}&sort_type=asc-{ts}"
-        elif path == '/video/info': text = f"-id={payload.get('id', '')}-{ts}"
-        elif path == '/video/source': quality = payload.get('quality', ''); fragment_id = payload.get('video_fragment_id', ''); video_id = payload.get('video_id', ''); text = f"-quality={quality}&video_fragment_id={fragment_id}&video_id={video_id}-{ts}"
-        else: filtered = {k: v for k, v in (payload or {}).items() if v not in (0, '0', '', False, None)}; query = urlencode(sorted(filtered.items()), doseq=True).lower(); text = f"{token}-{query}-{ts}"
+        ts = str(int(time.time() * 1000))
+        token = self.token or ''
+        
+        # 1. 過濾無效參數並過濾掉簽名中不應出現的鍵（如有）
+        filtered = {k: v for k, v in payload.items() if v not in (0, '0', '', False, None)}
+        
+        # 2. 針對不同路徑生成簽名文本 (關鍵在於參數排序與拼接)
+        if path == '/video/list':
+            # 必須按照鍵名升序排列，並拼接成 query string
+            # 這裡需要注意：keyword 通常需要經過 urlencode 處理
+            query_parts = []
+            for k in sorted(filtered.keys()):
+                v = filtered[k]
+                if k == 'keyword':
+                    v = quote(str(v), safe='').lower()
+                query_parts.append(f"{k}={v}")
+            query_str = "&".join(query_parts)
+            text = f"-{query_str}-{ts}"
+            
+        elif path == '/video/latest':
+            parent_id = filtered.get('parent_category_id', 101)
+            text = f"-parent_category_id={parent_id}-{ts}"
+            
+        elif path == '/video/info':
+            text = f"-id={filtered.get('id', '')}-{ts}"
+            
+        elif path == '/video/source':
+            # 按照 quality, video_fragment_id, video_id 順序拼接（根據常見逆向結果）
+            q = filtered.get('quality', '')
+            fid = filtered.get('video_fragment_id', '')
+            vid = filtered.get('video_id', '')
+            text = f"-quality={q}&video_fragment_id={fid}&video_id={vid}-{ts}"
+            
+        else:
+            # 通用兜底邏輯
+            query = urlencode(sorted(filtered.items())).lower()
+            text = f"{token}-{query}-{ts}"
+
         sig = hashlib.md5(text.encode('utf-8')).hexdigest()
-        return {'Content-Type': 'application/json', 'X-TOKEN': token, 'X-TIMESTAMP': ts, 'X-SIGNATURE': sig, 'Origin': self.web_url, 'Referer': self.web_url + '/', 'Accept': '*/*', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36'}
+        
+        return {
+            'Content-Type': 'application/json',
+            'X-TOKEN': token,
+            'X-TIMESTAMP': ts,
+            'X-SIGNATURE': sig,
+            'Origin': self.web_url,
+            'Referer': self.web_url + '/',
+            'Accept': '*/*',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36'
+        }
 
     def _post_api(self, path: str, payload: dict):
         url = self.base_url.rstrip('/') + path
         try:
-            body = self._encrypt(json.dumps(payload, ensure_ascii=False)); headers = self._build_headers(path, payload)
+            # 確保 Payload 中的數值類型正確（有些接口 ID 需為 int）
+            headers = self._build_headers(path, payload)
+            body = self._encrypt(json.dumps(payload, ensure_ascii=False))
+            
             rsp = self.post(url, data=body, headers=headers, timeout=15)
-            if rsp.status_code != 200 or not rsp.text: return None
-            txt = rsp.text.strip(); obj = None
-            try: dec = self._decrypt(txt); obj = json.loads(dec)
-            except: 
-                try: obj = json.loads(txt)
-                except: pass
-            if isinstance(obj, dict) and obj.get('error') == 0: return obj.get('data')
+            if rsp.status_code != 200 or not rsp.text: 
+                return None
+                
+            txt = rsp.text.strip()
+            # 嘗試解密，若失敗則嘗試直接解析 JSON
+            try:
+                dec = self._decrypt(txt)
+                obj = json.loads(dec)
+            except:
+                obj = json.loads(txt)
+                
+            if isinstance(obj, dict) and obj.get('error') == 0:
+                return obj.get('data')
             return None
-        except Exception: return None
+        except Exception as e:
+            return None
 
     def homeContent(self, filter):
-        data = self._post_api('/video/category', {}); lst = (data.get('list') or data.get('category') or []) if isinstance(data, dict) else (data or []); classes = []
+        # 獲取分類
+        data = self._post_api('/video/category', {})
+        lst = []
+        if isinstance(data, dict):
+            lst = data.get('list') or data.get('category') or []
+        elif isinstance(data, list):
+            lst = data
+            
+        classes = []
         for it in lst:
-            cid = it.get('id') or it.get('category_id') or it.get('value'); name = it.get('name') or it.get('label') or it.get('title')
-            if cid and name: classes.append({'type_name': str(name), 'type_id': str(cid)})
+            cid = it.get('id') or it.get('category_id') or it.get('value')
+            name = it.get('name') or it.get('label') or it.get('title')
+            if cid and name:
+                classes.append({'type_name': str(name), 'type_id': str(cid)})
+        
         if not classes: classes = [{'type_name': '电影', 'type_id': '100'}, {'type_name': '电视剧', 'type_id': '101'}, {'type_name': '综艺', 'type_id': '102'}, {'type_name': '动漫', 'type_id': '103'}, {'type_name': '体育', 'type_id': '104'}, {'type_name': '纪录片', 'type_id': '105'}, {'type_name': '粤台专区', 'type_id': '106'}, {'type_name': '儿童', 'type_id': '107'}]
 
-        # 這裡定義篩選器內容
-        filters = {
-            "100": [{"key": "year", "name": "年份", "value": [{"n": "全部", "v": ""}, {"n": "2024", "v": "2024"}, {"n": "2023", "v": "2023"}, {"n": "2022", "v": "2022"}]},
-                   {"key": "region", "name": "地区", "value": [{"n": "全部", "v": ""}, {"n": "中国", "v": "中国"}, {"n": "香港", "v": "香港"}, {"n": "台湾", "v": "台湾"}, {"n": "美国", "v": "美国"}]},
-                   {"key": "sort_field", "name": "排序", "value": [{"n": "最新", "v": "create_time"}, {"n": "最热", "v": "hits"}, {"n": "评分", "v": "score"}]}],
-            "101": [{"key": "year", "name": "年份", "value": [{"n": "全部", "v": ""}, {"n": "2024", "v": "2024"}, {"n": "2023", "v": "2023"}]}]
-            # 你可以依照網頁上的篩選項目繼續添加
-        }
+        # 定義篩選器 (Key 必須對應 categoryContent 的 payload)
+        filters = {}
+        for cls in classes:
+            filters[cls['type_id']] = [
+                {
+                    "key": "category_id",
+                    "name": "類型",
+                    "value": [{"n": "全部", "v": ""}] # 這裡可根據實際 API 擴展子分類
+                },
+                {
+                    "key": "year",
+                    "name": "年份",
+                    "value": [{"n": "全部", "v": ""}] + [{"n": str(y), "v": str(y)} for y in range(2025, 2018, -1)]
+                },
+                {
+                    "key": "region",
+                    "name": "地區",
+                    "value": [{"n": "全部", "v": ""}, {"n": "中國", "v": "中國"}, {"n": "香港", "v": "香港"}, {"n": "台灣", "v": "台灣"}, {"n": "美國", "v": "美國"}, {"n": "韓國", "v": "韓國"}, {"n": "日本", "v": "日本"}]
+                },
+                {
+                    "key": "sort_field",
+                    "name": "排序",
+                    "value": [{"n": "最新", "v": "create_time"}, {"n": "最熱", "v": "hits"}, {"n": "評分", "v": "score"}]
+                }
+            ]
+            
         return {'class': classes, 'filters': filters}
-
 
     def homeVideoContent(self):
         data = self._post_api('/video/latest', {'parent_category_id': 101})
-        if isinstance(data, dict): lst = data.get('video_latest_list') or data.get('list') or data.get('rows') or data.get('items') or []
-        elif isinstance(data, list): lst = data
-        else: lst = []
         videos = []
-        for k in lst:
-            vid = k.get('id') or k.get('video_id') or k.get('videoId')
-            if vid: videos.append({'vod_id': str(vid), 'vod_name': k.get('title') or k.get('name') or '', 'vod_pic': k.get('poster') or k.get('cover') or k.get('pic') or '', 'vod_remarks': k.get('score') or k.get('remarks') or ''})
+        if data:
+            lst = data.get('video_latest_list') or data.get('list') or []
+            for k in lst:
+                vid = k.get('id') or k.get('video_id')
+                if vid:
+                    videos.append({
+                        'vod_id': str(vid),
+                        'vod_name': k.get('title') or k.get('name') or '',
+                        'vod_pic': k.get('poster') or k.get('cover') or '',
+                        'vod_remarks': k.get('score') or k.get('remarks') or ''
+                    })
         return {'list': videos}
 
     def categoryContent(self, tid, pg, filter, extend):
-        page = int(pg) if str(pg).isdigit() else 1
-        # 初始 payload
+        page = int(pg)
+        # 構建基礎 Payload
         payload = {
-            'parent_category_id': str(tid),
-            'category_id': None,
-            'language': None,
-            'year': None,
-            'region': None,
-            'state': None,
-            'keyword': '',
-            'paid': None,
+            'parent_category_id': int(tid) if str(tid).isdigit() else tid,
             'page': page,
             'pagesize': 42,
-            'sort_field': '', # 預設排序
-            'sort_type': 'asc'
+            'sort_type': 'asc',
+            'need_fragment': 1
         }
+        
+        # 注入篩選參數 (extend 來自 UI 選擇)
+        if extend:
+            for k in ['category_id', 'year', 'region', 'sort_field']:
+                if extend.get(k):
+                    # 針對特定 Key 做類型轉換
+                    if k == 'category_id' and str(extend[k]).isdigit():
+                        payload[k] = int(extend[k])
+                    else:
+                        payload[k] = extend[k]
 
-        if isinstance(extend, dict):
-            for k in ['category_id', 'year', 'region', 'state', 'keyword', 'sort_field']:
-                if extend.get(k): payload[k] = extend[k]
-
-        # 呼叫 API
         data = self._post_api('/video/list', payload)
-        if isinstance(data, dict): lst = data.get('video_list') or data.get('list') or data.get('rows') or data.get('items') or []; total = data.get('total', 999999)
-        elif isinstance(data, list): lst = data; total = 999999
-        else: lst, total = [], 0
         videos = []
-        for k in lst:
-            vid = k.get('id') or k.get('video_id') or k.get('videoId')
-            if vid: videos.append({'vod_id': str(vid), 'vod_name': k.get('title') or k.get('name') or '', 'vod_pic': k.get('poster') or k.get('cover') or k.get('pic') or '', 'vod_remarks': k.get('score') or ''})
-        return {'list': videos, 'page': page, 'pagecount': 9999, 'limit': 24, 'total': total}
+        total = 0
+        if data:
+            lst = data.get('video_list') or data.get('list') or []
+            total = data.get('total', 0)
+            for k in lst:
+                vid = k.get('id') or k.get('video_id')
+                if vid:
+                    videos.append({
+                        'vod_id': str(vid),
+                        'vod_name': k.get('title') or '',
+                        'vod_pic': k.get('poster') or k.get('cover') or '',
+                        'vod_remarks': k.get('score') or ''
+                    })
+        
+        return {
+            'list': videos, 
+            'page': page, 
+            'pagecount': (total // 42) + 1, 
+            'limit': 42, 
+            'total': total
+        }
 
     def detailContent(self, ids):
         vid = ids[0]; data = self._post_api('/video/info', {'id': vid}) or {}; video_info = data.get('video', {}) if isinstance(data, dict) else {}; fragments = data.get('video_fragment_list', []) if isinstance(data, dict) else []; play_urls = []
