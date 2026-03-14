@@ -204,31 +204,47 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
         return {'list': videos}
 
     def categoryContent(self, tid, pg, filter, extend):
-        page = int(pg)
+        page = int(pg) if str(pg).isdigit() else 1
+        # 1. 保持基礎參數，確保包含 need_fragment 等關鍵字
         payload = {
-            'parent_category_id': int(tid) if str(tid).isdigit() else tid,
-            'page': page,
-            'pagesize': 42,
+            'parent_category_id': str(tid), 
+            'page': page, 
+            'pagesize': 42, 
             'sort_type': 'asc',
-            'need_fragment': 1
+            'need_fragment': 1 # 某些版本 API 需要這個才能正確返回
         }
-        if extend:
-            for k in ['year', 'region', 'sort_field']:
-                if extend.get(k): payload[k] = extend[k]
+        
+        # 2. 注入篩選參數 (保持與原文一致的 key)
+        if isinstance(extend, dict):
+            for k in ['category_id', 'year', 'region', 'state', 'sort_field']:
+                if extend.get(k): 
+                    payload[k] = extend[k]
 
         data = self._post_api('/video/list', payload)
+        
+        # 3. 兼容多種數據格式
+        if isinstance(data, dict):
+            lst = data.get('video_list') or data.get('list') or []
+            total = data.get('total', 9999)
+        elif isinstance(data, list):
+            lst = data
+            total = 9999
+        else:
+            lst, total = [], 0
+            
         videos = []
-        total = 0
-        if data:
-            lst = data.get('video_list') or []
-            total = data.get('total', 0)
-            for k in lst:
+        for k in lst:
+            vid = k.get('id') or k.get('video_id') or k.get('videoId')
+            if vid:
+                # 4. 直接使用原文獲取圖片的邏輯 (不使用容易出錯的 _fix_url)
+                # 如果圖片還是不出來，請確保 _build_headers 裡的簽名包含 region
                 videos.append({
-                    'vod_id': str(k.get('id')),
-                    'vod_name': k.get('title') or '',
-                    'vod_pic': self._fix_url(k.get('poster') or k.get('cover')),
+                    'vod_id': str(vid), 
+                    'vod_name': k.get('title') or k.get('name') or '', 
+                    'vod_pic': k.get('poster') or k.get('cover') or k.get('pic') or '', 
                     'vod_remarks': k.get('score') or ''
                 })
+                
         return {'list': videos, 'page': page, 'pagecount': (total // 42) + 1, 'limit': 42, 'total': total}
 
     def detailContent(self, ids):
