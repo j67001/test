@@ -1,5 +1,5 @@
-import { _ } from './lib/cat.js'; // 假設環境已加載工具類
-
+import 'assets://js/lib/crypto-js.js';
+import 'assets://js/lib/cat.js';
 let HOST = 'https://api-h5.uvod.tv';
 let WEB_HOST = 'https://m.uvod.tv';
 let token = '';
