@@ -226,9 +226,18 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
             vid = k.get('id') or k.get('video_id') or k.get('videoId')
             if vid: 
                 state = k.get('state') or k.get('remarks') or ''
-                score = str(k.get('score') or k.get('fraction') or '')
-                # 如果有評分就顯示評分，沒評分就只顯示狀態
-                remarks = f"{state} {score}".strip() if score else state
+                # 2. 處理評分 (確保顯示為 4.0 格式)
+                raw_score = k.get('score') or k.get('fraction') or 0
+                try:
+                    # 轉化為浮點數並格式化為一位小數
+                    score = "{:.1f}".format(float(raw_score))
+                except (ValueError, TypeError):
+                    score = ""
+                                # 3. 組合副標題：已完結 ✨ 4.0
+                if state and score and float(raw_score) > 0:
+                    remarks = f"{state} ✨ {score}"
+                else:
+                    remarks = state or score # 如果其中一個不滿足，就只顯示有的那個
             videos.append({'vod_id': str(vid), 'vod_name': k.get('title') or k.get('name') or '', 'vod_pic': k.get('poster') or k.get('cover') or k.get('pic') or '', 'vod_remarks': remarks })
         return {'list': videos}
 
@@ -268,10 +277,18 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
             	# 獲取狀態標籤（如：已完結、更新至18集）
                 state = k.get('state') or k.get('remarks') or ''
                 # 獲取評分（如：4.0）
-                score = str(k.get('score') or k.get('fraction') or '')
-                
-                # 組合副標題，中間加個空格或斜槓隔開
-                remarks = f"{state} {score}".strip()
+                # 2. 處理評分 (確保顯示為 4.0 格式)
+                raw_score = k.get('score') or k.get('fraction') or 0
+                try:
+                # 轉化為浮點數並格式化為一位小數
+                    score = "{:.1f}".format(float(raw_score))
+                except (ValueError, TypeError):
+                    score = ""
+                # 3. 組合副標題：已完結 ✨ 4.0
+                if state and score and float(raw_score) > 0:
+                    remarks = f"{state} ✨ {score}"
+                else:
+                    remarks = state or score # 如果其中一個不滿足，就只顯示有的那個
                 # 4. 直接使用原文獲取圖片的邏輯 (不使用容易出錯的 _fix_url)
                 # 如果圖片還是不出來，請確保 _build_headers 裡的簽名包含 region
                 videos.append({
@@ -309,9 +326,18 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
             if vid: 
                 # --- 修正處：合併 狀態 與 評分 ---
                 state = k.get('state') or k.get('remarks') or ''
-                score = str(k.get('score') or k.get('fraction') or '')
-                # 組合副標題，例如 "已完结 4.0"
-                remarks = f"{state} {score}".strip()
+                # 2. 處理評分 (確保顯示為 4.0 格式)
+                raw_score = k.get('score') or k.get('fraction') or 0
+                try:
+                # 轉化為浮點數並格式化為一位小數
+                    score = "{:.1f}".format(float(raw_score))
+                except (ValueError, TypeError):
+                    score = ""
+                # 3. 組合副標題：已完結 ✨ 4.0
+                if state and score and float(raw_score) > 0:
+                    remarks = f"{state} ✨ {score}"
+                else:
+                    remarks = state or score # 如果其中一個不滿足，就只顯示有的那個
                 
             videos.append({'vod_id': str(vid), 'vod_name': k.get('title') or k.get('name') or '', 'vod_pic': k.get('poster') or k.get('cover') or k.get('pic') or '', 'vod_remarks': remarks })
         return {'list': videos}
