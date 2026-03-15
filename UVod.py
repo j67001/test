@@ -88,7 +88,7 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
             for k in sorted(filtered.keys()):
                 v = filtered[k]
                 # 關鍵修復：除了 keyword，region 等中文參數通常也要進行編碼才能通過簽名校驗
-                if k in ['keyword', 'region', 'category_id']:
+                if k in ['keyword', 'region']:
                     v = quote(str(v), safe='').lower()
                 query_parts.append(f"{k}={v}")
             query_str = "&".join(query_parts)
@@ -164,11 +164,7 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
                 {
                     "key": "category_id",
                     "name": "类型",
-                    "value": [{"n": "全部", "v": ""},
-                    {"n": "喜剧", "v": "喜剧"},
-                    {"n": "爱情", "v": "爱情"},
-                    {"n": "动作", "v": "动作"},
-                    {"n": "科幻", "v": "科幻"}] # 这里可根据实际 API 扩展子分类
+                    "value": [{"n": "全部", "v": ""},{"n": "喜剧", "v": "109"},{"n": "爱情", "v": "110"},{"n": "动作", "v": "111"},{"n": "犯罪", "v": "112"},{"n": "科幻", "v": "113"},{"n": "奇幻", "v": "114"},{"n": "冒险", "v": "115"},{"n": "灾难", "v": "116"},{"n": "惊悚", "v": "117"},{"n": "剧情", "v": "118"},{"n": "战争", "v": "119"},{"n": "经典", "v": "120"},{"n": "悬疑", "v": "210"},{"n": "历史", "v": "211"},{"n": "粤语", "v": "122"},{"n": "预告片", "v": "121"}]
                 },
                 {
                     "key": "year",
