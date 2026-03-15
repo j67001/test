@@ -180,7 +180,7 @@ def homeContent(self, filter):
     for cls in classes:
         tid = cls['type_id']
         # 根據 id 取得對應類型，若找不到則預設為 "全部"
-        sub_categories = category_mapping.get(tid, [{"n": "全部", "v": ""}])
+        sub_categories = category_mapping.get(tid)
         
         filters[tid] = [
             {"key": "category_id","name": "类型","value": sub_categories},
