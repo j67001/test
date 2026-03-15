@@ -88,7 +88,7 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
             for k in sorted(filtered.keys()):
                 v = filtered[k]
                 # 關鍵修復：除了 keyword，region 等中文參數通常也要進行編碼才能通過簽名校驗
-                if k in ['keyword', 'region']:
+                if k in ['keyword', 'region', 'category_id']:
                     v = quote(str(v), safe='').lower()
                 query_parts.append(f"{k}={v}")
             query_str = "&".join(query_parts)
