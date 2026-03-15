@@ -183,7 +183,7 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
                 {
                     "key": "sort_field",
                     "name": "排序",
-                    "value": [{"n": "最新", "v": "create_time"}, {"n": "最热", "v": "hits"}, {"n": "评分", "v": "score"}]
+                    "value": [{"n": "最新", "v": "create_time"}, {"n": "更新", "v": "update_time"}, {"n": "最热", "v": "hits"}, {"n": "评分", "v": "score"}]
                 }
             ]
             
