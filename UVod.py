@@ -145,6 +145,10 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
             return None
 
     def homeContent(self, filter):
+        # 假設你的 filter 參數可能會帶入一個 hidden_mode
+        # 例如前端在點擊5次後，請求 API 時會帶上 {"show_adult": "1"}
+        show_adult = filter.get('show_adult') == '1' if filter else False
+        
         data = self._post_api('/video/category', {})
         classes = []
         if data:
@@ -155,8 +159,12 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
                 if cid and name:
                     classes.append({'type_name': str(name), 'type_id': str(cid)})
         
-        if not classes: classes = [{'type_name': '电影', 'type_id': '100'}, {'type_name': '电视剧', 'type_id': '101'}, {'type_name': '综艺', 'type_id': '102'}, {'type_name': '动漫', 'type_id': '103'}, {'type_name': '体育', 'type_id': '104'}, {'type_name': '纪录片', 'type_id': '105'}, {'type_name': '粤台专区', 'type_id': '106'}, {'type_name': '儿童', 'type_id': '107'}, {'type_name': '午夜', 'type_id': '108'}]
-
+        if not classes: classes = [{'type_name': '电影', 'type_id': '100'}, {'type_name': '电视剧', 'type_id': '101'}, {'type_name': '综艺', 'type_id': '102'}, {'type_name': '动漫', 'type_id': '103'}, {'type_name': '体育', 'type_id': '104'}, {'type_name': '纪录片', 'type_id': '105'}, {'type_name': '粤台专区', 'type_id': '106'}, {'type_name': '儿童', 'type_id': '107'}]
+            # --- 隱藏邏輯開始 ---
+            if show_adult:
+                classes.append({'type_name': '午夜', 'type_id': '108'})
+            # --- 隱藏邏輯結束 ---
+            
         # 1. 定義各主分類專屬的子類型 (category_id)
         cate_mapping = {
             "100": [{"n": "全部", "v": ""},{"n": "喜剧", "v": "109"},{"n": "爱情", "v": "110"},{"n": "动作", "v": "111"},{"n": "犯罪", "v": "112"},{"n": "科幻", "v": "113"},{"n": "奇幻", "v": "114"},{"n": "冒险", "v": "115"},{"n": "灾难", "v": "116"},{"n": "惊悚", "v": "117"},{"n": "剧情", "v": "118"},{"n": "战争", "v": "119"},{"n": "经典", "v": "120"},{"n": "悬疑", "v": "210"},{"n": "历史", "v": "211"},{"n": "粤语", "v": "122"},{"n": "预告片", "v": "121"}],
@@ -178,30 +186,18 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
         filters = {}
         for cls in classes:
             tid = cls['type_id']
+            
+             # 如果不是 show_adult 模式，且剛好 tid 是 108，跳過不處理 filter
+            if tid == "108" and not show_adult:
+                continue
             # 根據 tid 獲取子分類，若無匹配則顯示 "全部"
             sub_categories = cate_mapping.get(tid, [{"n": "全部", "v": ""}])
             
             filters[tid] = [
-                {
-                    "key": "category_id",
-                    "name": "类型",
-                    "value": sub_categories
-                },
-                {
-                    "key": "region",
-                    "name": "地区",
-                    "value": common_regions
-                },
-                {
-                    "key": "year",
-                    "name": "年份",
-                    "value": common_years
-                },
-                {
-                    "key": "sort_field",
-                    "name": "排序",
-                    "value": common_sorts
-                }
+                {"key": "category_id","name": "类型","value": sub_categories},
+                {"key": "region","name": "地区","value": common_regions},
+                {"key": "year","name": "年份","value": common_years},
+                {"key": "sort_field","name": "排序","value": common_sorts}
             ]
             
         return {'class': classes, 'filters': filters}
@@ -271,7 +267,7 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
                     max_quality = max(qualities) if qualities else 4
                     play_urls.append(f"{name}${vid}|{fragment_id}|[{max_quality}]")
         if not play_urls: play_urls.append(f"播放${vid}")
-        vod = {'vod_id': str(vid), 'vod_name': video_info.get('title') or video_info.get('name') or '', 'vod_pic': video_info.get('poster') or video_info.get('cover') or video_info.get('pic') or '', 'vod_year': video_info.get('year') or '', 'vod_remarks': video_info.get('duration') or '', 'vod_content': video_info.get('description') or video_info.get('desc') or '', 'vod_play_from': '优汁🍑源', 'vod_play_url': '#'.join(play_urls) + '$$$'}
+        vod = {'vod_id': str(vid), 'vod_name': video_info.get('title') or video_info.get('name') or '', 'vod_pic': video_info.get('poster') or video_info.get('cover') or video_info.get('pic') or '', 'vod_year': video_info.get('year') or '', 'vod_remarks': video_info.get('duration') or '', 'vod_content': video_info.get('description') or video_info.get('desc') or '', 'vod_play_from': '优视频', 'vod_play_url': '#'.join(play_urls) + '$$$'}
         return {'list': [vod]}
 
     def searchContent(self, key, quick, pg="1"):
