@@ -145,10 +145,6 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
             return None
 
     def homeContent(self, filter):
-        # 假設你的 filter 參數可能會帶入一個 hidden_mode
-        # 例如前端在點擊5次後，請求 API 時會帶上 {"show_adult": "1"}
-        show_adult = filter.get('show_adult') == '1' if filter else False
-        
         data = self._post_api('/video/category', {})
         classes = []
         if data:
@@ -159,12 +155,8 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
                 if cid and name:
                     classes.append({'type_name': str(name), 'type_id': str(cid)})
         
-        if not classes: classes = [{'type_name': '电影', 'type_id': '100'}, {'type_name': '电视剧', 'type_id': '101'}, {'type_name': '综艺', 'type_id': '102'}, {'type_name': '动漫', 'type_id': '103'}, {'type_name': '体育', 'type_id': '104'}, {'type_name': '纪录片', 'type_id': '105'}, {'type_name': '粤台专区', 'type_id': '106'}, {'type_name': '儿童', 'type_id': '107'}]
-            # --- 隱藏邏輯開始 ---
-            if show_adult:
-                classes.append({'type_name': '午夜', 'type_id': '108'})
-            # --- 隱藏邏輯結束 ---
-            
+        if not classes: classes = [{'type_name': '电影', 'type_id': '100'}, {'type_name': '电视剧', 'type_id': '101'}, {'type_name': '综艺', 'type_id': '102'}, {'type_name': '动漫', 'type_id': '103'}, {'type_name': '体育', 'type_id': '104'}, {'type_name': '纪录片', 'type_id': '105'}, {'type_name': '粤台专区', 'type_id': '106'}, {'type_name': '儿童', 'type_id': '107'}, {'type_name': '午夜', 'type_id': '108'}]
+
         # 1. 定義各主分類專屬的子類型 (category_id)
         cate_mapping = {
             "100": [{"n": "全部", "v": ""},{"n": "喜剧", "v": "109"},{"n": "爱情", "v": "110"},{"n": "动作", "v": "111"},{"n": "犯罪", "v": "112"},{"n": "科幻", "v": "113"},{"n": "奇幻", "v": "114"},{"n": "冒险", "v": "115"},{"n": "灾难", "v": "116"},{"n": "惊悚", "v": "117"},{"n": "剧情", "v": "118"},{"n": "战争", "v": "119"},{"n": "经典", "v": "120"},{"n": "悬疑", "v": "210"},{"n": "历史", "v": "211"},{"n": "粤语", "v": "122"},{"n": "预告片", "v": "121"}],
@@ -186,10 +178,6 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
         filters = {}
         for cls in classes:
             tid = cls['type_id']
-            
-             # 如果不是 show_adult 模式，且剛好 tid 是 108，跳過不處理 filter
-            if tid == "108" and not show_adult:
-                continue
             # 根據 tid 獲取子分類，若無匹配則顯示 "全部"
             sub_categories = cate_mapping.get(tid, [{"n": "全部", "v": ""}])
             
