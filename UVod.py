@@ -144,18 +144,18 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
         except:
             return None
 
-def homeContent(self, filter):
-    data = self._post_api('/video/category', {})
-    classes = []
-    if data:
-        lst = data.get('list') or data.get('category') or []
-        for it in lst:
-            cid = it.get('id') or it.get('category_id') or it.get('value')
-            name = it.get('name') or it.get('label')
-            if cid and name:
-                classes.append({'type_name': str(name), 'type_id': str(cid)})
-    
-    if not classes: classes = [{'type_name': '电影', 'type_id': '100'}, {'type_name': '电视剧', 'type_id': '101'}, {'type_name': '综艺', 'type_id': '102'}, {'type_name': '动漫', 'type_id': '103'}, {'type_name': '体育', 'type_id': '104'}, {'type_name': '纪录片', 'type_id': '105'}, {'type_name': '粤台专区', 'type_id': '106'}, {'type_name': '儿童', 'type_id': '107'}, {'type_name': '午夜', 'type_id': '108'}]
+    def homeContent(self, filter):
+        data = self._post_api('/video/category', {})
+        classes = []
+        if data:
+            lst = data.get('list') or data.get('category') or []
+            for it in lst:
+                cid = it.get('id') or it.get('category_id') or it.get('value')
+                name = it.get('name') or it.get('label')
+                if cid and name:
+                    classes.append({'type_name': str(name), 'type_id': str(cid)})
+        
+        if not classes: classes = [{'type_name': '电影', 'type_id': '100'}, {'type_name': '电视剧', 'type_id': '101'}, {'type_name': '综艺', 'type_id': '102'}, {'type_name': '动漫', 'type_id': '103'}, {'type_name': '体育', 'type_id': '104'}, {'type_name': '纪录片', 'type_id': '105'}, {'type_name': '粤台专区', 'type_id': '106'}, {'type_name': '儿童', 'type_id': '107'}]
 
         # 定義篩選器 (Key 必須對應 categoryContent 的 payload)
         filters = {}
@@ -167,14 +167,14 @@ def homeContent(self, filter):
                     "value": [{"n": "全部", "v": ""},{"n": "喜剧", "v": "109"},{"n": "爱情", "v": "110"},{"n": "动作", "v": "111"},{"n": "犯罪", "v": "112"},{"n": "科幻", "v": "113"},{"n": "奇幻", "v": "114"},{"n": "冒险", "v": "115"},{"n": "灾难", "v": "116"},{"n": "惊悚", "v": "117"},{"n": "剧情", "v": "118"},{"n": "战争", "v": "119"},{"n": "经典", "v": "120"},{"n": "悬疑", "v": "210"},{"n": "历史", "v": "211"},{"n": "粤语", "v": "122"},{"n": "预告片", "v": "121"}]
                 },
                 {
-                    "key": "region",
-                    "name": "地区",
-                    "value": [{"n": "全部", "v": ""}, {"n": "大陆", "v": "大陆"}, {"n": "欧美", "v": "欧美"}, {"n": "香港", "v": "香港"}, {"n": "台湾", "v": "台湾"}, {"n": "日本", "v": "日本"}, {"n": "韩国", "v": "韩国"}, {"n": "新马泰", "v": "新马泰"}, {"n": "其他", "v": "其他"}]
-                },
-                {
                     "key": "year",
                     "name": "年份",
                     "value": [{"n": "全部", "v": ""}] + [{"n": str(y), "v": str(y)} for y in range(2026, 2009, -1)]
+                },
+                {
+                    "key": "region",
+                    "name": "地区",
+                    "value": [{"n": "全部", "v": ""}, {"n": "大陆", "v": "大陆"}, {"n": "欧美", "v": "欧美"}, {"n": "香港", "v": "香港"}, {"n": "台湾", "v": "台湾"}, {"n": "日本", "v": "日本"}, {"n": "韩国", "v": "韩国"}, {"n": "新马泰", "v": "新马泰"}, {"n": "其他", "v": "其他"}]
                 },
                 {
                     "key": "sort_field",
