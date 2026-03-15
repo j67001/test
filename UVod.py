@@ -144,63 +144,70 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
         except:
             return None
 
-def homeContent(self, filter):
-    data = self._post_api('/video/category', {})
-    classes = []
-    if data:
-        lst = data.get('list') or data.get('category') or []
-        for it in lst:
-            cid = it.get('id') or it.get('category_id') or it.get('value')
-            name = it.get('name') or it.get('label')
-            if cid and name:
-                classes.append({'type_name': str(name), 'type_id': str(cid)})
-    
-    if not classes: 
-        classes = [{'type_name': '电影', 'type_id': '100'}, {'type_name': '电视剧', 'type_id': '101'}, {'type_name': '综艺', 'type_id': '102'}, {'type_name': '动漫', 'type_id': '103'}, {'type_name': '体育', 'type_id': '104'}, {'type_name': '纪录片', 'type_id': '105'}, {'type_name': '粤台专区', 'type_id': '106'}, {'type_name': '儿童', 'type_id': '107'}]
-
-    # 1. 定義不同大類的子分類映射 (Key 使用 type_id)
-    category_mapping = {
-        "100": [{"n": "全部", "v": ""},{"n": "喜剧", "v": "109"},{"n": "爱情", "v": "110"},{"n": "动作", "v": "111"},{"n": "犯罪", "v": "112"},{"n": "科幻", "v": "113"},{"n": "奇幻", "v": "114"},{"n": "冒险", "v": "115"},{"n": "灾難", "v": "116"},{"n": "惊悚", "v": "117"},{"n": "剧情", "v": "118"},{"n": "战争", "v": "119"},{"n": "经典", "v": "120"},{"n": "悬疑", "v": "210"},{"n": "历史", "v": "211"},{"n": "粤语", "v": "122"},{"n": "预告片", "v": "121"}],
-        "101": [{"n": "全部", "v": ""},{"n": "短剧", "v": "207"},{"n": "国产剧", "v": "123"},{"n": "港台剧", "v": "125"},{"n": "日韩剧", "v": "126"},{"n": "欧美剧", "v": "124"},{"n": "新马泰", "v": "127"},{"n": "其它剧", "v": "128"}],
-        "102": [{"n": "全部", "v": ""},{"n": "搞笑", "v": "129"},{"n": "情感", "v": "130"},{"n": "选秀", "v": "131"},{"n": "访谈", "v": "132"},{"n": "时尚", "v": "133"},{"n": "演唱会", "v": "136"},{"n": "脱口秀", "v": "135"},{"n": "真人秀", "v": "134"}],
-        "103": [{"n": "全部", "v": ""},{"n": "冒险", "v": "137"},{"n": "格斗", "v": "138"},{"n": "科幻", "v": "139"},{"n": "恋爱", "v": "140"},{"n": "校园", "v": "141"},{"n": "后宫", "v": "142"},{"n": "异界", "v": "143"},{"n": "美食", "v": "144"},{"n": "歌舞", "v": "145"},{"n": "运动", "v": "146"},{"n": "竞技", "v": "147"},{"n": "魔幻", "v": "148"},{"n": "奇幻", "v": "149"},{"n": "搞笑", "v": "209"},{"n": "热血", "v": "151"},{"n": "历史", "v": "152"},{"n": "战争", "v": "153"},{"n": "机战", "v": "154"},{"n": "爆笑", "v": "155"},{"n": "治癒", "v": "156"},{"n": "励志", "v": "157"},{"n": "悬疑", "v": "158"},{"n": "少女", "v": "159"},{"n": "推理", "v": "160"},{"n": "恐怖", "v": "161"},{"n": "神鬼", "v": "162"},{"n": "日常", "v": "208"},{"n": "百合", "v": "150"}]
-    }
-
-    # 2. 共用的篩選項
-    common_regions = [{"n": "全部", "v": ""}, {"n": "大陆", "v": "大陆"}, {"n": "欧美", "v": "欧美"}, {"n": "香港", "v": "香港"}, {"n": "台湾", "v": "台湾"}, {"n": "日本", "v": "日本"}, {"n": "韩国", "v": "韩国"}, {"n": "新马泰", "v": "新马泰"}, {"n": "其他", "v": "其他"}]
-    common_years = [{"n": "全部", "v": ""}] + [{"n": str(y), "v": str(y)} for y in range(2026, 2009, -1)]
-    common_sorts = [{"n": "最新", "v": "create_time"}, {"n": "更新", "v": "update_time"}, {"n": "最热", "v": "hits"}, {"n": "评分", "v": "score"}]
-
-    filters = {}
-    for cls in classes:
-        tid = cls['type_id']
-        # 根據 id 取得對應類型，若找不到則預設為 "全部"
-        sub_categories = category_mapping.get(tid, [{"n": "全部", "v": ""}])
+    def homeContent(self, filter):
+        data = self._post_api('/video/category', {})
+        classes = []
+        if data:
+            lst = data.get('list') or data.get('category') or []
+            for it in lst:
+                cid = it.get('id') or it.get('category_id') or it.get('value')
+                name = it.get('name') or it.get('label')
+                if cid and name:
+                    classes.append({'type_name': str(name), 'type_id': str(cid)})
         
-        filters[tid] = [
-            {
-                "key": "category_id",
-                "name": "类型",
-                "value": sub_categories
-            },
-            {
-                "key": "region",
-                "name": "地区",
-                "value": common_regions
-            },
-            {
-                "key": "year",
-                "name": "年份",
-                "value": common_years
-            },
-            {
-                "key": "sort_field",
-                "name": "排序",
-                "value": common_sorts
-            }
-        ]
-        
-    return {'class': classes, 'filters': filters}
+        if not classes: 
+            classes = [
+                {'type_name': '电影', 'type_id': '100'}, 
+                {'type_name': '电视剧', 'type_id': '101'}, 
+                {'type_name': '综艺', 'type_id': '102'}, 
+                {'type_name': '动漫', 'type_id': '103'}, 
+                {'type_name': '体育', 'type_id': '104'}, 
+                {'type_name': '纪录片', 'type_id': '105'}
+            ]
+
+        # 1. 定義各主分類專屬的子類型 (category_id)
+        cate_mapping = {
+            "100": [{"n": "全部", "v": ""},{"n": "喜剧", "v": "109"},{"n": "爱情", "v": "110"},{"n": "动作", "v": "111"},{"n": "犯罪", "v": "112"},{"n": "科幻", "v": "113"},{"n": "奇幻", "v": "114"},{"n": "冒险", "v": "115"},{"n": "灾难", "v": "116"},{"n": "惊悚", "v": "117"},{"n": "剧情", "v": "118"},{"n": "战争", "v": "119"},{"n": "经典", "v": "120"},{"n": "悬疑", "v": "210"},{"n": "历史", "v": "211"},{"n": "粤语", "v": "122"},{"n": "预告片", "v": "121"}],
+            "101": [{"n": "全部", "v": ""},{"n": "短剧", "v": "207"},{"n": "国产剧", "v": "123"},{"n": "港台剧", "v": "125"},{"n": "日韓劇", "v": "126"},{"n": "歐美劇", "v": "124"},{"n": "新馬泰", "v": "127"},{"n": "其它劇", "v": "128"}],
+            "102": [{"n": "全部", "v": ""},{"n": "搞笑", "v": "129"},{"n": "情感", "v": "130"},{"n": "选秀", "v": "131"},{"n": "访谈", "v": "132"},{"n": "时尚", "v": "133"},{"n": "演唱会", "v": "136"},{"n": "脱口秀", "v": "135"},{"n": "真人秀", "v": "134"}],
+            "103": [{"n": "全部", "v": ""},{"n": "冒险", "v": "137"},{"n": "格斗", "v": "138"},{"n": "科幻", "v": "139"},{"n": "恋爱", "v": "140"},{"n": "校园", "v": "141"},{"n": "后宫", "v": "142"},{"n": "异界", "v": "143"},{"n": "美食", "v": "144"},{"n": "歌舞", "v": "145"},{"n": "運動", "v": "146"},{"n": "競技", "v": "147"},{"n": "魔幻", "v": "148"},{"n": "奇幻", "v": "149"},{"n": "搞笑", "v": "209"},{"n": "熱血", "v": "151"},{"n": "歷史", "v": "152"},{"n": "戰爭", "v": "153"},{"n": "機戰", "v": "154"},{"n": "爆笑", "v": "155"},{"n": "治癒", "v": "156"},{"n": "勵志", "v": "157"},{"n": "懸疑", "v": "158"},{"n": "少女", "v": "159"},{"n": "推理", "v": "160"},{"n": "恐怖", "v": "161"},{"n": "神鬼", "v": "162"},{"n": "日常", "v": "208"},{"n": "百合", "v": "150"}]
+        }
+
+        # 2. 定義固定不變的篩選項
+        common_regions = [{"n": "全部", "v": ""}, {"n": "大陆", "v": "大陆"}, {"n": "欧美", "v": "欧美"}, {"n": "香港", "v": "香港"}, {"n": "台湾", "v": "台湾"}, {"n": "日本", "v": "日本"}, {"n": "韩国", "v": "韩国"}, {"n": "新马泰", "v": "新马泰"}, {"n": "其他", "v": "其他"}]
+        common_years = [{"n": "全部", "v": ""}] + [{"n": str(y), "v": str(y)} for y in range(2026, 2009, -1)]
+        common_sorts = [{"n": "最新", "v": "create_time"}, {"n": "更新", "v": "update_time"}, {"n": "最热", "v": "hits"}, {"n": "评分", "v": "score"}]
+
+        filters = {}
+        for cls in classes:
+            tid = cls['type_id']
+            # 根據 tid 獲取子分類，若無匹配則顯示 "全部"
+            sub_categories = cate_mapping.get(tid, [{"n": "全部", "v": ""}])
+            
+            filters[tid] = [
+                {
+                    "key": "category_id",
+                    "name": "类型",
+                    "value": sub_categories
+                },
+                {
+                    "key": "region",
+                    "name": "地区",
+                    "value": common_regions
+                },
+                {
+                    "key": "year",
+                    "name": "年份",
+                    "value": common_years
+                },
+                {
+                    "key": "sort_field",
+                    "name": "排序",
+                    "value": common_sorts
+                }
+            ]
+            
+        return {'class': classes, 'filters': filters}
 
     def homeVideoContent(self):
         data = self._post_api('/video/latest', {'parent_category_id': 101})
