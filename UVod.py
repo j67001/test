@@ -182,10 +182,26 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
             sub_categories = cate_mapping.get(tid, [{"n": "全部", "v": ""}])
             
             filters[tid] = [
-                {"key": "category_id","name": "类型","value": sub_categories},
-                {"key": "region","name": "地区","value": common_regions},
-                {"key": "year","name": "年份","value": common_years},
-                {"key": "sort_field","name": "排序","value": common_sorts}
+                {
+                    "key": "category_id",
+                    "name": "类型",
+                    "value": sub_categories
+                },
+                {
+                    "key": "region",
+                    "name": "地区",
+                    "value": common_regions
+                },
+                {
+                    "key": "year",
+                    "name": "年份",
+                    "value": common_years
+                },
+                {
+                    "key": "sort_field",
+                    "name": "排序",
+                    "value": common_sorts
+                }
             ]
             
         return {'class': classes, 'filters': filters}
