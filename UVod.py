@@ -225,7 +225,7 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
         for k in lst:
             vid = k.get('id') or k.get('video_id') or k.get('videoId')
             if vid: 
-                state = k.get('version') or ''
+                state = k.get('remark') or ''
                 # 2. 處理評分 (確保顯示為 4.0 格式)
                 raw_score = k.get('score') or k.get('fraction') or 0
                 try:
@@ -275,7 +275,7 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
             vid = k.get('id') or k.get('video_id') or k.get('videoId')
             if vid:
             	# 獲取狀態標籤（如：已完結、更新至18集）
-                state = k.get('msg') or ''
+                state = k.get('serialize') or ''
                 # 獲取評分（如：4.0）
                 # 2. 處理評分 (確保顯示為 4.0 格式)
                 raw_score = k.get('score') or k.get('fraction') or 0
