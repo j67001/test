@@ -144,13 +144,6 @@ fEOzPz7hb/vItV43vBJV2FcM72Hdcv3DccIFuEV9LQ8vcmuetld98eksja9vQ1Ol
         except:
             return None
 
-    def _fix_url(self, url):
-        """修復圖片 URL 無法顯示的問題"""
-        if not url: return ""
-        if url.startswith('http'): return url
-        # 如果是相對路徑，補全域名 (根據該站點特性，通常指向 web_url 或特定的靜態資源域)
-        return self.web_url.rstrip('/') + '/' + url.lstrip('/')
-
     def homeContent(self, filter):
         data = self._post_api('/video/category', {})
         classes = []
