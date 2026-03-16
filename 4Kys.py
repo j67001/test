@@ -237,8 +237,14 @@ class Spider(Spider):
 
                     pic = vod.find('img')['src']
 
-                    remarks = vod.find('div', class_="update")
-                    remark = remarks.text.strip()
+                    # 抓取評分與更新時間
+                    update_tag = vod.find('div', class_="update")
+                    rating_tag = vod.find('div', class_="rating")
+                    # 提取文字，如果標籤不存在則給空字串
+                    update_text = update_tag.text.strip() if update_tag else ""
+                    rating_text = rating_tag.text.strip() if rating_tag else ""
+                    # 合併在一起，例如結果會變成 "完結 9.5"
+                    remarks = f"{update_text}  {rating_text}".strip()
 
                     video = {
                         "vod_id": id + '@' + name,
