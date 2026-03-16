@@ -133,6 +133,8 @@ class Spider(Spider):
                 # 過濾掉不需要的標籤
                 if any(keyword in name for keyword in ["首页", "电视剧", "高分电影", "影片下载", "热门播放"]):
                     continue
+                # 這裡建議加個 a 標籤存在檢查，防止報錯
+                a_tag = vod.find('a')
 
                 id = vod.find('a')['href']
                 if 'http' not in id:
@@ -147,6 +149,14 @@ class Spider(Spider):
         # --- 無論上面迴圈抓了多少，最後都會執行這裡 ---
         result["class"].append({"type_id": "https://www.4kvm.net/classify/riju", "type_name": "日劇"})
         result["class"].append({"type_id": "https://www.4kvm.net/classify/taiju", "type_name": "泰劇"})
+
+        # --- 核心修改：循環加入 2026 到 2010 年份篩選 ---
+        # range(start, stop, step) 是左閉右開，所以用 2027
+        for year in range(2026, 2009, -1):
+            result["class"].append({
+                "type_id": f"https://www.4kvm.org/releases/{year}".strip('/'),
+                "type_name": str(year)
+            })
 
         return result
 
@@ -216,18 +226,17 @@ class Spider(Spider):
                             }
                     videos.append(video)
             else:
-                if pg:
-                    page = int(pg)
-                else:
-                    page = 1
+                page = int(pg) if pg else 1
 
-                url = f'{cid}/page/{str(page)}'
+                # 修改 1: 使用 rstrip 确保拼接 releases 时分页路径正确
+                url = f'{cid.rstrip("/")}/page/{str(page)}'
                 detail = requests.get(url=url, headers=headerx)
                 detail.encoding = "utf-8"
                 res = detail.text
                 doc = BeautifulSoup(res, "lxml")
 
-                soups = doc.find_all('article', class_="item tvshows")
+                # 修改 2: 将 class_="item tvshows" 改为 class_="item"，这样能兼容年份页里的所有内容
+                soups = doc.find_all('article', class_="item")
 
                 for vod in soups:
                     name = vod.find('img')['alt']
@@ -252,12 +261,9 @@ class Spider(Spider):
                             }
                     videos.append(video)
         else:
-            if pg:
-                page = int(pg)
-            else:
-                page = 1
-
-            url = f'{cid}/page/{str(page)}'
+            page = int(pg) if pg else 1
+            # 修改 3: 同样处理电影分类的分页拼接
+            url = f'{cid.rstrip("/")}/page/{str(page)}'
             detail = requests.get(url=url, headers=headerx)
             detail.encoding = "utf-8"
             res = detail.text
@@ -288,10 +294,8 @@ class Spider(Spider):
                            }
                     videos.append(video)
                     
-        if len(videos)<30:
-            pagecount=1
-        else:
-            pagecount = 9999
+        # 修改 4: 优化 pagecount 逻辑，确保能翻页
+        pagecount = page + 1 if len(videos) >= 20 else page
 
         result = {'list': videos}
         result['page'] = pg
