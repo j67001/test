@@ -237,11 +237,11 @@ class Spider(Spider):
 
                     pic = vod.find('img')['src']
 
-                    update_tag = vod.find('div', class_="update")
-                    rating_tag = vod.find('div', class_="rating")
-                    update_text = update_tag.text.strip() if update_tag else ""
-                    rating_text = rating_tag.text.strip() if rating_tag else ""
-                    remarks = f"{update_text}  {rating_text}".strip()
+                    upd_tag = vod.find('div', class_="update")
+                    rat_tag = vod.find('div', class_="rating")
+                    upd_text = upd_tag.get_text(strip=True) if upd_tag else ""
+                    rat_text = rat_tag.get_text(strip=True) if rat_tag else ""
+                    remark = f"{upd_text} {rat_text}".strip()
 
                     video = {
                         "vod_id": id + '@' + name,
