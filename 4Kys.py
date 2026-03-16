@@ -152,7 +152,7 @@ class Spider(Spider):
 
         # --- 核心修改：循環加入 2026 到 2010 年份篩選 ---
         # range(start, stop, step) 是左閉右開，所以用 2027
-        for year in range(2026, 2009, -1):
+        for year in range(2026, 1999, -1):
             result["class"].append({
                 "type_id": f"https://www.4kvm.org/releases/{year}".strip('/'),
                 "type_name": str(year)
