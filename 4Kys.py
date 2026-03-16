@@ -240,7 +240,7 @@ class Spider(Spider):
                     upd_tag = vod.find('div', class_="update")
                     rat_tag = vod.find('div', class_="rating")
                     upd_text = upd_tag.get_text(strip=True) if upd_tag else ""
-                    rat_text = rat_tag.get_text(strip=True) if rat_tag else ""
+                    rat_text = f"{float(rat_tag.get_text(strip=True)):.1f}" if rat_tag and rat_tag.get_text(strip=True).replace('.', '', 1).isdigit() else (rat_tag.get_text(strip=True) if rat_tag else "")
                     remark = f"{upd_text} {rat_text}".strip()
 
                     video = {
