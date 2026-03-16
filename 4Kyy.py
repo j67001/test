@@ -118,38 +118,35 @@ class Spider(Spider):
     def homeContent(self, filter):
         result = {"class": []}
 
-        # 1. 抓取網頁動態分類
         detail = requests.get(url=xurl, headers=headerx)
         detail.encoding = "utf-8"
+        res = detail.text
         doc = BeautifulSoup(res, "lxml")
         soups = doc.find_all('ul', class_="main-header")
 
-       for soup in soups:
-            for vod in soup.find_all('li'):
+        for soup in soups:
+            vods = soup.find_all('li')
+
+            for vod in vods:
+
                 name = vod.text.strip()
                 # 過濾掉不需要的標籤
                 if any(keyword in name for keyword in ["首页", "电视剧", "高分电影", "影片下载", "热门播放"]):
                     continue
-                
-                try:
-                    id = vod.find('a')['href']
-                    if 'http' not in id:
-                        id = xurl + id
-                    result["class"].append({"type_id": id, "type_name": name})
-                except:
-                    continue
 
-        # 2. 定義要額外補充的分類
-        extra_classes = [
-            {"type_id": "https://www.4kvm.net/classify/riju", "type_name": "日劇"},
-            {"type_id": "https://www.4kvm.net/classify/taiju", "type_name": "泰劇"}
-        ]
+                id = vod.find('a')['href']
+                if 'http' not in id:
+                    id = xurl + id
 
-        # 3. 檢查是否已存在，不存在則加入
-        existing_ids = [c["type_id"] for c in result["class"]]
-        for item in extra_classes:
-            if item["type_id"] not in existing_ids:
-                result["class"].append(item)
+                result["class"].append({"type_id": id, "type_name": name})
+            # 如果內層 break 了，外層通常也要判斷是否 break
+            else:
+                continue
+            break
+
+        # --- 無論上面迴圈抓了多少，最後都會執行這裡 ---
+        result["class"].append({"type_id": "https://www.4kvm.net/classify/riju", "type_name": "日劇"})
+        result["class"].append({"type_id": "https://www.4kvm.net/classify/taiju", "type_name": "泰劇"})
 
         return result
 
