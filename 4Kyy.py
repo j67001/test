@@ -153,18 +153,6 @@ class Spider(Spider):
 
         return result
 
-        # ... 前面的迴圈代碼 ...
-        for soup in soups:
-            # ... 抓取邏輯 ...
-            result["class"].append({"type_id": id, "type_name": name})
-
-        # --- 手動加入特定分類 ---
-        result["class"].append({"type_id": "https://www.4kvm.net/classify/riju", "type_name": "日劇"})
-        result["class"].append({"type_id": "https://www.4kvm.net/classify/taiju", "type_name": "泰劇"})
-
-        return result
-
-
     def homeVideoContent(self):
         videos = []
 
