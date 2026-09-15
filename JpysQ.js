@@ -95,7 +95,7 @@ async function home() {
       { key: "year", name: "年份", value: (d.yearList || []).map(i => ({ n: i.itemText, v: i.itemText })) },
       { key: "sort", name: "排序", value: sortValues }
     ];
-    if (d.plotList?.length) arr.splice(1, 0, { key: "v_class", name: "剧情", value: d.plotList.map(i => ({ n: i.itemText, v: i.itemText })) });
+    if (d.plotList?.length && tid !== '88') arr.splice(1, 0, { key: "v_class", name: "剧情", value: d.plotList.map(i => ({ n: i.itemText, v: i.itemText })) });
     filters[tid] = arr;
   }
   return JSON.stringify({ class: classes, filters });
