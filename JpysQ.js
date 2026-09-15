@@ -90,20 +90,22 @@ async function home() {
   const baseSort = [{n: "最近更新", v: "1"},{n: "添加时间", v: "2"}, { n: "人气高低", v: "3" }, { n: "评分高低", v: "4" }];
   for (const [tid, d] of Object.entries(fRes.data || {})) {
     const sortValues = tid === '1' ? baseSort.slice(1) : baseSort;
-const fullArr = [
-  { key: "area", name: "地区", value: (d.districtList || []).map(i => ({ n: i.itemText.replace('中国', ''), v: i.itemText })) },
-  { key: "year", name: "年份", value: (d.yearList || []).map(i => ({ n: i.itemText, v: i.itemText })) },
-  { key: "sort", name: "排序", value: sortValues }
-];
-
-// 2. 判斷如果目前是短劇（id 為 88），就用 filter 把 key 為 "area" 的整行排除
-// 假設您拿來判斷當前分類 ID 的變數叫做 currentId 或 d.id (請根據您實際的變數名調整)
-const arr = currentId == 88 
-  ? fullArr.filter(item => item.key !== "area") 
-  : fullArr;
-    if (d.plotList?.length) fullArr.splice(1, 0, { key: "v_class", name: "剧情", value: d.plotList.map(i => ({ n: i.itemText, v: i.itemText })) });
-    filters[tid] = fullArr;
-  }
+    let arr;
+    if (tid == 88) {
+      const arr = [
+      { key: "year", name: "年份", value: (d.yearList || []).map(i => ({ n: i.itemText, v: i.itemText })) },
+      { key: "sort", name: "排序", value: sortValues }
+    ];
+    } else {
+      const arr = [
+      { key: "area", name: "地区", value: (d.districtList || []).map(i => ({ n: i.itemText.replace('中国', ''), v: i.itemText })) },
+      { key: "year", name: "年份", value: (d.yearList || []).map(i => ({ n: i.itemText, v: i.itemText })) },
+      { key: "sort", name: "排序", value: sortValues }
+    ];
+    }
+    if (d.plotList?.length) arr.splice(1, 0, { key: "v_class", name: "剧情", value: d.plotList.map(i => ({ n: i.itemText, v: i.itemText })) });
+    filters[tid] = arr;
+  } 可以用上述的if方法排除 /id/88 的area?
   return JSON.stringify({ class: classes, filters });
 }
 
