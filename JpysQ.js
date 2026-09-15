@@ -90,22 +90,14 @@ async function home() {
   const baseSort = [{n: "最近更新", v: "1"},{n: "添加时间", v: "2"}, { n: "人气高低", v: "3" }, { n: "评分高低", v: "4" }];
   for (const [tid, d] of Object.entries(fRes.data || {})) {
     const sortValues = tid === '1' ? baseSort.slice(1) : baseSort;
-    let arr;
-    if (tid == 88) {
-      const arr = [
+    const arr = [
+       ...(tid !== 88 ? [{ key: "area", name: "地区", value: (d.districtList || []).map(i => ({ n: i.itemText.replace('中国', ''), v: i.itemText })) }] : []),
       { key: "year", name: "年份", value: (d.yearList || []).map(i => ({ n: i.itemText, v: i.itemText })) },
       { key: "sort", name: "排序", value: sortValues }
     ];
-    } else {
-      const arr = [
-      { key: "area", name: "地区", value: (d.districtList || []).map(i => ({ n: i.itemText.replace('中国', ''), v: i.itemText })) },
-      { key: "year", name: "年份", value: (d.yearList || []).map(i => ({ n: i.itemText, v: i.itemText })) },
-      { key: "sort", name: "排序", value: sortValues }
-    ];
-    }
     if (d.plotList?.length) arr.splice(1, 0, { key: "v_class", name: "剧情", value: d.plotList.map(i => ({ n: i.itemText, v: i.itemText })) });
     filters[tid] = arr;
-  } 可以用上述的if方法排除 /id/88 的area?
+  }
   return JSON.stringify({ class: classes, filters });
 }
 
