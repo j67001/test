@@ -236,34 +236,47 @@ class Spider(BaseSpider):
         return self._shrink_pic(url, w=(PIC_W_DETAIL if detail else PIC_W))
 
     # ===== 列表卡片 =====
+# ===== 列表卡片 =====
     def _cards_from_html(self, html, detail_pic=False):
         import re
         cards = []
         seen = set()
-        # 1. 使用 finditer 可以拿到每部影片在 html 裡的精確起點與終點
-        matches = list(RE_CARD.finditer(html))
         
-        for idx, match in enumerate(matches):
-            # 解包原本的 5 個欄位
-            vid, pic, remark, name, date = match.groups()
+        # 1. 核心還原：直接拿到原本穩定的 5 個基本欄位
+        raw_cards = RE_CARD.findall(html)
+        if not raw_cards:
+            return []
             
+        # 2. 獨立找出整個 HTML 裡所有「分數」和它們在網頁中的「文字字元位置 (Index)」
+        # score_positions 結構會是： [(分數位置, "7.3"), (分數位置, "8.5"), ...]
+        score_positions = []
+        for s_match in re.finditer(r'class="ribbon[^>]*>([\d.]+)</strong>', html):
+            score_positions.append((s_match.start(), s_match.group(1).strip()))
+            
+        # 3. 同時找出所有「影片ID連結」在網頁中的「文字字元位置」
+        vid_positions = [v_match.start() for v_match in RE_CARD.finditer(html)]
+        
+        # 4. 開始處理每一部影片
+        for idx, (vid, pic, remark, name, date) in enumerate(raw_cards):
             if vid in seen:
                 continue
             seen.add(vid)
-            # --- 2. 核心：切出該影片專屬的 HTML 邊界範圍，精準撈取分數 ---
-            # 起點：當前影片的開頭
-            start_pos = match.start()
-            # 終點：下一部影片的開頭（如果是最後一部，就到整頁的結尾）
-            end_pos = matches[idx+1].start() if idx + 1 < len(matches) else len(html)
             
-            # 切出這部影片專屬的局部 HTML 代碼
-            sub_html = html[start_pos:end_pos]
+            # --- 💡 精準分數配對邏輯 ---
+            # 拿到當前影片在 HTML 裡的具體字元位置
+            current_vid_pos = vid_positions[idx]
             
-            # 在這個局部代碼裡找分數，絕對不會跨到別部影片
-            score_match = RE_CARD_SCORE.search(sub_html)
-            score_str = score_match.group(1).strip() if score_match else ""
-          
-            # --- 3. 清洗與優化 remark 文字 ---
+            # 找出這部影片的「上一部影片位置」（如果是第一部，就是 0）
+            prev_vid_pos = vid_positions[idx - 1] if idx > 0 else 0
+            
+            score_str = ""
+            # 遍歷網頁所有的分數，只要這個分數的位置是在「上一部影片之後」且「當前影片位置附近（或之前）」，它就是屬於這部影片的！
+            for s_pos, s_val in score_positions:
+                if prev_vid_pos < s_pos < current_vid_pos + 100: # 容差 100 字元以內
+                    score_str = s_val
+                    break # 找到了就跳出
+            
+            # --- 5. 清洗與優化 remark 文字 ---
             rem = remark.strip()
             if rem:
                 rem = rem.replace("更新至第", "第").replace("更新至", "第")
@@ -274,7 +287,8 @@ class Spider(BaseSpider):
                     rem = rem.replace(f"第{num_str}", f"第{clean_num}")
                 if "第" in rem and not any(k in rem for k in ["集", "期"]):
                     rem = rem + "集"
-            # --- 4. 組合備註與 ✨ 分數 ---
+            
+            # --- 6. 組合備註與 ✨ 分數 ---
             base_remark = rem or date[:10]
             full_remark = f"{base_remark} ✨{score_str}".strip() if score_str else base_remark
             
@@ -285,6 +299,7 @@ class Spider(BaseSpider):
                 "vod_remarks": full_remark,
             })
         return cards
+
 
     # ===== 二级分类: vodshow 12 段路由 =====
     # 段位: [id, 地区, 排序, 类型, -, -, -, -, 页码, -, -, 年份]
