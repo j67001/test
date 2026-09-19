@@ -93,7 +93,7 @@ LINE_NAMES = {
 
 # 站点原始每页固定 24 卡片; 爬虫端用并发拉 3 页合并 -> 实际每页 72
 PAGE_SIZE_RAW = 24            # 站点单页卡片数
-PAGE_FETCH = 1                # 爬虫一次并发拉的页数 (3 * 24 = 72)
+PAGE_FETCH = 2                # 爬虫一次并发拉的页数 (3 * 24 = 72)
 PAGE_SIZE = PAGE_SIZE_RAW * PAGE_FETCH  # 暴露给前端的每页大小
 HOME_FETCH = 2                # 首页每个分类拉几页 (2 * 24 = 48)
 HOME_PER_CLS = 12             # 首页每个分类取前 N 个
