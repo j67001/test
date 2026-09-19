@@ -119,6 +119,8 @@ RE_CARD = re.compile(
     r'/voddetail/(\d+)\.html"[^>]*><img[^>]*src="([^"]+)"'
     r'[^>]*>(?:<span[^>]*>([^<]*)</span>)?</a>'
     r'<div[^>]*><h3[^>]*>([^<]*)</h3><p[^>]*>([^<]*)</p>')
+# 在迴圈外單獨定義一個只找分數的正則表達式
+RE_CARD_SCORE = re.compile(r'class="ribbon[^>]*>([\d.]+)</strong>')
 RE_TITLE = re.compile(r'<h1[^>]*>([^<]+)</h1>')
 RE_PIC = re.compile(r'property="og:image" content="([^"]+)"')
 RE_SCORE = re.compile(r'豆瓣评分[：:]\s*([\d.]+)')
@@ -232,9 +234,6 @@ class Spider(BaseSpider):
         if url.startswith('//'):
             url = 'https:' + url
         return self._shrink_pic(url, w=(PIC_W_DETAIL if detail else PIC_W))
-
-    # 在迴圈外單獨定義一個只找分數的正則表達式
-    RE_CARD_SCORE = re.compile(r'class="ribbon[^>]*>([\d.]+)</strong>')
 
     # ===== 列表卡片 =====
     def _cards_from_html(self, html, detail_pic=False):
