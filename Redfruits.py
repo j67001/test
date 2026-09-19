@@ -1400,15 +1400,26 @@ class HongguoPlugin:
     def homeContent(self, filter: bool = False) -> Dict[str, Any]:
         del filter
         payload = self._api_fetch("/home", {"filter": "1"})
-        categories = _categories(payload.get("class"))
-        # --- 修改區塊：過濾掉選單中的排行榜 ---
-        if isinstance(categories, list):
-            categories = [
-                c for c in categories 
-                if str(c.get("type_name") or "") != "排行榜" 
-                and "rank" not in str(c.get("type_id") or "").lower()
-            ]
-        # ------------------------------------
+        
+        # --- 核心修改：直接從服務器返回的原始 class 列表中剔除排行榜 ---
+        raw_classes = payload.get("class")
+        if isinstance(raw_classes, list):
+            filtered_classes = []
+            for c in raw_classes:
+                if not isinstance(c, dict):
+                    continue
+                name = str(c.get("title") or c.get("name") or "")
+                cid = str(c.get("id") or "")
+                
+                # 如果名稱包含排行榜，或者 ID 包含 rank，就直接跳過不加入
+                if "排行榜" in name or "rank" in cid.lower():
+                    continue
+                filtered_classes.append(c)
+            # 將過濾後的列表重新塞回，或替代原本的傳入值
+            categories = _categories(filtered_classes)
+        else:
+            categories = _categories(raw_classes)
+        # ---------------------------------------------------------
         return _document(
             "home",
             items=_content_items(payload.get("list")),
