@@ -118,7 +118,8 @@ PIC_QUALITY = "75"            # webp/jpeg 质量
 RE_CARD = re.compile(
     r'/voddetail/(\d+)\.html"[^>]*><img[^>]*src="([^"]+)"'
     r'[^>]*>(?:<span[^>]*>([^<]*)</span>)?</a>'
-    r'<div[^>]*><h3[^>]*>([^<]*)</h3><p[^>]*>([^<]*)</p>')
+    r'<div[^>]*><h3[^>]*>([^<]*)</h3><p[^>]*>([^<]*)</p>'
+    r'(?:.*?豆瓣评分[：:]\s*([\d.]+))?')
 RE_TITLE = re.compile(r'<h1[^>]*>([^<]+)</h1>')
 RE_PIC = re.compile(r'property="og:image" content="([^"]+)"')
 RE_SCORE = re.compile(r'豆瓣评分[：:]\s*([\d.]+)')
@@ -237,14 +238,13 @@ class Spider(BaseSpider):
     def _cards_from_html(self, html, detail_pic=False):
         cards = []
         seen = set()
-        for vid, pic, remark, name, date in RE_CARD.findall(html):
+        for vid, pic, remark, name, date, score in RE_CARD.findall(html):
             if vid in seen:
                 continue
             seen.add(vid)
             # 組合備註與帶有 ✨ 的評分
             base_remark = remark.strip() or date[:10]
-            score_match = RE_SCORE.search(html)
-            score_str = score_match.group(1).strip() if score_match else ""
+            score_str = score.strip() if score else ""
             full_remark = f"{base_remark} ✨{score_str}".strip() if score_str else base_remark
 
             cards.append({
