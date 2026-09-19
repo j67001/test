@@ -237,15 +237,19 @@ class Spider(BaseSpider):
     def _cards_from_html(self, html, detail_pic=False):
         cards = []
         seen = set()
-        for vid, pic, remark, name, date in RE_CARD.findall(html):
+        for vid, pic, remark, name, date, score in RE_CARD.findall(html):
             if vid in seen:
                 continue
             seen.add(vid)
+            # 組合備註與帶有 ✨ 的評分
+            base_remark = remark.strip() or date[:10]
+            full_remark = f"{base_remark} ✨{score}".strip() if score else base_remark
+
             cards.append({
                 "vod_id": vid,
                 "vod_name": name.strip(),
                 "vod_pic": self._pic(pic, detail=detail_pic),
-                "vod_remarks": remark.strip() or date[:10],
+                "vod_remarks": full_remark,
             })
         return cards
 
