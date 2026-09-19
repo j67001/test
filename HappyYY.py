@@ -412,8 +412,8 @@ class Spider(BaseSpider):
 
         def grab(idx, tid):
             try:
-                # 【修正點】改用新版 _fetch_pages 的參數：直接傳 tid，最後補上空的篩選條件 {}
-                cards = self._fetch_pages(tid, 1, HOME_FETCH, LIST_TIMEOUT, ext={})
+                url = self._vodshow_url(self._host, tid)
+                cards = self._fetch_pages(url, 1, HOME_FETCH, LIST_TIMEOUT)
                 results[idx] = cards[:HOME_PER_CLS]
             except Exception:
                 results[idx] = []
