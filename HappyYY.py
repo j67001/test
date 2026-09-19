@@ -117,8 +117,8 @@ PIC_QUALITY = "75"            # webp/jpeg 质量
 
 RE_CARD = re.compile(
     r'/voddetail/(\d+)\.html"[^>]*><img[^>]*src="([^"]+)"'
-    r'(?:(?:(?!</a>).)*?class="ribbon[^>]*>([\d.]+)</strong>)?'
     r'[^>]*>(?:<span[^>]*>([^<]*)</span>)?</a>'
+    r'(?:(?:(?!</a>).)*?class="ribbon[^>]*>([\d.]+)</strong>)?'
     r'<div[^>]*><h3[^>]*>([^<]*)</h3><p[^>]*>([^<]*)</p>')
 RE_TITLE = re.compile(r'<h1[^>]*>([^<]+)</h1>')
 RE_PIC = re.compile(r'property="og:image" content="([^"]+)"')
@@ -238,7 +238,7 @@ class Spider(BaseSpider):
     def _cards_from_html(self, html, detail_pic=False):
         cards = []
         seen = set()
-        for vid, pic, score, remark, name, date in RE_CARD.findall(html):
+        for vid, pic, remark, score, name, date in RE_CARD.findall(html):
             if vid in seen:
                 continue
             seen.add(vid)
