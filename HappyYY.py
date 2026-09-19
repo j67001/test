@@ -242,6 +242,28 @@ class Spider(BaseSpider):
             if vid in seen:
                 continue
             seen.add(vid)
+            # --- 1. 清洗與優化 remark 文字 ---
+            rem = remark.strip()
+            if rem:
+                # 把 "更新至第" 或 "更新至" 統一替換為 "第"
+                rem = rem.replace("更新至第", "第").replace("更新至", "第")
+                
+                # 尋找「第」後面的數字（包含可能開頭為 0 的數字）
+                # 例如："第05集" -> 抓出 "05"；"第09" -> 抓出 "09"
+                match_num = re.search(r'第(\d+)', rem)
+                if match_num:
+                    num_str = match_num.group(1)
+                    # 轉成整數再轉回字串，自動去掉十位數的 "0" (例如 "05" -> "5")
+                    clean_num = str(int(num_str))
+                    # 替換回原字串中
+                    rem = rem.replace(f"第{num_str}", f"第{clean_num}")
+                
+                # 如果數字/文字後方沒有「集」字，自動補上「集」
+                # 這裡判斷：如果是以「第+數字」結尾，或者是包含「第」但整句沒「集」字就補上
+                if "第" in rem and not rem.endswith("集") and not rem.endswith("期"):
+                    # 如果原本後面還有其他字（如"第5"），直接在末尾補"集"
+                    # 若只想針對純集數補字，可精準判斷
+                    rem = rem + "集"
             # 組合備註與帶有 ✨ 的評分
             base_remark = remark.strip() or date[:10]
             score_str = score.strip() if score else ""
