@@ -1722,18 +1722,25 @@ def _spider_vod(item):
         # 排行榜文件夹必须带 vod_tag=folder，FongMi 靠它决定点进去走
         # categoryContent（不带就会走 detailContent，/detail 查 rank_folder
         # 返回空，榜单点进去就是白板——这就是“排行榜都不能用”根因）。
+        # --- 修改區塊：過濾並去除排行榜 ---
         try:
-            if str(item.get("navigation") or "") == "category":
-                vod["vod_tag"] = "folder"
-            elif vid.startswith(_ITEM_PREFIX):
+            _canon = ""
+            if vid.startswith(_ITEM_PREFIX):
                 try:
                     _canon = _decode_item_id(vid)
                 except Exception:
                     _canon = ""
-                if _canon.startswith("rank_folder:"):
-                    vod["vod_tag"] = "folder"
+            
+            # 如果發現是排行榜資料夾（rank_folder），直接不返回此項目
+            if _canon.startswith("rank_folder:") or "排行榜" in name:
+                return None  # 丟棄該項目，達到去除篩選的效果
+                
+            # 保留原本一般分類的邏輯
+            if str(item.get("navigation") or "") == "category":
+                vod["vod_tag"] = "folder"
         except Exception:
             pass
+        # ----------------------------------
         return vod
     except Exception:
         return None
