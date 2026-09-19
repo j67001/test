@@ -241,36 +241,67 @@ class Spider(BaseSpider):
         cards = []
         seen = set()
         
+        # 1. 核心還原：直接拿到原本穩定的 5 個基本欄位
         raw_cards = RE_CARD.findall(html)
         if not raw_cards:
             return []
             
+        # 2. 獨立找出整個 HTML 裡所有「分數」和它們在網頁中的「文字字元位置 (Index)」
+        # score_positions 結構會是： [(分數位置, "7.3"), (分數位置, "8.5"), ...]
         score_positions = []
         for s_match in re.finditer(r'class="ribbon[^>]*>([\d.]+)</strong>', html):
             score_positions.append((s_match.start(), s_match.group(1).strip()))
             
+        # 3. 同時找出所有「影片ID連結」在網頁中的「文字字元位置」
         vid_positions = [v_match.start() for v_match in RE_CARD.finditer(html)]
         
+        # 4. 開始處理每一部影片
         for idx, (vid, pic, remark, name, date) in enumerate(raw_cards):
             if vid in seen:
                 continue
             seen.add(vid)
             
-            # 分數配對
+            # --- 💡 精準分數配對邏輯 ---
+            # 拿到當前影片在 HTML 裡的具體字元位置
             current_vid_pos = vid_positions[idx]
+            
+            # 找出這部影片的「上一部影片位置」（如果是第一部，就是 0）
             prev_vid_pos = vid_positions[idx - 1] if idx > 0 else 0
+            
             score_str = ""
+            # 遍歷網頁所有的分數，只要這個分數的位置是在「上一部影片之後」且「當前影片位置附近（或之前）」，它就是屬於這部影片的！
             for s_pos, s_val in score_positions:
-                if prev_vid_pos < s_pos < current_vid_pos + 100:
+                if prev_vid_pos < s_pos < current_vid_pos + 100: # 容差 100 字元以內
                     score_str = s_val
-                    break
+                    break # 找到了就跳出
             
-            # --- 💡 超級精簡的 remark 清洗邏輯 ---
+            # --- 5. 清洗與優化 remark 文字 ---
             rem = remark.strip()
-            if m := re.search(r'\d+', rem):
-                rem = f"第{int(m.group())}{'期' if '期' in rem else '集'}{'完結' if '完結' in rem else ''}"
+            if rem:
+                # 檢查原文字裡是否有包含「數字」（例如：更新至12集、更新至第05期、更新至08）
+                # 這裡尋找「更新至」後面，或「第」後面的數字
+                match_num = re.search(r'(?:更新至|第)?(\d+)', rem)
+                
+                if match_num:
+                    # 只要有包含數字，就統一優化格式
+                    num_str = match_num.group(1)
+                    clean_num = str(int(num_str))  # 自動去掉十位數的 "0"
+                    
+                    # 判斷原本是集還是期
+                    unit = "期" if "期" in rem else "集"
+                    
+                    # 重新組合乾淨的格式（例如：第5集、第9期）
+                    rem = f"第{clean_num}{unit}"
+                    
+                    # 如果原文字本來就包含「完結」，則把完結補在後面（例如：第8集完結）
+                    if "完結" in remark:
+                        rem += "完結"
+                else:
+                    # 如果根本沒有數字（例如 "HD"、"高清"、"超清"、"錄製"）
+                    # 則完全保持網頁原樣，不強加「第」或「集」
+                    pass
             
-            # 組合備註與分數
+            # --- 6. 組合備註與 ✨ 分數 ---
             base_remark = rem or date[:10]
             full_remark = f"{base_remark} ✨{score_str}".strip() if score_str else base_remark
             
