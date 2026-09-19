@@ -277,10 +277,20 @@ class Spider(BaseSpider):
             
             # --- 5. 清洗與優化 remark 文字 ---
             rem = remark.strip()
-            # 只有當原本含有數字時（如：更新至05集、更新至08），才統一優化格式
-            if m := re.search(r'\d+', rem):
-                rem = f"第{int(m.group())}{'期' if '期' in rem else '集'}{'完結' if '完結' in rem else ''}"
-            # 如果沒有數字（如：更新至HD、高清），則完全保持原樣，不強加「第」與「集」
+            # 1. 精準抓取「更新至」或「第」後面的集數數字，忽略 1080P 這類單獨的數字
+            if m := re.search(r'(?:更新至|第)(\d+)', rem):
+                num_str = m.group(1)
+                clean_num = str(int(num_str))  # 十位數去 0 (如 08 -> 8)
+                
+                # 2. 判斷單位是「期」還是「集」
+                unit = "期" if "期" in rem else "集"
+                
+                # 3. 組合出基本格式「第X集/期」，如果原本有「完結」就保留
+                rem = f"第{clean_num}{unit}{'完結' if '完結' in rem else ''}"
+                
+            elif "更新至" in rem:
+                # 4. 如果沒有集數數字（如：更新至HD、更新至高清），只把「更新至」拿掉，保留原樣
+                rem = rem.replace("更新至第", "").replace("更新至", "")
             
             # --- 6. 組合備註與 ✨ 分數 ---
             base_remark = rem or date[:10]
