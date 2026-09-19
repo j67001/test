@@ -242,8 +242,8 @@ class Spider(BaseSpider):
                 continue
             seen.add(vid)
             # 組合備註與帶有 ✨ 的評分
-            score_str = score.group(1).strip() if score else ""
             base_remark = remark.strip() or date[:10]
+            score_str = score.group(1).strip() if score else ""
             full_remark = f"{base_remark} ✨{score_str}".strip() if score_str else base_remark
 
             cards.append({
