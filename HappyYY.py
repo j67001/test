@@ -265,7 +265,7 @@ class Spider(BaseSpider):
                     # 若只想針對純集數補字，可精準判斷
                     rem = rem + "集"
             # 組合備註與帶有 ✨ 的評分
-            base_remark = remark.strip() or date[:10]
+            base_remark = rem or date[:10]
             score_str = score.strip() if score else ""
             full_remark = f"{base_remark} ✨{score_str}".strip() if score_str else base_remark
 
