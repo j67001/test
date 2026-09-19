@@ -278,28 +278,14 @@ class Spider(BaseSpider):
             # --- 5. 清洗與優化 remark 文字 ---
             rem = remark.strip()
             if rem:
-                # 檢查原文字裡是否有包含「數字」（例如：更新至12集、更新至第05期、更新至08）
-                # 這裡尋找「更新至」後面，或「第」後面的數字
-                match_num = re.search(r'(?:更新至|第)?(\d+)', rem)
-                
+                rem = rem.replace("更新至第", "第").replace("更新至", "第")
+                match_num = re.search(r'第(\d+)', rem)
                 if match_num:
-                    # 只要有包含數字，就統一優化格式
                     num_str = match_num.group(1)
-                    clean_num = str(int(num_str))  # 自動去掉十位數的 "0"
-                    
-                    # 判斷原本是集還是期
-                    unit = "期" if "期" in rem else "集"
-                    
-                    # 重新組合乾淨的格式（例如：第5集、第9期）
-                    rem = f"第{clean_num}{unit}"
-                    
-                    # 如果原文字本來就包含「完結」，則把完結補在後面（例如：第8集完結）
-                    if "完結" in remark:
-                        rem += "完結"
-                else:
-                    # 如果根本沒有數字（例如 "HD"、"高清"、"超清"、"錄製"）
-                    # 則完全保持網頁原樣，不強加「第」或「集」
-                    pass
+                    clean_num = str(int(num_str))
+                    rem = rem.replace(f"第{num_str}", f"第{clean_num}")
+                if "第" in rem and not any(k in rem for k in ["集", "期"]):
+                    rem = rem + "集"
             
             # --- 6. 組合備註與 ✨ 分數 ---
             base_remark = rem or date[:10]
