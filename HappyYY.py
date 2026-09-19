@@ -119,7 +119,7 @@ RE_CARD = re.compile(
     r'/voddetail/(\d+)\.html"[^>]*><img[^>]*src="([^"]+)"'
     r'[^>]*>(?:<span[^>]*>([^<]*)</span>)?</a>'
     r'<div[^>]*><h3[^>]*>([^<]*)</h3><p[^>]*>([^<]*)</p>'
-    r'(?:.*?class="ribbon[^>]*>([\d.]+)</strong>)?')
+    r'(?:.*?豆瓣评分[：:]\s*([\d.]+))?')
 RE_TITLE = re.compile(r'<h1[^>]*>([^<]+)</h1>')
 RE_PIC = re.compile(r'property="og:image" content="([^"]+)"')
 RE_SCORE = re.compile(r'豆瓣评分[：:]\s*([\d.]+)')
