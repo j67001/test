@@ -1399,27 +1399,8 @@ class HongguoPlugin:
 
     def homeContent(self, filter: bool = False) -> Dict[str, Any]:
         del filter
-        payload = self._api_fetch("/home", {"filter": "2"})
-        
-        # --- 核心修改：直接從服務器返回的原始 class 列表中剔除排行榜 ---
-        raw_classes = payload.get("class")
-        if isinstance(raw_classes, list):
-            filtered_classes = []
-            for c in raw_classes:
-                if not isinstance(c, dict):
-                    continue
-                name = str(c.get("title") or c.get("name") or "")
-                cid = str(c.get("id") or "")
-                
-                # 如果名稱包含排行榜，或者 ID 包含 rank，就直接跳過不加入
-                if "排行榜" in name or "rank" in cid.lower():
-                    continue
-                filtered_classes.append(c)
-            # 將過濾後的列表重新塞回，或替代原本的傳入值
-            categories = _categories(filtered_classes)
-        else:
-            categories = _categories(raw_classes)
-        # ---------------------------------------------------------
+        payload = self._api_fetch("/home", {"filter": "1"})
+        categories = _categories(payload.get("class"))
         return _document(
             "home",
             items=_content_items(payload.get("list")),
@@ -1741,25 +1722,18 @@ def _spider_vod(item):
         # 排行榜文件夹必须带 vod_tag=folder，FongMi 靠它决定点进去走
         # categoryContent（不带就会走 detailContent，/detail 查 rank_folder
         # 返回空，榜单点进去就是白板——这就是“排行榜都不能用”根因）。
-        # --- 修改區塊：過濾並去除排行榜 ---
         try:
-            _canon = ""
-            if vid.startswith(_ITEM_PREFIX):
+            if str(item.get("navigation") or "") == "category":
+                vod["vod_tag"] = "folder"
+            elif vid.startswith(_ITEM_PREFIX):
                 try:
                     _canon = _decode_item_id(vid)
                 except Exception:
                     _canon = ""
-            
-            # 如果發現是排行榜資料夾（rank_folder），直接不返回此項目
-            if _canon.startswith("rank_folder:") or "排行榜" in name:
-                return None  # 丟棄該項目，達到去除篩選的效果
-                
-            # 保留原本一般分類的邏輯
-            if str(item.get("navigation") or "") == "category":
-                vod["vod_tag"] = "folder"
+                if _canon.startswith("rank_folder:"):
+                    vod["vod_tag"] = "folder"
         except Exception:
             pass
-        # ----------------------------------
         return vod
     except Exception:
         return None
