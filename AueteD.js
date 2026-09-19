@@ -1,6 +1,6 @@
 var rule = {
   title:'Auete',
-  host:'https://auete.com',
+  host:'https://aeete.com',
   //host:'https://auete.top',
   // url:'/fyclassfyfilter/indexfypage.html[/fyclassfyfilter/index.html]',
   url:'/fyclassfyfilter/indexfypage.html[/fyclassfyfilter/index.html]',
