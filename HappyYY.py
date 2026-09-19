@@ -238,7 +238,7 @@ class Spider(BaseSpider):
     def _cards_from_html(self, html, detail_pic=False):
         cards = []
         seen = set()
-        for vid, pic, remark, score, name, date in RE_CARD.findall(html):
+        for vid, pic, remark, name, score, date in RE_CARD.findall(html):
             if vid in seen:
                 continue
             seen.add(vid)
