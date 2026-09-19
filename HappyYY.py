@@ -118,7 +118,6 @@ PIC_QUALITY = "75"            # webp/jpeg 质量
 RE_CARD = re.compile(
     r'/voddetail/(\d+)\.html"[^>]*><img[^>]*src="([^"]+)"'
     r'[^>]*>(?:<span[^>]*>([^<]*)</span>)?</a>'
-    r'(?:(?:(?!</a>).)*?class="ribbon[^>]*>([\d.]+)</strong>)?'
     r'<div[^>]*><h3[^>]*>([^<]*)</h3><p[^>]*>([^<]*)</p>')
 RE_TITLE = re.compile(r'<h1[^>]*>([^<]+)</h1>')
 RE_PIC = re.compile(r'property="og:image" content="([^"]+)"')
@@ -234,38 +233,52 @@ class Spider(BaseSpider):
             url = 'https:' + url
         return self._shrink_pic(url, w=(PIC_W_DETAIL if detail else PIC_W))
 
+    # 在迴圈外單獨定義一個只找分數的正則表達式
+    RE_CARD_SCORE = re.compile(r'class="ribbon[^>]*>([\d.]+)</strong>')
+
     # ===== 列表卡片 =====
     def _cards_from_html(self, html, detail_pic=False):
+        import re
         cards = []
         seen = set()
-        for vid, pic, remark, name, score, date in RE_CARD.findall(html):
+        # 1. 使用 finditer 可以拿到每部影片在 html 裡的精確起點與終點
+        matches = list(RE_CARD.finditer(html))
+        
+        for idx, match in enumerate(matches):
+            # 解包原本的 5 個欄位
+            vid, pic, remark, name, date = match.groups()
+            
             if vid in seen:
                 continue
             seen.add(vid)
-            # --- 1. 清洗與優化 remark 文字 ---
+            # --- 2. 核心：切出該影片專屬的 HTML 邊界範圍，精準撈取分數 ---
+            # 起點：當前影片的開頭
+            start_pos = match.start()
+            # 終點：下一部影片的開頭（如果是最後一部，就到整頁的結尾）
+            end_pos = matches[idx+1].start() if idx + 1 < len(matches) else len(html)
+            
+            # 切出這部影片專屬的局部 HTML 代碼
+            sub_html = html[start_pos:end_pos]
+            
+            # 在這個局部代碼裡找分數，絕對不會跨到別部影片
+            score_match = RE_CARD_SCORE.search(sub_html)
+            score_str = score_match.group(1).strip() if score_match else ""
+          
+            # --- 3. 清洗與優化 remark 文字 ---
             rem = remark.strip()
             if rem:
-                # 把 "更新至第" 或 "更新至" 統一替換為 "第"
                 rem = rem.replace("更新至第", "第").replace("更新至", "第")
-                
-                # 尋找「第」後面的數字（包含可能開頭為 0 的數字）
                 match_num = re.search(r'第(\d+)', rem)
                 if match_num:
                     num_str = match_num.group(1)
-                    # 轉成整數再轉回字串，自動去掉十位數的 "0" (例如 "05" -> "5")
                     clean_num = str(int(num_str))
-                    # 替換回原字串中
                     rem = rem.replace(f"第{num_str}", f"第{clean_num}")
-                
-                # 【修正這裡的邏輯】
-                # 如果整句裡面「完全沒有」集或期等字，且是第+數字的組合，才在結尾補上「集」
                 if "第" in rem and not any(k in rem for k in ["集", "期"]):
                     rem = rem + "集"
-            # 組合備註與帶有 ✨ 的評分
+            # --- 4. 組合備註與 ✨ 分數 ---
             base_remark = rem or date[:10]
-            score_str = score.strip() if score else ""
             full_remark = f"{base_remark} ✨{score_str}".strip() if score_str else base_remark
-
+            
             cards.append({
                 "vod_id": vid,
                 "vod_name": name.strip(),
