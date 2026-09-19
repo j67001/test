@@ -237,13 +237,14 @@ class Spider(BaseSpider):
     def _cards_from_html(self, html, detail_pic=False):
         cards = []
         seen = set()
-        for vid, pic, remark, name, date, score in RE_CARD.findall(html):
+        for vid, pic, remark, name, date in RE_CARD.findall(html):
             if vid in seen:
                 continue
             seen.add(vid)
             # 組合備註與帶有 ✨ 的評分
             base_remark = remark.strip() or date[:10]
-            score_str = score.group(1).strip() if score else ""
+            score_match = RE_SCORE.search(html)
+            score_str = score_match.group(1).strip() if score_match else ""
             full_remark = f"{base_remark} ✨{score_str}".strip() if score_str else base_remark
 
             cards.append({
