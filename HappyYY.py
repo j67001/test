@@ -249,7 +249,6 @@ class Spider(BaseSpider):
                 rem = rem.replace("更新至第", "第").replace("更新至", "第")
                 
                 # 尋找「第」後面的數字（包含可能開頭為 0 的數字）
-                # 例如："第05集" -> 抓出 "05"；"第09" -> 抓出 "09"
                 match_num = re.search(r'第(\d+)', rem)
                 if match_num:
                     num_str = match_num.group(1)
@@ -258,11 +257,9 @@ class Spider(BaseSpider):
                     # 替換回原字串中
                     rem = rem.replace(f"第{num_str}", f"第{clean_num}")
                 
-                # 如果數字/文字後方沒有「集」字，自動補上「集」
-                # 這裡判斷：如果是以「第+數字」結尾，或者是包含「第」但整句沒「集」字就補上
-                if "第" in rem and not rem.endswith("集") and not rem.endswith("期"):
-                    # 如果原本後面還有其他字（如"第5"），直接在末尾補"集"
-                    # 若只想針對純集數補字，可精準判斷
+                # 【修正這裡的邏輯】
+                # 如果整句裡面「完全沒有」集或期等字，且是第+數字的組合，才在結尾補上「集」
+                if "第" in rem and not any(k in rem for k in ["集", "期"]):
                     rem = rem + "集"
             # 組合備註與帶有 ✨ 的評分
             base_remark = rem or date[:10]
