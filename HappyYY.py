@@ -277,19 +277,24 @@ class Spider(BaseSpider):
             
             # --- 5. 清洗與優化 remark 文字 ---
             rem = remark.strip()
-            # 1. 精準抓取「更新至」或「第」後面的集數數字，忽略 1080P 這類單獨的數字
-            if m := re.search(r'(?:更新至|第)(\d+)', rem):
-                num_str = m.group(1)
-                clean_num = str(int(num_str))  # 十位數去 0 (如 08 -> 8)
-                
-                # 2. 判斷單位是「期」還是「集」
-                unit = "期" if "期" in rem else "集"
-                
-                # 3. 組合出基本格式「第X集/期」，如果原本有「完結」就保留
-                rem = f"第{clean_num}{unit}{'完結' if '完結' in rem else ''}"
-                
-            elif "更新至" in rem:
-                # 4. 如果沒有集數數字（如：更新至HD、更新至高清），只把「更新至」拿掉，保留原樣
+            # 1. 先精準抓取代表集數的數字（必須是「更新至」、「第」後面，或「集/期」前面的數字）
+            # 這能完美避開 1080P、4K 等單獨的畫質數字
+            if m := re.search(r'(?:更新至|第)?(\d+)(?:集|期)?', rem):
+                # 只有當數字不是像 1080、2160 這類高達上千的畫質解析度時，才認定是集數
+                if int(m.group(1)) < 1000:
+                    num_str = m.group(1)
+                    clean_num = str(int(num_str))  # 自動去掉十位數的 0 (如 08 -> 8)
+                    
+                    # 判斷是集還是期
+                    unit = "期" if "期" in rem else "集"
+                    # 判斷是否包含完結
+                    end_str = "完結" if "完結" in rem else ""
+                    
+                    # 重新組合
+                    rem = f"第{clean_num}{unit}{end_str}"
+                    
+            # 2. 如果是沒有數字的類型（如：更新至HD、更新至高清）
+            if "更新至" in rem and not re.search(r'\d+', rem):
                 rem = rem.replace("更新至第", "").replace("更新至", "")
             
             # --- 6. 組合備註與 ✨ 分數 ---
