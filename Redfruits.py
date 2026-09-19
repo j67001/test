@@ -1401,6 +1401,14 @@ class HongguoPlugin:
         del filter
         payload = self._api_fetch("/home", {"filter": "1"})
         categories = _categories(payload.get("class"))
+        # --- 修改區塊：過濾掉選單中的排行榜 ---
+        if isinstance(categories, list):
+            categories = [
+                c for c in categories 
+                if str(c.get("type_name") or "") != "排行榜" 
+                and "rank" not in str(c.get("type_id") or "").lower()
+            ]
+        # ------------------------------------
         return _document(
             "home",
             items=_content_items(payload.get("list")),
