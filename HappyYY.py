@@ -236,7 +236,6 @@ class Spider(BaseSpider):
         return self._shrink_pic(url, w=(PIC_W_DETAIL if detail else PIC_W))
 
     # ===== 列表卡片 =====
-# ===== 列表卡片 =====
     def _cards_from_html(self, html, detail_pic=False):
         import re
         cards = []
@@ -426,8 +425,8 @@ class Spider(BaseSpider):
 
         def grab(idx, tid):
             try:
-                url = self._vodshow_url(self._host, tid)
-                cards = self._fetch_pages(url, 1, HOME_FETCH, LIST_TIMEOUT)
+                # 【修正點】改用新版 _fetch_pages 的參數：直接傳 tid，最後補上空的篩選條件 {}
+                cards = self._fetch_pages(tid, 1, HOME_FETCH, LIST_TIMEOUT, ext={})
                 results[idx] = cards[:HOME_PER_CLS]
             except Exception:
                 results[idx] = []
