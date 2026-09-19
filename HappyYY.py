@@ -277,15 +277,10 @@ class Spider(BaseSpider):
             
             # --- 5. 清洗與優化 remark 文字 ---
             rem = remark.strip()
-            if rem:
-                rem = rem.replace("更新至第", "第").replace("更新至", "第")
-                match_num = re.search(r'第(\d+)', rem)
-                if match_num:
-                    num_str = match_num.group(1)
-                    clean_num = str(int(num_str))
-                    rem = rem.replace(f"第{num_str}", f"第{clean_num}")
-                if "第" in rem and not any(k in rem for k in ["集", "期"]):
-                    rem = rem + "集"
+            # 只有當原本含有數字時（如：更新至05集、更新至08），才統一優化格式
+            if m := re.search(r'\d+', rem):
+                rem = f"第{int(m.group())}{'期' if '期' in rem else '集'}{'完結' if '完結' in rem else ''}"
+            # 如果沒有數字（如：更新至HD、高清），則完全保持原樣，不強加「第」與「集」
             
             # --- 6. 組合備註與 ✨ 分數 ---
             base_remark = rem or date[:10]
