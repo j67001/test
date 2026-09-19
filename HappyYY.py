@@ -284,13 +284,10 @@ class Spider(BaseSpider):
                 # 因為用了 | (或)，要找出是哪一個群組抓到數字
                 num_str = m.group(1) or m.group(2)
                 clean_num = str(int(num_str))  # 自動去掉十位數的 0 (如 08 -> 8)
-                
-                # 判斷單位與完結狀態
+                # 判斷單位
                 unit = "期" if "期" in rem else "集"
-                end_str = "完結" if "完結" in rem else ""
-                
                 # 重新組合
-                rem = f"第{clean_num}{unit}{end_str}"
+                rem = f"第{clean_num}{unit}"
                 
             # 2. 如果是沒有數字的類型（如：更新至HD、更新至高清），去除「更新至」
             elif "更新至" in rem:
