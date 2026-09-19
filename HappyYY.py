@@ -284,14 +284,10 @@ class Spider(BaseSpider):
                 if int(m.group(1)) < 1000:
                     num_str = m.group(1)
                     clean_num = str(int(num_str))  # 自動去掉十位數的 0 (如 08 -> 8)
-                    
                     # 判斷是集還是期
                     unit = "期" if "期" in rem else "集"
-                    # 判斷是否包含完結
-                    end_str = "完結" if "完結" in rem else ""
-                    
                     # 重新組合
-                    rem = f"第{clean_num}{unit}{end_str}"
+                    rem = f"第{clean_num}{unit}"
                     
             # 2. 如果是沒有數字的類型（如：更新至HD、更新至高清）
             if "更新至" in rem and not re.search(r'\d+', rem):
