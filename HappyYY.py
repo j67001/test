@@ -119,7 +119,7 @@ RE_CARD = re.compile(
     r'/voddetail/(\d+)\.html"[^>]*><img[^>]*src="([^"]+)"'
     r'[^>]*>(?:<span[^>]*>([^<]*)</span>)?</a>'
     r'<div[^>]*><h3[^>]*>([^<]*)</h3><p[^>]*>([^<]*)</p>'
-    r'(?:.*?class="ribbon[^>]*>([\d.]+)</strong>)?')
+    r'(?:.*?豆瓣评分[：:]\s*([\d.]+))?')
 RE_TITLE = re.compile(r'<h1[^>]*>([^<]+)</h1>')
 RE_PIC = re.compile(r'property="og:image" content="([^"]+)"')
 RE_SCORE = re.compile(r'豆瓣评分[：:]\s*([\d.]+)')
@@ -242,27 +242,8 @@ class Spider(BaseSpider):
             if vid in seen:
                 continue
             seen.add(vid)
-            # --- 1. 清洗與優化 remark 文字 ---
-            rem = remark.strip()
-            if rem:
-                # 把 "更新至第" 或 "更新至" 統一替換為 "第"
-                rem = rem.replace("更新至第", "第").replace("更新至", "第")
-                
-                # 尋找「第」後面的數字（包含可能開頭為 0 的數字）
-                match_num = re.search(r'第(\d+)', rem)
-                if match_num:
-                    num_str = match_num.group(1)
-                    # 轉成整數再轉回字串，自動去掉十位數的 "0" (例如 "05" -> "5")
-                    clean_num = str(int(num_str))
-                    # 替換回原字串中
-                    rem = rem.replace(f"第{num_str}", f"第{clean_num}")
-                
-                # 【修正這裡的邏輯】
-                # 如果整句裡面「完全沒有」集或期等字，且是第+數字的組合，才在結尾補上「集」
-                if "第" in rem and not any(k in rem for k in ["集", "期"]):
-                    rem = rem + "集"
             # 組合備註與帶有 ✨ 的評分
-            base_remark = rem or date[:10]
+            base_remark = remark.strip() or date[:10]
             score_str = score.strip() if score else ""
             full_remark = f"{base_remark} ✨{score_str}".strip() if score_str else base_remark
 
@@ -399,9 +380,8 @@ class Spider(BaseSpider):
 
         def grab(idx, tid):
             try:
-                # 【修正點】改用新版 _fetch_pages 的參數：直接傳 tid，最後補上空的篩選條件 {}
-                cards = self._fetch_pages(tid, 1, HOME_FETCH, LIST_TIMEOUT, ext={})
-
+                url = self._vodshow_url(self._host, tid)
+                cards = self._fetch_pages(url, 1, HOME_FETCH, LIST_TIMEOUT)
                 results[idx] = cards[:HOME_PER_CLS]
             except Exception:
                 results[idx] = []
