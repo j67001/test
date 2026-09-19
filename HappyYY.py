@@ -93,7 +93,7 @@ LINE_NAMES = {
 
 # 站点原始每页固定 24 卡片; 爬虫端用并发拉 3 页合并 -> 实际每页 72
 PAGE_SIZE_RAW = 24            # 站点单页卡片数
-PAGE_FETCH = 10                # 爬虫一次并发拉的页数 (3 * 24 = 72)
+PAGE_FETCH = 3                # 爬虫一次并发拉的页数 (3 * 24 = 72)
 PAGE_SIZE = PAGE_SIZE_RAW * PAGE_FETCH  # 暴露给前端的每页大小
 HOME_FETCH = 2                # 首页每个分类拉几页 (2 * 24 = 48)
 HOME_PER_CLS = 12             # 首页每个分类取前 N 个
@@ -119,7 +119,7 @@ RE_CARD = re.compile(
     r'/voddetail/(\d+)\.html"[^>]*><img[^>]*src="([^"]+)"'
     r'[^>]*>(?:<span[^>]*>([^<]*)</span>)?</a>'
     r'<div[^>]*><h3[^>]*>([^<]*)</h3><p[^>]*>([^<]*)</p>'
-    r'(?:.*?class="ribbon[^>]*>([\d.]+)</strong>)?')
+    r'(?:.*?豆瓣评分[：:]\s*([\d.]+))?')
 RE_TITLE = re.compile(r'<h1[^>]*>([^<]+)</h1>')
 RE_PIC = re.compile(r'property="og:image" content="([^"]+)"')
 RE_SCORE = re.compile(r'豆瓣评分[：:]\s*([\d.]+)')
@@ -242,27 +242,8 @@ class Spider(BaseSpider):
             if vid in seen:
                 continue
             seen.add(vid)
-            # --- 1. 清洗與優化 remark 文字 ---
-            rem = remark.strip()
-            if rem:
-                # 把 "更新至第" 或 "更新至" 統一替換為 "第"
-                rem = rem.replace("更新至第", "第").replace("更新至", "第")
-                
-                # 尋找「第」後面的數字（包含可能開頭為 0 的數字）
-                match_num = re.search(r'第(\d+)', rem)
-                if match_num:
-                    num_str = match_num.group(1)
-                    # 轉成整數再轉回字串，自動去掉十位數的 "0" (例如 "05" -> "5")
-                    clean_num = str(int(num_str))
-                    # 替換回原字串中
-                    rem = rem.replace(f"第{num_str}", f"第{clean_num}")
-                
-                # 【修正這裡的邏輯】
-                # 如果整句裡面「完全沒有」集或期等字，且是第+數字的組合，才在結尾補上「集」
-                if "第" in rem and not any(k in rem for k in ["集", "期"]):
-                    rem = rem + "集"
             # 組合備註與帶有 ✨ 的評分
-            base_remark = rem or date[:10]
+            base_remark = remark.strip() or date[:10]
             score_str = score.strip() if score else ""
             full_remark = f"{base_remark} ✨{score_str}".strip() if score_str else base_remark
 
@@ -323,28 +304,30 @@ class Spider(BaseSpider):
     # 并发多页抓取 (通用)
     # ============================================================
 
-    def _fetch_pages(self, base_url, start_page, count, timeout):
-        """并发拉 [start_page, start_page+count) 多页, 合并去重卡片"""
+    def _fetch_pages(self, tid, start_page, count, timeout, ext):
+        """併發拉取多頁，在迴圈內部動態生成精確的網址，避免替換錯誤"""
+        import threading
         urls = []
+        
+        # 修正點：不在外面切字串，直接在迴圈內根據每一頁的真實頁碼生成 URL
         for i in range(count):
-            # base_url 形如 .../...-N.html, 把第 9 段页码替换
-            parts = base_url.split('/')
-            last = parts[-1].split('-')
-            if len(last) == 12:
-                last[8] = str(start_page + i)
-                parts[-1] = '-'.join(last)
-            else:
-                # 兜底: 拼 query
-                sep = '&' if '?' in base_url else '?'
-                urls.append("%s%spg=%d" % (base_url, sep, start_page + i))
-                continue
-            urls.append('/'.join(parts))
+            current_page = start_page + i
+            # 直接調用路由生成函式，確保不管是 12段式 還是 query 形式都能完美適應
+            u = self._vodshow_url(
+                self._host, tid, page=current_page,
+                cls=str(ext.get("class") or ""),
+                area=str(ext.get("area") or ""),
+                by=str(ext.get("by") or ""),
+                year=str(ext.get("year") or ""),
+            )
+            urls.append(u)
 
         out = []
         results = [None] * len(urls)
         def grab(idx, u):
             try:
-                results[idx] = self._txt_retry(u, times=1, timeout=timeout)
+                # 這裡建議 times 設為 2，增加容錯率防止偶發性缺失
+                results[idx] = self._txt_retry(u, times=2, timeout=timeout)
             except Exception:
                 results[idx] = ""
 
@@ -456,27 +439,16 @@ class Spider(BaseSpider):
         if cached and now - cached[0] < CACHE_TTL:
             return cached[1]
 
-        # 服务端页码 = (前端页 - 1) * PAGE_FETCH + 1, 拉 PAGE_FETCH 页
+        # 算出爬蟲端起始頁面
         start_page = (page - 1) * PAGE_FETCH + 1
-        base_url = self._vodshow_url(
-            self._host, tid, page=start_page,
-            cls=str(ext.get("class") or ""),
-            area=str(ext.get("area") or ""),
-            by=str(ext.get("by") or ""),
-            year=str(ext.get("year") or ""),
-        )
-        cards = self._fetch_pages(base_url, start_page, PAGE_FETCH, LIST_TIMEOUT)
+        
+        # 傳入 ext 參數，讓 _fetch_pages 內部動態生成正確的 3 頁網址
+        cards = self._fetch_pages(tid, start_page, PAGE_FETCH, LIST_TIMEOUT, ext)
 
         if not cards and page > 1:
-            # 末页可能为空 -> 回退第 1 页
+            # 末頁可能為空 -> 回退第 1 页
+            cards = self._fetch_pages(tid, 1, PAGE_FETCH, LIST_TIMEOUT, ext)
             start_page = 1
-            base_url = self._vodshow_url(
-                self._host, tid, page=1,
-                cls=str(ext.get("class") or ""),
-                area=str(ext.get("area") or ""),
-                by=str(ext.get("by") or ""),
-                year=str(ext.get("year") or ""))
-            cards = self._fetch_pages(base_url, 1, PAGE_FETCH, LIST_TIMEOUT)
 
         if not cards:
             result = {"page": page, "pagecount": 1, "limit": PAGE_SIZE,
@@ -484,15 +456,17 @@ class Spider(BaseSpider):
             self._cat_cache[cache_key] = (now, result)
             return result
 
-        # 估算总页数: 用首页的 pagecount 块做参考 (任一合并页里都包含同样的分页)
-        # 由于多页合并, 这里粗略: 至少 page, 且如果有分页再算
         pagecount = page
-        # 抓首页 HTML 拿真实页码
-        first_html = self._txt_retry(base_url, 1, timeout=LIST_TIMEOUT)
+        # 重新生成第 1 頁網址拿真實總頁碼
+        first_url = self._vodshow_url(
+            self._host, tid, page=start_page,
+            cls=str(ext.get("class") or ""), area=str(ext.get("area") or ""),
+            by=str(ext.get("by") or ""), year=str(ext.get("year") or "")
+        )
+        first_html = self._txt_retry(first_url, 1, timeout=LIST_TIMEOUT)
         if first_html:
             pagecount = self._pagecount_from(first_html, page)
-            # 实际一页在爬虫端是 PAGE_FETCH 倍, 前端翻页步长 = PAGE_FETCH
-            # 但 pagecount 是站点页数, 前端 page 与之保持一致即可
+            
         result = {
             "list": cards,
             "page": page,
@@ -502,6 +476,7 @@ class Spider(BaseSpider):
         }
         self._cat_cache[cache_key] = (now, result)
         return result
+
 
     # ============================================================
     # 详情页
