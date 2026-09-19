@@ -1399,7 +1399,7 @@ class HongguoPlugin:
 
     def homeContent(self, filter: bool = False) -> Dict[str, Any]:
         del filter
-        payload = self._api_fetch("/home", {"filter": "1"})
+        payload = self._api_fetch("/home", {"filter": "2"})
         
         # --- 核心修改：直接從服務器返回的原始 class 列表中剔除排行榜 ---
         raw_classes = payload.get("class")
