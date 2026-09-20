@@ -635,7 +635,7 @@ class Spider(BaseSpider):
             "vod_pic": self._pic(pic.group(1) if pic else "", detail=True),
             "type_name": ",".join(dict.fromkeys(types)) if types else "",
             "vod_year": year,
-            "vod_area": area.group(1).strip() if area else "",
+            "vod_area": area.group(1).strip().replace("中国", "") if area else "",
             "vod_remarks": remarks,
             "vod_actor": names(actor.group(1)) if actor else "",
             "vod_director": names(director.group(1)) if director else "",
