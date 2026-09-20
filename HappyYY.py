@@ -507,31 +507,42 @@ class Spider(BaseSpider):
             return result
 
         pagecount = page
-        # 重新生成第 1 頁網址拿真實總頁碼
+        # 1. 抓首頁 HTML 拿真實總頁碼
         first_url = self._vodshow_url(
             self._host, tid, page=start_page,
             cls=str(ext.get("class") or ""), area=str(ext.get("area") or ""),
             by=str(ext.get("by") or ""), year=str(ext.get("year") or "")
         )
         first_html = self._txt_retry(first_url, 1, timeout=LIST_TIMEOUT)
+        
+        # 2. 【💡 終極動態分頁邏輯】
         if first_html:
-            # 拿到網站原本的真實總頁數 (例如 30 頁)
-            raw_pagecount = self._pagecount_from(first_html, page)
-            
-            # 【💡 核心修正：總頁數必須除以 PAGE_FETCH】
-            # 使用 math.ceil 向上取整，確保餘數也能自成一頁 (例如 31 頁原網頁 / 3 = 11 頁前端頁)
-            import math
-            pagecount = math.ceil(raw_pagecount / PAGE_FETCH)
+            try:
+                # 拿到原網站的總頁數
+                raw_pc = self._pagecount_from(first_html, page)
+                import math
+                # 計算出換算後的合併總頁數
+                pagecount = math.ceil(raw_pc / PAGE_FETCH)
+            except Exception:
+                pagecount = page + 1
+        else:
+            # 萬一連原網站都抓不到，直接告訴前端「還有下一頁」
+            pagecount = page + 1
 
-        # 計算原本網站的總影片數量
-        total_items = raw_pagecount * PAGE_SIZE_RAW if first_html else pagecount * PAGE_SIZE
+        # 3. 如果當前頁面已經逼近估算總頁數，但實際上可能還有資料，動態往後加 1 頁
+        if page >= pagecount:
+            pagecount = page + 1
+
+        # 4. 【🔥 關鍵修正】total 必須嚴格等於 pagecount * PAGE_SIZE 
+        # TVBox 看到 total 和 limit 的比例完美契合，且目前 page < pagecount，就絕對會允許載入下一頁！
+        total_items = pagecount * PAGE_SIZE
 
         result = {
             "list": cards,
-            "page": page,          # 前端目前在第 1 頁，下次翻頁帶入 2
-            "pagecount": pagecount, # 修正後的合併總頁數
+            "page": page,
+            "pagecount": pagecount,
             "limit": PAGE_SIZE,    # 72
-            "total": total_items,  # 總影片數維持與原網站相同
+            "total": total_items,  # 完美的數學比例，欺騙 TVBox 分頁器
         }
         self._cat_cache[cache_key] = (now, result)
         return result
