@@ -515,14 +515,23 @@ class Spider(BaseSpider):
         )
         first_html = self._txt_retry(first_url, 1, timeout=LIST_TIMEOUT)
         if first_html:
-            pagecount = self._pagecount_from(first_html, page)
+            # 拿到網站原本的真實總頁數 (例如 30 頁)
+            raw_pagecount = self._pagecount_from(first_html, page)
             
+            # 【💡 核心修正：總頁數必須除以 PAGE_FETCH】
+            # 使用 math.ceil 向上取整，確保餘數也能自成一頁 (例如 31 頁原網頁 / 3 = 11 頁前端頁)
+            import math
+            pagecount = math.ceil(raw_pagecount / PAGE_FETCH)
+
+        # 計算原本網站的總影片數量
+        total_items = raw_pagecount * PAGE_SIZE_RAW if first_html else pagecount * PAGE_SIZE
+
         result = {
             "list": cards,
-            "page": page,
-            "pagecount": pagecount,
-            "limit": PAGE_SIZE,
-            "total": pagecount * PAGE_SIZE_RAW,
+            "page": page,          # 前端目前在第 1 頁，下次翻頁帶入 2
+            "pagecount": pagecount, # 修正後的合併總頁數
+            "limit": PAGE_SIZE,    # 72
+            "total": total_items,  # 總影片數維持與原網站相同
         }
         self._cat_cache[cache_key] = (now, result)
         return result
