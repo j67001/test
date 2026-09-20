@@ -290,7 +290,7 @@ class Spider(BaseSpider):
                     # 判斷單位是期還是集
                     unit = "期" if "期" in rem else "集"
                     # 【🔥 雙重鎖定完結】只要原本有「完結」這兩個字，就一定要保留
-                    end_str = "完結" if "完結" in rem else ""
+                    end_str = "完结" if "完结" in rem else ""
                     
                     # 重新組合成您要的標準格式
                     rem = f"第{clean_num}{unit}{end_str}"
