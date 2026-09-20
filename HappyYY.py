@@ -278,25 +278,26 @@ class Spider(BaseSpider):
             # --- 5. 清洗與優化 remark 文字 ---
             rem = remark.strip()
             
-            # 1. 精準正則：數字必須在「更新至/第」後面，或在「集/期」前面，並順便捕捉後面有沒有「完結」
-            # (完結)? 代表完結是選填，有出現就會被抓到 Group 3
-            if m := re.search(r'(?:(?:更新至|第)(\d+)|(\d+)(?:集|期)).*?(完結)?', rem):
-                # 找出是哪一個群組抓到數字
-                num_str = m.group(1) or m.group(2)
-                clean_num = str(int(num_str))  # 自動去掉十位數的 0 (如 08 -> 8)
-                
-                # 判斷單位
-                unit = "期" if "期" in rem else "集"
-                
-                # 核心修正：如果原文字有「完結」二字，或者是正則有抓到完結分組，就加上「完結」
-                end_str = "完結" if ("完結" in rem or m.group(3)) else ""
-                
-                # 重新組合
-                rem = f"第{clean_num}{unit}{end_str}"
-                
-            # 2. 如果是沒有數字的類型（如：更新至HD、更新至高清），去除「更新至」
-            elif "更新至" in rem:
-                rem = rem.replace("更新至第", "").replace("更新至", "")
+            # 1. 如果是純畫質解析度（如 1080P、4K），直接保留，不觸發後面的集數優化
+            if rem.upper() in ["1080P", "4K", "2K", "720P"]:
+                pass
+            else:
+                # 2. 核心：只要原文字包含「數字」，就代表它是集數
+                if m := re.search(r'\d+', rem):
+                    num_str = m.group()
+                    clean_num = str(int(num_str))  # 自動去掉十位數的 0 (如 08 -> 8)
+                    
+                    # 判斷單位是期還是集
+                    unit = "期" if "期" in rem else "集"
+                    # 【🔥 雙重鎖定完結】只要原本有「完結」這兩個字，就一定要保留
+                    end_str = "完結" if "完結" in rem else ""
+                    
+                    # 重新組合成您要的標準格式
+                    rem = f"第{clean_num}{unit}{end_str}"
+                    
+                # 3. 如果完全沒有數字（如：更新至HD、更新至高清）
+                elif "更新至" in rem:
+                    rem = rem.replace("更新至第", "").replace("更新至", "")
             
             # --- 6. 組合備註與 ✨ 分數 ---
             base_remark = rem or date[:10]
