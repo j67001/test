@@ -278,15 +278,19 @@ class Spider(BaseSpider):
             # --- 5. 清洗與優化 remark 文字 ---
             rem = remark.strip()
             
-            # 1. 精準正則：數字必須緊跟在「更新至/第」後面，或是緊鄰在「集/期」前面
-            # 這樣就能透過正則直接忽略 "1080P"、"4K" 這類單獨出現的解析度數字
-            if m := re.search(r'(?:更新至|第)(\d+)|(\d+)(?:集|期)', rem):
-                # 因為用了 | (或)，要找出是哪一個群組抓到數字
+            # 1. 精準正則：數字必須在「更新至/第」後面，或在「集/期」前面，並順便捕捉後面有沒有「完結」
+            # (完結)? 代表完結是選填，有出現就會被抓到 Group 3
+            if m := re.search(r'(?:(?:更新至|第)(\d+)|(\d+)(?:集|期)).*?(完結)?', rem):
+                # 找出是哪一個群組抓到數字
                 num_str = m.group(1) or m.group(2)
                 clean_num = str(int(num_str))  # 自動去掉十位數的 0 (如 08 -> 8)
-                # 判斷單位與完結狀態
+                
+                # 判斷單位
                 unit = "期" if "期" in rem else "集"
-                end_str = "完結" if "完結" in rem else ""
+                
+                # 核心修正：如果原文字有「完結」二字，或者是正則有抓到完結分組，就加上「完結」
+                end_str = "完結" if ("完結" in rem or m.group(3)) else ""
+                
                 # 重新組合
                 rem = f"第{clean_num}{unit}{end_str}"
                 
