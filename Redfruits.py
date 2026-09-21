@@ -442,8 +442,10 @@ MV_PLUGIN = {
 }
 
 
-_API_ORIGIN = "https://djapi.999888456.xyz"
-_API_HOST = "djapi.999888456.xyz"
+#_API_ORIGIN = "https://djapi.999888456.xyz"
+#_API_HOST = "djapi.999888456.xyz"
+_API_ORIGIN = "https://hongguoduanju.com"
+_API_HOST = "hongguoduanju.com"
 _API_PREFIX = "/api/hongguo"
 _API_PATHS = frozenset({"/home", "/category", "/search", "/detail", "/play"})
 _USER_AGENT = (
