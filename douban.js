@@ -488,6 +488,7 @@ class DoubanSpider extends Spider {
         } catch (e) {
             vod_short.vod_remarks = "评分:暂无";
         }
+    }
 
     get_tags(extend) {
         let tag_list = []
