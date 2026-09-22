@@ -6,9 +6,9 @@
 * @Software : Samples
 * @Desc     :
 */
-import {VodShort} from "../lib/vod.js";
-import {Spider} from "./spider.js";
-import {_, Crypto} from "../lib/cat.js";
+import {VodShort} from "https://github.com/bobyang3/tvbox/raw/own/~/cat/tjs/lib/vod.js";
+import {Spider} from "https://github.com/bobyang3/tvbox/raw/own/~/cat/tjs/js/spider.js";
+import {_, Crypto} from "https://github.com/bobyang3/tvbox/raw/own/~/cat/tjs/lib/cat.js";
 
 
 class DoubanSpider extends Spider {
