@@ -4412,10 +4412,10 @@ class Spider(Spider):
 
     CATEGORY_CONFIG = {
         # 將 content_type 分類參數以及 route 的 canonicalPath 整合進去
-        'real-drama': {'type_name': '真人剧',  'kind': 'category', 'query': 'tab=1&content_type=1&sort_type=1', 'route_path': '/category/real-drama'},
-        'ai-drama': {'type_name': 'AI剧',   'kind': 'category', 'query': 'tab=1&content_type=4&sort_type=1', 'route_path': '/category/ai-drama'},
-        'comic-drama': {'type_name': '漫剧',   'kind': 'category', 'query': 'tab=1&content_type=3&sort_type=1', 'route_path': '/category/comic-drama'},
-        'comic': {'type_name': '漫画',  'kind': 'category', 'query': 'tab=2&content_type=2&sort_type=1', 'route_path': '/category/comic'},
+        'real-drama': {'type_name': '真人剧',  'kind': 'category', 'query': 'tab=1&content_type=1&sort_type=1', 'path': '/category/real-drama'},
+        'ai-drama': {'type_name': 'AI剧',   'kind': 'category', 'query': 'tab=1&content_type=4&sort_type=1', 'path': '/category/ai-drama'},
+        'comic-drama': {'type_name': '漫剧',   'kind': 'category', 'query': 'tab=1&content_type=3&sort_type=1', 'path': '/category/comic-drama'},
+        'comic': {'type_name': '漫画',  'kind': 'category', 'query': 'tab=2&content_type=2&sort_type=1', 'path': '/category/comic'},
         'rank_hot':   {'type_name': '红果热播榜',    'kind': 'rank', 'route': 'hot-drama'},
         'rank_human': {'type_name': '真人剧热播榜',  'kind': 'rank', 'route': 'hot-real-drama'},
         'rank_comic': {'type_name': '漫剧热播榜',    'kind': 'rank', 'route': 'hot-comic-drama'},
@@ -5169,7 +5169,14 @@ class Spider(Spider):
                 items = self._rank_items(config['route'], page)
                 return {'list': items, 'page': page, 'pagecount': 1,
                         'limit': len(items), 'total': len(items)}
-            query = config['query']
+              
+            # query = config['query']
+            # 1. 安全地獲取預設 query，如果沒有則給予通用預設值
+            query = config.get('query', 'tab=1&sort_type=1')
+            # 2. 注入動態路徑參數：告訴下游網路請求，現在請求的正確 path 是什麼（避免永遠卡在真人劇）
+            if 'path' in config:
+                query = self._set_param(query, 'path', config['path'])
+              
             if '=' in raw_id and raw_id not in self.CATEGORY_CONFIG:
                 parsed = parse_qs(raw_id.replace('category?', ''))
                 for k, v_list in parsed.items():
