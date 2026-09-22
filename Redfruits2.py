@@ -4410,12 +4410,11 @@ class Spider(Spider):
 
     DEFAULT_PORT = 9877
 
-    CATEGORY_CONFIG = {
-        # 將 content_type 分類參數以及 route 的 canonicalPath 整合進去
-        'real-drama': {'type_name': '真人剧',  'kind': 'category', 'query': 'tab=1&content_type=1&sort_type=1', 'path': '/category/real-drama'},
-        'ai-drama': {'type_name': 'AI剧',   'kind': 'category', 'query': 'tab=1&content_type=4&sort_type=1', 'path': '/category/ai-drama'},
-        'comic-drama': {'type_name': '漫剧',   'kind': 'category', 'query': 'tab=1&content_type=3&sort_type=1', 'path': '/category/comic-drama'},
-        'comic': {'type_name': '漫画',  'kind': 'category', 'query': 'tab=2&content_type=2&sort_type=1', 'path': '/category/comic'},
+     CATEGORY_CONFIG = {
+        'real-drama': {'type_name': '真人剧',  'kind': 'category', 'query': 'tab=1&content_type=1&sort_type=1', 'route': 'real-drama'},
+        'ai-drama': {'type_name': 'AI剧',   'kind': 'category', 'query': 'tab=1&content_type=4&sort_type=1', 'route': 'ai-drama'},
+        'comic-drama': {'type_name': '漫剧',   'kind': 'category', 'query': 'tab=1&content_type=3&sort_type=1', 'route': 'comic-drama'},
+        'comic': {'type_name': '漫画',  'kind': 'category', 'query': 'tab=2&content_type=2&sort_type=1', 'route': 'comic'},
         'rank_hot':   {'type_name': '红果热播榜',    'kind': 'rank', 'route': 'hot-drama'},
         'rank_human': {'type_name': '真人剧热播榜',  'kind': 'rank', 'route': 'hot-real-drama'},
         'rank_comic': {'type_name': '漫剧热播榜',    'kind': 'rank', 'route': 'hot-comic-drama'},
@@ -4749,24 +4748,27 @@ class Spider(Spider):
         return collected
 
     @staticmethod
-    def _loader_url(url):
-        """官网走 Modern.js SSR，不同路由用不同 loader 参数返回纯 JSON。"""
+    def _loader_url(self, url):  # 如果原碼是獨立函數，請保留原來的參數格式
         parsed = urlparse(url)
         path = parsed.path.rstrip('/')
+        
+        # --- 修正起點：動態判斷新版官網分類的 loader 映射 ---
         if '/detail' in path:
             loader_name = 'detail_page'
+        elif '/category/' in path:
+            # 如果是 /category/ai-drama，提取出尾部的分類名
+            sub_cate = path.split('/')[-1]
+            loader_name = f'category_{sub_cate}/page'
         elif '/category' in path:
             loader_name = 'category_page'
         elif '/search' in path:
-            # 官网搜索是路径路由 /search/{keyword}，对应 loader 必须是
-            # search_(keyword)/page；裸 /search（没有关键词）才用 search_page。
-            # 用错 loader 会直接 403（Route does not match），导致搜索整体失败。
             if path.startswith('/search/') and len(path) > len('/search/'):
                 loader_name = 'search_(keyword)/page'
             else:
                 loader_name = 'search_page'
         else:
             loader_name = 'page'
+        # --- 修正終點 ---
         sep = '&' if '?' in url else '?'
         return url + sep + '__loader=' + loader_name + '&__ssrDirect=true'
 
@@ -5037,18 +5039,24 @@ class Spider(Spider):
                 return collected
         return []
 
-    def _category_items(self, query, page=1, path='/category'):
-        # 根據各分類專屬路徑動態組合 URL
-        url = self.SITE + path + '?' + query
+    def _category_items(self, query, page=1, route=''):
+        # --- 修正處：如果配置有專屬 route (例如 ai-drama)，網址拼接成 /category/ai-drama ---
+        if route and route != 'short':
+            url = self.SITE + '/category/' + route + '?' + query
+        else:
+            url = self.SITE + '/category?' + query
+        # -----------------------------------------------------------------------------
         if page > 1:
             url += '&page=' + str(page)
-        # --------------------------------------------------------
         data = self._router_data(url)
         # 新版官网：recommendList 直接在顶层
         items = self._page_items(data, ('recommendList',))
         if not items:
             # 兼容旧版结构
             page_data = data.get('loaderData', {}).get('category_page', {})
+            # 這裡同時兼顧可能動態產生新命名的 loader 欄位
+            if not page_data and route:
+                page_data = data.get('loaderData', {}).get(f'category_{route}/page', {})
             items = self._page_items(page_data)
         if not items:
             items = self._page_items(
@@ -5180,10 +5188,10 @@ class Spider(Spider):
                 query = self._set_param(query, k, v)
             if page > 1:
                 query = self._set_param(query, 'page', str(page))
-            # --- 修正處：獲取當前分類的正確路徑 (若無則默認 /category) ---
-            current_path = config.get('path', '/category')
-            items = self._category_items(query, page, current_path)
-            # --------------------------------------------------------
+            # --- 修正處：將該分類的 route 名稱一併帶給下游處理 ---
+            current_route = config.get('route', '')
+            items = self._category_items(query, page, current_route)
+            # --------------------------------------------------
             vods = [self._vod(x) for x in items]
             page_count = max(1, page + 1) if len(vods) >= self.PAGE_SIZE else page
             return {'list': vods, 'page': page, 'pagecount': page_count,
