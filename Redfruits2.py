@@ -4410,11 +4410,11 @@ class Spider(Spider):
 
     DEFAULT_PORT = 9877
 
-     CATEGORY_CONFIG = {
-        'real-drama': {'type_name': '真人剧',  'kind': 'category', 'query': 'tab=1&content_type=1&sort_type=1', 'route': 'real-drama'},
-        'ai-drama': {'type_name': 'AI剧',   'kind': 'category', 'query': 'tab=1&content_type=4&sort_type=1', 'route': 'ai-drama'},
-        'comic-drama': {'type_name': '漫剧',   'kind': 'category', 'query': 'tab=1&content_type=3&sort_type=1', 'route': 'comic-drama'},
-        'comic': {'type_name': '漫画',  'kind': 'category', 'query': 'tab=2&content_type=2&sort_type=1', 'route': 'comic'},
+    CATEGORY_CONFIG = {
+        'real-drama': {'type_name': '真人剧',  'kind': 'category', 'query': 'tab=1&content_type=1&sort_type=1', 'path': '/category/real-drama'},
+        'ai-drama': {'type_name': 'AI剧',   'kind': 'category', 'query': 'tab=1&content_type=4&sort_type=1', 'path': '/category/ai-drama'},
+        'comic-drama': {'type_name': '漫剧',   'kind': 'category', 'query': 'tab=1&content_type=3&sort_type=1', 'path': '/category/comic-drama'},
+        'comic': {'type_name': '漫画',  'kind': 'category', 'query': 'tab=2&content_type=2&sort_type=1', 'path': '/category/comic'},
         'rank_hot':   {'type_name': '红果热播榜',    'kind': 'rank', 'route': 'hot-drama'},
         'rank_human': {'type_name': '真人剧热播榜',  'kind': 'rank', 'route': 'hot-real-drama'},
         'rank_comic': {'type_name': '漫剧热播榜',    'kind': 'rank', 'route': 'hot-comic-drama'},
@@ -4748,27 +4748,24 @@ class Spider(Spider):
         return collected
 
     @staticmethod
-    def _loader_url(self, url):  # 如果原碼是獨立函數，請保留原來的參數格式
+    def _loader_url(url):
+        """官网走 Modern.js SSR，不同路由用不同 loader 参数返回纯 JSON。"""
         parsed = urlparse(url)
         path = parsed.path.rstrip('/')
-        
-        # --- 修正起點：動態判斷新版官網分類的 loader 映射 ---
         if '/detail' in path:
             loader_name = 'detail_page'
-        elif '/category/' in path:
-            # 如果是 /category/ai-drama，提取出尾部的分類名
-            sub_cate = path.split('/')[-1]
-            loader_name = f'category_{sub_cate}/page'
         elif '/category' in path:
             loader_name = 'category_page'
         elif '/search' in path:
+            # 官网搜索是路径路由 /search/{keyword}，对应 loader 必须是
+            # search_(keyword)/page；裸 /search（没有关键词）才用 search_page。
+            # 用错 loader 会直接 403（Route does not match），导致搜索整体失败。
             if path.startswith('/search/') and len(path) > len('/search/'):
                 loader_name = 'search_(keyword)/page'
             else:
                 loader_name = 'search_page'
         else:
             loader_name = 'page'
-        # --- 修正終點 ---
         sep = '&' if '?' in url else '?'
         return url + sep + '__loader=' + loader_name + '&__ssrDirect=true'
 
@@ -5049,9 +5046,6 @@ class Spider(Spider):
         if not items:
             # 兼容旧版结构
             page_data = data.get('loaderData', {}).get('category_page', {})
-            # 這裡同時兼顧可能動態產生新命名的 loader 欄位
-            if not page_data and route:
-                page_data = data.get('loaderData', {}).get(f'category_{route}/page', {})
             items = self._page_items(page_data)
         if not items:
             items = self._page_items(
@@ -5102,15 +5096,32 @@ class Spider(Spider):
 
     def _category_type(self, value):
         raw = str(value).replace('category?', '').replace('type_id=', '')
+        # 1. 如果直接命中配置的 Key (例如 'ai-drama')，直接返回
         if raw in self.CATEGORY_CONFIG:
             return raw
+            
+        # 2. 如果是 Rank 路由，處理排行
         parsed = parse_qs(raw)
         route = parsed.get('rank', [''])[0] or parsed.get('route', [''])[0]
         if route in self.RANK_ROUTES:
             for k, v in self.CATEGORY_CONFIG.items():
                 if v.get('route') == route and v['kind'] == 'rank':
                     return k
+                    
+        # 3. 🔥【新增/修改】透過 query 參數特徵反查對應的分類 Key
+        # 把當前傳入的參數轉成 dict
+        current_params = {k: v[0] for k, v in parsed.items()}
+        
+        for k, v in self.CATEGORY_CONFIG.items():
+            if v.get('kind') == 'category' and 'query' in v:
+                cfg_params = {kp: vp[0] for kp, vp in parse_qs(v['query']).items()}
+                # 如果配置中的關鍵特徵（如 tab, content_type）在傳入的參數中完全吻合
+                if all(current_params.get(kp) == vp for kp, vp in cfg_params.items()):
+                    return k
+
+        # 4. 兜底返回短劇
         return 'short'
+
 
     @staticmethod
     def _filter_values(extend):
@@ -5183,31 +5194,7 @@ class Spider(Spider):
                 query = self._set_param(query, k, v)
             if page > 1:
                 query = self._set_param(query, 'page', str(page))
-            # --- 核心安全修正：針對特定分類，繞過 _category_items 獨立處理網址 ---
-            target_route = config.get('route', '')
-            if target_route in ['real-drama', 'ai-drama', 'comic-drama', 'comic']:
-                # 拼出正確的新版獨立路由網址，例如 /category/ai-drama?tab=1...
-                url = f"{self.SITE}/category/{target_route}?{query}"
-                data = self._router_data(url)
-                
-                # 嘗試從 Remix 新版各種可能存放列表的欄位中提取數據
-                items = self._page_items(data, ('recommendList',))
-                if not items:
-                    # Remix 獨立路由的 loader_name 通常會變成 category_xxx_page 或 category_xxx/page
-                    # 我們把所有可能的 loaderData 槽位都檢查一遍
-                    loader_data = data.get('loaderData', {})
-                    page_data = loader_data.get(f'category_{target_route}_page', {}) \
-                                or loader_data.get(f'category_{target_route}/page', {}) \
-                                or loader_data.get('category_page', {})
-                    items = self._page_items(page_data)
-                if not items and isinstance(page_data, dict):
-                    items = self._page_items(page_data.get('categoryData', {}))
-                if not items:
-                    items = self._page_items(self._find_page(data, self.LIST_FIELDS))
-            else:
-                # 保留原邏輯：短劇（short）或其餘未定義路由的分類，走原本的舊函數（確保首頁不壞）
-                items = self._category_items(query, page)
-            # ------------------------------------------------------------------
+            items = self._category_items(query, page)
             vods = [self._vod(x) for x in items]
             page_count = max(1, page + 1) if len(vods) >= self.PAGE_SIZE else page
             return {'list': vods, 'page': page, 'pagecount': page_count,
