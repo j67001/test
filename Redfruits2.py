@@ -4748,21 +4748,7 @@ class Spider(Spider):
         return collected
 
     @staticmethod
-    def _loader_url(self, url):
-        # 🔥【唯一核心修正點 1】在打包加密載入器前，將 /category? 網址強制導向官網支援跳轉的 Path
-        if '/category?' in url:
-            if 'content_type=4' in url:
-                url = url.replace('/category?', '/category/ai-drama?')
-            elif 'content_type=3' in url:
-                url = url.replace('/category?', '/category/comic-drama?')
-            elif 'content_type=1' in url:
-                url = url.replace('/category?', '/category/real-drama?')
-            elif 'content_type=2' in url or 'tab=2' in url:
-                url = url.replace('/category?', '/category/comic?')
-            else:
-                # 兜底：如果只是單純的短劇（無 content_type），使用 real-drama 路由
-                url = url.replace('/category?', '/category/real-drama?')
-
+    def _loader_url(url):
         """官网走 Modern.js SSR，不同路由用不同 loader 参数返回纯 JSON。"""
         parsed = urlparse(url)
         path = parsed.path.rstrip('/')
@@ -5051,7 +5037,11 @@ class Spider(Spider):
         return []
 
     def _category_items(self, query, page=1):
-        url = self.SITE + '/category?' + query
+        # 判斷是否已經被 categoryContent 處理成包含 Path 的完整路徑
+        if query.startswith('/category/'):
+            url = self.SITE + query
+        else:
+            url = self.SITE + '/category?' + query
         if page > 1:
             url += '&page=' + str(page)
         data = self._router_data(url)
@@ -5112,8 +5102,7 @@ class Spider(Spider):
         raw = str(value).replace('category?', '').replace('type_id=', '')
         if raw in self.CATEGORY_CONFIG:
             return raw
-
-        # 🔥【唯一核心修正點 2】加強模糊識別，防禦部分影視 App 傳入帶 query 的 tid 導致匹配失敗
+        # 🔥【修正 1】模糊識別 App 傳進來的各類 Tid 參數
         if 'content_type=4' in raw or 'ai-drama' in raw:
             return 'ai-drama'
         if 'content_type=3' in raw or 'comic-drama' in raw:
@@ -5122,7 +5111,6 @@ class Spider(Spider):
             return 'real-drama'
         if 'content_type=2' in raw or 'tab=2' in raw or 'comic' in raw:
             return 'comic'
-
         parsed = parse_qs(raw)
         route = parsed.get('rank', [''])[0] or parsed.get('route', [''])[0]
         if route in self.RANK_ROUTES:
@@ -5194,16 +5182,30 @@ class Spider(Spider):
                 return {'list': items, 'page': page, 'pagecount': 1,
                         'limit': len(items), 'total': len(items)}
 
-            query = config['query']
-            if '=' in raw_id and raw_id not in self.CATEGORY_CONFIG:
-                parsed = parse_qs(raw_id.replace('category?', ''))
-                for k, v_list in parsed.items():
-                    # 只有當前配置中沒有的參數，才讓外部覆蓋，確保核心 content_type 不失蹤
-                    if k not in ['content_type', 'tab']:
+            # 🔥【修正 2】如果配置中有明確的 path (如 /category/ai-drama)，直接用 path 構建 query 傳遞
+            if 'path' in config:
+                query = config['path'] + '?'
+                # 附加前端非核心覆蓋參數
+                sub_params = {}
+                if '=' in raw_id and raw_id not in self.CATEGORY_CONFIG:
+                    parsed = parse_qs(raw_id.replace('category?', ''))
+                    for k, v_list in parsed.items():
+                        if k not in ['tab', 'content_type', 'sort_type']:
+                            sub_params[k] = v_list[0]
+                for k, v in requested.items():
+                    sub_params[k] = v
+                if sub_params:
+                    query += urlencode(sub_params)
+            else:
+                # 兜底留給沒有設定 path 的項目 (如舊版 short)
+                query = config['query']
+                if '=' in raw_id and raw_id not in self.CATEGORY_CONFIG:
+                    parsed = parse_qs(raw_id.replace('category?', ''))
+                    for k, v_list in parsed.items():
                         query = self._set_param(query, k, v_list[0])
+                for k, v in requested.items():
+                    query = self._set_param(query, k, v)
 
-            for k, v in requested.items():
-                query = self._set_param(query, k, v)
             if page > 1:
                 query = self._set_param(query, 'page', str(page))
             items = self._category_items(query, page)
@@ -5217,9 +5219,16 @@ class Spider(Spider):
 
     @staticmethod
     def _set_param(query, key, value):
-        params = parse_qs(query)
-        params[key] = [value]
-        return urlencode({k: v[0] for k, v in params.items()})
+        # 兼容處理包含 path? 的情況
+        if '?' in query:
+            path_part, qs_part = query.split('?', 1)
+            params = parse_qs(qs_part)
+            params[key] = [value]
+            return path_part + '?' + urlencode({k: v[0] for k, v in params.items()})
+        else:
+            params = parse_qs(query)
+            params[key] = [value]
+            return urlencode({k: v[0] for k, v in params.items()})
 
     def detailContent(self, ids):
         series_id = str(ids[0])
