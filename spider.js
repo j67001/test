@@ -7,14 +7,14 @@
 * @Desc     :
 */
 
-import {JadeLogging} from "../lib/log.js";
-import * as Utils from "../lib/utils.js";
-import {VodDetail, VodShort} from "../lib/vod.js";
-import {_, load, Uri} from "../lib/cat.js";
-import * as HLS from "../lib/hls.js";
-import {hlsCache, tsCache} from "../lib/ffm3u8_open.js";
-import {DanmuSpider} from "../lib/danmuSpider.js";
-import { initCloud } from "../lib/cloud.js";
+import {JadeLogging} from "./lib/log.js";
+import * as Utils from "./lib/utils.js";
+import {VodDetail, VodShort} from "./lib/vod.js";
+import {_, load, Uri} from "./lib/cat.js";
+import * as HLS from "./lib/hls.js";
+import {hlsCache, tsCache} from "./lib/ffm3u8_open.js";
+import {DanmuSpider} from "./lib/danmuSpider.js";
+import { initCloud } from "./lib/cloud.js";
 class Result {
     constructor() {
         this.class = []
