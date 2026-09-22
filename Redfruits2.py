@@ -5095,31 +5095,28 @@ class Spider(Spider):
         return result
 
     def _category_type(self, value):
-        raw = str(value).replace('category?', '').replace('type_id=', '')
-        # 1. 如果直接命中配置的 Key (例如 'ai-drama')，直接返回
-        if raw in self.CATEGORY_CONFIG:
-            return raw
+        raw = str(value)
+        
+        # 1. 盲改強力攔截：直接比對特徵網址參數
+        if 'content_type=4' in raw or 'ai-drama' in raw:
+            return 'ai-drama'
+        if 'content_type=3' in raw or 'comic-drama' in raw:
+            return 'comic-drama'
+        if 'content_type=1' in raw or 'real-drama' in raw:
+            return 'real-drama'
+        if 'tab=2' in raw or 'content_type=2' in raw or 'comic' in raw:
+            return 'comic'
             
-        # 2. 如果是 Rank 路由，處理排行
-        parsed = parse_qs(raw)
+        # 2. 原本的常規邏輯
+        clean_raw = raw.replace('category?', '').replace('type_id=', '')
+        if clean_raw in self.CATEGORY_CONFIG:
+            return clean_raw
+        parsed = parse_qs(clean_raw)
         route = parsed.get('rank', [''])[0] or parsed.get('route', [''])[0]
         if route in self.RANK_ROUTES:
             for k, v in self.CATEGORY_CONFIG.items():
                 if v.get('route') == route and v['kind'] == 'rank':
                     return k
-                    
-        # 3. 🔥【新增/修改】透過 query 參數特徵反查對應的分類 Key
-        # 把當前傳入的參數轉成 dict
-        current_params = {k: v[0] for k, v in parsed.items()}
-        
-        for k, v in self.CATEGORY_CONFIG.items():
-            if v.get('kind') == 'category' and 'query' in v:
-                cfg_params = {kp: vp[0] for kp, vp in parse_qs(v['query']).items()}
-                # 如果配置中的關鍵特徵（如 tab, content_type）在傳入的參數中完全吻合
-                if all(current_params.get(kp) == vp for kp, vp in cfg_params.items()):
-                    return k
-
-        # 4. 兜底返回短劇
         return 'short'
 
 
