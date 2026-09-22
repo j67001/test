@@ -450,40 +450,66 @@ class DoubanSpider extends Spider {
         }
     }
 
-    async parseVodShortListFromJson(obj) {
-        let vod_list = []
-        for (const item of obj) {
-            let vod_short = new VodShort()
-            vod_short.vod_id = "msearch:" + item["id"]
-            if (item["title"] === undefined) {
-                vod_short.vod_name = item["target"]["title"]
-            } else {
-                vod_short.vod_name = item["title"]
-            }
-            // 優先抓取可能存在的各種圖片欄位
-            if (item["pic"] !== undefined && item["pic"]["normal"] !== undefined) {
-                vod_short.vod_pic = item["pic"]["normal"];
-            } else if (item["target"] !== undefined && item["target"]["cover_url"] !== undefined) {
-                vod_short.vod_pic = item["target"]["cover_url"];
-            } else if (item["cover"] !== undefined && item["cover"]["url"] !== undefined) {
-                // 修正：相容電影/電視篩選 (recommend) API 的 cover.url 結構
-                vod_short.vod_pic = item["cover"]["url"];
-            } else if (item["cover_url"] !== undefined) {
-                // 修正：備用相容直接返回 cover_url 的情況
-                vod_short.vod_pic = item["cover_url"];
-            } else {
-                vod_short.vod_pic = "";
-            }
-        // 優化後的評分解析，防止因為 rating 結構不同導致 js 報錯中斷
-            if (item["rating"] === undefined) {
-                vod_short.vod_remarks = "评分:" + item["target"]["rating"]["value"].toString()
-            } else {
-                vod_short.vod_remarks = "评分:" + item["rating"]["value"].toString()
-            }
-            vod_list.push(vod_short);
+async parseVodShortListFromJson(obj) {
+    let vod_list = []
+    for (const item of obj) {
+        let vod_short = new VodShort()
+        vod_short.vod_id = "msearch:" + item["id"]
+        
+        // 1. 解析名稱
+        if (item["title"] !== undefined) {
+            vod_short.vod_name = item["title"]
+        } else if (item["target"] !== undefined && item["target"]["title"] !== undefined) {
+            vod_short.vod_name = item["target"]["title"]
+        } else {
+            vod_short.vod_name = "未知名称"
         }
-        return vod_list
+
+        // 2. 地毯式搜索圖片欄位 (針對 /recommend 篩選特殊優化)
+        let pic_url = "";
+        if (item["pic"] !== undefined && item["pic"]["normal"] !== undefined) {
+            pic_url = item["pic"]["normal"];
+        } else if (item["target"] !== undefined && item["target"]["cover_url"] !== undefined) {
+            pic_url = item["target"]["cover_url"];
+        } else if (item["cover"] !== undefined && item["cover"]["url"] !== undefined) {
+            pic_url = item["cover"]["url"];
+        } else if (item["cover_url"] !== undefined) {
+            pic_url = item["cover_url"];
+        } else if (item["card_subtitle"] !== undefined) {
+            // 有部分豆瓣 recommend 回傳的圖片被藏在 card 相關物件或欄位
+            pic_url = item["cover"]?.["image"]?.["url"] || "";
+        }
+        
+        // 萬一以上全部都落空 (如果是物件，轉字串找網址)
+        if (!pic_url) {
+            let itemStr = JSON.stringify(item);
+            let imgMatch = itemStr.match(/https?:\/\/[^"]+(?:\.jpg|\.jpeg|\.png)/i);
+            if (imgMatch) {
+                pic_url = imgMatch[0]; // 強制抓取該物件內第一個出現的圖片網址
+            }
+        }
+        
+        vod_short.vod_pic = pic_url;
+
+        // 3. 解析評分
+        try {
+            if (item["rating"] !== undefined) {
+                let r = item["rating"]["value"] ?? item["rating"];
+                vod_short.vod_remarks = "评分:" + (r ?? "暂无").toString();
+            } else if (item["target"] !== undefined && item["target"]["rating"] !== undefined) {
+                vod_short.vod_remarks = "评分:" + item["target"]["rating"]["value"].toString();
+            } else {
+                vod_short.vod_remarks = "评分:暂无";
+            }
+        } catch (e) {
+            vod_short.vod_remarks = "评分:暂无";
+        }
+
+        vod_list.push(vod_short);
     }
+    return vod_list
+}
+
 
     get_tags(extend) {
         let tag_list = []
