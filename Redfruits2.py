@@ -4411,15 +4411,15 @@ class Spider(Spider):
     DEFAULT_PORT = 9877
 
     CATEGORY_CONFIG = {
-        'real-drama': {'type_name': '真人剧',  'kind': 'category', 'query': 'tab=1&content_type=1&sort_type=1', 'path': '/category/real-drama'},
-        'ai-drama': {'type_name': 'AI剧',   'kind': 'category', 'query': 'tab=1&content_type=4&sort_type=1', 'path': '/category/ai-drama'},
-        'comic-drama': {'type_name': '漫剧',   'kind': 'category', 'query': 'tab=1&content_type=3&sort_type=1', 'path': '/category/comic-drama'},
-        'comic': {'type_name': '漫画',  'kind': 'category', 'query': 'tab=2&content_type=2&sort_type=1', 'path': '/category/comic'},
+        'real-drama':  {'type_name': '真人剧',     'kind': 'category', 'path': '/category/real-drama'},
+        'ai-drama':    {'type_name': 'AI剧',      'kind': 'category', 'path': '/category/ai-drama'},
+        'comic-drama': {'type_name': '漫剧',      'kind': 'category', 'path': '/category/comic-drama'},
+        'comic':       {'type_name': '漫画',      'kind': 'category', 'path': '/category/comic'},
         'rank_hot':   {'type_name': '红果热播榜',    'kind': 'rank', 'route': 'hot-drama'},
         'rank_human': {'type_name': '真人剧热播榜',  'kind': 'rank', 'route': 'hot-real-drama'},
         'rank_comic': {'type_name': '漫剧热播榜',    'kind': 'rank', 'route': 'hot-comic-drama'},
         'rank_ai':    {'type_name': 'AI剧热播榜',    'kind': 'rank', 'route': 'hot-ai-drama'},
-        'short':      {'type_name': '短剧',     'kind': 'category', 'query': 'tab=1&sort_type=1'},
+        'short':       {'type_name': '短剧',      'kind': 'category', 'path': '/category/real-drama'}, # 短剧與真人剧官網同路徑
     }
 
     CATEGORIES = [
@@ -4748,7 +4748,7 @@ class Spider(Spider):
         return collected
 
     @staticmethod
-    def _loader_url(url):
+    def _loader_url(self, url):
         """官网走 Modern.js SSR，不同路由用不同 loader 参数返回纯 JSON。"""
         parsed = urlparse(url)
         path = parsed.path.rstrip('/')
@@ -5036,32 +5036,39 @@ class Spider(Spider):
                 return collected
         return []
 
-    def _category_items(self, path_or_url, query="", page=1):
-        # 1. 建立正確的基礎網址
-        if path_or_url.startswith('http'):
-            url = path_or_url
-        else:
-            # 確保 path 開頭有 /
-            path = path_or_url if path_or_url.startswith('/') else '/' + path_or_url
-            url = self.SITE + path
-
-        # 2. 拼接篩選參數 (Filter) 與分頁
-        params = parse_qs(query)
-        if page > 1:
-            params['page'] = [str(page)]
+    # 2. 🔥【核心重寫】修正網址拼接邏輯，支持 Path 路徑與 Filter 參數安全合併
+    def _category_items(self, target_path, query_dict=None, page=1):
+        if query_dict is None:
+            query_dict = {}
             
+        # 確保 path 格式正確
+        path = target_path if target_path.startswith('/') else '/' + target_path
+        url = self.SITE + path
+        
+        # 建立請求參數
+        params = {}
+        for k, v in query_dict.items():
+            params[k] = v
+            
+        # 如果是首頁或分類第一頁預設有 sort_type=1
+        if 'sort_type' not in params:
+            params['sort_type'] = '1'
+            
+        if page > 1:
+            params['page'] = str(page)
+            
+        # 拼裝 URL 參數
         if params:
-            sep = '&' if '?' in url else '?'
-            # 將 params 字典轉回轉義後的 query 字串
-            url += sep + urlencode({k: v[0] for k, v in params.items()})
+            url += '?' + urlencode({k: str(v) for k, v in params.items()})
+            
+        # 通過官網加密加載器處理
+        url = self._loader_url(url)
 
-        # 3. 核心載入器處理 (呼叫你原有的 _loader_url)
-        url = _loader_url(url)
-
-        # 4. 發送請求與資料解析
         data = self._router_data(url)
+        # 新版官网：recommendList 直接在顶层
         items = self._page_items(data, ('recommendList',))
         if not items:
+            # 兼容旧版结构
             page_data = data.get('loaderData', {}).get('category_page', {})
             items = self._page_items(page_data)
         if not items:
@@ -5069,8 +5076,6 @@ class Spider(Spider):
                 page_data.get('categoryData') if isinstance(page_data, dict) else {})
         if not items:
             items = self._page_items(self._find_page(data, self.LIST_FIELDS))
-            
-        # 5. 去重處理
         seen = set()
         result = []
         for item in items:
@@ -5113,22 +5118,16 @@ class Spider(Spider):
                 result.append(vod)
         return result
 
+    # 3. 🔥【強力模糊識別】完美對應前端 App 在 MuMu 模擬器中傳入的各種 TID 變形
     def _category_type(self, value):
         raw = str(value).lower().strip()
         
-        # 1. 如果是排行路由優先處理
-        parsed = parse_qs(raw.replace('category?', ''))
-        route = parsed.get('rank', [''])[0] or parsed.get('route', [''])[0]
-        if not route and 'hot-' in raw: # 針對可能直接傳 route 字串的情況
-            route = raw.split('/')[-1] if '/' in raw else raw
+        # 排行榜路由識別
+        if 'hot-' in raw or 'rank' in raw:
+            if 'comic' in raw: return 'rank_comic'
+            if 'ai' in raw: return 'rank_ai'
             
-        if route:
-            if 'comic' in route:
-                return 'rank_comic'
-            if 'ai' in route:
-                return 'rank_ai'
-
-        # 2. 🔥【關鍵修正】強力模糊匹配，防禦所有前端 App 的 TID 變形
+        # 分類關鍵字強力命中
         if 'ai-drama' in raw or 'aidrama' in raw or 'content_type=4' in raw:
             return 'ai-drama'
         if 'comic-drama' in raw or 'comicdrama' in raw or 'content_type=3' in raw:
@@ -5138,12 +5137,11 @@ class Spider(Spider):
         if 'comic' in raw or 'tab=2' in raw or 'content_type=2' in raw:
             return 'comic'
             
-        # 3. 基礎精準匹配
+        # 基礎精準匹配兜底
         clean_raw = raw.replace('category?', '').replace('type_id=', '')
         if clean_raw in self.CATEGORY_CONFIG:
             return clean_raw
             
-        # 4. 兜底返回
         return 'short'
 
     @staticmethod
@@ -5189,7 +5187,8 @@ class Spider(Spider):
             if not items:
                 items = self._home_banners()
             if not items:
-                items = self._category_items('tab=1&sort_type=1')
+                # 預設載入真人短劇路徑
+                items = self._category_items('/category/real-drama', page=1)
             vods = [self._vod(x) for x in items]
             vods = [v for v in vods if v['vod_id'] and v['vod_name']]
             return {'list': vods[:12]}
@@ -5197,37 +5196,36 @@ class Spider(Spider):
             print('[\u7ea2\u679c\u679c] \u9996\u9875\u8bfb\u53d6\u5931\u8d25:', exc)
             return {'list': []}
 
+    # 4. 🔥【全新架構對接】徹底移除舊網址 params 覆蓋 bug，全面改為乾淨 Path 模式請求
     def categoryContent(self, tid, pg, filter, extend):
         page = max(1, int(pg or 1))
         raw_id = str(tid or 'short')
         
-        # 1. 判定分類配置
         type_id = self._category_type(raw_id)
         config = self.CATEGORY_CONFIG[type_id]
         requested = self._filter_values(extend or {})
-        
         try:
-            # 2. 如果是排行榜，走原有邏輯
+            # 處理排行榜
             if config['kind'] == 'rank':
                 items = self._rank_items(config['route'], page)
                 return {'list': items, 'page': page, 'pagecount': 1,
                         'limit': len(items), 'total': len(items)}
             
-            # 3. 🔥【核心修正】提取配置中獨立的 path (例如 /category/ai-drama)
-            # 如果配置中沒有 path (例如 short 只有 query)，則退回 /category
-            target_path = config.get('path', '/category')
+            # 獲取官網對應分類的精準 Path
+            target_path = config.get('path', '/category/real-drama')
             
-            # 4. 處理延伸篩選標籤 (如類型、年份等過濾器參數)
-            # 排除掉配置中本來就有的核心參數，只留純篩選用的 query
-            filter_params = {}
-            for k, v in requested.items():
-                filter_params[k] = v
+            # 如果傳進來的 tid 內部本身自帶篩選參數（多見於部分 App 分流），則提取出來
+            query_dict = {}
+            if '=' in raw_id and raw_id not in self.CATEGORY_CONFIG:
+                parsed = parse_qs(raw_id.replace('category?', ''))
+                query_dict = {k: v[0] for k, v in parsed.items()}
                 
-            # 將篩選字典打包成字串
-            query_string = urlencode(filter_params)
-            
-            # 5. 帶入新的路徑請求邏輯
-            items = self._category_items(target_path, query_string, page)
+            # 將延伸篩選標籤 (Filter) 合併進去
+            for k, v in requested.items():
+                query_dict[k] = v
+
+            # 發送請求
+            items = self._category_items(target_path, query_dict, page)
             vods = [self._vod(x) for x in items]
             
             page_count = max(1, page + 1) if len(vods) >= self.PAGE_SIZE else page
@@ -5239,9 +5237,8 @@ class Spider(Spider):
 
     @staticmethod
     def _set_param(query, key, value):
-        # 🔥【修正】重寫安全參數設置方法
         params = parse_qs(query)
-        params[key] = [str(value)]
+        params[key] = [value]
         return urlencode({k: v[0] for k, v in params.items()})
 
     def detailContent(self, ids):
@@ -5370,9 +5367,8 @@ class Spider(Spider):
             # 必须经 _vod 解析后再匹配；抓前 2 页分类覆盖更多剧，避免漏搜。
             items = []
             for pno in (1, 2):
-                batch = self._category_items('tab=1&sort_type=1', pno)
-                items.extend(batch)
-                if len(batch) < self.PAGE_SIZE:
+                items.extend(self._category_items('/category/real-drama', page=pno))
+                if len(items) < self.PAGE_SIZE * pno:
                     break
             keyword = word.lower().replace(' ', '').replace('\u3000', '')
             matches = []
