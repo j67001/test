@@ -5095,30 +5095,37 @@ class Spider(Spider):
         return result
 
     def _category_type(self, value):
-        raw = str(value)
+        raw = str(value).lower().strip()
         
-        # 1. 盲改強力攔截：直接比對特徵網址參數
-        if 'content_type=4' in raw or 'ai-drama' in raw:
+        # 1. 如果是排行路由優先處理
+        parsed = parse_qs(raw.replace('category?', ''))
+        route = parsed.get('rank', [''])[0] or parsed.get('route', [''])[0]
+        if not route and 'hot-' in raw: # 針對可能直接傳 route 字串的情況
+            route = raw.split('/')[-1] if '/' in raw else raw
+            
+        if route:
+            if 'comic' in route:
+                return 'rank_comic'
+            if 'ai' in route:
+                return 'rank_ai'
+
+        # 2. 🔥【關鍵修正】強力模糊匹配，防禦所有前端 App 的 TID 變形
+        if 'ai-drama' in raw or 'aidrama' in raw or 'content_type=4' in raw:
             return 'ai-drama'
-        if 'content_type=3' in raw or 'comic-drama' in raw:
+        if 'comic-drama' in raw or 'comicdrama' in raw or 'content_type=3' in raw:
             return 'comic-drama'
-        if 'content_type=1' in raw or 'real-drama' in raw:
+        if 'real-drama' in raw or 'realdrama' in raw or 'content_type=1' in raw:
             return 'real-drama'
-        if 'tab=2' in raw or 'content_type=2' in raw or 'comic' in raw:
+        if 'comic' in raw or 'tab=2' in raw or 'content_type=2' in raw:
             return 'comic'
             
-        # 2. 原本的常規邏輯
+        # 3. 基礎精準匹配
         clean_raw = raw.replace('category?', '').replace('type_id=', '')
         if clean_raw in self.CATEGORY_CONFIG:
             return clean_raw
-        parsed = parse_qs(clean_raw)
-        route = parsed.get('rank', [''])[0] or parsed.get('route', [''])[0]
-        if route in self.RANK_ROUTES:
-            for k, v in self.CATEGORY_CONFIG.items():
-                if v.get('route') == route and v['kind'] == 'rank':
-                    return k
+            
+        # 4. 兜底返回
         return 'short'
-
 
     @staticmethod
     def _filter_values(extend):
