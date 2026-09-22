@@ -4411,10 +4411,11 @@ class Spider(Spider):
     DEFAULT_PORT = 9877
 
     CATEGORY_CONFIG = {
-        'real-drama': {'type_name': '真人剧',  'kind': 'category', 'query': 'tab=5&sort_type=1'},
-        'ai-drama':   {'type_name': 'AI剧',   'kind': 'category', 'query': 'tab=6&sort_type=1'},
-        'comic-drama':{'type_name': '漫剧',   'kind': 'category', 'query': 'tab=7&sort_type=1'},
-        'comic':      {'type_name': '漫画',   'kind': 'category', 'query': 'tab=8&sort_type=1'},
+        # 將 content_type 分類參數以及 route 的 canonicalPath 整合進去
+        'real-drama': {'type_name': '真人剧',  'kind': 'category', 'query': 'tab=1&content_type=1&sort_type=1', 'route_path': '/category/real-drama'},
+        'ai-drama': {'type_name': 'AI剧',   'kind': 'category', 'query': 'tab=1&content_type=4&sort_type=1', 'route_path': '/category/ai-drama'},
+        'comic-drama': {'type_name': '漫剧',   'kind': 'category', 'query': 'tab=1&content_type=2&sort_type=1', 'route_path': '/category/comic-drama'},
+        'comic': {'type_name': '漫画',  'kind': 'category', 'query': 'tab=1&content_type=3&sort_type=1', 'route_path': '/category/comic'},
         'rank_hot':   {'type_name': '红果热播榜',    'kind': 'rank', 'route': 'hot-drama'},
         'rank_human': {'type_name': '真人剧热播榜',  'kind': 'rank', 'route': 'hot-real-drama'},
         'rank_comic': {'type_name': '漫剧热播榜',    'kind': 'rank', 'route': 'hot-comic-drama'},
