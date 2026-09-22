@@ -465,7 +465,7 @@ async parseVodShortListFromJson(obj) {
             vod_short.vod_name = "未知名称"
         }
 
-        // 2. 地毯式搜索圖片欄位 (針對 /recommend 篩選特殊優化)
+        // 2. 提取圖片網址
         let pic_url = "";
         if (item["pic"] !== undefined && item["pic"]["normal"] !== undefined) {
             pic_url = item["pic"]["normal"];
@@ -475,23 +475,26 @@ async parseVodShortListFromJson(obj) {
             pic_url = item["cover"]["url"];
         } else if (item["cover_url"] !== undefined) {
             pic_url = item["cover_url"];
-        } else if (item["card_subtitle"] !== undefined) {
-            // 有部分豆瓣 recommend 回傳的圖片被藏在 card 相關物件或欄位
-            pic_url = item["cover"]?.["image"]?.["url"] || "";
         }
         
-        // 萬一以上全部都落空 (如果是物件，轉字串找網址)
+        // 如果上面都沒撈到，用正則撈字串
         if (!pic_url) {
             let itemStr = JSON.stringify(item);
             let imgMatch = itemStr.match(/https?:\/\/[^"]+(?:\.jpg|\.jpeg|\.png)/i);
             if (imgMatch) {
-                pic_url = imgMatch[0]; // 強制抓取該物件內第一個出現的圖片網址
+                pic_url = imgMatch[0];
             }
         }
         
-        vod_short.vod_pic = pic_url;
+        // 3. 解決防盜鏈（核心修正點）
+        if (pic_url && pic_url.includes("doubanio.com")) {
+            let cleanUrl = pic_url.replace("https://", "").replace("http://", "");
+            vod_short.vod_pic = "https://wsrv.nl" + cleanUrl;
+        } else {
+            vod_short.vod_pic = pic_url;
+        }
 
-        // 3. 解析評分
+        // 4. 解析評分
         try {
             if (item["rating"] !== undefined) {
                 let r = item["rating"]["value"] ?? item["rating"];
@@ -509,6 +512,7 @@ async parseVodShortListFromJson(obj) {
     }
     return vod_list
 }
+
 
 
 
