@@ -475,18 +475,14 @@ class DoubanSpider extends Spider {
                 vod_short.vod_pic = "";
             }
         // 優化後的評分解析，防止因為 rating 結構不同導致 js 報錯中斷
-        try {
-            if (item["rating"] !== undefined) {
-                let r = item["rating"]["value"] ?? item["rating"];
-                vod_short.vod_remarks = "评分:" + (r ?? "暂无").toString();
-            } else if (item["target"] !== undefined && item["target"]["rating"] !== undefined) {
-                vod_short.vod_remarks = "评分:" + item["target"]["rating"]["value"].toString();
+            if (item["rating"] === undefined) {
+                vod_short.vod_remarks = "评分:" + item["target"]["rating"]["value"].toString()
             } else {
-                vod_short.vod_remarks = "评分:暂无";
+                vod_short.vod_remarks = "评分:" + item["rating"]["value"].toString()
             }
-        } catch (e) {
-            vod_short.vod_remarks = "评分:暂无";
+            vod_list.push(vod_short);
         }
+        return vod_list
     }
 
     get_tags(extend) {
