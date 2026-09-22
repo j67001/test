@@ -5172,11 +5172,10 @@ class Spider(Spider):
             return {'list': []}
 
     def categoryContent(self, tid, pg, filter, extend):
-        # 🔥【偵錯日誌】直接在終端機印出前端傳過來的原始 tid
-        print(f"[紅果果偵錯] 當前收到的原始 tid 內容為: {tid} (型態: {type(tid)})")
-        
         page = max(1, int(pg or 1))
         raw_id = str(tid or 'short')
+        
+        # 1. 精準判定分類 Key
         type_id = self._category_type(raw_id)
         config = self.CATEGORY_CONFIG[type_id]
         requested = self._filter_values(extend or {})
@@ -5187,29 +5186,33 @@ class Spider(Spider):
                 return {'list': items, 'page': page, 'pagecount': 1,
                         'limit': len(items), 'total': len(items)}
             
-            # 建立一個基礎參數字典，先填入配置檔的預設參數
-            base_query = config['query']
-            params = {k: v[0] for k, v in parse_qs(base_query).items()}
+            # 2. 🔥【核心修正】初始化參數字典，優先提取配置中的預設 query
+            # 例如配置是 'tab=1&content_type=4&sort_type=1'
+            final_params = {}
+            if 'query' in config:
+                for k, v_list in parse_qs(config['query']).items():
+                    final_params[k] = v_list[0]
             
-            # 🔥【修正】如果 tid 帶有 url 參數，合併進去而不是完全覆蓋
+            # 3. 如果前端傳過來的 raw_id 帶有額外參數，合併進來 (但不覆蓋核心參數)
             if '=' in raw_id and raw_id not in self.CATEGORY_CONFIG:
-                parsed = parse_qs(raw_id.replace('category?', ''))
-                for k, v_list in parsed.items():
-                    params[k] = v_list[0]
+                parsed_tid = parse_qs(raw_id.replace('category?', ''))
+                for k, v_list in parsed_tid.items():
+                    # 只有當前 final_params 沒有這個參數時才補上，避免覆蓋核心的 content_type
+                    if k not in final_params:
+                        final_params[k] = v_list[0]
             
-            # 合併延伸篩選標籤 (Filter)
+            # 4. 合併延伸篩選標籤 (Filter)
             for k, v in requested.items():
-                params[k] = v
+                final_params[k] = str(v)
                 
+            # 5. 加入分頁參數
             if page > 1:
-                params['page'] = str(page)
+                final_params['page'] = str(page)
                 
-            # 將合併後的字典重新轉回 URL query 字串
-            query = urlencode(params)
+            # 6. 重新打包成乾淨的 query 字串
+            query = urlencode(final_params)
             
-            # 🔥【偵錯日誌】查看最後送給網站的請求參數長怎樣
-            print(f"[紅果果偵錯] 最終發送的請求 query: {query}")
-
+            # 7. 請求數據
             items = self._category_items(query, page)
             vods = [self._vod(x) for x in items]
             page_count = max(1, page + 1) if len(vods) >= self.PAGE_SIZE else page
@@ -5221,8 +5224,9 @@ class Spider(Spider):
 
     @staticmethod
     def _set_param(query, key, value):
+        # 🔥【修正】重寫安全參數設置方法
         params = parse_qs(query)
-        params[key] = [value]
+        params[key] = [str(value)]
         return urlencode({k: v[0] for k, v in params.items()})
 
     def detailContent(self, ids):
