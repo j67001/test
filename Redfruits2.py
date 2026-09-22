@@ -5036,15 +5036,32 @@ class Spider(Spider):
                 return collected
         return []
 
-    def _category_items(self, query, page=1):
-        url = self.SITE + '/category?' + query
+    def _category_items(self, path_or_url, query="", page=1):
+        # 1. 建立正確的基礎網址
+        if path_or_url.startswith('http'):
+            url = path_or_url
+        else:
+            # 確保 path 開頭有 /
+            path = path_or_url if path_or_url.startswith('/') else '/' + path_or_url
+            url = self.SITE + path
+
+        # 2. 拼接篩選參數 (Filter) 與分頁
+        params = parse_qs(query)
         if page > 1:
-            url += '&page=' + str(page)
+            params['page'] = [str(page)]
+            
+        if params:
+            sep = '&' if '?' in url else '?'
+            # 將 params 字典轉回轉義後的 query 字串
+            url += sep + urlencode({k: v[0] for k, v in params.items()})
+
+        # 3. 核心載入器處理 (呼叫你原有的 _loader_url)
+        url = _loader_url(url)
+
+        # 4. 發送請求與資料解析
         data = self._router_data(url)
-        # 新版官网：recommendList 直接在顶层
         items = self._page_items(data, ('recommendList',))
         if not items:
-            # 兼容旧版结构
             page_data = data.get('loaderData', {}).get('category_page', {})
             items = self._page_items(page_data)
         if not items:
@@ -5052,6 +5069,8 @@ class Spider(Spider):
                 page_data.get('categoryData') if isinstance(page_data, dict) else {})
         if not items:
             items = self._page_items(self._find_page(data, self.LIST_FIELDS))
+            
+        # 5. 去重處理
         seen = set()
         result = []
         for item in items:
@@ -5182,46 +5201,35 @@ class Spider(Spider):
         page = max(1, int(pg or 1))
         raw_id = str(tid or 'short')
         
-        # 1. 精準判定分類 Key
+        # 1. 判定分類配置
         type_id = self._category_type(raw_id)
         config = self.CATEGORY_CONFIG[type_id]
         requested = self._filter_values(extend or {})
         
         try:
+            # 2. 如果是排行榜，走原有邏輯
             if config['kind'] == 'rank':
                 items = self._rank_items(config['route'], page)
                 return {'list': items, 'page': page, 'pagecount': 1,
                         'limit': len(items), 'total': len(items)}
             
-            # 2. 🔥【核心修正】初始化參數字典，優先提取配置中的預設 query
-            # 例如配置是 'tab=1&content_type=4&sort_type=1'
-            final_params = {}
-            if 'query' in config:
-                for k, v_list in parse_qs(config['query']).items():
-                    final_params[k] = v_list[0]
+            # 3. 🔥【核心修正】提取配置中獨立的 path (例如 /category/ai-drama)
+            # 如果配置中沒有 path (例如 short 只有 query)，則退回 /category
+            target_path = config.get('path', '/category')
             
-            # 3. 如果前端傳過來的 raw_id 帶有額外參數，合併進來 (但不覆蓋核心參數)
-            if '=' in raw_id and raw_id not in self.CATEGORY_CONFIG:
-                parsed_tid = parse_qs(raw_id.replace('category?', ''))
-                for k, v_list in parsed_tid.items():
-                    # 只有當前 final_params 沒有這個參數時才補上，避免覆蓋核心的 content_type
-                    if k not in final_params:
-                        final_params[k] = v_list[0]
-            
-            # 4. 合併延伸篩選標籤 (Filter)
+            # 4. 處理延伸篩選標籤 (如類型、年份等過濾器參數)
+            # 排除掉配置中本來就有的核心參數，只留純篩選用的 query
+            filter_params = {}
             for k, v in requested.items():
-                final_params[k] = str(v)
+                filter_params[k] = v
                 
-            # 5. 加入分頁參數
-            if page > 1:
-                final_params['page'] = str(page)
-                
-            # 6. 重新打包成乾淨的 query 字串
-            query = urlencode(final_params)
+            # 將篩選字典打包成字串
+            query_string = urlencode(filter_params)
             
-            # 7. 請求數據
-            items = self._category_items(query, page)
+            # 5. 帶入新的路徑請求邏輯
+            items = self._category_items(target_path, query_string, page)
             vods = [self._vod(x) for x in items]
+            
             page_count = max(1, page + 1) if len(vods) >= self.PAGE_SIZE else page
             return {'list': vods, 'page': page, 'pagecount': page_count,
                     'limit': self.PAGE_SIZE, 'total': page * self.PAGE_SIZE + len(vods)}
