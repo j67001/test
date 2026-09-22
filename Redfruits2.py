@@ -5039,13 +5039,8 @@ class Spider(Spider):
                 return collected
         return []
 
-    def _category_items(self, query, page=1, route=''):
-        # --- 修正處：如果配置有專屬 route (例如 ai-drama)，網址拼接成 /category/ai-drama ---
-        if route and route != 'short':
-            url = self.SITE + '/category/' + route + '?' + query
-        else:
-            url = self.SITE + '/category?' + query
-        # -----------------------------------------------------------------------------
+    def _category_items(self, query, page=1):
+        url = self.SITE + '/category?' + query
         if page > 1:
             url += '&page=' + str(page)
         data = self._router_data(url)
@@ -5188,10 +5183,31 @@ class Spider(Spider):
                 query = self._set_param(query, k, v)
             if page > 1:
                 query = self._set_param(query, 'page', str(page))
-            # --- 修正處：將該分類的 route 名稱一併帶給下游處理 ---
-            current_route = config.get('route', '')
-            items = self._category_items(query, page, current_route)
-            # --------------------------------------------------
+            # --- 核心安全修正：針對特定分類，繞過 _category_items 獨立處理網址 ---
+            target_route = config.get('route', '')
+            if target_route in ['real-drama', 'ai-drama', 'comic-drama', 'comic']:
+                # 拼出正確的新版獨立路由網址，例如 /category/ai-drama?tab=1...
+                url = f"{self.SITE}/category/{target_route}?{query}"
+                data = self._router_data(url)
+                
+                # 嘗試從 Remix 新版各種可能存放列表的欄位中提取數據
+                items = self._page_items(data, ('recommendList',))
+                if not items:
+                    # Remix 獨立路由的 loader_name 通常會變成 category_xxx_page 或 category_xxx/page
+                    # 我們把所有可能的 loaderData 槽位都檢查一遍
+                    loader_data = data.get('loaderData', {})
+                    page_data = loader_data.get(f'category_{target_route}_page', {}) \
+                                or loader_data.get(f'category_{target_route}/page', {}) \
+                                or loader_data.get('category_page', {})
+                    items = self._page_items(page_data)
+                if not items and isinstance(page_data, dict):
+                    items = self._page_items(page_data.get('categoryData', {}))
+                if not items:
+                    items = self._page_items(self._find_page(data, self.LIST_FIELDS))
+            else:
+                # 保留原邏輯：短劇（short）或其餘未定義路由的分類，走原本的舊函數（確保首頁不壞）
+                items = self._category_items(query, page)
+            # ------------------------------------------------------------------
             vods = [self._vod(x) for x in items]
             page_count = max(1, page + 1) if len(vods) >= self.PAGE_SIZE else page
             return {'list': vods, 'page': page, 'pagecount': page_count,
