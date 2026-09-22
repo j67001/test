@@ -5192,9 +5192,8 @@ class Spider(Spider):
             # query = config['query']
             # 1. 安全地獲取預設 query，如果沒有則給予通用預設值
             query = config.get('query', 'tab=1&sort_type=1')
-            # 2. 注入動態路徑參數：告訴下游網路請求，現在請求的正確 path 是什麼（避免永遠卡在真人劇）
-            if 'path' in config:
-                query = self._set_param(query, 'path', config['path'])
+            # 2. 獲取該分類對應的網頁路徑 (例如 /category/ai-drama)，若無則給預設
+            current_path = config.get('path', '/category/real-drama')
               
             if '=' in raw_id and raw_id not in self.CATEGORY_CONFIG:
                 parsed = parse_qs(raw_id.replace('category?', ''))
@@ -5203,8 +5202,12 @@ class Spider(Spider):
             for k, v in requested.items():
                 query = self._set_param(query, k, v)
             if page > 1:
+                # 這裡同時兼顧新舊官網可能使用的參數名稱
+                query = self._set_param(query, 'page_num', str(page))
                 query = self._set_param(query, 'page', str(page))
-            items = self._category_items(query, page)
+            # 3. 關鍵修正：將 current_path 作為第二個參數傳遞給 _category_items
+            items = self._category_items(query, page, current_path)
+          
             vods = [self._vod(x) for x in items]
             page_count = max(1, page + 1) if len(vods) >= self.PAGE_SIZE else page
             return {'list': vods, 'page': page, 'pagecount': page_count,
