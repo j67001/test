@@ -450,68 +450,30 @@ class DoubanSpider extends Spider {
         }
     }
 
-async parseVodShortListFromJson(obj) {
-    let vod_list = []
-    for (const item of obj) {
-        let vod_short = new VodShort()
-        vod_short.vod_id = "msearch:" + item["id"]
-        
-        // 1. 解析名稱
-        if (item["title"] !== undefined) {
-            vod_short.vod_name = item["title"]
-        } else if (item["target"] !== undefined && item["target"]["title"] !== undefined) {
-            vod_short.vod_name = item["target"]["title"]
-        } else {
-            vod_short.vod_name = "未知名称"
-        }
-
-        // 2. 提取圖片網址
-        let pic_url = "";
-        if (item["pic"] !== undefined && item["pic"]["normal"] !== undefined) {
-            pic_url = item["pic"]["normal"];
-        } else if (item["target"] !== undefined && item["target"]["cover_url"] !== undefined) {
-            pic_url = item["target"]["cover_url"];
-        } else if (item["cover"] !== undefined && item["cover"]["url"] !== undefined) {
-            pic_url = item["cover"]["url"];
-        } else if (item["cover_url"] !== undefined) {
-            pic_url = item["cover_url"];
-        }
-        
-        // 如果上面都沒撈到，用正則撈字串
-        if (!pic_url) {
-            let itemStr = JSON.stringify(item);
-            let imgMatch = itemStr.match(/https?:\/\/[^"]+(?:\.jpg|\.jpeg|\.png)/i);
-            if (imgMatch) {
-                pic_url = imgMatch[0];
-            }
-        }
-        
-        // 3. 解決防盜鏈（核心修正點）
-        if (pic_url && pic_url.includes("doubanio.com")) {
-            let cleanUrl = pic_url.replace("https://", "").replace("http://", "");
-            vod_short.vod_pic = "https://wsrv.nl" + cleanUrl;
-        } else {
-            vod_short.vod_pic = pic_url;
-        }
-
-        // 4. 解析評分
-        try {
-            if (item["rating"] !== undefined) {
-                let r = item["rating"]["value"] ?? item["rating"];
-                vod_short.vod_remarks = "评分:" + (r ?? "暂无").toString();
-            } else if (item["target"] !== undefined && item["target"]["rating"] !== undefined) {
-                vod_short.vod_remarks = "评分:" + item["target"]["rating"]["value"].toString();
+    async parseVodShortListFromJson(obj) {
+        let vod_list = []
+        for (const item of obj) {
+            let vod_short = new VodShort()
+            vod_short.vod_id = "msearch:" + item["id"]
+            if (item["title"] === undefined) {
+                vod_short.vod_name = item["target"]["title"]
             } else {
-                vod_short.vod_remarks = "评分:暂无";
+                vod_short.vod_name = item["title"]
             }
-        } catch (e) {
-            vod_short.vod_remarks = "评分:暂无";
+            if (item["pic"] === undefined) {
+                vod_short.vod_pic = item["target"]["cover_url"]
+            } else {
+                vod_short.vod_pic = item["pic"]["normal"]
+            }
+            if (item["rating"] === undefined) {
+                vod_short.vod_remarks = "评分:" + item["target"]["rating"]["value"].toString()
+            } else {
+                vod_short.vod_remarks = "评分:" + item["rating"]["value"].toString()
+            }
+            vod_list.push(vod_short);
         }
-
-        vod_list.push(vod_short);
+        return vod_list
     }
-    return vod_list
-}
 
 
 
