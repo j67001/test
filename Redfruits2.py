@@ -5037,32 +5037,27 @@ class Spider(Spider):
         return []
 
     # 2. 🔥【核心重寫】修正網址拼接邏輯，支持 Path 路徑與 Filter 參數安全合併
-    def _category_items(self, target_path, query_dict=None, page=1):
-        if query_dict is None:
-            query_dict = {}
-            
-        # 確保 path 格式正確
-        path = target_path if target_path.startswith('/') else '/' + target_path
-        url = self.SITE + path
-        
-        # 建立請求參數
-        params = {}
-        for k, v in query_dict.items():
-            params[k] = v
-            
-        # 如果是首頁或分類第一頁預設有 sort_type=1
-        if 'sort_type' not in params:
-            params['sort_type'] = '1'
-            
+    def _category_items(self, path_or_url, query="", page=1):
+        # 1. 建立正確的基礎網址
+        if path_or_url.startswith('http'):
+            url = path_or_url
+        else:
+            # 確保 path 開頭有 /
+            path = path_or_url if path_or_url.startswith('/') else '/' + path_or_url
+            url = self.SITE + path
+
+        # 2. 拼接篩選參數 (Filter) 與分頁
+        params = parse_qs(query)
         if page > 1:
-            params['page'] = str(page)
+            params['page'] = [str(page)]
             
-        # 拼裝 URL 參數
         if params:
-            url += '?' + urlencode({k: str(v) for k, v in params.items()})
-            
-        # 通過官網加密加載器處理
-        url = self._loader_url(url)
+            sep = '&' if '?' in url else '?'
+            # 將 params 字典轉回轉義後的 query 字串
+            url += sep + urlencode({k: v[0] for k, v in params.items()})
+
+        # 3. 核心載入器處理 (呼叫你原有的 _loader_url)
+        url = _loader_url(url)
 
         data = self._router_data(url)
         # 新版官网：recommendList 直接在顶层
@@ -5211,21 +5206,21 @@ class Spider(Spider):
                 return {'list': items, 'page': page, 'pagecount': 1,
                         'limit': len(items), 'total': len(items)}
             
-            # 獲取官網對應分類的精準 Path
-            target_path = config.get('path', '/category/real-drama')
+            # 3. 🔥【核心修正】提取配置中獨立的 path (例如 /category/ai-drama)
+            # 如果配置中沒有 path (例如 short 只有 query)，則退回 /category
+            target_path = config.get('path', '/category')
             
-            # 如果傳進來的 tid 內部本身自帶篩選參數（多見於部分 App 分流），則提取出來
-            query_dict = {}
-            if '=' in raw_id and raw_id not in self.CATEGORY_CONFIG:
-                parsed = parse_qs(raw_id.replace('category?', ''))
-                query_dict = {k: v[0] for k, v in parsed.items()}
-                
-            # 將延伸篩選標籤 (Filter) 合併進去
+            # 4. 處理延伸篩選標籤 (如類型、年份等過濾器參數)
+            # 排除掉配置中本來就有的核心參數，只留純篩選用的 query
+            filter_params = {}
             for k, v in requested.items():
-                query_dict[k] = v
-
-            # 發送請求
-            items = self._category_items(target_path, query_dict, page)
+                filter_params[k] = v
+                
+            # 將篩選字典打包成字串
+            query_string = urlencode(filter_params)
+            
+            # 5. 帶入新的路徑請求邏輯
+            items = self._category_items(target_path, query_string, page)
             vods = [self._vod(x) for x in items]
             
             page_count = max(1, page + 1) if len(vods) >= self.PAGE_SIZE else page
