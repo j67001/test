@@ -5037,29 +5037,13 @@ class Spider(Spider):
                 return collected
         return []
 
-    def _category_items(self, query, page=1):
-        # --- 修正起點：動態解析正確的分類路徑 ---
-        from urllib.parse import parse_qs, urlencode
-        
-        # 解析 query 參數
-        parsed_query = parse_qs(query)
-        
-        # 檢查是否有我們在 categoryContent 塞入的 path 參數
-        if 'path' in parsed_query:
-            # 抽出 path (例如 /category/ai-drama)
-            current_path = parsed_query.pop('path')[0]
-            # 重新將剩下的參數封裝回 query 字串
-            # 同時確保分頁參數正確（紅果官網分頁通常是 page_num，如果原本的 page 不管用，這裡會自動套用）
-            actual_query = urlencode(parsed_query, doseq=True)
-            url = self.SITE + current_path + '?' + actual_query
-        else:
-            # 備用方案：如果沒有 path，則走原本的默認邏輯
-            url = self.SITE + '/category?' + query
-            
-        # 如果大於第一頁且網址內還沒有 page 參數，則補上
-        if page > 1 and 'page' not in url and 'page_num' not in url:
-            url += '&page_num=' + str(page) # 新版官網多用 page_num
-        # --- 修正終點 ---
+    def _category_items(self, query, page=1, path='/category'):
+        # 1. 根據傳入的專屬路徑動態拼接 URL
+        url = self.SITE + path + '?' + query
+        # 2. 如果是大於第一頁，確保加上分頁參數
+        if page > 1 and 'page_num' not in url:
+            url += '&page_num=' + str(page)
+          
         data = self._router_data(url)
         # 新版官网：recommendList 直接在顶层
         items = self._page_items(data, ('recommendList',))
