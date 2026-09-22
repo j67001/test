@@ -4411,10 +4411,10 @@ class Spider(Spider):
     DEFAULT_PORT = 9877
 
     CATEGORY_CONFIG = {
-        'cat_human': {'type_name': '真人剧',  'kind': 'category', 'route': 'real-drama'},
-        'cat_AI': {'type_name': 'AI剧',  'kind': 'category', 'route': 'ai-drama'},
-        'cat_comicd': {'type_name': '漫剧',  'kind': 'category', 'route': 'comic-drama'},
-        'cat_comic': {'type_name': '漫画',  'kind': 'category', 'route': 'comic'},
+        'real-drama': {'type_name': '真人剧',  'kind': 'category', 'route': 'real-drama'},
+        'ai-drama': {'type_name': 'AI剧',  'kind': 'category', 'route': 'ai-drama'},
+        'comic-drama': {'type_name': '漫剧',  'kind': 'category', 'route': 'comic-drama'},
+        'comic': {'type_name': '漫画',  'kind': 'category', 'route': 'comic'},
         'rank_hot':   {'type_name': '红果热播榜',    'kind': 'rank', 'route': 'hot-drama'},
         'rank_human': {'type_name': '真人剧热播榜',  'kind': 'rank', 'route': 'hot-real-drama'},
         'rank_comic': {'type_name': '漫剧热播榜',    'kind': 'rank', 'route': 'hot-comic-drama'},
