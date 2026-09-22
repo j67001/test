@@ -450,30 +450,40 @@ class DoubanSpider extends Spider {
         }
     }
 
-    async parseVodShortListFromJson(obj) {
-        let vod_list = []
-        for (const item of obj) {
-            let vod_short = new VodShort()
-            vod_short.vod_id = "msearch:" + item["id"]
-            if (item["title"] === undefined) {
-                vod_short.vod_name = item["target"]["title"]
-            } else {
-                vod_short.vod_name = item["title"]
-            }
-            if (item["pic"] === undefined) {
-                vod_short.vod_pic = item["target"]["cover_url"]
-            } else {
-                vod_short.vod_pic = item["pic"]["normal"]
-            }
-            if (item["rating"] === undefined) {
-                vod_short.vod_remarks = "评分:" + item["target"]["rating"]["value"].toString()
-            } else {
-                vod_short.vod_remarks = "评分:" + item["rating"]["value"].toString()
-            }
-            vod_list.push(vod_short);
+async parseVodShortListFromJson(obj) {
+    let vod_list = []
+    for (const item of obj) {
+        let vod_short = new VodShort()
+        vod_short.vod_id = "msearch:" + item["id"]
+        
+        // 1. 解析名稱（維持原判斷，額外增加 recommend API 的 title 兜底）
+        if (item["title"] === undefined) {
+            vod_short.vod_name = item["target"] ? item["target"]["title"] : (item["title"] ?? "未知名称");
+        } else {
+            vod_short.vod_name = item["title"]
         }
-        return vod_list
+        
+        // 2. 解析圖片（核心修正：不破壞原邏輯，最優先精準捕獲篩選 API 的 cover.url 物件）
+        if (item["cover"] !== undefined && item["cover"]["url"] !== undefined) {
+            vod_short.vod_pic = item["cover"]["url"];
+        } else if (item["pic"] === undefined) {
+            vod_short.vod_pic = item["target"] ? item["target"]["cover_url"] : "";
+        } else {
+            vod_short.vod_pic = item["pic"]["normal"]
+        }
+        
+        // 3. 解析評分（維持原判斷，增加安全防護防止 value 報錯導致中斷）
+        if (item["rating"] === undefined) {
+            vod_short.vod_remarks = "评分:" + (item["target"] && item["target"]["rating"] ? item["target"]["rating"]["value"].toString() : "暂无");
+        } else {
+            vod_short.vod_remarks = "评分:" + (item["rating"]["value"] ? item["rating"]["value"].toString() : "暂无");
+        }
+        
+        vod_list.push(vod_short);
     }
+    return vod_list
+}
+
 
 
 
