@@ -6,9 +6,9 @@
 * @Software : Samples
 * @Desc     :
 */
-import {VodShort} from "../lib/vod.js";
+import {VodShort} from "./lib/vod.js";
 import {Spider} from "./spider.js";
-import {_, Crypto} from "../lib/cat.js";
+import {_, Crypto} from "./lib/cat.js";
 
 class DoubanSpider extends Spider {
     constructor() {
