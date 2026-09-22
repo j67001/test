@@ -5038,12 +5038,11 @@ class Spider(Spider):
         return []
 
     def _category_items(self, query, page=1, path='/category'):
-        # 1. 根據傳入的專屬路徑動態拼接 URL
+        # 根據各分類專屬路徑動態組合 URL
         url = self.SITE + path + '?' + query
-        # 2. 如果是大於第一頁，確保加上分頁參數
-        if page > 1 and 'page_num' not in url:
-            url += '&page_num=' + str(page)
-          
+        if page > 1:
+            url += '&page=' + str(page)
+        # --------------------------------------------------------
         data = self._router_data(url)
         # 新版官网：recommendList 直接在顶层
         items = self._page_items(data, ('recommendList',))
@@ -5172,13 +5171,7 @@ class Spider(Spider):
                 items = self._rank_items(config['route'], page)
                 return {'list': items, 'page': page, 'pagecount': 1,
                         'limit': len(items), 'total': len(items)}
-              
-            # query = config['query']
-            # 1. 安全地獲取預設 query，如果沒有則給予通用預設值
-            query = config.get('query', 'tab=1&sort_type=1')
-            # 2. 獲取該分類對應的網頁路徑 (例如 /category/ai-drama)，若無則給預設
-            current_path = config.get('path', '/category/real-drama')
-              
+            query = config['query']
             if '=' in raw_id and raw_id not in self.CATEGORY_CONFIG:
                 parsed = parse_qs(raw_id.replace('category?', ''))
                 for k, v_list in parsed.items():
@@ -5186,12 +5179,11 @@ class Spider(Spider):
             for k, v in requested.items():
                 query = self._set_param(query, k, v)
             if page > 1:
-                # 這裡同時兼顧新舊官網可能使用的參數名稱
-                query = self._set_param(query, 'page_num', str(page))
                 query = self._set_param(query, 'page', str(page))
-            # 3. 關鍵修正：將 current_path 作為第二個參數傳遞給 _category_items
+            # --- 修正處：獲取當前分類的正確路徑 (若無則默認 /category) ---
+            current_path = config.get('path', '/category')
             items = self._category_items(query, page, current_path)
-          
+            # --------------------------------------------------------
             vods = [self._vod(x) for x in items]
             page_count = max(1, page + 1) if len(vods) >= self.PAGE_SIZE else page
             return {'list': vods, 'page': page, 'pagecount': page_count,
