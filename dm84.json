@@ -10,7 +10,7 @@
     "首页片单列表数组规则": "li",
     "首页片单是否Jsoup写法": "1",
     "分类起始页码": "1",
-    "分类链接": "https://dmbus.cc/show-{cateId}---{class}---{catePg}.html[firstPage=https://dmbus.cc/show-{cateId}.html]",
+    "分类链接": "https://dmbus.cc/show-{cateId}------{catePg}.html[firstPage=https://dmbus.cc/show-{cateId}.html]",
     "分类名称": "日漫&國漫&歐美動漫&動畫電影",
     "分类名称替换词": "2&1&3&4",
     "筛选数据": {},
