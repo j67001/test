@@ -169,108 +169,107 @@ class Spider(Spider):
         return result
 
     def detailContent(self, array):
+        from concurrent.futures import ThreadPoolExecutor  # 僅在局部引入加速庫
+
         result = {'list': []}
-        ids = array if isinstance(array, list) else array
+        ids = array[0]
         detail_url = f"{self.home_url}{ids}"
-        
         try:
-            res = requests.get(detail_url, headers=self.headers, timeout=8)
+            res = requests.get(detail_url, headers=self.headers)
             res.encoding = 'utf-8'
             root = etree.HTML(res.text)
+            vod_name = root.xpath('//div[@class="right-title"]/text()')[0].strip() if root.xpath('//div[@class="right-title"]') else "未知"
+            vod_year = root.xpath('//div[@id="postYear"]/text()')[0].strip() if root.xpath('//div[@id="postYear"]') else ""
+            vod_area = root.xpath('//div[@id="region"]/text()')[0].strip() if root.xpath('//div[@id="region"]') else ""
+            vod_content = root.xpath('//div[@id="show-desc"]/text()')[0].strip() if root.xpath('//div[@id="show-desc"]') else ""
+            vod_remarks = root.xpath('//div[@id="updateTxt"]/text()')[0].strip() if root.xpath('//div[@id="updateTxt"]') else ""
+            vod_actor = root.xpath('//div[@id="actors"]/text()')[0].strip() if root.xpath('//div[@id="actors"]') else ""
+            vod_director = root.xpath('//div[@id="director"]/text()')[0].strip() if root.xpath('//div[@id="director"]') else ""
+            vod_pic = root.xpath('//img[@class="left-img"]/@src')[0] if root.xpath('//img[@class="left-img"]') else self.placeholder_pic
+            if vod_pic.startswith('/'):
+                vod_pic = self.home_url + vod_pic
             
-            # --- 1. 抓取基本訊息 ---
-            vod_name = "未知"
-            name_node = root.xpath('//h1/text() | //h2/text() | //div[@class="right-title"]/text()')
-            if name_node:
-                vod_name = name_node.strip()
-
-            vod_pic = self.placeholder_pic
-            pic_node = root.xpath('//img[contains(@class, "img") or contains(@class, "cover")]/@src')
-            if pic_node:
-                vod_pic = pic_node
-                if vod_pic.startswith('/'):
-                    vod_pic = self.home_url + vod_pic
-
-            # --- 2. 解析新版網頁結構：版本(#play_list_0) 與 線路(#route_list_0) ---
-            
-            # 抓取版本名稱 (例如: ['HDTC中字', 'TC中字'])
+            # ================== 核心修改：只針對 集數與線路 進行修正 ==================
+            # 1. 抓取新版網頁的版本/集數 (如: ['HDTC中字', 'TC中字'])
             ep_nodes = root.xpath('//ul[@id="play_list_0"]/li/a/text()')
             ep_list = [ep.strip() for ep in ep_nodes if ep.strip()]
-            if not ep_list:
-                ep_list = ["正片"]
-
-            # 抓取所有線路標籤
+            
+            # 2. 抓取新版網頁的線路節點
             route_nodes = root.xpath('//ul[@id="route_list_0"]/li')
             
-            play_from_arr = []
-            play_url_arr = []
-            
-            route_count = {}
-            
-            for index, li in enumerate(route_nodes):
-                # 排除隱藏線路
-                style = li.get('style', '')
-                if 'display: none' in style or 'display:none' in style:
-                    continue
-                    
-                # 提取線路名稱
-                route_name = li.xpath('./a/text()')
-                route_name = route_name.strip() if route_name else f"线路{index+1}"
+            if not route_nodes:
+                # 保底邏輯：維持您原本沒抓到時的格式
+                vod = {
+                    'vod_id': ids, 'vod_name': vod_name, 'vod_pic': vod_pic, 'type_name': '',
+                    'vod_year': vod_year, 'vod_area': vod_area, 'vod_remarks': vod_remarks,
+                    'vod_actor': vod_actor, 'vod_director': vod_director, 'vod_content': vod_content,
+                    'vod_play_from': '泥視頻', 'vod_play_url': '第1集$https://nivod.cc'
+                }
+            else:
+                play_from = []
+                play_urls = {}
+                route_count = {}
                 
-                # 提取隱藏在 data 屬性裡的 m3u8 直連網址
-                m3u8_url = li.get('data', '').strip()
-                if not m3u8_url or not m3u8_url.startswith('http'):
-                    continue
+                # 遍歷新網頁的線路節點，直接提取線路名稱與隱藏在 data 裡的 m3u8 網址
+                for index, li in enumerate(route_nodes):
+                    style = li.get('style', '')
+                    if 'display: none' in style or 'display:none' in style:
+                        continue
+                        
+                    # 提取線路名稱
+                    r_name = li.xpath('./a/text()')
+                    source_name = r_name[0].strip() if r_name else f"线路{index+1}"
                     
-                # 處理線路名稱重複問題 (避免多條 "线路FF" 在 Fongmi 裡面打架)
-                if route_name in route_count:
-                    route_count[route_name] += 1
-                    display_route_name = f"{route_name}_{route_count[route_name]}"
-                else:
-                    route_count[route_name] = 1
-                    display_route_name = route_name
-                
-                play_from_arr.append(display_route_name)
-                
-                # 組合完美對應您 playerContent 的格式：集數名稱$M3U8網址
-                eps_with_url = []
-                for ep_name in ep_list:
-                    # 格式範例：HDTC中字$https://.../index.m3u8
-                    eps_with_url.append(f"{ep_name}${m3u8_url}")
+                    # 提取 m3u8 直連網址
+                    m3u8_url = li.get('data', '').strip()
+                    if not m3u8_url or not m3u8_url.startswith('http'):
+                        continue
                     
-                play_url_arr.append("#".join(eps_with_url))
-
-            # 用 $$$ 分隔線路頁籤，用 # 分隔集數按鈕
-            vod_play_from = "$$$".join(play_from_arr)
-            vod_play_url = "$$$".join(play_url_arr)
-
-            # --- 3. 組裝 Fongmi 物件 ---
-            vod = {
-                'vod_id': ids,
-                'vod_name': vod_name,
-                'vod_pic': vod_pic,
-                'type_name': '',
-                'vod_year': '',
-                'vod_area': '',
-                'vod_remarks': f"可用線路: {len(play_from_arr)} 條",
-                'vod_actor': '',
-                'vod_director': '',
-                'vod_content': '直連 M3U8 線路播放',
-                'vod_play_from': vod_play_from,
-                'vod_play_url': vod_play_url
-            }
+                    # 避免線路名稱重複導致 Fongmi 覆蓋資料
+                    if source_name in route_count:
+                        route_count[source_name] += 1
+                        source_name = f"{source_name}_{route_count[source_name]}"
+                    else:
+                        route_count[source_name] = 1
+                        
+                    play_from.append(source_name)
+                    play_urls[source_name] = []
+                    
+                    # 如果網頁沒抓到版本集數，預設給個正片
+                    loop_eps = ep_list if ep_list else ["正片"]
+                    
+                    # 將集數與直連網址綁定
+                    for ep_name in loop_eps:
+                        play_urls[source_name].append(f"{ep_name}${m3u8_url}")
+                
+                vod_play_from = '$$$'.join(play_from)
+                vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in play_from])
+                
+                vod = {
+                    'vod_id': ids,
+                    'vod_name': vod_name,
+                    'vod_pic': vod_pic,
+                    'type_name': '',
+                    'vod_year': vod_year,
+                    'vod_area': vod_area,
+                    'vod_remarks': vod_remarks,
+                    'vod_actor': vod_actor,
+                    'vod_director': vod_director,
+                    'vod_content': vod_content,
+                    'vod_play_from': vod_play_from,
+                    'vod_play_url': vod_play_url
+                }
+            # =========================================================================
             result['list'].append(vod)
-            
         except Exception as e:
             print(f"Error in detailContent: {e}")
             result['list'].append({
                 'vod_id': ids,
-                'vod_name': '資源載入失敗',
+                'vod_name': '未知',
                 'vod_pic': self.placeholder_pic,
-                'vod_play_from': '泥視頻保底',
-                'vod_play_url': f'播放正片${detail_url}'
+                'vod_play_from': '泥視頻',
+                'vod_play_url': ''
             })
-            
         return result
 
     def searchContent(self, key, quick, pg='1'):
