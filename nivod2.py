@@ -169,6 +169,8 @@ class Spider(Spider):
         return result
 
     def detailContent(self, array):
+        from concurrent.futures import ThreadPoolExecutor  # 僅在局部引入加速庫
+
         result = {'list': []}
         ids = array[0]
         detail_url = f"{self.home_url}{ids}"
@@ -201,20 +203,37 @@ class Spider(Spider):
                     'vod_director': vod_director,
                     'vod_content': vod_content,
                     'vod_play_from': '泥視頻',
-                    'vod_play_url': '第1集$https://www.nivod.cc/vodplay/202552243/ep1'
+                    'vod_play_url': '第1集$https://nivod.cc'
                 }
             else:
                 play_from = set()
                 play_urls = {}
-                for ep in episodes[::-1]:
-                    ep_name = ep.xpath('.//div[@class="item"]/text()')[0].strip() if ep.xpath('.//div[@class="item"]') else "未知"
-                    ep_url = self.home_url + ep.get('href', '')
-                    vod_id = ids.split('/')[2]
-                    ep_id = ep_url.split('/')[-1]
-                    xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id}-{ep_id}"
-                    res = requests.get(xhr_url, headers=self.headers)
-                    res.encoding = 'utf-8'
-                    data = res.json()
+                
+                # --- 恢復您原本的單集解析邏輯，包裝成函數給多線程呼叫 ---
+                def fetch_ep_info(ep):
+                    try:
+                        ep_name = ep.xpath('.//div[@class="item"]/text()')[0].strip() if ep.xpath('.//div[@class="item"]') else "未知"
+                        ep_url = self.home_url + ep.get('href', '')
+                        vod_id_str = ids.split('/')[2]
+                        ep_id = ep_url.split('/')[-1]
+                        xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
+                        
+                        xhr_res = requests.get(xhr_url, headers=self.headers, timeout=3)
+                        xhr_res.encoding = 'utf-8'
+                        data = xhr_res.json()
+                        return ep_name, data
+                    except Exception as e:
+                        return None, None
+
+                # --- 使用執行緒池並行處理所有集數（不再排隊，同時發送請求） ---
+                # max_workers=15 代表同時併發 15 個請求，效率大幅提升
+                with ThreadPoolExecutor(max_workers=15) as executor:
+                    tasks = list(executor.map(fetch_ep_info, episodes[::-1]))
+                
+                # --- 按原本的倒序順序重新收割結果，確保集數順序不亂 ---
+                for ep_name, data in tasks:
+                    if not ep_name or not data:
+                        continue
                     if 'pdatas' in data and data['pdatas']:
                         for source in data['pdatas']:
                             source_name = source['from']
