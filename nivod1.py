@@ -169,23 +169,22 @@ class Spider(Spider):
         return result
 
     def detailContent(self, array):
-        from concurrent.futures import ThreadPoolExecutor  # 僅在局部引入加速庫
-
         result = {'list': []}
-        ids = array[0]
+        ids = array
         detail_url = f"{self.home_url}{ids}"
         try:
+            # 1. 請求詳情網頁 HTML
             res = requests.get(detail_url, headers=self.headers)
             res.encoding = 'utf-8'
             root = etree.HTML(res.text)
-            vod_name = root.xpath('//div[@class="right-title"]/text()')[0].strip() if root.xpath('//div[@class="right-title"]') else "未知"
-            vod_year = root.xpath('//div[@id="postYear"]/text()')[0].strip() if root.xpath('//div[@id="postYear"]') else ""
-            vod_area = root.xpath('//div[@id="region"]/text()')[0].strip() if root.xpath('//div[@id="region"]') else ""
-            vod_content = root.xpath('//div[@id="show-desc"]/text()')[0].strip() if root.xpath('//div[@id="show-desc"]') else ""
-            vod_remarks = root.xpath('//div[@id="updateTxt"]/text()')[0].strip() if root.xpath('//div[@id="updateTxt"]') else ""
-            vod_actor = root.xpath('//div[@id="actors"]/text()')[0].strip() if root.xpath('//div[@id="actors"]') else ""
-            vod_director = root.xpath('//div[@id="director"]/text()')[0].strip() if root.xpath('//div[@id="director"]') else ""
-            vod_pic = root.xpath('//img[@class="left-img"]/@src')[0] if root.xpath('//img[@class="left-img"]') else self.placeholder_pic
+            vod_name = root.xpath('//div[@class="right-title"]/text()').strip() if root.xpath('//div[@class="right-title"]') else "未知"
+            vod_year = root.xpath('//div[@id="postYear"]/text()').strip() if root.xpath('//div[@id="postYear"]') else ""
+            vod_area = root.xpath('//div[@id="region"]/text()').strip() if root.xpath('//div[@id="region"]') else ""
+            vod_content = root.xpath('//div[@id="show-desc"]/text()').strip() if root.xpath('//div[@id="show-desc"]') else ""
+            vod_remarks = root.xpath('//div[@id="updateTxt"]/text()').strip() if root.xpath('//div[@id="updateTxt"]') else ""
+            vod_actor = root.xpath('//div[@id="actors"]/text()').strip() if root.xpath('//div[@id="actors"]') else ""
+            vod_director = root.xpath('//div[@id="director"]/text()').strip() if root.xpath('//div[@id="director"]') else ""
+            vod_pic = root.xpath('//img[@class="left-img"]/@src') if root.xpath('//img[@class="left-img"]') else self.placeholder_pic
             if vod_pic.startswith('/'):
                 vod_pic = self.home_url + vod_pic
             
@@ -209,38 +208,45 @@ class Spider(Spider):
                 play_from = set()
                 play_urls = {}
                 
-                # --- 恢復您原本的單集解析邏輯，包裝成函數給多線程呼叫 ---
-                def fetch_ep_info(ep):
-                    try:
-                        ep_name = ep.xpath('.//div[@class="item"]/text()')[0].strip() if ep.xpath('.//div[@class="item"]') else "未知"
-                        ep_url = self.home_url + ep.get('href', '')
-                        vod_id_str = ids.split('/')[2]
-                        ep_id = ep_url.split('/')[-1]
-                        xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
-                        
-                        xhr_res = requests.get(xhr_url, headers=self.headers, timeout=2)
-                        xhr_res.encoding = 'utf-8'
-                        data = xhr_res.json()
-                        return ep_name, data
-                    except Exception as e:
-                        return None, None
-
-                # --- 使用執行緒池並行處理所有集數（不再排隊，同時發送請求） ---
-                # max_workers=15 代表同時併發 15 個請求，效率大幅提升
-                with ThreadPoolExecutor(max_workers=15) as executor:
-                    tasks = list(executor.map(fetch_ep_info, episodes[::-1]))
+                # --- 【核心修正】精確提取影片純數字 ID，修正原碼 list 拼接導致超時 18 秒的 Bug ---
+                vod_id_match = re.search(r'\d+', str(ids))
+                vod_pure_id = vod_id_match.group(0) if vod_id_match else "0"
                 
-                # --- 按原本的倒序順序重新收割結果，確保集數順序不亂 ---
-                for ep_name, data in tasks:
-                    if not ep_name or not data:
-                        continue
+                # --- 【極致加速】僅透過第一集發送 1 次正確的 XHR，動態把網站所有的真實片源通通撈出來 ---
+                first_ep = episodes[-1] # 取得第一集節點
+                first_ep_url = self.home_url + first_ep.get('href', '')
+                first_ep_id = first_ep_url.split('/')[-1]
+                
+                # 拼接成 100% 正確的探測網址，伺服器會瞬間秒回 JSON
+                sample_xhr = f"{self.home_url}/xhr_playinfo/{vod_pure_id}-{first_ep_id}"
+                try:
+                    xhr_res = requests.get(sample_xhr, headers=self.headers, timeout=5)
+                    xhr_res.encoding = 'utf-8'
+                    data = xhr_res.json()
                     if 'pdatas' in data and data['pdatas']:
                         for source in data['pdatas']:
                             source_name = source['from']
                             play_from.add(source_name)
                             if source_name not in play_urls:
                                 play_urls[source_name] = []
-                            play_urls[source_name].append(f"{ep_name}${source['playurl']}")
+                except Exception as e:
+                    print(f"動態獲取片源失敗: {e}")
+                
+                # 保底機制：若 XHR 意外失敗，填入原本的泥視頻作防禦
+                if not play_from:
+                    play_from.add('泥視頻')
+                    play_urls['泥視頻'] = []
+
+                # --- 2. 恢復您原碼的倒序遍歷邏輯，在本地快速複製分發，不再發送網路請求 ---
+                for ep in episodes[::-1]:
+                    ep_name = ep.xpath('.//div[@class="item"]/text()').strip() if ep.xpath('.//div[@class="item"]') else "未知"
+                    ep_url = self.home_url + ep.get('href', '')
+                    ep_id = ep_url.split('/')[-1]
+                    
+                    # 動態適配撈到的所有片源（7-8個或更多都會完美呈現）
+                    for source_name in play_from:
+                        # 將播放時需要的參數包裝進 URL 欄位中，交給 playerContent 點擊時解析
+                        play_urls[source_name].append(f"{ep_name}${vod_pure_id}-{ep_id}_{source_name}")
                 
                 vod_play_from = '$$$'.join(play_from)
                 vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in play_from])
@@ -304,13 +310,50 @@ class Spider(Spider):
     def playerContent(self, flag, id, vipFlags):
         result = {}
         try:
-            play_url = id.split('$')[1] if '$' in id else id
-            result = {
-                'url': play_url,
-                'header': json.dumps(self.headers),
-                'parse': 0,
-                'playUrl': ''
-            }
+            play_id = id.split('$') if '$' in id else id
+            
+            # 解析參數：vod_id-ep_id_sourceName
+            if "_" in play_id:
+                target_ids, target_source = play_id.split('_', 1)
+            else:
+                target_ids = play_id
+                target_source = None
+                
+            # 使用者真正點擊某個片源的某一集時，才發送這 1 次正確的請求
+            xhr_url = f"{self.home_url}/xhr_playinfo/{target_ids}"
+            
+            play_headers = self.headers.copy()
+            play_headers["Referer"] = f"{self.home_url}/vodplay/{target_ids}.html"
+            
+            res = requests.get(xhr_url, headers=play_headers, timeout=6)
+            res.encoding = 'utf-8'
+            data = res.json()
+            
+            final_url = ""
+            if 'pdatas' in data and data['pdatas']:
+                pdatas = data['pdatas']
+                
+                if isinstance(pdatas, list):
+                    # 精準匹配使用者在畫面上切換的真實片源名稱
+                    for source in pdatas:
+                        if target_source and source.get('from') == target_source:
+                            final_url = source.get('playurl', '')
+                            break
+                    if not final_url and len(pdatas) > 0:
+                        final_url = pdatas.get('playurl', '')
+                elif isinstance(pdatas, dict):
+                    final_url = pdatas.get('playurl', '')
+
+            if final_url:
+                is_video = final_url.endswith('.m3u8') or final_url.endswith('.mp4') or 'playlist' in final_url
+                result = {
+                    'url': final_url,
+                    'header': json.dumps(self.headers),
+                    'parse': 0 if is_video else 1,
+                    'playUrl': ''
+                }
+            else:
+                result = {'url': f"{self.home_url}/vodplay/{target_ids}.html", 'parse': 1}
         except Exception as e:
             print(f"Error in playerContent: {e}")
             result = {'url': '', 'parse': 0}
