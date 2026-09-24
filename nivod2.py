@@ -169,15 +169,15 @@ class Spider(Spider):
         return result
 
     def detailContent(self, array):
-        from concurrent.futures import ThreadPoolExecutor  # 僅在局部引入加速庫
-
         result = {'list': []}
-        ids = array[0]
+        ids = array[0] if isinstance(array, list) else array
         detail_url = f"{self.home_url}{ids}"
         try:
-            res = requests.get(detail_url, headers=self.headers)
+            res = requests.get(detail_url, headers=self.headers, timeout=8)
             res.encoding = 'utf-8'
             root = etree.HTML(res.text)
+            
+            # --- 保持您原有的基本訊息解析結構不變 ---
             vod_name = root.xpath('//div[@class="right-title"]/text()')[0].strip() if root.xpath('//div[@class="right-title"]') else "未知"
             vod_year = root.xpath('//div[@id="postYear"]/text()')[0].strip() if root.xpath('//div[@id="postYear"]') else ""
             vod_area = root.xpath('//div[@id="region"]/text()')[0].strip() if root.xpath('//div[@id="region"]') else ""
@@ -189,43 +189,54 @@ class Spider(Spider):
             if vod_pic.startswith('/'):
                 vod_pic = self.home_url + vod_pic
             
-            # ================== 核心修改：只針對 集數與線路 進行修正 ==================
-            # 1. 抓取新版網頁的版本/集數 (如: ['HDTC中字', 'TC中字'])
+            # --- 針對新版網頁結構：專門修正集數與線路解析 ---
+            
+            # 1. 抓取新版網頁的版本/集數名稱 (例如: ['HDTC中字', 'TC中字'])
             ep_nodes = root.xpath('//ul[@id="play_list_0"]/li/a/text()')
             ep_list = [ep.strip() for ep in ep_nodes if ep.strip()]
-            
+            if not ep_list:
+                ep_list = ["正片"]  # 保底至少有一集
+
             # 2. 抓取新版網頁的線路節點
             route_nodes = root.xpath('//ul[@id="route_list_0"]/li')
             
             if not route_nodes:
-                # 保底邏輯：維持您原本沒抓到時的格式
+                # 這裡完全維持您原本完全沒抓到資料時的保底格式
                 vod = {
-                    'vod_id': ids, 'vod_name': vod_name, 'vod_pic': vod_pic, 'type_name': '',
-                    'vod_year': vod_year, 'vod_area': vod_area, 'vod_remarks': vod_remarks,
-                    'vod_actor': vod_actor, 'vod_director': vod_director, 'vod_content': vod_content,
-                    'vod_play_from': '泥視頻', 'vod_play_url': '第1集$https://nivod.cc'
+                    'vod_id': ids,
+                    'vod_name': vod_name,
+                    'vod_pic': vod_pic,
+                    'type_name': '',
+                    'vod_year': vod_year,
+                    'vod_area': vod_area,
+                    'vod_remarks': vod_remarks,
+                    'vod_actor': vod_actor,
+                    'vod_director': vod_director,
+                    'vod_content': vod_content,
+                    'vod_play_from': '泥視頻',
+                    'vod_play_url': '第1集$https://nivod.cc'
                 }
             else:
                 play_from = []
                 play_urls = {}
                 route_count = {}
                 
-                # 遍歷新網頁的線路節點，直接提取線路名稱與隱藏在 data 裡的 m3u8 網址
+                # 3. 遍歷新網頁的線路節點，直接從 data 屬性取得 m3u8 網址
                 for index, li in enumerate(route_nodes):
                     style = li.get('style', '')
                     if 'display: none' in style or 'display:none' in style:
                         continue
                         
-                    # 提取線路名稱
+                    # 提取線路名稱 (例如: 线路FF)
                     r_name = li.xpath('./a/text()')
                     source_name = r_name[0].strip() if r_name else f"线路{index+1}"
                     
-                    # 提取 m3u8 直連網址
+                    # 提取隱藏在 data 屬性裡的直連 m3u8 網址
                     m3u8_url = li.get('data', '').strip()
                     if not m3u8_url or not m3u8_url.startswith('http'):
                         continue
                     
-                    # 避免線路名稱重複導致 Fongmi 覆蓋資料
+                    # 防止相同名稱的線路互相覆蓋、打架
                     if source_name in route_count:
                         route_count[source_name] += 1
                         source_name = f"{source_name}_{route_count[source_name]}"
@@ -235,13 +246,11 @@ class Spider(Spider):
                     play_from.append(source_name)
                     play_urls[source_name] = []
                     
-                    # 如果網頁沒抓到版本集數，預設給個正片
-                    loop_eps = ep_list if ep_list else ["正片"]
-                    
-                    # 將集數與直連網址綁定
-                    for ep_name in loop_eps:
+                    # 為該線路綁定所有的集數/版本，格式完美符合您的 playerContent
+                    for ep_name in ep_list:
                         play_urls[source_name].append(f"{ep_name}${m3u8_url}")
                 
+                # 回歸您原本的 $$$ 與 # 拼接格式
                 vod_play_from = '$$$'.join(play_from)
                 vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in play_from])
                 
@@ -259,8 +268,9 @@ class Spider(Spider):
                     'vod_play_from': vod_play_from,
                     'vod_play_url': vod_play_url
                 }
-            # =========================================================================
+            
             result['list'].append(vod)
+            
         except Exception as e:
             print(f"Error in detailContent: {e}")
             result['list'].append({
