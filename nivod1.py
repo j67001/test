@@ -218,7 +218,7 @@ class Spider(Spider):
                         ep_id = ep_url.split('/')[-1]
                         xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
                         
-                        xhr_res = requests.get(xhr_url, headers=self.headers, timeout=2)
+                        xhr_res = requests.get(xhr_url, headers=self.headers, timeout=3)
                         xhr_res.encoding = 'utf-8'
                         data = xhr_res.json()
                         return ep_name, data
