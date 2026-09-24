@@ -169,10 +169,10 @@ class Spider(Spider):
         return result
 
     def detailContent(self, array):
-        from concurrent.futures import ThreadPoolExecutor  # 引入線程池加速
+        from concurrent.futures import ThreadPoolExecutor  # 僅在局部引入加速庫
 
         result = {'list': []}
-        ids = array
+        ids = array[0]
         detail_url = f"{self.home_url}{ids}"
         try:
             res = requests.get(detail_url, headers=self.headers)
@@ -208,34 +208,29 @@ class Spider(Spider):
             else:
                 play_from = set()
                 play_urls = {}
-
-                # 建立會話，在所有線程間複用連線通道，這是提速且防封的核心
-                session = requests.Session()
-                session.headers.update(self.headers)
                 
-                # --- 封裝單集解析（完全拷貝原碼邏輯，僅改用 session.get） ---
+                # --- 恢復您原本的單集解析邏輯，包裝成函數給多線程呼叫 ---
                 def fetch_ep_info(ep):
                     try:
                         ep_name = ep.xpath('.//div[@class="item"]/text()')[0].strip() if ep.xpath('.//div[@class="item"]') else "未知"
                         ep_url = self.home_url + ep.get('href', '')
-                        vod_id = ids.split('/')[2]  # 完全恢復原碼
-                        ep_id = ep_url.split('/')[-1]  # 完全恢復原碼
-                        xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id}-{ep_id}"  # 完全恢復原碼
+                        vod_id_str = ids.split('/')[2]
+                        ep_id = ep_url.split('/')[-1]
+                        xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
                         
-                        xhr_res = session.get(xhr_url, timeout=5)
+                        xhr_res = requests.get(xhr_url, headers=self.headers, timeout=5)
                         xhr_res.encoding = 'utf-8'
                         data = xhr_res.json()
                         return ep_name, data
                     except Exception as e:
                         return None, None
 
-                # --- 併發處理所有集數，線程開到 50，全速全開 ---
+                # --- 使用執行緒池並行處理所有集數（不再排隊，同時發送請求） ---
+                # max_workers=15 代表同時併發 15 個請求，效率大幅提升
                 with ThreadPoolExecutor(max_workers=50) as executor:
                     tasks = list(executor.map(fetch_ep_info, episodes[::-1]))
                 
-                session.close() # 釋放網絡資源
-                
-                # --- 按原本的順序重新組合結果 ---
+                # --- 按原本的倒序順序重新收割結果，確保集數順序不亂 ---
                 for ep_name, data in tasks:
                     if not ep_name or not data:
                         continue
