@@ -218,7 +218,7 @@ class Spider(Spider):
                         ep_id = ep_url.split('/')[-1]
                         xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
                         
-                        xhr_res = requests.get(xhr_url, headers=self.headers, timeout=5)
+                        xhr_res = requests.get(xhr_url, headers=self.headers, timeout=2)
                         xhr_res.encoding = 'utf-8'
                         data = xhr_res.json()
                         return ep_name, data
@@ -227,7 +227,7 @@ class Spider(Spider):
 
                 # --- 使用執行緒池並行處理所有集數（不再排隊，同時發送請求） ---
                 # max_workers=15 代表同時併發 15 個請求，效率大幅提升
-                with ThreadPoolExecutor(max_workers=50) as executor:
+                with ThreadPoolExecutor(max_workers=15) as executor:
                     tasks = list(executor.map(fetch_ep_info, episodes[::-1]))
                 
                 # --- 按原本的倒序順序重新收割結果，確保集數順序不亂 ---
