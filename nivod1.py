@@ -188,58 +188,45 @@ class Spider(Spider):
                 vod_pic = self.home_url + vod_pic
             
             episodes = root.xpath('//div[@id="list-jj"]/a')
+            
+            # 提取影片ID
+            # 假設 ids 格式為 /vod/12345.html 或 /voddetail/12345
+            vod_id_match = re.search(r'\d+', ids)
+            vod_id = vod_id_match.group(0) if vod_id_match else ids.split('/')[-1].split('.')[0]
+
+            play_urls = []
+            
             if not episodes:
-                vod = {
-                    'vod_id': ids,
-                    'vod_name': vod_name,
-                    'vod_pic': vod_pic,
-                    'type_name': '',
-                    'vod_year': vod_year,
-                    'vod_area': vod_area,
-                    'vod_remarks': vod_remarks,
-                    'vod_actor': vod_actor,
-                    'vod_director': vod_director,
-                    'vod_content': vod_content,
-                    'vod_play_from': '泥視頻',
-                    'vod_play_url': '第1集$https://www.nivod.cc/vodplay/202552243/ep1'
-                }
+                # 如果沒有集數列表，塞入預設單集
+                play_urls.append("第1集$default")
             else:
-                play_from = set()
-                play_urls = {}
+                # 遍歷頁面上的集數連結，只組合 ID，不發送請求
                 for ep in episodes[::-1]:
                     ep_name = ep.xpath('.//div[@class="item"]/text()')[0].strip() if ep.xpath('.//div[@class="item"]') else "未知"
-                    ep_url = self.home_url + ep.get('href', '')
-                    vod_id = ids.split('/')[2]
-                    ep_id = ep_url.split('/')[-1]
-                    xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id}-{ep_id}"
-                    res = requests.get(xhr_url, headers=self.headers)
-                    res.encoding = 'utf-8'
-                    data = res.json()
-                    if 'pdatas' in data and data['pdatas']:
-                        for source in data['pdatas']:
-                            source_name = source['from']
-                            play_from.add(source_name)
-                            if source_name not in play_urls:
-                                play_urls[source_name] = []
-                            play_urls[source_name].append(f"{ep_name}${source['playurl']}")
-                
-                vod_play_from = '$$$'.join(play_from)
-                vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in play_from])
-                
-                vod = {
-                    'vod_id': ids,
-                    'vod_name': vod_name,
-                    'vod_pic': vod_pic,
-                    'type_name': '',
-                    'vod_year': vod_year,
-                    'vod_area': vod_area,
-                    'vod_remarks': vod_remarks,
-                    'vod_actor': vod_actor,
-                    'vod_director': vod_director,
-                    'vod_content': vod_content,
-                    'vod_play_from': vod_play_from,
-                    'vod_play_url': vod_play_url
-                }
+                    ep_href = ep.get('href', '')
+                    # 從 href 中提取 ep_id
+                    ep_id_match = re.search(r'\d+', ep_href.split('/')[-1])
+                    ep_id = ep_id_match.group(0) if ep_id_match else ep_href.split('/')[-1]
+                    
+                    # 將 vod_id 和 ep_id 包裝進 URL 欄位，留給 playerContent 解析
+                    play_urls.append(f"{ep_name}${vod_id}-{ep_id}")
+            
+            vod_play_url = '#'.join(play_urls)
+            
+            vod = {
+                'vod_id': ids,
+                'vod_name': vod_name,
+                'vod_pic': vod_pic,
+                'type_name': '',
+                'vod_year': vod_year,
+                'vod_area': vod_area,
+                'vod_remarks': vod_remarks,
+                'vod_actor': vod_actor,
+                'vod_director': vod_director,
+                'vod_content': vod_content,
+                'vod_play_from': '泥視頻', # 簡化來源，由播放時動態解析
+                'vod_play_url': vod_play_url
+            }
             result['list'].append(vod)
         except Exception as e:
             print(f"Error in detailContent: {e}")
@@ -285,13 +272,35 @@ class Spider(Spider):
     def playerContent(self, flag, id, vipFlags):
         result = {}
         try:
-            play_url = id.split('$')[1] if '$' in id else id
-            result = {
-                'url': play_url,
-                'header': json.dumps(self.headers),
-                'parse': 0,
-                'playUrl': ''
-            }
+            # 此時的 id 會是 "vod_id-ep_id" 的格式
+            play_id = id.split('$')[1] if '$' in id else id
+            
+            if play_id == "default":
+                # 處理無集數列表的特殊狀況
+                return {'url': '', 'parse': 1} # 1 代表交給系統解鎖或視訊格式檢查
+                
+            # 動態向網站請求該集的真正播放網址
+            xhr_url = f"{self.home_url}/xhr_playinfo/{play_id}"
+            res = requests.get(xhr_url, headers=self.headers, timeout=5)
+            res.encoding = 'utf-8'
+            data = res.json()
+            
+            # 從 json 中提取真實網址
+            final_url = ""
+            if 'pdatas' in data and data['pdatas']:
+                # 預設取第一個線路的播放網址
+                final_url = data['pdatas'][0].get('playurl', '')
+            
+            if final_url:
+                result = {
+                    'url': final_url,
+                    'header': json.dumps(self.headers),
+                    'parse': 0, # 0 代表直接播放（如果是直鏈 m3u8/mp4）
+                    'playUrl': ''
+                }
+            else:
+                result = {'url': '', 'parse': 0}
+                
         except Exception as e:
             print(f"Error in playerContent: {e}")
             result = {'url': '', 'parse': 0}
