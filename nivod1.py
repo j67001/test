@@ -170,12 +170,14 @@ class Spider(Spider):
 
     def detailContent(self, array):
         result = {'list': []}
-        ids = array[0]
+        ids = array[0] if isinstance(array, list) else array
         detail_url = f"{self.home_url}{ids}"
         try:
-            res = requests.get(detail_url, headers=self.headers)
+            res = requests.get(detail_url, headers=self.headers, timeout=10)
             res.encoding = 'utf-8'
             root = etree.HTML(res.text)
+            
+            # 基礎訊息解析
             vod_name = root.xpath('//div[@class="right-title"]/text()')[0].strip() if root.xpath('//div[@class="right-title"]') else "未知"
             vod_year = root.xpath('//div[@id="postYear"]/text()')[0].strip() if root.xpath('//div[@id="postYear"]') else ""
             vod_area = root.xpath('//div[@id="region"]/text()')[0].strip() if root.xpath('//div[@id="region"]') else ""
@@ -189,29 +191,57 @@ class Spider(Spider):
             
             episodes = root.xpath('//div[@id="list-jj"]/a')
             
-            # 提取影片ID
-            # 假設 ids 格式為 /vod/12345.html 或 /voddetail/12345
+            # 提取影片ID (vod_id)
             vod_id_match = re.search(r'\d+', ids)
-            vod_id = vod_id_match.group(0) if vod_id_match else ids.split('/')[-1].split('.')[0]
+            vod_id = vod_id_match.group(0) if vod_id_match else ids.split('/')[-1]
 
-            play_urls = []
-            
+            play_from_list = []
+            play_urls_dict = {}
+
             if not episodes:
-                # 如果沒有集數列表，塞入預設單集
-                play_urls.append("第1集$default")
+                # 無集數情況下，預設一個泥視頻片源
+                play_from_list = ['泥視頻']
+                play_urls_dict['泥視頻'] = [f"第1集$default_id"]
             else:
-                # 遍歷頁面上的集數連結，只組合 ID，不發送請求
-                for ep in episodes[::-1]:
+                # --- 關鍵優化：只請求最後一集（即倒序後的第一集）來獲取片源線路 ---
+                first_ep = episodes[-1] # 原始列表最後一個通常是第一集
+                first_ep_href = first_ep.get('href', '')
+                first_ep_id_match = re.search(r'\d+', first_ep_href.split('/')[-1])
+                first_ep_id = first_ep_id_match.group(0) if first_ep_id_match else first_ep_href.split('/')[-1]
+                
+                # 發送一次請求獲取有哪些片源 (from)
+                sample_xhr = f"{self.home_url}/xhr_playinfo/{vod_id}-{first_ep_id}"
+                try:
+                    xhr_res = requests.get(sample_xhr, headers=self.headers, timeout=5)
+                    xhr_data = xhr_res.json()
+                    if 'pdatas' in xhr_data and xhr_data['pdatas']:
+                        for source in xhr_data['pdatas']:
+                            source_name = source.get('from', '預設線路')
+                            play_from_list.append(source_name)
+                            play_urls_dict[source_name] = []
+                except Exception as xhr_err:
+                    print(f"Fetch channels error: {xhr_err}")
+                
+                # 如果 XHR 請求失敗或沒拿到線路，保底填入一個
+                if not play_from_list:
+                    play_from_list = ['泥視頻']
+                    play_urls_dict['泥視頻'] = []
+
+                # 遍歷所有集數，將每集的 ID 包裝好分發到各個線路中
+                for ep in episodes[::-1]:  # 倒序符合播放習慣
                     ep_name = ep.xpath('.//div[@class="item"]/text()')[0].strip() if ep.xpath('.//div[@class="item"]') else "未知"
                     ep_href = ep.get('href', '')
-                    # 從 href 中提取 ep_id
                     ep_id_match = re.search(r'\d+', ep_href.split('/')[-1])
                     ep_id = ep_id_match.group(0) if ep_id_match else ep_href.split('/')[-1]
                     
-                    # 將 vod_id 和 ep_id 包裝進 URL 欄位，留給 playerContent 解析
-                    play_urls.append(f"{ep_name}${vod_id}-{ep_id}")
-            
-            vod_play_url = '#'.join(play_urls)
+                    # 遍歷剛才獲取到的所有片源線路，為每一條線路都生成這一集
+                    for source_name in play_from_list:
+                        # 這裡把 source_name 帶在 id 後面，傳給 playerContent 識別是要播哪個源
+                        play_urls_dict[source_name].append(f"{ep_name}${vod_id}-{ep_id}_{source_name}")
+
+            # 組裝符合 TVBox 規範的格式
+            vod_play_from = '$$$'.join(play_from_list)
+            vod_play_url = '$$$'.join(['#'.join(play_urls_dict[source]) for source in play_from_list])
             
             vod = {
                 'vod_id': ids,
@@ -224,7 +254,7 @@ class Spider(Spider):
                 'vod_actor': vod_actor,
                 'vod_director': vod_director,
                 'vod_content': vod_content,
-                'vod_play_from': '泥視頻', # 簡化來源，由播放時動態解析
+                'vod_play_from': vod_play_from,
                 'vod_play_url': vod_play_url
             }
             result['list'].append(vod)
@@ -272,30 +302,42 @@ class Spider(Spider):
     def playerContent(self, flag, id, vipFlags):
         result = {}
         try:
-            # 此時的 id 會是 "vod_id-ep_id" 的格式
+            # 傳進來的 id 格式為: vod_id-ep_id_sourceName
+            # 例如: 202552243-ep1_雲播
             play_id = id.split('$')[1] if '$' in id else id
             
-            if play_id == "default":
-                # 處理無集數列表的特殊狀況
-                return {'url': '', 'parse': 1} # 1 代表交給系統解鎖或視訊格式檢查
+            if "_" in play_id:
+                target_ids, target_source = play_id.split('_', 1)
+            else:
+                target_ids = play_id
+                target_source = None
+            
+            if target_ids == "default_id":
+                return {'url': '', 'parse': 1}
                 
-            # 動態向網站請求該集的真正播放網址
-            xhr_url = f"{self.home_url}/xhr_playinfo/{play_id}"
+            # 發送當前點擊集數的 XHR 請求
+            xhr_url = f"{self.home_url}/xhr_playinfo/{target_ids}"
             res = requests.get(xhr_url, headers=self.headers, timeout=5)
             res.encoding = 'utf-8'
             data = res.json()
             
-            # 從 json 中提取真實網址
             final_url = ""
             if 'pdatas' in data and data['pdatas']:
-                # 預設取第一個線路的播放網址
-                final_url = data['pdatas'][0].get('playurl', '')
+                for source in data['pdatas']:
+                    # 匹配使用者選擇的片源線路
+                    if target_source and source.get('from') == target_source:
+                        final_url = source.get('playurl', '')
+                        break
+                
+                # 如果沒匹配到，預設拿第一個片源保底
+                if not final_url:
+                    final_url = data['pdatas'][0].get('playurl', '')
             
             if final_url:
                 result = {
                     'url': final_url,
                     'header': json.dumps(self.headers),
-                    'parse': 0, # 0 代表直接播放（如果是直鏈 m3u8/mp4）
+                    'parse': 0, # 如果 final_url 已經是 .m3u8 則直接撥放
                     'playUrl': ''
                 }
             else:
