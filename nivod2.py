@@ -151,7 +151,7 @@ class Spider(Spider):
                     'vod_pic': vod_pic,
                     'vod_remarks': vod_remarks
                 })
-            
+
             # 假設每頁最多 48 個項目，網站分頁上限為 5 頁
             current_items = len(data_list)
             total_pages = 5  # 網站分頁上限為 5
@@ -172,33 +172,24 @@ class Spider(Spider):
         from concurrent.futures import ThreadPoolExecutor  # 僅在局部引入加速庫
 
         result = {'list': []}
-        ids = array
+        ids = array[0]
         detail_url = f"{self.home_url}{ids}"
         try:
-            res = requests.get(detail_url, headers=self.headers, timeout=8)
+            res = requests.get(detail_url, headers=self.headers)
             res.encoding = 'utf-8'
             root = etree.HTML(res.text)
-            
-            # --- 安全基礎訊息抓取：加上判斷防止空列表崩潰，優先匹配新版 h1 標題 ---
-            name_nodes = root.xpath('//h1/text() | //h2/text() | //div[@class="right-title"]/text()')
-            vod_name = name_nodes[0].strip() if name_nodes else "新版泥視頻影片"
-            
+            vod_name = root.xpath('//div[@class="right-title"]/text()')[0].strip() if root.xpath('//div[@class="right-title"]') else "未知"
             vod_year = root.xpath('//div[@id="postYear"]/text()')[0].strip() if root.xpath('//div[@id="postYear"]') else ""
             vod_area = root.xpath('//div[@id="region"]/text()')[0].strip() if root.xpath('//div[@id="region"]') else ""
-            vod_content = root.xpath('//div[@id="show-desc"]/text()')[0].strip() if root.xpath('//div[@id="show-desc"]') else "直連 M3U8 線路播放"
+            vod_content = root.xpath('//div[@id="show-desc"]/text()')[0].strip() if root.xpath('//div[@id="show-desc"]') else ""
             vod_remarks = root.xpath('//div[@id="updateTxt"]/text()')[0].strip() if root.xpath('//div[@id="updateTxt"]') else ""
             vod_actor = root.xpath('//div[@id="actors"]/text()')[0].strip() if root.xpath('//div[@id="actors"]') else ""
             vod_director = root.xpath('//div[@id="director"]/text()')[0].strip() if root.xpath('//div[@id="director"]') else ""
-            
-            pic_nodes = root.xpath('//img[@class="left-img"]/@src | //img[contains(@class, "cover")]/@src')
-            vod_pic = pic_nodes[0] if pic_nodes else self.placeholder_pic
+            vod_pic = root.xpath('//img[@class="left-img"]/@src')[0] if root.xpath('//img[@class="left-img"]') else self.placeholder_pic
             if vod_pic.startswith('/'):
                 vod_pic = self.home_url + vod_pic
             
-            # ========== 最小更動：精準對接您提供的 #route_list_0 線路節點 ==========
-            episodes = root.xpath('//ul[@id="route_list_0"]/li')
-            # ====================================================================
-            
+            episodes = root.xpath('//div[@id="list-jj"]/a')
             if not episodes:
                 vod = {
                     'vod_id': ids,
@@ -218,40 +209,28 @@ class Spider(Spider):
                 play_from = set()
                 play_urls = {}
                 
-                # --- 保留您原汁原味的單集多線程解析架構 ---
+                # --- 恢復您原本的單集解析邏輯，包裝成函數給多線程呼叫 ---
                 def fetch_ep_info(ep):
                     try:
-                        style = ep.get('style', '')
-                        if 'display: none' in style or 'display:none' in style:
-                            return None, None
-                            
-                        # 提取新版線路名稱（如：线路FF、线路UK）
-                        r_name = ep.xpath('./a/text() | ./text()')
-                        ep_name = r_name[0].strip() if r_name else "預設線路"
+                        ep_name = ep.xpath('.//div[@class="item"]/text()')[0].strip() if ep.xpath('.//div[@class="item"]') else "未知"
+                        ep_url = self.home_url + ep.get('href', '')
+                        vod_id_str = ids.split('/')[2]
+                        ep_id = ep_url.split('/')[-1]
+                        xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
                         
-                        # 提取隱藏在 data 屬性裡的直連 m3u8 網址
-                        m3u8_url = ep.get('data', '').strip()
-                        if not m3u8_url:
-                            return None, None
-                        
-                        # 包裝成原碼需要的 pdatas 格式，不改動下方收割邏輯
-                        data = {
-                            'pdatas': [
-                                {
-                                    'from': ep_name,
-                                    'playurl': m3u8_url
-                                }
-                            ]
-                        }
+                        xhr_res = requests.get(xhr_url, headers=self.headers, timeout=3)
+                        xhr_res.encoding = 'utf-8'
+                        data = xhr_res.json()
                         return ep_name, data
                     except Exception as e:
                         return None, None
 
-                # --- 原封不動的多線程呼叫 ---
+                # --- 使用執行緒池並行處理所有集數（不再排隊，同時發送請求） ---
+                # max_workers=15 代表同時併發 15 個請求，效率大幅提升
                 with ThreadPoolExecutor(max_workers=15) as executor:
                     tasks = list(executor.map(fetch_ep_info, episodes[::-1]))
                 
-                # --- 原封不動的結果收割邏輯 ---
+                # --- 按原本的倒序順序重新收割結果，確保集數順序不亂 ---
                 for ep_name, data in tasks:
                     if not ep_name or not data:
                         continue
@@ -261,30 +240,10 @@ class Spider(Spider):
                             play_from.add(source_name)
                             if source_name not in play_urls:
                                 play_urls[source_name] = []
-                            
-                            # 提取新版網頁 #play_list_0 裡的版本名稱（如：HDTC中字、TC中字）
-                            v_nodes = root.xpath('//ul[@id="play_list_0"]/li/a/text() | //ul[@id="play_list_0"]/li/text()')
-                            
-                            # 如果有多個版本（如HDTC和TC），將它們用組合方式塞入該線路中
-                            if v_nodes:
-                                for v_name in v_nodes:
-                                    v_clean = v_name.strip()
-                                    if v_clean and "暂无" not in v_clean:
-                                        play_urls[source_name].append(f"{v_clean}${source['playurl']}")
-                            else:
-                                play_urls[source_name].append(f"正片${source['playurl']}")
+                            play_urls[source_name].append(f"{ep_name}${source['playurl']}")
                 
-                # 解決線路名稱重複被 set() 覆蓋的問題，動態重組確保每條線路都有獨立數據
-                clean_play_from = []
-                for idx, name in enumerate(play_from):
-                    # 如果多條線路名字一樣，加上數字區隔防止 Fongmi 頁籤打架
-                    display_name = f"{name}_{idx+1}" if list(play_from).count(name) > 1 else name
-                    clean_play_from.append(display_name)
-                    if display_name != name and name in play_urls:
-                        play_urls[display_name] = play_urls[name]
-                
-                vod_play_from = '$$$'.join(clean_play_from)
-                vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in clean_play_from if source in play_urls])
+                vod_play_from = '$$$'.join(play_from)
+                vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in play_from])
                 
                 vod = {
                     'vod_id': ids,
@@ -305,10 +264,10 @@ class Spider(Spider):
             print(f"Error in detailContent: {e}")
             result['list'].append({
                 'vod_id': ids,
-                'vod_name': '資源加載錯誤',
+                'vod_name': '未知',
                 'vod_pic': self.placeholder_pic,
-                'vod_play_from': '泥視頻保底',
-                'vod_play_url': f'正片$https://nivod.cc'
+                'vod_play_from': '泥視頻',
+                'vod_play_url': ''
             })
         return result
 
