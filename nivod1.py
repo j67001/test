@@ -170,8 +170,7 @@ class Spider(Spider):
 
     def detailContent(self, array):
         result = {'list': []}
-        # 確保 ids 正確拿到字串格式
-        ids = array[0] if isinstance(array, list) and len(array) > 0 else array
+        ids = array if isinstance(array, list) and len(array) > 0 else array
         if not isinstance(ids, str):
             ids = str(ids)
             
@@ -182,14 +181,14 @@ class Spider(Spider):
             res.encoding = 'utf-8'
             root = etree.HTML(res.text)
             
-            vod_name = root.xpath('//div[@class="right-title"]/text()')[0].strip() if root.xpath('//div[@class="right-title"]') else "未知"
-            vod_year = root.xpath('//div[@id="postYear"]/text()')[0].strip() if root.xpath('//div[@id="postYear"]') else ""
-            vod_area = root.xpath('//div[@id="region"]/text()')[0].strip() if root.xpath('//div[@id="region"]') else ""
-            vod_content = root.xpath('//div[@id="show-desc"]/text()')[0].strip() if root.xpath('//div[@id="show-desc"]') else ""
-            vod_remarks = root.xpath('//div[@id="updateTxt"]/text()')[0].strip() if root.xpath('//div[@id="updateTxt"]') else ""
-            vod_actor = root.xpath('//div[@id="actors"]/text()')[0].strip() if root.xpath('//div[@id="actors"]') else ""
-            vod_director = root.xpath('//div[@id="director"]/text()')[0].strip() if root.xpath('//div[@id="director"]') else ""
-            vod_pic = root.xpath('//img[@class="left-img"]/@src')[0] if root.xpath('//img[@class="left-img"]') else self.placeholder_pic
+            vod_name = root.xpath('//div[@class="right-title"]/text()')[0].strip() if root.xpath('//div[@class="right-title"]/text()') else "未知"
+            vod_year = root.xpath('//div[@id="postYear"]/text()')[0].strip() if root.xpath('//div[@id="postYear"]/text()') else ""
+            vod_area = root.xpath('//div[@id="region"]/text()')[0].strip() if root.xpath('//div[@id="region"]/text()') else ""
+            vod_content = root.xpath('//div[@id="show-desc"]/text()')[0].strip() if root.xpath('//div[@id="show-desc"]/text()') else ""
+            vod_remarks = root.xpath('//div[@id="updateTxt"]/text()')[0].strip() if root.xpath('//div[@id="updateTxt"]/text()') else ""
+            vod_actor = root.xpath('//div[@id="actors"]/text()')[0].strip() if root.xpath('//div[@id="actors"]/text()') else ""
+            vod_director = root.xpath('//div[@id="director"]/text()')[0].strip() if root.xpath('//div[@id="director"]/text()') else ""
+            vod_pic = root.xpath('//img[@class="left-img"]/@src')[0] if root.xpath('//img[@class="left-img"]/@src') else self.placeholder_pic
             if vod_pic.startswith('/'):
                 vod_pic = self.home_url + vod_pic
             
@@ -199,65 +198,29 @@ class Spider(Spider):
             vod_id_match = re.search(r'\d+', ids)
             vod_id = vod_id_match.group(0) if vod_id_match else "0"
 
-            play_from = []
-            play_urls = {}
+            # 泥視頻核心的 3 個主要片源線路（以此進行靜態保底大分配，保證選單一定能呈現多個片源）
+            play_from = ['官方藍光', '海外雲播', '極速4K']
+            play_urls = {source: [] for source in play_from}
             
-            # --- 關鍵防崩潰優化：預先初始化基礎變數 ---
-            play_from_list_tmp = []
-            
-            # 嘗試探測這部影片有哪些片源
-            target_ep_id = "1" # 默認保底
-            if episodes:
-                try:
-                    first_ep_href = episodes[-1].get('href', '')
-                    ep_id_match = re.search(r'\d+', first_ep_href.strip('/').split('/')[-1])
-                    if ep_id_match:
-                        target_ep_id = ep_id_match.group(0)
-                    else:
-                        target_ep_id = first_ep_href.strip('/').split('/')[-1]
-                except:
-                    pass
-
-            # 發送唯一的 1 次 XHR 獲取完整的片源清單 (from)
-            sample_xhr = f"{self.home_url}/xhr_playinfo/{vod_id}-{target_ep_id}"
-            try:
-                xhr_res = requests.get(sample_xhr, headers=self.headers, timeout=5)
-                data = xhr_res.json()
-                if 'pdatas' in data and data['pdatas']:
-                    for source in data['pdatas']:
-                        source_name = source.get('from', '泥視頻')
-                        if source_name not in play_from_list_tmp:
-                            play_from_list_tmp.append(source_name)
-            except Exception as e:
-                print(f"XHR fetch error: {e}")
-            
-            # 如果 XHR 探測失敗或沒有拿任何到線路，強制保底填入
-            if not play_from_list_tmp:
-                play_from_list_tmp = ['泥視頻']
-
-            # 根據探測到的所有片源線路，一律初始化字典
-            for s_name in play_from_list_tmp:
-                play_from.append(s_name)
-                play_urls[s_name] = []
-
-            # 2. 開始分發集數，完美比照原碼
+            # 2. 開始分發集數，完全不發送請求，極速本地組裝
             if not episodes:
+                # 處理無集數列表（如電影單片）
                 for source_name in play_from:
                     play_urls[source_name].append(f"正片${vod_id}-1_{source_name}")
             else:
-                for ep in episodes[::-1]:  # 倒序符合第一集到最後一集的播放順序
+                for ep in episodes[::-1]:  # 倒序排列符合第1集到最後一集的播放順序
                     ep_name = ep.xpath('.//div[@class="item"]/text()')[0].strip() if ep.xpath('.//div[@class="item"]') else "未知"
                     ep_href = ep.get('href', '')
                     
                     # 準確分離 ep_id
-                    ep_id_match = re.search(r'\d+', ep_href.strip('/').split('/')[-1])
-                    ep_id = ep_id_match.group(0) if ep_id_match else ep_href.strip('/').split('/')[-1]
+                    ep_id = ep_href.strip('/').split('/')[-1]
                     
-                    # 將集數分發到各個獨立的片源標籤下
+                    # 將集數同步分發到這 3 個獨立的片源標籤下
                     for source_name in play_from:
+                        # 格式包裝：片名$影片ID-集數ID_片源別名
                         play_urls[source_name].append(f"{ep_name}${vod_id}-{ep_id}_{source_name}")
             
-            # 組裝格式
+            # 組裝符合 TVBox / 海闊 規範的多片源字符串
             vod_play_from = '$$$'.join(play_from)
             vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in play_from])
             
@@ -278,13 +241,12 @@ class Spider(Spider):
             result['list'].append(vod)
         except Exception as e:
             print(f"Error in detailContent: {e}")
-            # 絕對安全的保底回傳，確保 App 哪怕網頁解析失敗也絕不閃退
             result['list'].append({
                 'vod_id': ids,
                 'vod_name': '未知',
                 'vod_pic': self.placeholder_pic,
-                'vod_play_from': '泥視頻',
-                'vod_play_url': '播放異常$error'
+                'vod_play_from': '官方藍光$$$海外雲播',
+                'vod_play_url': '播放異常$error#播放異常$error'
             })
         return result
 
@@ -322,7 +284,7 @@ class Spider(Spider):
         result = {}
         try:
             play_id = id.split('$')[1] if '$' in id else id
-            if play_id == "error":
+            if "error" in play_id:
                 return {'url': '', 'parse': 0}
                 
             # 格式解析：vod_id-ep_id_sourceName
@@ -332,34 +294,60 @@ class Spider(Spider):
                 target_ids = play_id
                 target_source = None
                 
-            # 發送當前選定集數的真實 XHR 請求
+            # 即時動態向網站發送 XHR 請求 (此時帶著當前影片網頁作為 Referer，防止被網站 Ban)
             xhr_url = f"{self.home_url}/xhr_playinfo/{target_ids}"
-            res = requests.get(xhr_url, headers=self.headers, timeout=6)
+            
+            # 動態建立當前集的 Referer 標頭，欺騙伺服器我們是在網頁內點擊播放的
+            play_headers = self.headers.copy()
+            play_headers["Referer"] = f"{self.home_url}/vodplay/{target_ids}.html"
+            
+            res = requests.get(xhr_url, headers=play_headers, timeout=6)
             res.encoding = 'utf-8'
             data = res.json()
             
             final_url = ""
             if 'pdatas' in data and data['pdatas']:
-                # 遍歷尋找匹配使用者在選單中點選的片源名稱
-                for source in data['pdatas']:
-                    if target_source and source.get('from') == target_source:
-                        final_url = source.get('playurl', '')
-                        break
+                pdatas = data['pdatas']
                 
-                # 保底：若名稱沒對上，直接拿第一個可用片源
-                if not final_url:
-                    final_url = data['pdatas'][0].get('playurl', '') if isinstance(data['pdatas'], list) else data['pdatas'].get('playurl', '')
-            
+                # 如果返回的是列表，遍歷尋找匹配的線路
+                if isinstance(pdatas, list):
+                    # 1. 優先匹配對應的線路關鍵字
+                    for source in pdatas:
+                        s_from = source.get('from', '')
+                        if target_source == '官方藍光' and ('blue' in s_from.lower() or 'vip' in s_from.lower()):
+                            final_url = source.get('playurl', '')
+                            break
+                        elif target_source == '極速4K' and ('4k' in s_from.lower() or 'high' in s_from.lower()):
+                            final_url = source.get('playurl', '')
+                            break
+                    
+                    # 2. 如果沒配上，拿第一個可用片源保底
+                    if not final_url and len(pdatas) > 0:
+                        final_url = pdatas[0].get('playurl', '')
+                
+                # 如果返回的是單個字典結構
+                elif isinstance(pdatas, dict):
+                    final_url = pdatas.get('playurl', '')
+
             if final_url:
-                is_video = final_url.endswith('.m3u8') or final_url.endswith('.mp4') or 'playlist' in final_url
+                # 判斷是否為直鏈檔案格式
+                is_video = final_url.endswith('.m3u8') or final_url.endswith('.mp4') or 'playlist' in final_url or '.mp4?' in final_url
+                
                 result = {
                     'url': final_url,
                     'header': json.dumps(self.headers),
-                    'parse': 0 if is_video else 1,
+                    'parse': 0 if is_video else 1, # 如果不是直鏈，改為 1 讓核心去進行網頁嗅探播放
                     'playUrl': ''
                 }
             else:
-                result = {'url': '', 'parse': 0}
+                # 最終保底：若 XHR 沒有返回解密 URL，直接把網頁丟給殼去硬解析嗅探
+                fallback_url = f"{self.home_url}/vodplay/{target_ids}.html"
+                result = {
+                    'url': fallback_url,
+                    'header': json.dumps(self.headers),
+                    'parse': 1,
+                    'playUrl': ''
+                }
                 
         except Exception as e:
             print(f"Error in playerContent: {e}")
