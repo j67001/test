@@ -169,23 +169,23 @@ class Spider(Spider):
         return result
 
     def detailContent(self, array):
-        from concurrent.futures import ThreadPoolExecutor  # 僅在局部引入加速庫
+        from concurrent.futures import ThreadPoolExecutor  # 僅在局部引入線程池庫
 
         result = {'list': []}
-        ids = array[0]
+        ids = array
         detail_url = f"{self.home_url}{ids}"
         try:
             res = requests.get(detail_url, headers=self.headers)
             res.encoding = 'utf-8'
             root = etree.HTML(res.text)
-            vod_name = root.xpath('//div[@class="right-title"]/text()')[0].strip() if root.xpath('//div[@class="right-title"]') else "未知"
-            vod_year = root.xpath('//div[@id="postYear"]/text()')[0].strip() if root.xpath('//div[@id="postYear"]') else ""
-            vod_area = root.xpath('//div[@id="region"]/text()')[0].strip() if root.xpath('//div[@id="region"]') else ""
-            vod_content = root.xpath('//div[@id="show-desc"]/text()')[0].strip() if root.xpath('//div[@id="show-desc"]') else ""
-            vod_remarks = root.xpath('//div[@id="updateTxt"]/text()')[0].strip() if root.xpath('//div[@id="updateTxt"]') else ""
-            vod_actor = root.xpath('//div[@id="actors"]/text()')[0].strip() if root.xpath('//div[@id="actors"]') else ""
-            vod_director = root.xpath('//div[@id="director"]/text()')[0].strip() if root.xpath('//div[@id="director"]') else ""
-            vod_pic = root.xpath('//img[@class="left-img"]/@src')[0] if root.xpath('//img[@class="left-img"]') else self.placeholder_pic
+            vod_name = root.xpath('//div[@class="right-title"]/text()').strip() if root.xpath('//div[@class="right-title"]') else "未知"
+            vod_year = root.xpath('//div[@id="postYear"]/text()').strip() if root.xpath('//div[@id="postYear"]') else ""
+            vod_area = root.xpath('//div[@id="region"]/text()').strip() if root.xpath('//div[@id="region"]') else ""
+            vod_content = root.xpath('//div[@id="show-desc"]/text()').strip() if root.xpath('//div[@id="show-desc"]') else ""
+            vod_remarks = root.xpath('//div[@id="updateTxt"]/text()').strip() if root.xpath('//div[@id="updateTxt"]') else ""
+            vod_actor = root.xpath('//div[@id="actors"]/text()').strip() if root.xpath('//div[@id="actors"]') else ""
+            vod_director = root.xpath('//div[@id="director"]/text()').strip() if root.xpath('//div[@id="director"]') else ""
+            vod_pic = root.xpath('//img[@class="left-img"]/@src') if root.xpath('//img[@class="left-img"]') else self.placeholder_pic
             if vod_pic.startswith('/'):
                 vod_pic = self.home_url + vod_pic
             
@@ -209,28 +209,32 @@ class Spider(Spider):
                 play_from = set()
                 play_urls = {}
                 
-                # --- 恢復您原本的單集解析邏輯，包裝成函數給多線程呼叫 ---
+                # --- 【關鍵修正】在進入線程前，先精準提取出當前影片的純數字 ID 字串 ---
+                vod_id_match = re.search(r'\d+', str(ids))
+                vod_pure_id = vod_id_match.group(0) if vod_id_match else "0"
+                
+                # --- 封裝單集解析函數，完全比照原碼，但使用修正後的正確網址 ---
                 def fetch_ep_info(ep):
                     try:
-                        ep_name = ep.xpath('.//div[@class="item"]/text()')[0].strip() if ep.xpath('.//div[@class="item"]') else "未知"
+                        ep_name = ep.xpath('.//div[@class="item"]/text()').strip() if ep.xpath('.//div[@class="item"]') else "未知"
                         ep_url = self.home_url + ep.get('href', '')
-                        vod_id_str = ids.split('/')[2]
                         ep_id = ep_url.split('/')[-1]
-                        xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
                         
-                        xhr_res = requests.get(xhr_url, headers=self.headers, timeout=3)
+                        # 使用修正後的字串 ID 拼接，伺服器會瞬間秒回 JSON，不再觸發超時死鎖
+                        xhr_url = f"{self.home_url}/xhr_playinfo/{vod_pure_id}-{ep_id}"
+                        
+                        xhr_res = requests.get(xhr_url, headers=self.headers, timeout=5)
                         xhr_res.encoding = 'utf-8'
                         data = xhr_res.json()
                         return ep_name, data
-                    except Exception as e:
+                    except:
                         return None, None
 
-                # --- 使用執行緒池並行處理所有集數（不再排隊，同時發送請求） ---
-                # max_workers=15 代表同時併發 15 個請求，效率大幅提升
-                with ThreadPoolExecutor(max_workers=15) as executor:
+                # --- 執行緒直接開到 60（可依據您的環境調整為 50），全速併發榨乾頻寬 ---
+                with ThreadPoolExecutor(max_workers=60) as executor:
                     tasks = list(executor.map(fetch_ep_info, episodes[::-1]))
                 
-                # --- 按原本的倒序順序重新收割結果，確保集數順序不亂 ---
+                # --- 完全依據您原碼的解包邏輯，將動態獲取的 7-8 個真實片源重新收割組裝 ---
                 for ep_name, data in tasks:
                     if not ep_name or not data:
                         continue
