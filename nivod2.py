@@ -193,7 +193,7 @@ class Spider(Spider):
             if vod_pic.startswith('/'):
                 vod_pic = self.home_url + vod_pic
             
-            episodes = root.xpath('//div[@id="play-list"]/a')
+       episodes = root.xpath('//div[@id="play-list"]//a')
             if not episodes:
                 vod = {
                     'vod_id': ids,
@@ -220,7 +220,7 @@ class Spider(Spider):
                         ep_url = detail_url + ep.get('href', '')
                         vod_id_str = ids.split('/')[2]
                         ep_id = ep_url.split('/')[-1]
-                        xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
+                        xhr_url = f"{self.home_url}/d0vod/{vod_id_str}-{ep_id}"
                         
                         xhr_res = requests.get(xhr_url, headers=self.headers, timeout=3)
                         xhr_res.encoding = 'utf-8'
