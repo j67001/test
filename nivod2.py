@@ -196,10 +196,7 @@ class Spider(Spider):
             vod_director = root.xpath('//li[contains(em/text(), "导演")]//span[@class="content-paragraph"]/text()')[0].strip() if root.xpath('//li[contains(em/text(), "导演")]') else ""
             vod_actor = root.xpath('//li[contains(em/text(), "主演")]//span[@class="content-paragraph"]/text()')[0].strip() if root.xpath('//li[contains(em/text(), "主演")]') else ""
             vod_content = root.xpath('//li[contains(em/text(), "简介")]//span[@class="content-paragraph"]/text()')[0].strip() if root.xpath('//li[contains(em/text(), "简介")]') else ""
-            
-            # 確保圖片取出來是字串而非陣列，防電視盒子閃退
-            vod_pic_nodes = root.xpath('//img[@class="show-small"]/@src')
-            vod_pic = vod_pic_nodes[0] if vod_pic_nodes else self.placeholder_pic
+            vod_pic = root.xpath('//img[@class="show-small"]/@src')[0] if root.xpath('//img[@class="show-small"]') else self.placeholder_pic
             if vod_pic.startswith('/'):
                 vod_pic = self.home_url + vod_pic
             
