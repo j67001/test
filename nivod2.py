@@ -178,6 +178,8 @@ class Spider(Spider):
             res = requests.get(detail_url, headers=self.headers)
             res.encoding = 'utf-8'
             root = etree.HTML(res.text)
+            vod_year = "未知"
+            vod_area = "其它"
             tags = [t.strip() for t in root.xpath('//div[@class="qy-player-tag"]/span[@class="tag-item"]/text()')]
             for tag in tags:
                 if tag.isdigit() and len(tag) == 4:  # 如果是 4 位數純數字，就判定為年份
