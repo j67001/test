@@ -169,11 +169,9 @@ class Spider(Spider):
         return result
 
     def detailContent(self, array):
-        from concurrent.futures import ThreadPoolExecutor  # 保持您原汁原味的加速庫
-
+        # 徹底移除多執行緒併發，改由播放端點擊時再單次解碼，防止格式串錯與高併發阻斷
         result = {'list': []}
         
-        # 1. 確保 ids 為字串格式
         if isinstance(array, list):
             ids = array[0] if len(array) > 0 else ''
         else:
@@ -189,7 +187,7 @@ class Spider(Spider):
             res.encoding = 'utf-8'
             root = etree.HTML(res.text)
             
-            # --- 2. 簡介與中繼資料解析 (您測試完全正確的區塊) ---
+            # --- 1. 您測試完全正確的簡介與中繼資料解析區塊 ---
             vod_year = "未知"
             vod_area = "其他"
             
@@ -220,116 +218,61 @@ class Spider(Spider):
             if vod_pic.startswith('/'):
                 vod_pic = self.home_url + vod_pic
 
-            # --- 3. 精準定位劇集按鈕 (對接您提供的 qy-episode-num 結構) ---
+            # --- 2. 精準對接您提供的 qy-episode-num 網頁原始碼節點 ---
             episodes = root.xpath('//ul[contains(@class, "qy-episode-num")]/li[contains(@class, "select-item")]')
             
-            if not episodes:
-                # 備用安全網：防止網頁臨時改動導致完全空白
-                vod = {
-                    'vod_id': ids, 'vod_name': vod_name, 'vod_pic': vod_pic, 'type_name': '',
-                    'vod_year': vod_year, 'vod_area': vod_area, 'vod_remarks': vod_remarks,
-                    'vod_actor': vod_actor, 'vod_director': vod_director, 'vod_content': vod_content,
-                    'vod_play_from': '泥視頻', 'vod_play_url': '正片$https://nbyy.cc'
-                }
-            else:
-                play_from_order = []  # 保持線路順序的清單
-                play_urls = {}       # 各線路對應的集數網址字典
-                
-                # 從網址提取影片 ID (去除 .html)
+            play_urls = []
+            if episodes:
+                # 提取影片純數位 ID (例如 332738644)
                 vod_id_str = ids.split('/')[-1].replace('.html', '')
-
-                # --- 4. 修改後的多執行緒單集解析函數 (帶入順序索引，確保不串聯錯亂) ---
-                def fetch_ep_info(item):
-                    idx, ep = item  # 解包索引與節點
-                    try:
-                        # 擷取集數名稱 (例如 "第01集")
-                        a_nodes = ep.xpath('.//a/text()')
-                        ep_name = a_nodes[0].strip() if a_nodes else f"第{idx+1}集"
-                        
-                        # 直接拿原始碼中的 slug 屬性 (例如 "ep1")
-                        ep_id = ep.get('slug', '').strip()
-                        if not ep_id:
-                            href_nodes = ep.xpath('.//a/@href')
-                            href = href_nodes[0] if href_nodes else ''
-                            ep_id = href.replace('#', '') if '#' in href else f'ep{idx+1}'
-                        
-                        xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
-                        
-                        xhr_res = requests.get(xhr_url, headers=self.headers, timeout=3)
-                        xhr_res.encoding = 'utf-8'
-                        data = xhr_res.json()
-                        
-                        # 同時回傳 idx，確保後續依據原網頁順序對齊
-                        return idx, ep_name, data
-                    except Exception:
-                        return idx, None, None
-
-                # --- 5. 多執行緒併發 (對 episodes 包裝 enumerate 並採用正序發送) ---
-                # 因為後續會根據原始網頁的倒序重新整理，此處直接依序發送請求最安全
-                with ThreadPoolExecutor(max_workers=15) as executor:
-                    tasks = list(executor.map(fetch_ep_info, enumerate(episodes)))
                 
-                # 強制依照原始網頁的順序 (Index) 重新排序，徹底解決集數跟線路文字串錯問題
-                tasks.sort(key=lambda x: x[0])
-                
-                # --- 6. 依序收割正確的 XHR 結果 ---
-                for idx, ep_name, data in tasks:
-                    if not ep_name or not data:
-                        continue
-                        
-                    if 'pdatas' in data and data['pdatas']:
-                        for source in data['pdatas']:
-                            source_name = source.get('from', '泥視頻')
-                            play_url = source.get('playurl', '')
-                            if not play_url:
-                                continue
-                                
-                            if source_name not in play_urls:
-                                play_urls[source_name] = []
-                                play_from_order.append(source_name)
-                                
-                            # 正確打包：集數名稱$播放網址
-                            play_urls[source_name].append(f"{ep_name}${play_url}")
-                
-                # --- 7. 組裝 TVBox 標準的多來源標籤格式 ---
-                if play_from_order:
-                    vod_play_from = '$$$'.join(play_from_order)
-                    # 每一條線路內部的集數，用 # 串接
-                    vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in play_from_order])
-                else:
-                    # 萬一 API 沒給直鏈，交給原不改動的 playerContent 走系統嗅探
-                    vod_play_from = '泥視頻'
-                    fallback_urls = []
-                    for ep in episodes:
-                        a_txt = ep.xpath('.//a/text()')
-                        name = a_txt[0].strip() if a_txt else "播放"
-                        slug = ep.get('slug', 'ep1')
-                        fallback_urls.append(f"{name}${ids}#{slug}")
-                    vod_play_url = '#'.join(fallback_urls)
+                # 網頁原始碼預設是倒序排列（如 ep22, ep21...ep1）
+                # 為了符合大螢幕收視習慣，我們使用 [::-1] 將其轉回正序（第01集在最前）
+                for ep in episodes[::-1]:
+                    # 擷取集數名稱 (例如 "第01集")
+                    a_txt = ep.xpath('.//a/text()')
+                    ep_name = a_txt[0].strip() if a_txt else "播放"
+                    
+                    # 精準撈取網頁靜態標籤中的 slug 屬性 (例如 "ep1")
+                    ep_id = ep.get('slug', '').strip()
+                    if not ep_id:
+                        href = ep.xpath('.//a/@href')
+                        href_str = href[0] if href else ''
+                        ep_id = href_str.replace('#', '') if '#' in href_str else 'ep1'
+                    
+                    # 💡 核心打包秘訣：將 影片ID 與 集數ID 透過 '#' 連接，當作網址傳遞
+                    # 格式：第01集$332738644#ep1
+                    # 這樣你的 playerContent 收到後，就能完美拆解並單次戳出 API 直鏈！
+                    play_urls.append(f"{ep_name}${vod_id_str}#{ep_id}")
+            
+            # --- 3. 完美封裝，徹底校正 TVBox 標籤欄位 ---
+            vod_play_from = "泥視頻"
+            vod_play_url = "#".join(play_urls) if play_urls else f"正片${ids}#ep1"
 
-                vod = {
-                    'vod_id': ids,
-                    'vod_name': vod_name,
-                    'vod_pic': vod_pic,
-                    'type_name': '',
-                    'vod_year': vod_year,
-                    'vod_area': vod_area,
-                    'vod_remarks': vod_remarks,
-                    'vod_actor': vod_actor,
-                    'vod_director': vod_director,
-                    'vod_content': vod_content,
-                    'vod_play_from': vod_play_from,
-                    'vod_play_url': vod_play_url
-                }
+            vod = {
+                'vod_id': ids,
+                'vod_name': vod_name,
+                'vod_pic': vod_pic,
+                'type_name': '',
+                'vod_year': vod_year,
+                'vod_area': vod_area,
+                'vod_remarks': vod_remarks,
+                'vod_actor': vod_actor,
+                'vod_director': vod_director,
+                'vod_content': vod_content,
+                'vod_play_from': vod_play_from,
+                'vod_play_url': vod_play_url
+            }
             result['list'].append(vod)
             
         except Exception as e:
             print(f"Error in detailContent: {e}")
             result['list'].append({
                 'vod_id': ids, 'vod_name': '未知影音', 'vod_pic': self.placeholder_pic,
-                'vod_play_from': '泥視頻', 'vod_play_url': f'正片${ids}'
+                'vod_play_from': '泥視頻', 'vod_play_url': f'正片${ids}#ep1'
             })
         return result
+
 
 
     def searchContent(self, key, quick, pg='1'):
