@@ -169,10 +169,12 @@ class Spider(Spider):
         return result
 
     def detailContent(self, array):
-        from concurrent.futures import ThreadPoolExecutor  # 保留您原汁原味的加速庫
+        from concurrent.futures import ThreadPoolExecutor  # 保持您原汁原味的加速庫
 
         result = {'list': []}
         ids = array if isinstance(array, list) else array
+        ids = ids[0] if isinstance(ids, list) and len(ids) > 0 else ids # FongMi 框架傳入通常是陣列，取第一個
+        
         detail_url = f"{self.home_url}{ids}" if not ids.startswith('http') else ids
         
         try:
@@ -180,13 +182,13 @@ class Spider(Spider):
             res.encoding = 'utf-8'
             root = etree.HTML(res.text)
             
-            # --- 1. 您測試成功且完全正確的簡介解析區塊 ---
+            # --- 1. 完全還原您測試成功且完全正確的簡介解析區塊 (確保有 [0] 且有防崩潰) ---
             vod_year = "未知"
             vod_area = "其他"
             
             tags = [t.strip() for t in root.xpath('//div[@class="qy-player-tag"]/span[@class="tag-item"]/text()')]
             for tag in tags:
-                if tag.isdigit() and len(tag) == 4:
+                if tag.isdigit() and len(tag) == 4:  # 如果是 4 位數純數字，就判定為年份
                     vod_year = tag
                 elif tag in ["韩国", "大陆", "香港", "台湾", "美国", "日本", "英国", "智利", "巴西", "意大利", "瑞典", "印度", "爱尔兰", "澳大利亚", "泰国", "加拿大", "新加坡", "马来西亚", "其它"]: 
                     vod_area = tag
@@ -200,39 +202,39 @@ class Spider(Spider):
             if vod_pic.startswith('/'):
                 vod_pic = self.home_url + vod_pic
 
-            # --- 2. 關鍵修正：精準對接您提供的 qy-episode-num 靜態原始碼節點 ---
-            # 抓取所有包含劇集按鈕的 li 元素
+            # --- 2. 精準對接您提供的 qy-episode-num 原始碼節點 ---
             episodes = root.xpath('//ul[contains(@class, "qy-episode-num")]/li[contains(@class, "select-item")]')
             
             if not episodes:
-                # 安全防護：萬一沒撈到劇集，才封裝單集
+                # 安全防護：萬一沒撈到劇集，封裝單集直接丟出，絕對不跳開
                 vod = {
                     'vod_id': ids, 'vod_name': vod_name, 'vod_pic': vod_pic, 'type_name': '',
                     'vod_year': vod_year, 'vod_area': vod_area, 'vod_remarks': vod_remarks,
                     'vod_actor': vod_actor, 'vod_director': vod_director, 'vod_content': vod_content,
-                    'vod_play_from': '泥視頻', 'vod_play_url': '第1集$https://nivod.cc'
+                    'vod_play_from': '泥視頻', 'vod_play_url': '正片$https://nbyy.cc'
                 }
             else:
                 play_from = set()
                 play_urls = {}
                 
-                # 精準提取新版影片 ID（例如從 /detail/332738644.html 提取出 332738644）
+                # 精準提取影片 ID (去除 .html 尾碼防止 XHR 網址拼接崩潰)
                 vod_id_str = ids.split('/')[-1].replace('.html', '')
 
-                # --- 3. 您的單集並行多執行緒解析函數 ---
+                # --- 3. 您的單集並行多執行緒解析函數 (加入嚴格的 XPath 容錯) ---
                 def fetch_ep_info(ep):
                     try:
-                        # 擷取 a 標籤內的文字 (例如 "第08集")
-                        ep_name = ep.xpath('.//a/text()')[0].strip() if ep.xpath('.//a') else "未知"
+                        # 擷取 a 標籤內的集數文字 (例如 "第08集")
+                        a_nodes = ep.xpath('.//a/text()')
+                        ep_name = a_nodes[0].strip() if a_nodes else "播放"
                         
-                        # 核心突破：直接從網頁原始碼的 li 屬性中提取精準的 slug (例如 "ep8")
+                        # 從 li 標籤屬性中提取精準的 slug (例如 "ep8")
                         ep_id = ep.get('slug', '').strip()
                         if not ep_id:
-                            # 備用方案：如果 slug 沒拿到，再拿 href 錨點
-                            href = ep.xpath('.//a/@href')[0] if ep.xpath('.//a/@href') else ''
+                            href_nodes = ep.xpath('.//a/@href')
+                            href = href_nodes[0] if href_nodes else ''
                             ep_id = href.replace('#', '') if '#' in href else 'ep1'
                         
-                        # 完美組裝您的後端 XHR 請求網址
+                        # 組裝 XHR 請求網址
                         xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
                         
                         xhr_res = requests.get(xhr_url, headers=self.headers, timeout=3)
@@ -240,32 +242,40 @@ class Spider(Spider):
                         data = xhr_res.json()
                         return ep_name, data
                     except Exception as e:
+                        print(f"Error in fetch_ep_info: {e}")
                         return None, None
 
-                # --- 4. 多執行緒併發獲取直鏈 (注意：原碼本身就有將 episodes 倒序 [::-1] 處理) ---
+                # --- 4. 多執行緒併發獲取直鏈 (max_workers=15) ---
                 with ThreadPoolExecutor(max_workers=15) as executor:
                     tasks = list(executor.map(fetch_ep_info, episodes[::-1]))
                 
-                # --- 5. 按倒序順序重新收割結果，打包成您原本 playerContent 認得的格式 ---
+                # --- 5. 按倒序順序重新收割結果 ---
                 for ep_name, data in tasks:
                     if not ep_name or not data:
                         continue
                     if 'pdatas' in data and data['pdatas']:
                         for source in data['pdatas']:
-                            source_name = source['from']
+                            source_name = source.get('from', '泥視頻')
                             play_from.add(source_name)
                             if source_name not in play_urls:
                                 play_urls[source_name] = []
                             # 將解析出的直鏈打包成 "集數名稱$播放網址"
-                            play_urls[source_name].append(f"{ep_name}${source['playurl']}")
+                            play_urls[source_name].append(f"{ep_name}${source.get('playurl', '')}")
                 
-                vod_play_from = '$$$'.join(play_from)
-                vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in play_from])
-                
-                # 萬一 XHR 完全沒回傳有效直鏈的極端防錯
-                if not vod_play_from:
+                # 重新拼裝成 TVBox 標準格式
+                if play_from:
+                    vod_play_from = '$$$'.join(play_from)
+                    vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in play_from])
+                else:
+                    # 萬一 XHR 被封鎖或沒回傳，使用靜態網頁備用機制（走原本不改動的 playerContent 機制）
                     vod_play_from = '泥視頻'
-                    vod_play_url = '#'.join([f"{ep.xpath('.//a/text()')[0].strip()}${self.home_url}{ids}#{ep.get('slug','')}" for ep in episodes[::-1]])
+                    fallback_urls = []
+                    for ep in episodes[::-1]:
+                        a_txt = ep.xpath('.//a/text()')
+                        name = a_txt[0].strip() if a_txt else "播放"
+                        slug = ep.get('slug', 'ep1')
+                        fallback_urls.append(f"{name}${ids}#{slug}")
+                    vod_play_url = '#'.join(fallback_urls)
 
                 vod = {
                     'vod_id': ids,
@@ -284,12 +294,17 @@ class Spider(Spider):
             result['list'].append(vod)
             
         except Exception as e:
-            print(f"Error in detailContent: {e}")
+            print(f"全面防禦：detailContent 發生致命錯誤，觸發兜底防範，錯誤原因為: {e}")
+            # 即使最外層出錯，也強行回傳一個基礎物件，確保 TVBox 絕對不會閃退跳開
             result['list'].append({
-                'vod_id': ids, 'vod_name': '未知', 'vod_pic': self.placeholder_pic,
-                'vod_play_from': '泥視頻', 'vod_play_url': ''
+                'vod_id': ids,
+                'vod_name': '未知影音',
+                'vod_pic': self.placeholder_pic,
+                'vod_play_from': '泥視頻',
+                'vod_play_url': f'正片${ids}'
             })
         return result
+
 
     def searchContent(self, key, quick, pg='1'):
         result = {'list': []}
