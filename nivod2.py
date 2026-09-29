@@ -169,16 +169,26 @@ class Spider(Spider):
         return result
 
     def detailContent(self, array):
-        from concurrent.futures import ThreadPoolExecutor  # 僅在局部引入加速庫
-
         result = {'list': []}
-        ids = array[0]
-        detail_url = f"{self.home_url}{ids}"
+        ids = array[0]  # 傳入格式如：/detail/202658234.html
+        
+        # 確保網址完整性
+        detail_url = ids if ids.startswith('http') else f"{self.home_url}{ids}"
+        
         try:
-            res = requests.get(detail_url, headers=self.headers)
+            res = requests.get(detail_url, headers=self.headers, timeout=5)
             res.encoding = 'utf-8'
             root = etree.HTML(res.text)
-            vod_name = root.xpath('//div[@class="right-title"]/text()')[0].strip() if root.xpath('//div[@class="right-title"]') else "未知"
+            
+            # 依據新版網頁重新校準的 XPath 解析
+            # 若 class 仍有變動，可根據實際 HTML 微調，這裡加入容錯處理
+            vod_name = root.xpath('//h1/text()')
+            vod_name = vod_name[0].strip() if vod_name else "未知"
+            
+            # 如果 h1 抓不到，嘗試原本的 right-title 或 title 屬性
+            if vod_name == "未知" or not vod_name:
+                vod_name = root.xpath('//div[@class="right-title"]/text()')[0].strip() if root.xpath('//div[@class="right-title"]') else "未知"
+
             vod_year = root.xpath('//div[@id="postYear"]/text()')[0].strip() if root.xpath('//div[@id="postYear"]') else ""
             vod_area = root.xpath('//div[@id="region"]/text()')[0].strip() if root.xpath('//div[@id="region"]') else ""
             vod_content = root.xpath('//div[@id="show-desc"]/text()')[0].strip() if root.xpath('//div[@id="show-desc"]') else ""
@@ -186,80 +196,53 @@ class Spider(Spider):
             vod_actor = root.xpath('//div[@id="actors"]/text()')[0].strip() if root.xpath('//div[@id="actors"]') else ""
             vod_director = root.xpath('//div[@id="director"]/text()')[0].strip() if root.xpath('//div[@id="director"]') else ""
             vod_pic = root.xpath('//img[@class="left-img"]/@src')[0] if root.xpath('//img[@class="left-img"]') else self.placeholder_pic
+            
             if vod_pic.startswith('/'):
                 vod_pic = self.home_url + vod_pic
-            
+
+            # 解析劇集列表頁籤 (適用於：第24集、第23集...)
+            # 新版網頁中通常在劇集列表或含有 a 標籤的區塊
             episodes = root.xpath('//div[@id="list-jj"]/a')
             if not episodes:
-                vod = {
-                    'vod_id': ids,
-                    'vod_name': vod_name,
-                    'vod_pic': vod_pic,
-                    'type_name': '',
-                    'vod_year': vod_year,
-                    'vod_area': vod_area,
-                    'vod_remarks': vod_remarks,
-                    'vod_actor': vod_actor,
-                    'vod_director': vod_director,
-                    'vod_content': vod_content,
-                    'vod_play_from': '泥視頻',
-                    'vod_play_url': '第1集$https://nivod.cc'
-                }
-            else:
-                play_from = set()
-                play_urls = {}
-                
-                # --- 恢復您原本的單集解析邏輯，包裝成函數給多線程呼叫 ---
-                def fetch_ep_info(ep):
-                    try:
-                        ep_name = ep.xpath('.//div[@class="item"]/text()')[0].strip() if ep.xpath('.//div[@class="item"]') else "未知"
-                        ep_url = self.home_url + ep.get('href', '')
-                        vod_id_str = ids.split('/')[2]
-                        ep_id = ep_url.split('/')[-1]
-                        xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
-                        
-                        xhr_res = requests.get(xhr_url, headers=self.headers, timeout=3)
-                        xhr_res.encoding = 'utf-8'
-                        data = xhr_res.json()
-                        return ep_name, data
-                    except Exception as e:
-                        return None, None
+                # 備用選擇器：若 list-jj 改變，尋找包含劇集文字的通用連結
+                episodes = root.xpath('//a[contains(@href, "/detail/") and (contains(text(), "集") or contains(text(), "期"))]')
 
-                # --- 使用執行緒池並行處理所有集數（不再排隊，同時發送請求） ---
-                # max_workers=15 代表同時併發 15 個請求，效率大幅提升
-                with ThreadPoolExecutor(max_workers=15) as executor:
-                    tasks = list(executor.map(fetch_ep_info, episodes[::-1]))
+            if not episodes:
+                # 孤兒片源或單一影片防出錯處理
+                vod_play_from = '泥視頻'
+                vod_play_url = f'正片${detail_url}'
+            else:
+                play_urls = []
+                # 網頁預設可能是倒序（如第24集在最前），視需求決定是否轉為正序 [::-1]
+                # 這裡保持網頁預設順序，或改為正序
+                for ep in episodes:
+                    ep_name = ep.xpath('.//div[@class="item"]/text()')
+                    ep_name = ep_name[0].strip() if ep_name else ep.xpath('./text()')[0].strip()
+                    
+                    href = ep.get('href', '')
+                    # 格式化完整的播放頁 url，傳遞給 playerContent 解析
+                    ep_url = href if href.startswith('http') else f"{self.home_url}{href}"
+                    play_urls.append(f"{ep_name}${ep_url}")
                 
-                # --- 按原本的倒序順序重新收割結果，確保集數順序不亂 ---
-                for ep_name, data in tasks:
-                    if not ep_name or not data:
-                        continue
-                    if 'pdatas' in data and data['pdatas']:
-                        for source in data['pdatas']:
-                            source_name = source['from']
-                            play_from.add(source_name)
-                            if source_name not in play_urls:
-                                play_urls[source_name] = []
-                            play_urls[source_name].append(f"{ep_name}${source['playurl']}")
-                
-                vod_play_from = '$$$'.join(play_from)
-                vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in play_from])
-                
-                vod = {
-                    'vod_id': ids,
-                    'vod_name': vod_name,
-                    'vod_pic': vod_pic,
-                    'type_name': '',
-                    'vod_year': vod_year,
-                    'vod_area': vod_area,
-                    'vod_remarks': vod_remarks,
-                    'vod_actor': vod_actor,
-                    'vod_director': vod_director,
-                    'vod_content': vod_content,
-                    'vod_play_from': vod_play_from,
-                    'vod_play_url': vod_play_url
-                }
+                vod_play_from = '泥視頻'
+                vod_play_url = '#'.join(play_urls)
+
+            vod = {
+                'vod_id': ids,
+                'vod_name': vod_name,
+                'vod_pic': vod_pic,
+                'type_name': '',
+                'vod_year': vod_year,
+                'vod_area': vod_area,
+                'vod_remarks': vod_remarks,
+                'vod_actor': vod_actor,
+                'vod_director': vod_director,
+                'vod_content': vod_content,
+                'vod_play_from': vod_play_from,
+                'vod_play_url': vod_play_url
+            }
             result['list'].append(vod)
+            
         except Exception as e:
             print(f"Error in detailContent: {e}")
             result['list'].append({
@@ -302,18 +285,51 @@ class Spider(Spider):
         return result
 
     def playerContent(self, flag, id, vipFlags):
+        """
+        當點擊單集時觸發，動態發送 XHR 請求獲取真正的 m3u8 直鏈
+        id: 格式為包含集數的完整 URL，如 https://nivod.cc 或帶有 ep 參數
+        """
         result = {}
         try:
-            play_url = id.split('$')[1] if '$' in id else id
+            # 1. 精準提取影片 ID 與 集數 ID
+            # 網址範例：https://nivod.cc
+            # 使用正則表達式抽取出影片的純數位 ID (例如 202658234)
+            vod_id_match = re.search(r'/detail/(\d+)\.html', id)
+            if not vod_id_match:
+                return {'url': id, 'parse': 0}
+                
+            vod_id_str = vod_id_match.group(1)
+            
+            # 提取網址最後面的集數標記 (如 ep24 或 24)
+            ep_id = id.split('#')[-1] if '#' in id else 'ep1'
+            
+            # 2. 組裝新版 XHR 請求網址
+            xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
+            
+            # 3. 發送單次 API 請求
+            xhr_res = requests.get(xhr_url, headers=self.headers, timeout=5)
+            xhr_res.encoding = 'utf-8'
+            data = xhr_res.json()
+            
+            play_url = ""
+            # 4. 解析多線路片源數據
+            if 'pdatas' in data and data['pdatas']:
+                # 預設直接取第一個有效線路的播放網址
+                play_url = data['pdatas'][0].get('playurl', '')
+            
+            if not play_url:
+                # 備用直接讀取最外層 url 欄位
+                play_url = data.get('url', id)
+
             result = {
                 'url': play_url,
                 'header': json.dumps(self.headers),
-                'parse': 0,
+                'parse': 0,          # 0 表示直接解出直鏈，TVBox 不需要再去嗅探
                 'playUrl': ''
             }
         except Exception as e:
             print(f"Error in playerContent: {e}")
-            result = {'url': '', 'parse': 0}
+            result = {'url': id, 'parse': 1}  # 出錯時交給系統自帶嗅探 fallback
         return result
 
     def localProxy(self, param):
