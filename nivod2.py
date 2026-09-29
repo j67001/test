@@ -219,7 +219,8 @@ class Spider(Spider):
                         ep_name = ep.xpath('./text()')[0].strip() if ep.xpath('./text()') else "未知"
                         href = ep.get('href', '')
                         ep_id = href.replace('#', '') if href else ''
-                        vod_id_str = ids.replace('.html', '').split('/')[-1]
+                        vod_id_match = re.search(r'/detail/(\d+)\.html', ids)
+                        vod_id_str = vod_id_match.group(1) if vod_id_match else ids.split('/')[-1].replace('.html', '')
                         xhr_url = f"{self.home_url}/d0vod/{vod_id_str}-{ep_id}"
                         
                         xhr_res = requests.get(xhr_url, headers=self.headers, timeout=3)
