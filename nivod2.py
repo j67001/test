@@ -219,11 +219,24 @@ class Spider(Spider):
             if vod_pic.startswith('/'):
                 vod_pic = self.home_url + vod_pic
 
-            # --- 2. 精準抓取靜態劇集列表 ---
-            episodes = root.xpath('//ul[contains(@class, "qy-episode-num")]/li[contains(@class, "select-item")]')
+            # --- 2. 關鍵修正：精準限制只定位 play_list 劇集，徹底排除隱藏線路 ---
+            # 修改為 //ul[@id="play_list_0"]/li，這樣絕對不會抓到 route_list_0 裡的線路1-9
+            episodes = root.xpath('//ul[@id="play_list_0"]/li[contains(@class, "select-item")]')
             
+            # 備用安全網：萬一 id 叫其他名字，則利用文字特徵強制過濾掉含有「线路、線路、中字」的干擾節點
             if not episodes:
-                # 安全防護：萬一網頁沒撈到劇集，封裝單集
+                all_possible_eps = root.xpath('//ul[contains(@class, "qy-episode-num")]/li[contains(@class, "select-item")]')
+                episodes = []
+                for ep in all_possible_eps:
+                    txt = ep.xpath('.//a/text()')
+                    txt_str = txt[0].strip() if txt else ""
+                    # 如果文字裡面包含線路或中字，直接丟棄，只保留真正的集數
+                    if "线路" in txt_str or "線路" in txt_str or "中字" in txt_str:
+                        continue
+                    episodes.append(ep)
+
+            if not episodes:
+                # 終極安全兜底：萬一真的空無一物，封裝單集
                 vod = {
                     'vod_id': ids, 'vod_name': vod_name, 'vod_pic': vod_pic, 'type_name': '',
                     'vod_year': vod_year, 'vod_area': vod_area, 'vod_remarks': vod_remarks,
@@ -231,58 +244,49 @@ class Spider(Spider):
                     'vod_play_from': '泥視頻', 'vod_play_url': '正片$https://nbyy.cc'
                 }
             else:
-                play_from_order = []  # 用於存放真正解鎖出來的線路名稱 (例如: 線路HD, 線路TC...)
-                play_urls = {}        # 儲存各個線路對應的集數與播放加密串
+                play_from_order = []  # 存放解鎖出的線路標籤
+                play_urls = {}       # 存放線路對應的純集數網址
                 
                 # 從網址精準提取影片純數位 ID (例如: 332776237)
                 vod_id_str = ids.split('/')[-1].replace('.html', '')
 
-                # --- 3. 核心突破：完美重現網頁 JavaScript 邏輯的多執行緒函數 ---
+                # --- 3. 您的單集解析多執行緒函數 ---
                 def fetch_ep_info(item):
                     idx, ep = item
                     try:
-                        # 擷取集數名稱 (例如 "第01集")
                         a_nodes = ep.xpath('.//a/text()')
                         ep_name = a_nodes[0].strip() if a_nodes else f"第{idx+1}集"
                         
-                        # 擷取集數識別碼 slug (例如 "ep1")
                         ep_id = ep.get('slug', '').strip()
                         if not ep_id:
                             href_nodes = ep.xpath('.//a/@href')
                             href = href_nodes[0] if href_nodes else ''
                             ep_id = href.replace('#', '') if '#' in href else f'ep{idx+1}'
                         
-                        # 🎯 秘密通道：改戳網頁原始碼內指定的新版 API 接口 /d0vod/
+                        # 請求動態後端接口
                         d0_url = f"{self.home_url}/d0vod/{vod_id_str}-{ep_id}"
-                        
-                        # 同步帶上網頁指定的 headers
                         xhr_res = requests.get(d0_url, headers=self.headers, timeout=3)
                         data = xhr_res.json()
                         
-                        # 回傳給外層重新對齊
                         return ep_name, data
                     except Exception:
                         return None, None
 
-                # --- 4. 多執行緒併發 (維持 max_workers=15 的極致速度) ---
-                # 依據您提供的原始碼，網頁預設是倒序（新集數在最前），我們用 [::-1] 把它轉正
+                # --- 4. 多執行緒併發 (網頁預設是倒序，用 [::-1] 把它轉回第01集在最前) ---
                 with ThreadPoolExecutor(max_workers=15) as executor:
                     tasks = list(executor.map(fetch_ep_info, enumerate(episodes[::-1])))
                 
-                # --- 5. 模擬 JavaScript on_data(data) 的迴圈收割與清洗 ---
+                # --- 5. 數據收割與重新清洗 ---
                 for ep_name, data in tasks:
                     if not ep_name or not data:
                         continue
                     
-                    # 對應原始碼中的 if (data.aps.length) 判斷
                     if 'aps' in data and isinstance(data['aps'], list):
                         for cc in data['aps']:
-                            # 完美複刻 JS 邏輯: '线路'+cc.ss.substring(0,2).toUpperCase()
                             raw_ss = cc.get('ss', '1')
                             src_tag = raw_ss[:2].upper()
                             source_name = f"線路{src_tag}"
                             
-                            # 完美複刻 JS 邏輯: 取出 cc.pd 加密串作為最終播放直鏈傳遞給播放核心
                             actual_pd = cc.get('pd', '')
                             if not actual_pd:
                                 continue
@@ -291,15 +295,15 @@ class Spider(Spider):
                                 play_urls[source_name] = []
                                 play_from_order.append(source_name)
                             
-                            # 打包格式：集數名稱$真實加密串
+                            # 正確打包：純集數名稱 (例如 第01集)$真實加密播放串
                             play_urls[source_name].append(f"{ep_name}${actual_pd}")
 
-                # --- 6. 依據 TVBox 標準格式輸出，彻底解決跳開與錯位 ---
+                # --- 6. 依據 TVBox 標準格式輸出 ---
                 if play_from_order:
                     vod_play_from = '$$$'.join(play_from_order)
                     vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in play_from_order])
                 else:
-                    # 萬一全部接口皆失效的安全兜底機制
+                    # 備用機制
                     vod_play_from = '泥視頻'
                     vod_play_url = '#'.join([f"{ep.xpath('.//a/text()')[0].strip()}${self.home_url}{ids}#{ep.get('slug','')}" for ep in episodes[::-1]])
 
@@ -326,7 +330,6 @@ class Spider(Spider):
                 'vod_play_from': '泥視頻', 'vod_play_url': f'正片${ids}'
             })
         return result
-
 
     def searchContent(self, key, quick, pg='1'):
         result = {'list': []}
