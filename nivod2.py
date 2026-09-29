@@ -217,9 +217,9 @@ class Spider(Spider):
                 def fetch_ep_info(ep):
                     try:
                         ep_name = ep.xpath('.//div[@class="select-link"]/text()')[0].strip() if ep.xpath('.//div[@class="select-link"]') else "未知"
-                        ep_url = self.home_url + ep.get('href', '')
-                        vod_id_str = ids.split('/')[2]
-                        ep_id = ep_url.split('/')[-1]
+                        ep_url = self.home_url + ids + ep.get('href', '')
+                        vod_id_str = ids.split('/')[2].split('.html')[0]
+                        ep_id = ep_url.split('#')[-1]
                         xhr_url = f"{self.home_url}/d0vod/{vod_id_str}-{ep_id}"
                         
                         xhr_res = requests.get(xhr_url, headers=self.headers, timeout=3)
