@@ -172,17 +172,24 @@ class Spider(Spider):
         from concurrent.futures import ThreadPoolExecutor  # 保持您原汁原味的加速庫
 
         result = {'list': []}
-        ids = array if isinstance(array, list) else array
-        ids = ids[0] if isinstance(ids, list) and len(ids) > 0 else ids # FongMi 框架傳入通常是陣列，取第一個
         
+        # 1. 終極防跳開保護：強制將 FongMi 傳入的陣列轉為純字串，防止 split 崩潰
+        if isinstance(array, list):
+            if len(array) > 0:
+                ids = str(array[0])
+            else:
+                return {'list': []}
+        else:
+            ids = str(array)
+            
         detail_url = f"{self.home_url}{ids}" if not ids.startswith('http') else ids
-        
+
         try:
             res = requests.get(detail_url, headers=self.headers, timeout=5)
             res.encoding = 'utf-8'
             root = etree.HTML(res.text)
             
-            # --- 1. 完全還原您測試成功且完全正確的簡介解析區塊 (確保有 [0] 且有防崩潰) ---
+            # --- 2. 這是您完全正確的簡介解析區塊 (加上嚴格的列表長度檢查，防 IndexError 跳開) ---
             vod_year = "未知"
             vod_area = "其他"
             
@@ -192,21 +199,33 @@ class Spider(Spider):
                     vod_year = tag
                 elif tag in ["韩国", "大陆", "香港", "台湾", "美国", "日本", "英国", "智利", "巴西", "意大利", "瑞典", "印度", "爱尔兰", "澳大利亚", "泰国", "加拿大", "新加坡", "马来西亚", "其它"]: 
                     vod_area = tag
-                    
-            vod_name = root.xpath('//h1[@class="player-title"]/text()')[0].strip() if root.xpath('//h1[@class="player-title"]') else "未知"
-            vod_remarks = root.xpath('//div[@id="updateTxt"]/text()')[0].strip() if root.xpath('//div[@id="updateTxt"]') else ""
-            vod_director = root.xpath('//li[contains(em/text(), "导演")]//span[@class="content-paragraph"]/text()')[0].strip() if root.xpath('//li[contains(em/text(), "导演")]') else ""
-            vod_actor = root.xpath('//li[contains(em/text(), "主演")]//span[@class="content-paragraph"]/text()')[0].strip() if root.xpath('//li[contains(em/text(), "主演")]') else ""
-            vod_content = root.xpath('//li[contains(em/text(), "简介")]//span[@class="content-paragraph"]/text()')[0].strip() if root.xpath('//li[contains(em/text(), "简介")]') else ""
-            vod_pic = root.xpath('//img[@class="show-small"]/@src')[0] if root.xpath('//img[@class="show-small"]') else self.placeholder_pic
+            
+            # 加上安全的長度判斷 [0] 取值
+            name_nodes = root.xpath('//h1[@class="player-title"]/text()')
+            vod_name = name_nodes[0].strip() if name_nodes else "未知"
+            
+            remarks_nodes = root.xpath('//div[@id="updateTxt"]/text()')
+            vod_remarks = remarks_nodes[0].strip() if remarks_nodes else ""
+            
+            director_nodes = root.xpath('//li[contains(em/text(), "导演")]//span[@class="content-paragraph"]/text()')
+            vod_director = director_nodes[0].strip() if director_nodes else ""
+            
+            actor_nodes = root.xpath('//li[contains(em/text(), "主演")]//span[@class="content-paragraph"]/text()')
+            vod_actor = actor_nodes[0].strip() if actor_nodes else ""
+            
+            content_nodes = root.xpath('//li[contains(em/text(), "简介")]//span[@class="content-paragraph"]/text()')
+            vod_content = content_nodes[0].strip() if content_nodes else ""
+            
+            pic_nodes = root.xpath('//img[@class="show-small"]/@src')
+            vod_pic = pic_nodes[0] if pic_nodes else self.placeholder_pic
             if vod_pic.startswith('/'):
                 vod_pic = self.home_url + vod_pic
 
-            # --- 2. 精準對接您提供的 qy-episode-num 原始碼節點 ---
+            # --- 3. 新版劇集按鈕節點解析 ---
             episodes = root.xpath('//ul[contains(@class, "qy-episode-num")]/li[contains(@class, "select-item")]')
             
             if not episodes:
-                # 安全防護：萬一沒撈到劇集，封裝單集直接丟出，絕對不跳開
+                # 安全兜底防跳開機制
                 vod = {
                     'vod_id': ids, 'vod_name': vod_name, 'vod_pic': vod_pic, 'type_name': '',
                     'vod_year': vod_year, 'vod_area': vod_area, 'vod_remarks': vod_remarks,
@@ -217,24 +236,27 @@ class Spider(Spider):
                 play_from = set()
                 play_urls = {}
                 
-                # 精準提取影片 ID (去除 .html 尾碼防止 XHR 網址拼接崩潰)
-                vod_id_str = ids.split('/')[-1].replace('.html', '')
+                # --- 4. 恢復您最原始的提取邏輯（完全移除複雜正則），直接相容新舊格式 ---
+                # 舊版格式: /voddetail/202658234 -> split('/')[-1] 拿到 202658234
+                # 新版格式: /detail/332738644.html -> split('/')[-1] 拿到 332738644.html，接著移除 .html
+                raw_last = ids.split('/')[-1]
+                vod_id_str = raw_last.replace('.html', '')
 
-                # --- 3. 您的單集並行多執行緒解析函數 (加入嚴格的 XPath 容錯) ---
+                # --- 5. 您的單集解析函數 ---
                 def fetch_ep_info(ep):
                     try:
-                        # 擷取 a 標籤內的集數文字 (例如 "第08集")
+                        # 擷取 a 標籤文字
                         a_nodes = ep.xpath('.//a/text()')
                         ep_name = a_nodes[0].strip() if a_nodes else "播放"
                         
-                        # 從 li 標籤屬性中提取精準的 slug (例如 "ep8")
+                        # 直接拿原始碼中的 slug 屬性，最穩定
                         ep_id = ep.get('slug', '').strip()
                         if not ep_id:
                             href_nodes = ep.xpath('.//a/@href')
                             href = href_nodes[0] if href_nodes else ''
                             ep_id = href.replace('#', '') if '#' in href else 'ep1'
                         
-                        # 組裝 XHR 請求網址
+                        # 拼接核心 XHR 網址
                         xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
                         
                         xhr_res = requests.get(xhr_url, headers=self.headers, timeout=3)
@@ -242,14 +264,13 @@ class Spider(Spider):
                         data = xhr_res.json()
                         return ep_name, data
                     except Exception as e:
-                        print(f"Error in fetch_ep_info: {e}")
                         return None, None
 
-                # --- 4. 多執行緒併發獲取直鏈 (max_workers=15) ---
+                # --- 6. 多執行緒併發 (max_workers=15) ---
                 with ThreadPoolExecutor(max_workers=15) as executor:
                     tasks = list(executor.map(fetch_ep_info, episodes[::-1]))
                 
-                # --- 5. 按倒序順序重新收割結果 ---
+                # --- 7. 收割結果，組裝大螢幕認得的直鏈格式 ---
                 for ep_name, data in tasks:
                     if not ep_name or not data:
                         continue
@@ -259,15 +280,13 @@ class Spider(Spider):
                             play_from.add(source_name)
                             if source_name not in play_urls:
                                 play_urls[source_name] = []
-                            # 將解析出的直鏈打包成 "集數名稱$播放網址"
                             play_urls[source_name].append(f"{ep_name}${source.get('playurl', '')}")
                 
-                # 重新拼裝成 TVBox 標準格式
                 if play_from:
                     vod_play_from = '$$$'.join(play_from)
                     vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in play_from])
                 else:
-                    # 萬一 XHR 被封鎖或沒回傳，使用靜態網頁備用機制（走原本不改動的 playerContent 機制）
+                    # 萬一網站後端 API 有阻擋，改用純靜態頁面傳遞，不讓頁面卡死
                     vod_play_from = '泥視頻'
                     fallback_urls = []
                     for ep in episodes[::-1]:
@@ -294,16 +313,16 @@ class Spider(Spider):
             result['list'].append(vod)
             
         except Exception as e:
-            print(f"全面防禦：detailContent 發生致命錯誤，觸發兜底防範，錯誤原因為: {e}")
-            # 即使最外層出錯，也強行回傳一個基礎物件，確保 TVBox 絕對不會閃退跳開
+            # 外部兜底，保證絕對不會跳開
             result['list'].append({
                 'vod_id': ids,
-                'vod_name': '未知影音',
+                'vod_name': '容錯影片',
                 'vod_pic': self.placeholder_pic,
                 'vod_play_from': '泥視頻',
                 'vod_play_url': f'正片${ids}'
             })
         return result
+
 
 
     def searchContent(self, key, quick, pg='1'):
