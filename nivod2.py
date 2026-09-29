@@ -216,11 +216,11 @@ class Spider(Spider):
                 # --- 恢復您原本的單集解析邏輯，包裝成函數給多線程呼叫 ---
                 def fetch_ep_info(ep):
                     try:
-                        ep_name = ep.xpath('.//div[@class="select-link"]/text()')[0].strip() if ep.xpath('.//div[@class="select-link"]') else "未知"
-                        ep_url = detail_url + ep.get('href', '')
+                        ep_name = ep.xpath('.//div[@class="item"]/text()')[0].strip() if ep.xpath('.//div[@class="item"]') else "未知"
+                        ep_url = self.home_url + ep.get('href', '')
                         vod_id_str = ids.split('/')[2]
                         ep_id = ep_url.split('/')[-1]
-                        xhr_url = f"{self.home_url}/d0vod/{vod_id_str}-{ep_id}"
+                        xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
                         
                         xhr_res = requests.get(xhr_url, headers=self.headers, timeout=3)
                         xhr_res.encoding = 'utf-8'
