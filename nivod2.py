@@ -193,7 +193,7 @@ class Spider(Spider):
             if vod_pic.startswith('/'):
                 vod_pic = self.home_url + vod_pic
             
-            episodes = root.xpath('//div[@id="play-list"]/a')
+            episodes = root.xpath('//ul[@id="play_list_0"]/li/a')
             if not episodes:
                 vod = {
                     'vod_id': ids,
@@ -216,10 +216,10 @@ class Spider(Spider):
                 # --- 恢復您原本的單集解析邏輯，包裝成函數給多線程呼叫 ---
                 def fetch_ep_info(ep):
                     try:
-                        ep_name = ep.xpath('.//div[@class="select-link"]/text()')[0].strip() if ep.xpath('.//div[@class="select-link"]') else "未知"
-                        ep_url = self.home_url + ids + ep.get('href', '')
-                        vod_id_str = ids.split('/')[2].split('.html')[0]
-                        ep_id = ep_url.split('#')[-1]
+                        ep_name = ep.xpath('./text()')[0].strip() if ep.xpath('./text()') else "未知"
+                        href = ep.get('href', '')
+                        ep_id = href.replace('#', '') if href else ''
+                        vod_id_str = ids.split('/')[-1].split('.html')[0]
                         xhr_url = f"{self.home_url}/d0vod/{vod_id_str}-{ep_id}"
                         
                         xhr_res = requests.get(xhr_url, headers=self.headers, timeout=3)
