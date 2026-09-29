@@ -104,7 +104,7 @@ class Spider(Spider):
         params = {
             'channel': tid,
             'region': _area,
-            'class': _class,
+            'showtype': _class,
             'year': _year,
             'page': pg
         }
