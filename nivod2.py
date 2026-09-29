@@ -184,7 +184,7 @@ class Spider(Spider):
                     vod_year = tag
                 elif tag in ["韩国", "大陆", "香港", "台湾", "美国", "日本", "英国", "智利", "巴西", "意大利", "瑞典", "印度", "爱尔兰", "澳大利亚", "泰国", "加拿大", "新加坡", "马来西亚", "加拿大", "其它"]: # 或者是只要不是數字和劇種類型，就當作地區
                     vod_area = tag
-            vod_name = root.xpath('//div[@class="player-title"]/text()')[0].strip() if root.xpath('//div[@class="player-title"]') else "未知"
+            vod_name = root.xpath('//h1[@class="player-title"]/text()')[0].strip() if root.xpath('//h1[@class="player-title"]') else "未知"
             vod_remarks = root.xpath('//div[@id="updateTxt"]/text()')[0].strip() if root.xpath('//div[@id="updateTxt"]') else ""
             vod_director = root.xpath('//li[contains(em/text(), "导演")]//span[@class="content-paragraph"]/text()')[0].strip() if root.xpath('//li[contains(em/text(), "导演")]') else ""
             vod_actor = root.xpath('//li[contains(em/text(), "主演")]//span[@class="content-paragraph"]/text()')[0].strip() if root.xpath('//li[contains(em/text(), "主演")]') else ""
