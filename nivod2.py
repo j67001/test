@@ -201,7 +201,7 @@ class Spider(Spider):
                 vod_pic = self.home_url + vod_pic
             
             # 獲取集數節點
-            episodes = root.xpath('//ul[@id="play_list_0"]/li/a')
+            episodes = root.xpath('//ul[@id="play_list_0"]/a')
             if not episodes:
                 vod = {
                     'vod_id': ids, 'vod_name': vod_name, 'vod_pic': vod_pic, 'type_name': '',
