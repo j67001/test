@@ -193,7 +193,7 @@ class Spider(Spider):
             if vod_pic.startswith('/'):
                 vod_pic = self.home_url + vod_pic
             
-            episodes = root.xpath('//div[@id="list-jj"]/a')
+            episodes = root.xpath('//div[@id="play-list"]//a')
             if not episodes:
                 vod = {
                     'vod_id': ids,
