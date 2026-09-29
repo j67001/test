@@ -193,7 +193,7 @@ class Spider(Spider):
             if vod_pic.startswith('/'):
                 vod_pic = self.home_url + vod_pic
             
-       episodes = root.xpath('//div[@id="play-list"]//ul[@class="qy-episode-num"]/li/a/text()')
+            episodes = root.xpath('//div[@id="list-jj"]/a')
             if not episodes:
                 vod = {
                     'vod_id': ids,
@@ -207,7 +207,7 @@ class Spider(Spider):
                     'vod_director': vod_director,
                     'vod_content': vod_content,
                     'vod_play_from': '泥視頻',
-                    'vod_play_url': '第1集$https://nbyy.cc'
+                    'vod_play_url': '第1集$https://nivod.cc'
                 }
             else:
                 play_from = set()
