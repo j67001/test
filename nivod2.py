@@ -173,14 +173,14 @@ class Spider(Spider):
         import re
 
         result = {'list': []}
-        ids = array[0] if isinstance(array, list) else array
+        ids = array if isinstance(array, list) else array
         detail_url = f"{self.home_url}{ids}"
         try:
             res = requests.get(detail_url, headers=self.headers, timeout=5)
             res.encoding = 'utf-8'
             root = etree.HTML(res.text)
             
-            # 修正 1：初始化年份與地區，避免網頁標籤改變時引發 UnboundLocalError 導致程式直接跳開
+            # 初始化基本變數，防止未定義崩潰
             vod_year = "2026"
             vod_area = "其他"
             
@@ -197,13 +197,13 @@ class Spider(Spider):
             vod_actor = root.xpath('//li[contains(em/text(), "主演")]//span[@class="content-paragraph"]/text()')[0].strip() if root.xpath('//li[contains(em/text(), "主演")]') else ""
             vod_content = root.xpath('//li[contains(em/text(), "简介")]//span[@class="content-paragraph"]/text()')[0].strip() if root.xpath('//li[contains(em/text(), "简介")]') else ""
             
-            # 修正 2：確保 vod_pic 是純字串而非列表，防止 TVBox 讀取圖片時直接閃退
-            vod_pic_node = root.xpath('//img[@class="show-small"]/@src')
-            vod_pic = vod_pic_node[0].strip() if vod_pic_node else self.placeholder_pic
+            # 確保圖片取出來是字串而非陣列，防電視盒子閃退
+            vod_pic_nodes = root.xpath('//img[@class="show-small"]/@src')
+            vod_pic = vod_pic_nodes[0] if vod_pic_nodes else self.placeholder_pic
             if vod_pic.startswith('/'):
                 vod_pic = self.home_url + vod_pic
             
-            # 精準對齊您的新 HTML 結構
+            # 獲取集數節點
             episodes = root.xpath('//ul[@id="play_list_0"]/li/a')
             if not episodes:
                 vod = {
@@ -213,19 +213,20 @@ class Spider(Spider):
                     'vod_play_from': '泥視頻', 'vod_play_url': '第1集$https://nivod.cc'
                 }
             else:
-                play_from = set()
+                # 修正 1：改用有序列表（List），保證線路順序絕對不亂，對齊盒子規範
+                play_from_list = []
                 play_urls = {}
                 
-                # --- 保持您原本的單集解析邏輯，完全不複雜化 ---
+                # --- 保持您原本的單集解析邏輯（完全不複雜化） ---
                 def fetch_ep_info(ep):
                     try:
-                        # 修正 3：改用 ep.text 屬性最穩固，100% 拿到 "第01集" 等純字串，絕不回傳空值
+                        # 修正 2：使用最穩固的 ep.text 抓取按鈕文字（例如 "第01集"），避免 xpath 取到空值被後續過濾
                         ep_name = ep.text.strip() if ep.text else "正片"
                         
                         href = ep.get('href', '')
                         ep_id = href.replace('#', '') if href else ''
                         
-                        # 修正 4：安全的從網址切出純數字 ID (相容各種格式)
+                        # 修正 3：精準取出影片純數字 ID
                         vod_id_match = re.search(r'detail/(\d+)', detail_url)
                         vod_id_str = vod_id_match.group(1) if vod_id_match else ids.split('/')[-1].replace('.html', '')
                         
@@ -242,23 +243,35 @@ class Spider(Spider):
                 with ThreadPoolExecutor(max_workers=15) as executor:
                     tasks = list(executor.map(fetch_ep_info, episodes[::-1]))
                 
-                # --- 按原本的倒序順序重新收割結果 ---
+                # --- 按原本的順序重新收割結果 ---
                 for ep_name, data in tasks:
                     if not ep_name or not data:
                         continue
                     if 'pdatas' in data and data['pdatas']:
                         for source in data['pdatas']:
-                            source_name = source['from']
-                            play_from.add(source_name)
+                            source_name = str(source['from']).strip()
+                            
+                            # 確保線路按順序排入
+                            if source_name not in play_from_list:
+                                play_from_list.append(source_name)
+                                
                             if source_name not in play_urls:
                                 play_urls[source_name] = []
-                            play_urls[source_name].append(f"{ep_name}${source['playurl']}")
+                                
+                            # 塞入 [集數$網址]
+                            if source.get('playurl'):
+                                play_urls[source_name].append(f"{ep_name}${source['playurl']}")
                 
-                vod_play_from = '$$$'.join(play_from)
-                vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in play_from])
+                # 修正 4：用固定順序的 play_from_list 來 join，保證名稱與網址絕對 100% 對應！
+                if play_from_list:
+                    vod_play_from = '$$$'.join(play_from_list)
+                    vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in play_from_list])
+                else:
+                    vod_play_from = '泥視頻'
+                    vod_play_url = '暫無有效片源$https://www.nbyy.cc'
                 
                 vod = {
-                    'vod_id': ids, 'vod_name': vod_name, 'vod_pic': vod_pic, 'type_name': '',
+                    'vod_id': ids, 'vod_name': vod_name, 'vod_pic': vod_pic, 'type_name': '電影',
                     'vod_year': vod_year, 'vod_area': vod_area, 'vod_remarks': vod_remarks,
                     'vod_actor': vod_actor, 'vod_director': vod_director, 'vod_content': vod_content,
                     'vod_play_from': vod_play_from, 'vod_play_url': vod_play_url
