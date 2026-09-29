@@ -169,158 +169,106 @@ class Spider(Spider):
         return result
 
     def detailContent(self, array):
-        import re  # 確保引入正則
-        from concurrent.futures import ThreadPoolExecutor  # 局部引入加速庫
+        from concurrent.futures import ThreadPoolExecutor  # 僅在局部引入加速庫
+        import re
 
         result = {'list': []}
-        
-        # 1. 確保 ids 絕對是純字串，且跟傳入的 array[0] 完全一致
         ids = array[0] if isinstance(array, list) else array
-        ids = str(ids)
-        
-        # 構造完整的請求網址
-        if ids.startswith('http'):
-            detail_url = ids
-        else:
-            detail_url = f"{self.home_url}{ids}" if ids.startswith('/') else f"{self.home_url}/{ids}"
-            
-        local_home_url = str(self.home_url)
-        
-        # 構造完全安全的偽裝 Headers
-        local_headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            'Referer': detail_url,
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-            'Accept-Language': 'zh-CN,zh;q=0.9'
-        }
-
+        detail_url = f"{self.home_url}{ids}"
         try:
-            res = requests.get(detail_url, headers=local_headers, timeout=5)
+            res = requests.get(detail_url, headers=self.headers, timeout=5)
             res.encoding = 'utf-8'
             root = etree.HTML(res.text)
             
-            # --- 修正 1：年份與地區確保是純字串 ---
+            # 修正 1：初始化年份與地區，避免網頁標籤改變時引發 UnboundLocalError 導致程式直接跳開
             vod_year = "2026"
-            vod_area = "美國"
-            tags = root.xpath('//div[@class="qy-player-tag"]/span[@class="tag-item"]/text()')
+            vod_area = "其他"
+            
+            tags = [t.strip() for t in root.xpath('//div[@class="qy-player-tag"]/span[@class="tag-item"]/text()')]
             for tag in tags:
-                tag_str = str(tag).strip()
-                if tag_str.isdigit() and len(tag_str) == 4:
-                    vod_year = tag_str
-                elif tag_str in ["韩国", "大陆", "香港", "台湾", "美国", "日本", "英国", "其它"]:
-                    vod_area = tag_str
+                if tag.isdigit() and len(tag) == 4:  # 如果是 4 位數純數字，就判定為年份
+                    vod_year = tag
+                elif tag in ["韩国", "大陆", "香港", "台湾", "美国", "日本", "英国", "智利", "巴西", "意大利", "瑞典", "印度", "爱尔兰", "澳大利亚", "泰国", "加拿大", "新加坡", "马来西亚", "其它"]: 
+                    vod_area = tag
+                    
+            vod_name = root.xpath('//h1[@class="player-title"]/text()')[0].strip() if root.xpath('//h1[@class="player-title"]') else "未知"
+            vod_remarks = root.xpath('//div[@id="updateTxt"]/text()')[0].strip() if root.xpath('//div[@id="updateTxt"]') else ""
+            vod_director = root.xpath('//li[contains(em/text(), "导演")]//span[@class="content-paragraph"]/text()')[0].strip() if root.xpath('//li[contains(em/text(), "导演")]') else ""
+            vod_actor = root.xpath('//li[contains(em/text(), "主演")]//span[@class="content-paragraph"]/text()')[0].strip() if root.xpath('//li[contains(em/text(), "主演")]') else ""
+            vod_content = root.xpath('//li[contains(em/text(), "简介")]//span[@class="content-paragraph"]/text()')[0].strip() if root.xpath('//li[contains(em/text(), "简介")]') else ""
             
-            # --- 修正 2：確保所有基本資訊欄位 100% 是純字串，絕不帶有任何 List 結構 ---
-            t_name = root.xpath('//h1[@class="player-title"]/text()')
-            vod_name = str(t_name[0]).strip() if t_name else "未知"
-            
-            t_remarks = root.xpath('//div[@id="updateTxt"]/text()')
-            vod_remarks = str(t_remarks[0]).strip() if t_remarks else ""
-            
-            t_director = root.xpath('//li[contains(em/text(), "导演")]//span[@class="content-paragraph"]/text()')
-            vod_director = str(t_director[0]).strip() if t_director else ""
-            
-            t_actor = root.xpath('//li[contains(em/text(), "主演")]//span[@class="content-paragraph"]/text()')
-            vod_actor = str(t_actor[0]).strip() if t_actor else ""
-            
-            t_content = root.xpath('//li[contains(em/text(), "简介")]//span[@class="content-paragraph"]/text()')
-            vod_content = str(t_content[0]).strip() if t_content else ""
-            
-            # --- 修正 3：徹底解決 vod_pic 列表導致盒子閃退的問題 ---
-            p_node = root.xpath('//img[@class="show-small"]/@src')
-            vod_pic = str(p_node[0]).strip() if p_node else str(self.placeholder_pic)
+            # 修正 2：確保 vod_pic 是純字串而非列表，防止 TVBox 讀取圖片時直接閃退
+            vod_pic_node = root.xpath('//img[@class="show-small"]/@src')
+            vod_pic = vod_pic_node[0].strip() if vod_pic_node else self.placeholder_pic
             if vod_pic.startswith('/'):
-                vod_pic = local_home_url + vod_pic
+                vod_pic = self.home_url + vod_pic
             
-            # 獲取集數節點
+            # 精準對齊您的新 HTML 結構
             episodes = root.xpath('//ul[@id="play_list_0"]/li/a')
-            
-            play_from = set()
-            play_urls = {}
-            
-            if episodes:
-                # --- 多執行緒單集解析函數（清洗優化版） ---
+            if not episodes:
+                vod = {
+                    'vod_id': ids, 'vod_name': vod_name, 'vod_pic': vod_pic, 'type_name': '',
+                    'vod_year': vod_year, 'vod_area': vod_area, 'vod_remarks': vod_remarks,
+                    'vod_actor': vod_actor, 'vod_director': vod_director, 'vod_content': vod_content,
+                    'vod_play_from': '泥視頻', 'vod_play_url': '第1集$https://nivod.cc'
+                }
+            else:
+                play_from = set()
+                play_urls = {}
+                
+                # --- 保持您原本的單集解析邏輯，完全不複雜化 ---
                 def fetch_ep_info(ep):
                     try:
-                        # 確保集數名稱是字串
-                        names = ep.xpath('./text()')
-                        ep_name = str(names[0]).strip() if names else "正片"
+                        # 修正 3：改用 ep.text 屬性最穩固，100% 拿到 "第01集" 等純字串，絕不回傳空值
+                        ep_name = ep.text.strip() if ep.text else "正片"
                         
-                        href = str(ep.get('href', ''))
-                        ep_id = href.replace('#', '')
+                        href = ep.get('href', '')
+                        ep_id = href.replace('#', '') if href else ''
                         
-                        # 修正：精準且安全的從網址中分離出影片純數字 ID
-                        # 先用 split('#') 拿前半段，再拿最後一節
-                        pure_url_path = detail_url.split('#')[0]
-                        vod_id_str = pure_url_path.split('/')[-1].replace('.html', '')
+                        # 修正 4：安全的從網址切出純數字 ID (相容各種格式)
+                        vod_id_match = re.search(r'detail/(\d+)', detail_url)
+                        vod_id_str = vod_id_match.group(1) if vod_id_match else ids.split('/')[-1].replace('.html', '')
                         
-                        xhr_url = f"{local_home_url}/d0vod/{vod_id_str}-{ep_id}"
+                        xhr_url = f"{self.home_url}/d0vod/{vod_id_str}-{ep_id}"
                         
-                        # 請求後端 API
-                        xhr_res = requests.get(xhr_url, headers=local_headers, timeout=3)
-                        if xhr_res.status_code == 200:
-                            return ep_name, xhr_res.json()
-                        return ep_name, None
-                    except Exception:
+                        xhr_res = requests.get(xhr_url, headers=self.headers, timeout=3)
+                        xhr_res.encoding = 'utf-8'
+                        data = xhr_res.json()
+                        return ep_name, data
+                    except Exception as e:
                         return None, None
 
-                # 併發執行任務
+                # --- 使用執行緒池並行處理所有集數 ---
                 with ThreadPoolExecutor(max_workers=15) as executor:
                     tasks = list(executor.map(fetch_ep_info, episodes[::-1]))
                 
-                # 收割資料
+                # --- 按原本的倒序順序重新收割結果 ---
                 for ep_name, data in tasks:
                     if not ep_name or not data:
                         continue
                     if 'pdatas' in data and data['pdatas']:
                         for source in data['pdatas']:
-                            source_name = str(source.get('from', '官方線路'))
+                            source_name = source['from']
                             play_from.add(source_name)
                             if source_name not in play_urls:
                                 play_urls[source_name] = []
-                            play_urls[source_name].append(f"{ep_name}${source.get('playurl', '')}")
-
-            # --- TVBox 格式標準化對齊 ---
-            if not play_from:
-                # 即使 API 失敗，也要確保返回格式百分之百符合盒子規範
-                vod_play_from = "泥巴線路"
-                fallback_list = []
-                if episodes:
-                    for i, ep in enumerate(episodes[::-1]):
-                        names = ep.xpath('./text()')
-                        ep_name = str(names[0]).strip() if names else f"第{i+1}集"
-                        fallback_list.append(f"{ep_name}${detail_url}")
-                    vod_play_url = '#'.join(fallback_list)
-                else:
-                    vod_play_url = f"正片${detail_url}"
-            else:
+                            play_urls[source_name].append(f"{ep_name}${source['playurl']}")
+                
                 vod_play_from = '$$$'.join(play_from)
                 vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in play_from])
-            
-            vod = {
-                'vod_id': ids,
-                'vod_name': vod_name,
-                'vod_pic': vod_pic,
-                'type_name': '',  # 留空字串，等盒子自己分類
-                'vod_year': vod_year,
-                'vod_area': vod_area,
-                'vod_remarks': vod_remarks,
-                'vod_actor': vod_actor,
-                'vod_director': vod_director,
-                'vod_content': vod_content,
-                'vod_play_from': vod_play_from,
-                'vod_play_url': vod_play_url
-            }
+                
+                vod = {
+                    'vod_id': ids, 'vod_name': vod_name, 'vod_pic': vod_pic, 'type_name': '',
+                    'vod_year': vod_year, 'vod_area': vod_area, 'vod_remarks': vod_remarks,
+                    'vod_actor': vod_actor, 'vod_director': vod_director, 'vod_content': vod_content,
+                    'vod_play_from': vod_play_from, 'vod_play_url': vod_play_url
+                }
             result['list'].append(vod)
-            
         except Exception as e:
             print(f"Error in detailContent: {e}")
             result['list'].append({
-                'vod_id': ids,
-                'vod_name': '未知',
-                'vod_pic': str(self.placeholder_pic),
-                'vod_play_from': '泥視頻備用',
-                'vod_play_url': f'播放${detail_url}'
+                'vod_id': ids, 'vod_name': '未知', 'vod_pic': self.placeholder_pic,
+                'vod_play_from': '泥視頻', 'vod_play_url': ''
             })
         return result
 
