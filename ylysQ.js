@@ -1,4 +1,5 @@
-let host = 'https://www.ylys.tv';
+//let host = 'https://www.ylys.tv';
+let host = 'https://app.ylsp.tv/';
 const headers = {
   "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.6478.61 Safari/537.36",
   "Referer": host + "/",
