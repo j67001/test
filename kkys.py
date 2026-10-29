@@ -41,7 +41,7 @@ class Spider(Spider):
 
     # ===== 站点配置 =====
     DOMAINS = [
-        'https://www.kkys03.com',
+        'https://www.kkys04.com',
     ]
 
     # 图片 CDN 域名（主站 /vod1/ 路径有 cdndefend，CDN 可直接访问）
