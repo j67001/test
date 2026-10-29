@@ -911,7 +911,7 @@ class Spider(Spider):
                 vod['type_name'] = t.strip()
             elif t in ('中国大陆', '中国香港', '中国台湾', '美国', '日本', '韩国',
                        '英国', '法国', '德国', '印度', '泰国', '其他'):
-                vod['vod_area'] = t
+                vod['vod_area'] = t.replace('中国', '')
 
         # 详情行: detail-info-row
         info_rows = re.findall(
