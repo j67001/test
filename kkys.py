@@ -1445,7 +1445,8 @@ class Spider(Spider):
             label = label.strip() if label else ''
             sublabel = sublabel.strip() if sublabel else ''
             if label and sublabel:
-                source_names.append(f'{label}({sublabel})')
+                # source_names.append(f'{label}({sublabel})')
+                source_names.append(label)
             elif label:
                 source_names.append(label)
             else:
