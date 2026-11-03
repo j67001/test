@@ -52,7 +52,7 @@ class Spider(Spider):
     UA = ('Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 '
           '(KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36')
 
-    # 搜索引擎线路过滤关键词
+    # 搜索引擎线路过滤关键词, 无登入, 屏蔽 4K 和 超清2 线路
     SKIP_KEYWORDS = ('搜索', '百度', '搜狗', '神马', '360', 'baidu', 'google',
                      'sogou', 'kuaishou', '快手', '超清2', '4k' )
 
