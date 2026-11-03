@@ -54,7 +54,7 @@ class Spider(Spider):
 
     # 搜索引擎线路过滤关键词
     SKIP_KEYWORDS = ('搜索', '百度', '搜狗', '神马', '360', 'baidu', 'google',
-                     'sogou', 'kuaishou', '快手', '超清2', '4K', '4K ' )
+                     'sogou', 'kuaishou', '快手', '超清2', '4k' )
 
     # 水印文本（需从标题中过滤）
     WATERMARKS = ('可可影视-kekys.com', '可可影视 kekys.com', '可可影视',
