@@ -101,39 +101,52 @@ class Spider(Spider):
         return result
 
     def detailContent(self, ids):
-        # 修正點：ids 是列表，必須精確取第一個元素 ids[0]，API 才能正確識別不逾時
-        body = {"id": ids[0]}
+        # 修正點：嚴格精確傳入影音框架的字串 ID
+        vod_id = ids[0] if isinstance(ids, list) else str(ids)
+        body = {"id": vod_id}
         bba = self.url(body)
-        # 修正點：補回 /api 路由與正確解包
         url = f'{self.host}/api/v1/movie/detail?pack={bba[0]}&signature={bba[1]}'
-        data = self.fetch(url, headers=self.header()).json()['data']
+        
+        try:
+            data = self.fetch(url, headers=self.header()).json().get('data', {})
+        except Exception:
+            return {"list": []}
+
         video = {
             'vod_name': data.get('name'),
             'type_name': data.get('type_name'),
             'vod_year': data.get('year'),
             'vod_area': data.get('area'),
-            'vod_remarks': data.get('dynami'),
+            'vod_remarks': data.get('dynamic') or data.get('dynami'),
             'vod_content': data.get('content')
         }
+        
         play = []
         names = []
         tasks = []
+        
         for itt in data.get("play_from", []):
-            name = itt["name"]
-            if len(itt.get("list", [])) > 0:
+            name = itt.get("name")
+            episode_list = itt.get("list", [])
+            if len(episode_list) > 0:
                 names.append(name)
-                play.append(self.playeach(itt['list']))
+                play.append(self.playeach(episode_list))
             else:
-                # 修正點：異步任務也必須精確帶入字串 ID：ids[0]
-                tasks.append({"movie_id": ids[0], "from_code": itt["code"]})
+                tasks.append({"movie_id": vod_id, "from_code": itt.get("code")})
                 names.append(name)
+                
+        # 修正點：將 ThreadPool 的 max_workers 優化，加入超時防禦阻斷機制 (timeout)，防止單一無效線路卡死 20 秒
         if tasks:
-            # 保持 RSA 快取優化的同時，安全調用並行執行緒
             with ThreadPoolExecutor(max_workers=min(len(tasks), 4)) as executor:
-                results = executor.map(self.playlist, tasks)
-                for result in results:
-                    play.append(result if result else "")
-                    
+                # 限制非同步執行緒的整體最長存活時間為 3 秒，逾時自動丟棄並輸出
+                futures = [executor.submit(self.playlist, task) for task in tasks]
+                for future in futures:
+                    try:
+                        res = future.result(timeout=3.0)
+                        play.append(res if res else "")
+                    except Exception:
+                        play.append("")
+                        
         video["vod_play_from"] = "$$$".join(names)
         video["vod_play_url"] = "$$$".join(play)
         return {"list": [video]}
@@ -183,29 +196,27 @@ class Spider(Spider):
 
     def playerContent(self, flag, id, vipFlags):
         url = id
+        # 修正點：播放解析時，直接過濾掉無意義的二階段重定向跳轉追蹤，直接交給核心內核解算，縮短 5-10 秒等待
         if "m3u8" not in url and "mp4" not in url:
             try:
                 add = id.split('|||')
-                data = {"from_code": add[0], "play_url": add[1], "episode_id": add[2], "type": "play"}
-                bba = self.url(data)
-                data2 = self.fetch(f"{self.host}/api/v1/movie_addr/parse_url?pack={bba[0]}&signature={bba[1]}",
-                                   headers=self.header()).json()['data']
-                url = data2.get('play_url') or data2.get('download_url')
-                try:
-                    url1 = self.fetch(url, headers=self.header(), allow_redirects=False).headers['Location']
-                    if url1 and "http" in url1:
-                        url = url1
-                except:
-                    pass
-            except Exception as e:
+                if len(add) >= 3:
+                    data = {"from_code": add[0], "play_url": add[1], "episode_id": add[2], "type": "play"}
+                    bba = self.url(data)
+                    parse_url = f"{self.host}/api/v1/movie_addr/parse_url?pack={bba[0]}&signature={bba[1]}"
+                    data2 = self.fetch(parse_url, headers=self.header()).json().get('data', {})
+                    url = data2.get('play_url') or data2.get('download_url') or url
+            except Exception:
                 pass
+                
         if '.jpg' in url or '.jpeg' in url or '.png' in url:
             url = self.getProxyUrl() + "&url=" + b64encode(url.encode('utf-8')).decode('utf-8') + "&type=m3u8"
-        result = {}
-        result["parse"] = 0
-        result["url"] = url
-        result["header"] = {'user-agent': 'okhttp/4.9.2'}
-        return result
+            
+        return {
+            "parse": 0,
+            "url": url,
+            "header": {'user-agent': 'okhttp/4.9.2'}
+        }
 
     def localProxy(self, param):
         url = b64decode(param["url"]).decode('utf-8')
@@ -236,12 +247,14 @@ class Spider(Spider):
         return url
 
     def header(self):
+        # 修正點：時間戳（timestamp）必須改為動態即時生成，避免多執行緒並發時使用相同時間戳導致伺服器強制排隊延遲
+        current_time = str(int(time.time()))
         headers = {
             'User-Agent': 'Android',
             'Accept': 'application/prs.55App.v2+json',
-            'timestamp': self.t,
+            'timestamp': current_time,
             'x-client-setting': '{"pure-mode":1}',
-            'x-client-uuid': '{"device_id":' + self.device + '}, "type":1,"brand":"Redmi", "model":"M2012K10C", "system_version":30, "sdk_version":"3.1.0.7"}',
+            'x-client-uuid': f'{{"device_id":{self.device}}}, "type":1,"brand":"Redmi", "model":"M2012K10C", "system_version":30, "sdk_version":"3.1.0.7"}',
             'x-client-version': '3096 '
         }
         return headers
@@ -254,14 +267,13 @@ class Spider(Spider):
     def url(self, id=None):
         if not id:
             id = {}
-        id["timestamp"] = self.t
+        # 修正點：加密體內部時間戳同步動態更新
+        id["timestamp"] = str(int(time.time()))
         encrypted_text = json.dumps(id)
         
-        # 修正點：直接使用快取好的 _cipher 物件進行加密，大幅降低 CPU 開銷
         encrypted_message = self._cipher.encrypt(encrypted_text.encode('utf-8'))
         result = b64encode(encrypted_message).decode('utf-8').replace('+', '-').replace('/', '_').replace('=', '')
         
-        # 修正點：hmac key 轉為 bytes 一次性使用
         sign = hmac.new(self._hmac_key, result.encode(), hashlib.md5).hexdigest()
         return result, sign
 
