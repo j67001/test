@@ -238,12 +238,10 @@ class Spider(Spider):
                         for source in data['pdatas']:
                             source_name = source['from']
                             
-                            # 全面通用轉換：包含 'zy' 的片源，直接取 'zy' 前面的 2 個字母轉大寫，並拼接 '云'
-                            # 這樣無論是 wjzy、wjzy2 還是 ffzy，都能完美匹配轉換
+                            # 採用最穩固的切片法：只要名稱包含 'zy'，直接精確抓取前兩個字元轉大寫並加上 '云'
+                            # 這樣一來 wjzy、wjzy2、ikzy 都能完美轉換成 WJ云、IK云，且絕不報錯
                             if 'zy' in source_name:
-                                prefix = source_name.split('zy')[0]
-                                if len(prefix) >= 2:
-                                    source_name = prefix[:2].upper() + '云'
+                                source_name = source_name[:2].upper() + '云'
 
                             # play_from.add(source_name)
                             if source_name not in play_urls:
