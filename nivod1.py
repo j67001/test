@@ -249,7 +249,7 @@ class Spider(Spider):
                             play_urls[source_name].append(f"{ep_name}${source['playurl']}")
 
                 # 自訂片源排序邏輯 定義優先順序，越前面的排越前面
-                sort_order = ['FF云', 'MD云', 'LZ云']
+                sort_order = ['LZ云', 'FF云', 'MD云']
                 # 將現有的片源分組：優先名單內的 vs 其他的
                 priority_sources = [s for s in sort_order if s in play_urls]
                 other_sources = [s for s in play_urls if s not in sort_order]
