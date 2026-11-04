@@ -47,62 +47,6 @@ class Spider(Spider):
         filters = {}
         classes = []
         bba = self.url()
-        data = self.fetch(f"{self.host}/api/v1/app/config?pack={bba[0]}&signature={bba[1]}", headers=self.header()).text
-        data1 = self.aes(data)
-        dy = {"class":"类型","area":"地区","lang":"语言","year":"年份","letter":"字母","by":"排序","sort":"排序"}
-        data1['data']['movie_screen']['sort'].pop(0)
-        for item in data1['data']['movie_screen']['sort']:
-            item['n'] = item.pop('name')
-            item['v'] = item.pop('value')
-        for item in data1['data']['movie_screen']['filter']:
-            has_non_empty_field = False
-            classes.append({"type_name": item["name"], "type_id": str(item["id"])})
-            for key in dy:
-                if key in item and item[key]:
-                    has_non_empty_field = True
-                    break
-            if has_non_empty_field:
-                filters[str(item["id"])] = []
-                filters[str(item["id"])].append(
-                    {"key": 'sort', "name": '排序', "value": data1['data']['movie_screen']['sort']})
-                for dkey in item:
-                    if dkey in dy and item[dkey]:
-                        item[dkey].pop(0)
-                        value_array = [
-                            {"n": value.strip(), "v": value.strip()}
-                            for value in item[dkey]
-                            if value.strip() != ""
-                        ]
-                        filters[str(item["id"])].append(
-                            {"key": dkey, "name": dy[dkey], "value": value_array}
-                        )
-        result["class"] = classes
-        result["filters"] = filters
-        return result
-
-    def categoryContent(self, tid, pg, filter, extend):
-        body = {"type_id": tid, "sort": extend.get("sort", "by_default"), "class": extend.get("class", "类型"),
-                "area": extend.get("area", "地区"), "year": extend.get("year", "年份"), "page": str(pg),
-                "pageSize": "21"}
-        result = {}
-        list = []
-        bba = self.url(body)
-        url = f"{self.host}/api/v1/movie/screen/list?pack={bba[0]}&signature={bba[1]}"
-        data = self.fetch(url, headers=self.header()).json()['data']['list']
-        for item in data:
-            list.append(self.voides(item))
-        result["list"] = list
-        result["page"] = pg
-        result["pagecount"] = 9999
-        result["limit"] = 90
-        result["total"] = 999999
-        return result
-
-    def homeContent(self, filter):
-        result = {}
-        filters = {}
-        classes = []
-        bba = self.url()
         # 修正點：修正原本 bba[0] 寫錯為 bba 的潛在 bugs，優化網域與簽名帶入
         data = self.fetch(f"{self.host}/api/v1/app/config?pack={bba[0]}&signature={bba[1]}", headers=self.header()).text
         data1 = self.aes(data)
@@ -175,6 +119,39 @@ class Spider(Spider):
         video["vod_play_from"] = "$$$".join(names)
         video["vod_play_url"] = "$$$".join(play)
         return {"list": [video]}
+
+    def homeVideoContent(self):
+        bba = self.url()
+        url = f'{self.host}/api/v1/movie/index_recommend?pack={bba[0]}&signature={bba[1]}'
+        data = self.fetch(url, headers=self.header()).json()
+        videos = []
+        for item in data['data']:
+            if len(item['list']) > 0:
+                for it in item['list']:
+                    try:
+                        videos.append(self.voides(it))
+                    except Exception as e:
+                        continue
+        result = {"list": videos}
+        return result
+
+    def categoryContent(self, tid, pg, filter, extend):
+        body = {"type_id": tid, "sort": extend.get("sort", "by_default"), "class": extend.get("class", "类型"),
+                "area": extend.get("area", "地区"), "year": extend.get("year", "年份"), "page": str(pg),
+                "pageSize": "21"}
+        result = {}
+        list = []
+        bba = self.url(body)
+        url = f"{self.host}/api/v1/movie/screen/list?pack={bba[0]}&signature={bba[1]}"
+        data = self.fetch(url, headers=self.header()).json()['data']['list']
+        for item in data:
+            list.append(self.voides(item))
+        result["list"] = list
+        result["page"] = pg
+        result["pagecount"] = 9999
+        result["limit"] = 90
+        result["total"] = 999999
+        return result
 
     def searchContent(self, key, quick, pg=1):
         body = {"keyword": key, "sort": "", "type_id": "0", "page": str(pg), "pageSize": "10",
@@ -287,7 +264,6 @@ class Spider(Spider):
                 "vod_remarks": item.get('dynamic') or item.get('sub_title')
             }
         return None
-
 
     def playlist(self, body):
         try:
