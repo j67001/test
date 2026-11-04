@@ -161,9 +161,10 @@ class Spider(Spider):
 
     def detailContent(self, array):
         from concurrent.futures import ThreadPoolExecutor
+        import re
 
         result = {'list': []}
-        ids = array[0]
+        ids = array
         detail_url = f"{self.home_url}{ids}"
         
         # 1. 隔離機制：優先確保網頁基本資料穩定抓到
@@ -228,7 +229,7 @@ class Spider(Spider):
                                 vod_id_str = part
                                 break
                         if not vod_id_str:
-                            vod_id_str = ids.split('/')[2]
+                            vod_id_str = ids.split('/')[2] if len(ids.split('/')) > 2 else ids
 
                         ep_id = ep_url.split('/')[-1]
                         xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
@@ -259,7 +260,7 @@ class Spider(Spider):
 
                             play_from.add(source_name)
                             if source_name not in play_urls:
-                                play_urls[source_name] = []
+                                play_urls[source_name] = []  # 修正：補全中括號 [] 宣告空列表
                             play_urls[source_name].append(f"{ep_name}${source['playurl']}")
                 
                 sort_order = ['LZ云', 'FF云', 'MD云']
