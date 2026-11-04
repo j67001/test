@@ -206,7 +206,7 @@ class Spider(Spider):
                     'vod_play_url': '第1集$https://nivod.cc'
                 }
             else:
-                play_from = set()
+                # play_from = set()
                 play_urls = {}
                 
                 # --- 恢復您原本的單集解析邏輯，包裝成函數給多線程呼叫 ---
@@ -243,7 +243,7 @@ class Spider(Spider):
                             if 'zy' in source_name:
                                 source_name = source_name[:2].upper() + '云'
 
-                            play_from.add(source_name)
+                            # play_from.add(source_name)
                             if source_name not in play_urls:
                                 play_urls[source_name] = []
                             play_urls[source_name].append(f"{ep_name}${source['playurl']}")
