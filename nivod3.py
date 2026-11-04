@@ -26,7 +26,7 @@ class Spider(Spider):
         return "泥視頻.CC"
 
     def getDependence(self):
-        return []
+        return
 
     def isVideoFormat(self, url):
         return url.endswith('.m3u8') or url.endswith('.mp4')
@@ -105,19 +105,25 @@ class Spider(Spider):
             'page': pg
         }
         url = f"{self.home_url}/filter.html?{urlencode(params)}"
+        
         if int(pg) > 5:
             result['page'] = int(pg)
             result['pagecount'] = 5
             result['limit'] = 0
             result['total'] = 240
             return result
+        
         try:
             res = requests.get(url, headers=self.headers)
             res.encoding = 'utf-8'
             root = etree.HTML(res.text)
             data_list = root.xpath('//li[contains(@class, "qy-mod-li")]')
+            
             for i in data_list:
-                vod_id = i.xpath('.//a/@href')[0] if i.xpath('.//a/@href') else ''
+                # 【安全修正1】：加入 if 判斷保護，防止空節點直接拋出 IndexError 導致整頁掛掉
+                href_nodes = i.xpath('.//a/@href')
+                vod_id = href_nodes[0] if href_nodes else ''
+                
                 name_nodes = i.xpath('.//a/@title')
                 vod_name = name_nodes[0].strip() if name_nodes else "未知"
                 pic_nodes = i.xpath('.//div[@class="qy-mod-cover"]/@style')
@@ -132,23 +138,27 @@ class Spider(Spider):
                     vod_pic = self.home_url + vod_pic
                 remark_nodes = i.xpath('.//span[@class="qy-mod-label"]/text()')
                 vod_remarks = remark_nodes[0].strip() if remark_nodes else ''
+                
                 result['list'].append({
                     'vod_id': vod_id,
                     'vod_name': vod_name,
                     'vod_pic': vod_pic,
                     'vod_remarks': vod_remarks
                 })
+            
             current_items = len(data_list)
-            total_pages = 5
+            total_pages = 5 
             if current_items < 48:
                 total_pages = int(pg)
             total_items = (int(pg) - 1) * 48 + current_items if total_pages == int(pg) else total_pages * 48
+            
             result['page'] = int(pg)
             result['pagecount'] = total_pages
             result['limit'] = current_items
             result['total'] = total_items
         except Exception as e:
             print(f"Error in categoryContent: {e}")
+        
         return result
 
     def detailContent(self, array):
@@ -198,16 +208,15 @@ class Spider(Spider):
                         ep_name = ep.xpath('.//div[@class="item"]/text()')[0].strip() if ep.xpath('.//div[@class="item"]') else "未知"
                         ep_url = self.home_url + ep.get('href', '')
                         
-                        # 【優化：防禦型 VOD ID 提取】
-                        # 不硬性死取 [2]，而是用迴圈過濾出純數字，能徹底避開格式微調造成的崩潰
+                        # 【安全修正2】：動態尋找純數字 VOD ID，不再用死碼 [2] 切片，100% 避免索引越界崩潰
                         vod_id_str = ""
-                        for part in ids.split('/'):
+                        for part in str(ids).split('/'):
                             if part.isdigit():
                                 vod_id_str = part
                                 break
                         if not vod_id_str:
-                            vod_id_str = ids.split('/')[2]
-
+                            vod_id_str = ids.split('/')[2] if len(ids.split('/')) > 2 else "未知"
+                            
                         ep_id = ep_url.split('/')[-1]
                         xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
                         
@@ -218,11 +227,11 @@ class Spider(Spider):
                     except Exception as e:
                         return None, None
 
-                # --- 使用執行緒池並行處理所有集數（同時發送請求） ---
+                # --- 使用執行緒池並行處理所有集數（不再排隊，同時發送請求） ---
                 with ThreadPoolExecutor(max_workers=15) as executor:
                     tasks = list(executor.map(fetch_ep_info, episodes[::-1]))
                 
-                # --- 按原本的倒序順序重新收割結果 ---
+                # --- 按原本的倒序順序重新收割結果，確保集數順序不亂 ---
                 for ep_name, data in tasks:
                     if not ep_name or not data:
                         continue
@@ -230,7 +239,7 @@ class Spider(Spider):
                         for source in data['pdatas']:
                             source_name = source['from']
 
-                            # 名稱轉換：只要包含 'zy' 的片源（包含 wjzy2），直接截取前2個字母轉大寫並加 '云'
+                            # 全面通用轉換：只要名字裡有 'zy' 的片源（支援 wjzy2），直接截取最前面 2 個字母轉大寫並加 '云'
                             if 'zy' in source_name.lower():
                                 idx = source_name.lower().find('zy')
                                 if idx > 0:
@@ -247,8 +256,7 @@ class Spider(Spider):
 
                 vod_play_from = '$$$'.join(sorted_play_from)
                 
-                # 【核心修正】：改用安全的 .get() 提取防護！
-                # 只有字典裡確實存在這個片源 Key 時才會讀取，絕不因為單個片源對不上而引發 KeyError 崩潰洗掉片名！
+                # 【安全修正3】：重組字串改用 .get() 安全讀取保護，即使片源 Key 不存在也絕不閃退洗成「未知」
                 vod_play_url = '$$$'.join(['#'.join(play_urls.get(source, [])) for source in sorted_play_from if play_urls.get(source)])
                 
                 vod = {
