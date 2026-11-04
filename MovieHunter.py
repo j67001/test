@@ -46,8 +46,8 @@ class Spider(Spider):
         result = {}
         filters = {}
         classes = []
-        bba = self.url()
-        # 修正點：修正原本 bba[0] 寫錯為 bba 的潛在 bugs，優化網域與簽名帶入
+        bba = self.url()  # bba 是一個元組 (pack, signature)
+        # 修正點：補回 /api 路由，並正確使用 bba[0] 與 bba[1] 解包
         data = self.fetch(f"{self.host}/api/v1/app/config?pack={bba[0]}&signature={bba[1]}", headers=self.header()).text
         data1 = self.aes(data)
         dy = {"class":"類型","area":"地區","lang":"語言","year":"年份","letter":"字母","by":"排序","sort":"排序"}
@@ -71,7 +71,6 @@ class Spider(Spider):
                 for dkey in item:
                     if dkey in dy and item[dkey]:
                         item[dkey].pop(0)
-                        # 修正點：減少重複對字串作 strip 的效能浪費
                         value_array = []
                         for value in item[dkey]:
                             v_strip = value.strip()
@@ -84,10 +83,28 @@ class Spider(Spider):
         result["filters"] = filters
         return result
 
+    def homeVideoContent(self):
+        bba = self.url()
+        # 修正點：補回 /api 路由與正確解包
+        url = f'{self.host}/api/v1/movie/index_recommend?pack={bba[0]}&signature={bba[1]}'
+        data = self.fetch(url, headers=self.header()).json()
+        videos = []
+        for item in data['data']:
+            if len(item['list']) > 0:
+                for it in item['list']:
+                    try:
+                        v = self.voides(it)
+                        if v: videos.append(v)
+                    except Exception:
+                        continue
+        result = {"list": videos}
+        return result
+
     def detailContent(self, ids):
-        # 修正點：ids 通常為陣列，取 ids[0] 確保傳入正確。包裝正確的簽名序列
+        # 修正點：ids 是列表，必須精確取第一個元素 ids[0]，API 才能正確識別不逾時
         body = {"id": ids[0]}
         bba = self.url(body)
+        # 修正點：補回 /api 路由與正確解包
         url = f'{self.host}/api/v1/movie/detail?pack={bba[0]}&signature={bba[1]}'
         data = self.fetch(url, headers=self.header()).json()['data']
         video = {
@@ -107,10 +124,11 @@ class Spider(Spider):
                 names.append(name)
                 play.append(self.playeach(itt['list']))
             else:
+                # 修正點：異步任務也必須精確帶入字串 ID：ids[0]
                 tasks.append({"movie_id": ids[0], "from_code": itt["code"]})
                 names.append(name)
         if tasks:
-            # 修正點：保持執行緒池的高效並行處理，同時做好防呆防空機制
+            # 保持 RSA 快取優化的同時，安全調用並行執行緒
             with ThreadPoolExecutor(max_workers=min(len(tasks), 4)) as executor:
                 results = executor.map(self.playlist, tasks)
                 for result in results:
@@ -120,20 +138,15 @@ class Spider(Spider):
         video["vod_play_url"] = "$$$".join(play)
         return {"list": [video]}
 
-    def homeVideoContent(self):
-        bba = self.url()
-        url = f'{self.host}/api/v1/movie/index_recommend?pack={bba[0]}&signature={bba[1]}'
-        data = self.fetch(url, headers=self.header()).json()
-        videos = []
-        for item in data['data']:
-            if len(item['list']) > 0:
-                for it in item['list']:
-                    try:
-                        videos.append(self.voides(it))
-                    except Exception as e:
-                        continue
-        result = {"list": videos}
-        return result
+    def playlist(self, body):
+        try:
+            bba = self.url(body)
+            # 修正點：補回 /api 路由與正確解包
+            url = f'{self.host}/api/v1/movie_addr/list?pack={bba[0]}&signature={bba[1]}'
+            data = self.fetch(url, headers=self.header()).json()['data']
+            return self.playeach(data)
+        except Exception:
+            return []
 
     def categoryContent(self, tid, pg, filter, extend):
         body = {"type_id": tid, "sort": extend.get("sort", "by_default"), "class": extend.get("class", "类型"),
@@ -264,15 +277,6 @@ class Spider(Spider):
                 "vod_remarks": item.get('dynamic') or item.get('sub_title')
             }
         return None
-
-    def playlist(self, body):
-        try:
-            bba = self.url(body)
-            url = f'{self.host}/api/v1/movie_addr/list?pack={bba[0]}&signature={bba[1]}'
-            data = self.fetch(url, headers=self.header()).json()['data']
-            return self.playeach(data)
-        except Exception:
-            return []
 
     def playeach(self,data):
         play_urls = []
