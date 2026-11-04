@@ -120,10 +120,8 @@ class Spider(Spider):
             data_list = root.xpath('//li[contains(@class, "qy-mod-li")]')
             
             for i in data_list:
-                # 【安全修正】加入節點存在判斷，防止無 a 標籤時直接取 [0] 拋出 IndexError 導致列表全空
                 href_nodes = i.xpath('.//a/@href')
                 vod_id = href_nodes[0] if href_nodes else ''
-                
                 name_nodes = i.xpath('.//a/@title')
                 vod_name = name_nodes[0].strip() if name_nodes else "未知"
                 pic_nodes = i.xpath('.//div[@class="qy-mod-cover"]/@style')
@@ -163,26 +161,60 @@ class Spider(Spider):
 
     def detailContent(self, array):
         from concurrent.futures import ThreadPoolExecutor
+        import re
 
         result = {'list': []}
-        ids = array[0]
+        ids = array[0] if isinstance(array, list) and array else str(array)
         detail_url = f"{self.home_url}{ids}"
+        
+        # 1. 核心隔離機制：優先確保網頁基礎資料絕對能穩定抓到，免受多線程異常干擾
         try:
-            res = requests.get(detail_url, headers=self.headers)
+            # 提高基本請求超時保護至 7 秒
+            res = requests.get(detail_url, headers=self.headers, timeout=7)
             res.encoding = 'utf-8'
             root = etree.HTML(res.text)
-            vod_name = root.xpath('//div[@class="right-title"]/text()')[0].strip() if root.xpath('//div[@class="right-title"]') else "未知"
-            vod_year = root.xpath('//div[@id="postYear"]/text()')[0].strip() if root.xpath('//div[@id="postYear"]') else ""
-            vod_area = root.xpath('//div[@id="region"]/text()')[0].strip() if root.xpath('//div[@id="region"]') else ""
-            vod_content = root.xpath('//div[@id="show-desc"]/text()')[0].strip() if root.xpath('//div[@id="show-desc"]') else ""
-            vod_remarks = root.xpath('//div[@id="updateTxt"]/text()')[0].strip() if root.xpath('//div[@id="updateTxt"]') else ""
-            vod_actor = root.xpath('//div[@id="actors"]/text()')[0].strip() if root.xpath('//div[@id="actors"]') else ""
-            vod_director = root.xpath('//div[@id="director"]/text()')[0].strip() if root.xpath('//div[@id="director"]') else ""
-            vod_pic = root.xpath('//img[@class="left-img"]/@src')[0] if root.xpath('//img[@class="left-img"]') else self.placeholder_pic
+            
+            # 使用安全提取，防範原碼 [0].strip() 在節點不存在時引發 IndexError 閃退
+            name_nodes = root.xpath('//div[@class="right-title"]/text()')
+            vod_name = name_nodes[0].strip() if name_nodes else "未知"
+            
+            year_nodes = root.xpath('//div[@id="postYear"]/text()')
+            vod_year = year_nodes[0].strip() if year_nodes else ""
+            
+            area_nodes = root.xpath('//div[@id="region"]/text()')
+            vod_area = area_nodes[0].strip() if area_nodes else ""
+            
+            content_nodes = root.xpath('//div[@id="show-desc"]/text()')
+            vod_content = content_nodes[0].strip() if content_nodes else ""
+            
+            remark_nodes = root.xpath('//div[@id="updateTxt"]/text()')
+            vod_remarks = remark_nodes[0].strip() if remark_nodes else ""
+            
+            actor_nodes = root.xpath('//div[@id="actors"]/text()')
+            vod_actor = actor_nodes[0].strip() if actor_nodes else ""
+            
+            director_nodes = root.xpath('//div[@id="director"]/text()')
+            vod_director = director_nodes[0].strip() if director_nodes else ""
+            
+            pic_nodes = root.xpath('//img[@class="left-img"]/@src')
+            vod_pic = pic_nodes[0] if pic_nodes else self.placeholder_pic
             if vod_pic.startswith('/'):
                 vod_pic = self.home_url + vod_pic
-            
+                
             episodes = root.xpath('//div[@id="list-jj"]/a')
+        except Exception as e:
+            print(f"Error extracting html base info: {e}")
+            result['list'].append({
+                'vod_id': ids,
+                'vod_name': '未知',
+                'vod_pic': self.placeholder_pic,
+                'vod_play_from': '泥視頻',
+                'vod_play_url': ''
+            })
+            return result
+
+        # 2. 獨立且受保護的劇集與多線程收割模組
+        try:
             if not episodes:
                 vod = {
                     'vod_id': ids,
@@ -202,44 +234,49 @@ class Spider(Spider):
                 play_from = set()
                 play_urls = {}
                 
-                # --- 恢復您原本的單集解析邏輯，包裝成函數給多線程呼叫 ---
                 def fetch_ep_info(ep):
-                    try:
-                        ep_name = ep.xpath('.//div[@class="item"]/text()')[0].strip() if ep.xpath('.//div[@class="item"]') else "未知"
-                        ep_url = self.home_url + ep.get('href', '')
-                        
-                        # 【安全修正】不寫死切割索引，改用迴圈動態過濾純數字 VOD ID，100% 避免 IndexError 越界
-                        vod_id_str = ""
-                        for part in str(ids).split('/'):
-                            if part.isdigit():
-                                vod_id_str = part
-                                break
-                        if not vod_id_str:
-                            vod_id_str = ids.split('/')[2] if len(ids.split('/')) > 2 else ids
+                    # 內部雙重 Retry 機制，防範電視盒在尖峰時間偶發的單集讀取失敗
+                    for attempt in range(2):
+                        try:
+                            ep_name_nodes = ep.xpath('.//div[@class="item"]/text()')
+                            ep_name = ep_name_nodes[0].strip() if ep_name_nodes else "未知"
+                            ep_url = self.home_url + ep.get('href', '')
+                            
+                            # 【終極 ID 提取防禦】優先抓取純數字段，若失敗則透過 Regex 強制重組，100% 免疫路徑偏誤
+                            vod_id_str = ""
+                            for part in str(ids).split('/'):
+                                if part.isdigit():
+                                    vod_id_str = part
+                                    break
+                            if not vod_id_str:
+                                reg_match = re.search(r'(\d+)', str(ids))
+                                vod_id_str = reg_match.group(1) if reg_match else "未知"
+                                
+                            ep_id = ep_url.split('/')[-1]
+                            xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
+                            
+                            # 單集請求 timeout 設為 3 秒，避免多線程卡死
+                            xhr_res = requests.get(xhr_url, headers=self.headers, timeout=3)
+                            xhr_res.encoding = 'utf-8'
+                            data = xhr_res.json()
+                            return ep_name, data
+                        except Exception:
+                            if attempt == 1:
+                                return None, None
 
-                        ep_id = ep_url.split('/')[-1]
-                        xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
-                        
-                        xhr_res = requests.get(xhr_url, headers=self.headers, timeout=3)
-                        xhr_res.encoding = 'utf-8'
-                        data = xhr_res.json()
-                        return ep_name, data
-                    except Exception as e:
-                        return None, None
-
-                # --- 使用執行緒池並行處理所有集數（同時發送請求） ---
                 with ThreadPoolExecutor(max_workers=15) as executor:
                     tasks = list(executor.map(fetch_ep_info, episodes[::-1]))
                 
-                # --- 按原本的倒序順序重新收割結果，確保集數順序不亂 ---
                 for ep_name, data in tasks:
                     if not ep_name or not data:
                         continue
                     if 'pdatas' in data and data['pdatas']:
                         for source in data['pdatas']:
-                            source_name = source['from']
+                            source_name = source.get('from', '').strip()
+                            if not source_name:
+                                continue
 
-                            # 全面通用轉換：只要名字裡有 'zy' 的片源（包含 wjzy2），直接截取最前面 2 個字母轉大寫並加 '云'
+                            # 名稱通用標準化：包含 'zy' 的片源（如 wjzy2、wjzy），精確切除並大寫加 '云'
                             if 'zy' in source_name.lower():
                                 idx = source_name.lower().find('zy')
                                 if idx > 0:
@@ -248,15 +285,13 @@ class Spider(Spider):
                             play_from.add(source_name)
                             if source_name not in play_urls:
                                 play_urls[source_name] = []
-                            play_urls[source_name].append(f"{ep_name}${source['playurl']}")
+                            play_urls[source_name].append(f"{ep_name}${source.get('playurl', '')}")
                 
-                # --- 自訂優先排序名單 ---
                 sort_order = ['LZ云', 'FF云', 'MD云']
                 sorted_play_from = sorted(list(play_from), key=lambda x: sort_order.index(x) if x in sort_order else len(sort_order))
 
                 vod_play_from = '$$$'.join(sorted_play_from)
-                
-                # 【安全修正】重組字串改用 .get() 安全讀取保護，即使片源 Key 不存在也絕不閃退洗成「未知」
+                # 使用安全的 .get() 讀取防護，保證單個片源遺漏時也絕對不引發 KeyError 閃退
                 vod_play_url = '$$$'.join(['#'.join(play_urls.get(source, [])) for source in sorted_play_from if play_urls.get(source)])
                 
                 vod = {
@@ -275,11 +310,15 @@ class Spider(Spider):
                 }
             result['list'].append(vod)
         except Exception as e:
-            print(f"Error in detailContent: {e}")
+            print(f"Error in detail multithreading process: {e}")
+            # 即使多線程劇集解析意外崩潰，也妥善回傳已成功的影片基礎資料，確保電視盒不顯示未知
             result['list'].append({
                 'vod_id': ids,
-                'vod_name': '未知',
-                'vod_pic': self.placeholder_pic,
+                'vod_name': vod_name if vod_name else '未知',
+                'vod_pic': vod_pic if vod_pic else self.placeholder_pic,
+                'vod_year': vod_year,
+                'vod_area': vod_area,
+                'vod_content': vod_content,
                 'vod_play_from': '泥視頻',
                 'vod_play_url': ''
             })
@@ -297,8 +336,8 @@ class Spider(Spider):
                 name_nodes = item.xpath('.//picture[@class="video-item-preview-img"]/img/@alt')
                 vod_name = name_nodes[0].strip() if name_nodes else None
                 if not vod_name:
-                    vod_name = item.xpath('./@title')
-                    vod_name = vod_name[0].strip() if vod_name else "未知"
+                    name_title = item.xpath('./@title')
+                    vod_name = name_title[0].strip() if name_title else "未知"
                 vod_id = item.get('href', '')
                 pic_nodes = item.xpath('.//picture[@class="video-item-preview-img"]/img/@src')
                 vod_pic = pic_nodes[0] if pic_nodes else self.placeholder_pic
