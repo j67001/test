@@ -256,7 +256,7 @@ class Spider(Spider):
                 # 合併最終的片源順序
                 final_source_order = priority_sources + other_sources
                 
-                vod_play_from = '$$$'.join(play_from)
+                vod_play_from = '$$$'.join(final_source_order)
                 vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in play_from])
                 
                 vod = {
