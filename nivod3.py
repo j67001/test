@@ -62,7 +62,7 @@ class Spider(Spider):
         return {'class': class_list, 'filters': filters if filter else {}}
 
     def homeVideoContent(self):
-        result = {'list': []}
+        result = {'list':}
         try:
             res = requests.get(self.home_url, headers=self.headers)
             res.encoding = 'utf-8'
@@ -70,17 +70,17 @@ class Spider(Spider):
             data_list = root.xpath('//div[contains(@class, "qy-mod-link-wrap")]/a')
             for i in data_list:
                 name_nodes = i.xpath('.//picture[@class="video-item-preview-img"]/img/@alt')
-                vod_name = name_nodes[0].strip() if name_nodes else None
+                vod_name = name_nodes.strip() if name_nodes else None
                 if not vod_name:
                     vod_name = i.xpath('./@title')
-                    vod_name = vod_name[0].strip() if vod_name else "未知"
+                    vod_name = vod_name.strip() if vod_name else "未知"
                 vod_id = i.get('href', '')
                 pic_nodes = i.xpath('.//picture[@class="video-item-preview-img"]/img/@src')
-                vod_pic = pic_nodes[0] if pic_nodes else self.placeholder_pic
+                vod_pic = pic_nodes if pic_nodes else self.placeholder_pic
                 if vod_pic.startswith('/'):
                     vod_pic = self.home_url + vod_pic
                 remark_nodes = i.xpath('.//span[contains(@class, "qy-mod-label")]/text()')
-                vod_remarks = remark_nodes[0].strip() if remark_nodes else ''
+                vod_remarks = remark_nodes.strip() if remark_nodes else ''
                 result['list'].append({
                     'vod_id': vod_id,
                     'vod_name': vod_name,
@@ -93,7 +93,7 @@ class Spider(Spider):
         return result
 
     def categoryContent(self, tid, pg, filter, ext):
-        result = {'list': []}
+        result = {'list':}
         _year = ext.get('year', '')
         _class = ext.get('class', '')
         _area = ext.get('area', '')
@@ -117,13 +117,13 @@ class Spider(Spider):
             root = etree.HTML(res.text)
             data_list = root.xpath('//li[contains(@class, "qy-mod-li")]')
             for i in data_list:
-                vod_id = i.xpath('.//a/@href')[0] if i.xpath('.//a/@href') else ''
+                vod_id = i.xpath('.//a/@href') if i.xpath('.//a/@href') else ''
                 name_nodes = i.xpath('.//a/@title')
-                vod_name = name_nodes[0].strip() if name_nodes else "未知"
+                vod_name = name_nodes.strip() if name_nodes else "未知"
                 pic_nodes = i.xpath('.//div[@class="qy-mod-cover"]/@style')
                 vod_pic = None
                 if pic_nodes:
-                    style = pic_nodes[0]
+                    style = pic_nodes
                     match = re.search(r'url\((.*?)\)', style)
                     vod_pic = match.group(1).strip() if match else None
                 if not vod_pic:
@@ -131,7 +131,7 @@ class Spider(Spider):
                 if vod_pic.startswith('/'):
                     vod_pic = self.home_url + vod_pic
                 remark_nodes = i.xpath('.//span[@class="qy-mod-label"]/text()')
-                vod_remarks = remark_nodes[0].strip() if remark_nodes else ''
+                vod_remarks = remark_nodes.strip() if remark_nodes else ''
                 result['list'].append({
                     'vod_id': vod_id,
                     'vod_name': vod_name,
@@ -153,25 +153,52 @@ class Spider(Spider):
 
     def detailContent(self, array):
         from concurrent.futures import ThreadPoolExecutor
-        result = {'list': []}
-        ids = array[0]
+        result = {'list':}
+        ids = array
         detail_url = f"{self.home_url}{ids}"
         try:
             res = requests.get(detail_url, headers=self.headers)
             res.encoding = 'utf-8'
             root = etree.HTML(res.text)
-            vod_name = root.xpath('//div[@class="right-title"]/text()')[0].strip() if root.xpath('//div[@class="right-title"]') else "未知"
-            vod_year = root.xpath('//div[@id="postYear"]/text()')[0].strip() if root.xpath('//div[@id="postYear"]') else ""
-            vod_area = root.xpath('//div[@id="region"]/text()')[0].strip() if root.xpath('//div[@id="region"]') else ""
-            vod_content = root.xpath('//div[@id="show-desc"]/text()')[0].strip() if root.xpath('//div[@id="show-desc"]') else ""
-            vod_remarks = root.xpath('//div[@id="updateTxt"]/text()')[0].strip() if root.xpath('//div[@id="updateTxt"]') else ""
-            vod_actor = root.xpath('//div[@id="actors"]/text()')[0].strip() if root.xpath('//div[@id="actors"]') else ""
-            vod_director = root.xpath('//div[@id="director"]/text()')[0].strip() if root.xpath('//div[@id="director"]') else ""
-            vod_pic = root.xpath('//img[@class="left-img"]/@src')[0] if root.xpath('//img[@class="left-img"]') else self.placeholder_pic
+            
+            # --- 【核心相容修正】同時相容詳情頁與播放頁的網頁結構 ---
+            vod_name = "未知"
+            name_nodes = root.xpath('//div[@class="right-title"]/text()') or root.xpath('//h2[contains(@class, "米小圈")]/text()') or root.xpath('//h2/text()')
+            if name_nodes:
+                vod_name = name_nodes.strip()
+                
+            vod_year = ""
+            year_nodes = root.xpath('//div[@id="postYear"]/text()') or root.xpath('//div[contains(text(), "2030")]/text()') or root.xpath('//*[contains(text(), "202")]/text()')
+            if year_nodes:
+                match = re.search(r'(20\d{2})', year_nodes)
+                if match:
+                    vod_year = match.group(1)
+                    
+            vod_area = "大陆" if "大陆" in res.text else ""
+            vod_remarks = ""
+            remark_nodes = root.xpath('//div[@id="updateTxt"]/text()') or root.xpath('//div[contains(text(), "集")]/text()')
+            if remark_nodes:
+                vod_remarks = remark_nodes.strip()
+
+            vod_content = root.xpath('//div[@id="show-desc"]/text()').strip() if root.xpath('//div[@id="show-desc"]') else ""
+            if not vod_content:
+                content_nodes = root.xpath('//div[contains(text(), "小学生米小圈")]/text()') or root.xpath('//*[contains(text(), "简介")]/following-sibling::text()') or root.xpath('//*[contains(text(), "描述")]/following-sibling::text()')
+                if content_nodes:
+                    vod_content = "".join([n.strip() for n in content_nodes])
+
+            vod_actor = root.xpath('//div[@id="actors"]/text()').strip() if root.xpath('//div[@id="actors"]') else ""
+            vod_director = root.xpath('//div[@id="director"]/text()').strip() if root.xpath('//div[@id="director"]') else ""
+            
+            vod_pic = self.placeholder_pic
+            pic_nodes = root.xpath('//img[@class="left-img"]/@src') or root.xpath('//img[contains(@src, "placeholder")]/@src')
+            if pic_nodes:
+                vod_pic = pic_nodes
             if vod_pic.startswith('/'):
                 vod_pic = self.home_url + vod_pic
             
-            episodes = root.xpath('//div[@id="list-jj"]/a')
+            # 詳情頁與播放頁的劇集節點提取相容
+            episodes = root.xpath('//div[@id="list-jj"]/a') or root.xpath('//a[contains(text(), "第") and contains(text(), "集")]')
+            
             if not episodes:
                 vod = {
                     'vod_id': ids,
@@ -193,15 +220,18 @@ class Spider(Spider):
 
                 def fetch_ep_info(ep):
                     try:
-                        ep_name = ep.xpath('.//div[@class="item"]/text()')[0].strip() if ep.xpath('.//div[@class="item"]') else "未知"
+                        ep_name = ep.xpath('.//div[@class="item"]/text()') or ep.xpath('./text()')
+                        ep_name = ep_name.strip() if ep_name else "未知"
                         ep_url = self.home_url + ep.get('href', '')
+                        
                         vod_id_str = ""
                         for part in ids.split('/'):
                             if part.isdigit():
                                 vod_id_str = part
                                 break
                         if not vod_id_str:
-                            vod_id_str = ids.split('/')[2]
+                            vod_id_str = ids.split('/')
+                            
                         ep_id = ep_url.split('/')[-1]
                         xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
                         xhr_res = requests.get(xhr_url, headers=self.headers, timeout=3)
@@ -226,7 +256,7 @@ class Spider(Spider):
                                     source_name = source_name[:idx].upper() + '云'
                             play_from.add(source_name)
                             if source_name not in play_urls:
-                                play_urls[source_name] = []
+                                play_urls[source_name] =
                             play_urls[source_name].append(f"{ep_name}${source['playurl']}")
 
                 sort_order = ['LZ云', 'FF云', 'MD云']
@@ -260,7 +290,7 @@ class Spider(Spider):
         return result
 
     def searchContent(self, key, quick, pg='1'):
-        result = {'list': []}
+        result = {'list':}
         try:
             search_url = f"{self.home_url}/search_x.html?keyword={key}&page={pg}"
             res = requests.get(search_url, headers=self.headers)
@@ -269,13 +299,13 @@ class Spider(Spider):
             data_list = root.xpath('//a[contains(@class, "qy-mod-link")]')
             for item in data_list:
                 name_nodes = item.xpath('.//picture[@class="video-item-preview-img"]/img/@alt')
-                vod_name = name_nodes[0].strip() if name_nodes else None
+                vod_name = name_nodes.strip() if name_nodes else None
                 if not vod_name:
                     vod_name = item.xpath('./@title')
-                    vod_name = vod_name[0].strip() if vod_name else "未知"
+                    vod_name = vod_name.strip() if vod_name else "未知"
                 vod_id = item.get('href', '')
                 pic_nodes = item.xpath('.//picture[@class="video-item-preview-img"]/img/@src')
-                vod_pic = pic_nodes[0] if pic_nodes else self.placeholder_pic
+                vod_pic = pic_nodes if pic_nodes else self.placeholder_pic
                 if vod_pic.startswith('/'):
                     vod_pic = self.home_url + vod_pic
                 vod_remarks = ''
@@ -292,7 +322,7 @@ class Spider(Spider):
     def playerContent(self, flag, id, vipFlags):
         result = {}
         try:
-            play_url = id.split('$')[1] if '$' in id else id
+            play_url = id.split('$') if '$' in id else id
             result = {
                 'url': play_url,
                 'header': json.dumps(self.headers),
