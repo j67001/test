@@ -172,7 +172,10 @@ class Spider(Spider):
         from concurrent.futures import ThreadPoolExecutor  # 僅在局部引入加速庫
 
         result = {'list': []}
-        ids = array[0]
+        
+        # 【終極相容修正】安全判斷 array 型態，不論是字串還是列表，都確保拿到完整的網址字串
+        ids = array[0] if isinstance(array, list) and array else str(array)
+        
         detail_url = f"{self.home_url}{ids}"
         try:
             res = requests.get(detail_url, headers=self.headers)
@@ -215,7 +218,7 @@ class Spider(Spider):
                         ep_name = ep.xpath('.//div[@class="item"]/text()')[0].strip() if ep.xpath('.//div[@class="item"]') else "未知"
                         ep_url = self.home_url + ep.get('href', '')
                         
-                        # 【核心修正】不論網址長怎樣，用最簡單的迴圈直接找出「純數字」的那一段作為 VOD ID
+                        # 穩定提取純數字的影片 ID，免去被錯誤索引位置干擾的問題
                         vod_id_str = ""
                         for part in ids.split('/'):
                             if part.isdigit():
@@ -245,7 +248,6 @@ class Spider(Spider):
                             source_name = str(source['from']).strip()
 
                             # 全面通用轉換：只要名字裡有 'zy'，直接截取最前面2個字母轉大寫並加 '云'
-                            # 這樣 wjzy、wjzy2 都能完美變成 WJ云，且原本就是 MD云、LZ云 的片源不會被破壞
                             if 'zy' in source_name.lower():
                                 idx = source_name.lower().find('zy')
                                 if idx > 0:
@@ -259,7 +261,7 @@ class Spider(Spider):
                 # --- 自訂優先排序名單 ---
                 sort_order = ['LZ云', 'FF云', 'MD云']
                 
-                # 安全排序：確保只對當前實際存在於 play_from 的片源進行排序，絕不讀取不存在的 Key
+                # 安全過濾：只針對本次影片中實際存在的片源進行重組與排序，防範 KeyError
                 priority_sources = [s for s in sort_order if s in play_from]
                 other_sources = [s for s in play_from if s not in sort_order]
                 sorted_play_from = priority_sources + other_sources
@@ -292,6 +294,7 @@ class Spider(Spider):
                 'vod_play_url': ''
             })
         return result
+
 
     def searchContent(self, key, quick, pg='1'):
         result = {'list': []}
