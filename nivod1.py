@@ -247,6 +247,14 @@ class Spider(Spider):
                             if source_name not in play_urls:
                                 play_urls[source_name] = []
                             play_urls[source_name].append(f"{ep_name}${source['playurl']}")
+
+                # 自訂片源排序邏輯 定義優先順序，越前面的排越前面
+                sort_order = ['FF云', 'MD云', 'LZ云']
+                # 將現有的片源分組：優先名單內的 vs 其他的
+                priority_sources = [s for s in sort_order if s in play_urls]
+                other_sources = [s for s in play_urls if s not in sort_order]
+                # 合併最終的片源順序
+                final_source_order = priority_sources + other_sources
                 
                 vod_play_from = '$$$'.join(play_from)
                 vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in play_from])
