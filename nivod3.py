@@ -9,10 +9,10 @@ from base.spider import Spider
 
 class Spider(Spider):
     def __init__(self):
-        self.home_url = 'https://www.nivod.cc'
+        self.home_url = 'https://nivod.cc'
         self.headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
-            "Referer": "https://www.nivod.cc/",
+            "Referer": "https://nivod.cc/",
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
             "Accept-Language": "zh-CN,zh;q=0.9",
             "Connection": "keep-alive",
@@ -26,7 +26,7 @@ class Spider(Spider):
         return "泥視頻.CC"
 
     def getDependence(self):
-        return
+        return []
 
     def isVideoFormat(self, url):
         return url.endswith('.m3u8') or url.endswith('.mp4')
@@ -120,7 +120,7 @@ class Spider(Spider):
             data_list = root.xpath('//li[contains(@class, "qy-mod-li")]')
             
             for i in data_list:
-                # 【安全修正1】：加入 if 判斷保護，防止空節點直接拋出 IndexError 導致整頁掛掉
+                # 【安全修正】加入節點存在判斷，防止無 a 標籤時直接取 [0] 拋出 IndexError 導致列表全空
                 href_nodes = i.xpath('.//a/@href')
                 vod_id = href_nodes[0] if href_nodes else ''
                 
@@ -147,7 +147,7 @@ class Spider(Spider):
                 })
             
             current_items = len(data_list)
-            total_pages = 5 
+            total_pages = 5
             if current_items < 48:
                 total_pages = int(pg)
             total_items = (int(pg) - 1) * 48 + current_items if total_pages == int(pg) else total_pages * 48
@@ -208,15 +208,15 @@ class Spider(Spider):
                         ep_name = ep.xpath('.//div[@class="item"]/text()')[0].strip() if ep.xpath('.//div[@class="item"]') else "未知"
                         ep_url = self.home_url + ep.get('href', '')
                         
-                        # 【安全修正2】：動態尋找純數字 VOD ID，不再用死碼 [2] 切片，100% 避免索引越界崩潰
+                        # 【安全修正】不寫死切割索引，改用迴圈動態過濾純數字 VOD ID，100% 避免 IndexError 越界
                         vod_id_str = ""
                         for part in str(ids).split('/'):
                             if part.isdigit():
                                 vod_id_str = part
                                 break
                         if not vod_id_str:
-                            vod_id_str = ids.split('/')[2] if len(ids.split('/')) > 2 else "未知"
-                            
+                            vod_id_str = ids.split('/')[2] if len(ids.split('/')) > 2 else ids
+
                         ep_id = ep_url.split('/')[-1]
                         xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
                         
@@ -227,7 +227,7 @@ class Spider(Spider):
                     except Exception as e:
                         return None, None
 
-                # --- 使用執行緒池並行處理所有集數（不再排隊，同時發送請求） ---
+                # --- 使用執行緒池並行處理所有集數（同時發送請求） ---
                 with ThreadPoolExecutor(max_workers=15) as executor:
                     tasks = list(executor.map(fetch_ep_info, episodes[::-1]))
                 
@@ -239,7 +239,7 @@ class Spider(Spider):
                         for source in data['pdatas']:
                             source_name = source['from']
 
-                            # 全面通用轉換：只要名字裡有 'zy' 的片源（支援 wjzy2），直接截取最前面 2 個字母轉大寫並加 '云'
+                            # 全面通用轉換：只要名字裡有 'zy' 的片源（包含 wjzy2），直接截取最前面 2 個字母轉大寫並加 '云'
                             if 'zy' in source_name.lower():
                                 idx = source_name.lower().find('zy')
                                 if idx > 0:
@@ -256,7 +256,7 @@ class Spider(Spider):
 
                 vod_play_from = '$$$'.join(sorted_play_from)
                 
-                # 【安全修正3】：重組字串改用 .get() 安全讀取保護，即使片源 Key 不存在也絕不閃退洗成「未知」
+                # 【安全修正】重組字串改用 .get() 安全讀取保護，即使片源 Key 不存在也絕不閃退洗成「未知」
                 vod_play_url = '$$$'.join(['#'.join(play_urls.get(source, [])) for source in sorted_play_from if play_urls.get(source)])
                 
                 vod = {
