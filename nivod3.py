@@ -202,7 +202,7 @@ class Spider(Spider):
             print(f"Error extracting html base info: {e}")
             result['list'].append({
                 'vod_id': ids, 'vod_name': '未知', 'vod_pic': self.placeholder_pic,
-                'vod_play_from': '泥視頻', 'vod_play_url': ''
+                'vod_play_from': 'LZ云', 'vod_play_url': ''
             })
             return result
 
@@ -217,7 +217,7 @@ class Spider(Spider):
                 reg_match = re.search(r'(\d+)', str(ids))
                 vod_id_str = reg_match.group(1) if reg_match else "未知"
 
-            # 2. 動態偵測真實線路線索 (僅請求第 1 集的 API 獲取所有片源標籤，極速不卡頓)
+            # 2. 動態偵測真實線路線索
             detected_sources = []
             if episodes:
                 try:
@@ -225,7 +225,6 @@ class Spider(Spider):
                     first_ep_url = first_ep.get('href', '')
                     first_ep_id = first_ep_url.split('/')[-1] if '/' in first_ep_url else first_ep_url
                     
-                    # 唯獨請求一次第 1 集的 XHR
                     detect_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{first_ep_id}"
                     detect_res = requests.get(detect_url, headers=self.headers, timeout=1.5)
                     detect_data = detect_res.json()
@@ -235,6 +234,7 @@ class Spider(Spider):
                             source_name = source.get('from', '').strip()
                             if not source_name:
                                 continue
+                            
                             # 統一標準化名稱命名 (如 wjzy -> WJ云)
                             if 'zy' in source_name.lower():
                                 idx = source_name.lower().find('zy')
@@ -245,11 +245,15 @@ class Spider(Spider):
                 except Exception:
                     pass
 
-            # 保底機制：如果抓取失敗或沒有劇集，使用常見的默認線路
+            # 保底機制
             if not detected_sources:
-                detected_sources = ['MD云', 'LZ云', 'FF云', 'WJ云']
+                detected_sources = ['LZ云', 'FF云', 'MD云']
 
-            # 3. 依據獲取到的真實線路，生成對齊的延遲播放網址字串
+            # 🌟 核心排序機制：設定前三名優先權重 (LZ云->0, FF云->1, MD云->2, 其餘->3)
+            sort_order = {'LZ云': 0, 'FF云': 1, 'MD云': 2}
+            detected_sources = sorted(detected_sources, key=lambda x: sort_order.get(x, 3))
+
+            # 3. 依據排序後的線路，生成對齊的延遲播放網址字串
             ep_urls = []
             if not episodes:
                 ep_urls.append(f"第1集$LAZY_{vod_id_str}-index")
@@ -279,7 +283,7 @@ class Spider(Spider):
             result['list'].append({
                 'vod_id': ids, 'vod_name': vod_name if vod_name else '未知', 'vod_pic': vod_pic if vod_pic else self.placeholder_pic,
                 'vod_year': vod_year, 'vod_area': vod_area, 'vod_content': vod_content,
-                'vod_play_from': '泥視頻', 'vod_play_url': ''
+                'vod_play_from': 'LZ云', 'vod_play_url': ''
             })
         return result
 
