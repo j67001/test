@@ -55,6 +55,10 @@ class Spider(Spider):
             item['n'] = item.pop('name')
             item['v'] = item.pop('value')
         for item in data1['data']['movie_screen']['filter']:
+            # 🌟 核心過濾機制：如果後端配置返回的分類名稱中包含「短劇」，直接跳過，不加入導覽選單
+            if "短剧" in item["name"] or "短劇" in item["name"]:
+                continue
+                
             has_non_empty_field = False
             classes.append({"type_name": item["name"], "type_id": str(item["id"])})
             for key in dy:
