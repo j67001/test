@@ -9,15 +9,15 @@ from base.spider import Spider
 
 class Spider(Spider):
     def __init__(self):
-        self.home_url = 'https://nivod.cc'
+        self.home_url = 'https://www.nivod.cc'
         self.headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
-            "Referer": "https://nivod.cc/",
+            "Referer": "https://www.nivod.cc/",
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
             "Accept-Language": "zh-CN,zh;q=0.9",
             "Connection": "keep-alive",
         }
-        self.placeholder_pic = 'https://tmdb.org'
+        self.placeholder_pic = 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/placeholder.jpg'
 
     def init(self, extend=""):
         pass
