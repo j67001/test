@@ -62,7 +62,7 @@ class Spider(Spider):
         return {'class': class_list, 'filters': filters if filter else {}}
 
     def homeVideoContent(self):
-        result = {'list': []}
+        result = {'list':}
         try:
             res = requests.get(self.home_url, headers=self.headers)
             res.encoding = 'utf-8'
@@ -70,17 +70,17 @@ class Spider(Spider):
             data_list = root.xpath('//div[contains(@class, "qy-mod-link-wrap")]/a')
             for i in data_list:
                 name_nodes = i.xpath('.//picture[@class="video-item-preview-img"]/img/@alt')
-                vod_name = name_nodes[0].strip() if name_nodes else None
+                vod_name = name_nodes.strip() if name_nodes else None
                 if not vod_name:
                     vod_name = i.xpath('./@title')
-                    vod_name = vod_name[0].strip() if vod_name else "未知"
+                    vod_name = vod_name.strip() if vod_name else "未知"
                 vod_id = i.get('href', '')
                 pic_nodes = i.xpath('.//picture[@class="video-item-preview-img"]/img/@src')
-                vod_pic = pic_nodes[0] if pic_nodes else self.placeholder_pic
+                vod_pic = pic_nodes if pic_nodes else self.placeholder_pic
                 if vod_pic.startswith('/'):
                     vod_pic = self.home_url + vod_pic
                 remark_nodes = i.xpath('.//span[contains(@class, "qy-mod-label")]/text()')
-                vod_remarks = remark_nodes[0].strip() if remark_nodes else ''
+                vod_remarks = remark_nodes.strip() if remark_nodes else ''
                 result['list'].append({
                     'vod_id': vod_id,
                     'vod_name': vod_name,
@@ -93,7 +93,7 @@ class Spider(Spider):
         return result
 
     def categoryContent(self, tid, pg, filter, ext):
-        result = {'list': []}
+        result = {'list':}
         _year = ext.get('year', '')
         _class = ext.get('class', '')
         _area = ext.get('area', '')
@@ -121,13 +121,13 @@ class Spider(Spider):
             
             for i in data_list:
                 href_nodes = i.xpath('.//a/@href')
-                vod_id = href_nodes[0] if href_nodes else ''
+                vod_id = href_nodes if href_nodes else ''
                 name_nodes = i.xpath('.//a/@title')
-                vod_name = name_nodes[0].strip() if name_nodes else "未知"
+                vod_name = name_nodes.strip() if name_nodes else "未知"
                 pic_nodes = i.xpath('.//div[@class="qy-mod-cover"]/@style')
                 vod_pic = None
                 if pic_nodes:
-                    style = pic_nodes[0]
+                    style = pic_nodes
                     match = re.search(r'url\((.*?)\)', style)
                     vod_pic = match.group(1).strip() if match else None
                 if not vod_pic:
@@ -135,7 +135,7 @@ class Spider(Spider):
                 if vod_pic.startswith('/'):
                     vod_pic = self.home_url + vod_pic
                 remark_nodes = i.xpath('.//span[@class="qy-mod-label"]/text()')
-                vod_remarks = remark_nodes[0].strip() if remark_nodes else ''
+                vod_remarks = remark_nodes.strip() if remark_nodes else ''
                 
                 result['list'].append({
                     'vod_id': vod_id,
@@ -167,13 +167,10 @@ class Spider(Spider):
         ids = array if isinstance(array, list) and array else str(array)
         detail_url = f"{self.home_url}{ids}"
         
-        # 建立局部 Session 連線池，強制開啟 Keep-Alive 機制，讓多線程共用通道，速度直升 3-5 倍
-        session = requests.Session()
-        
         # 1. 核心隔離機制：優先確保網頁基礎資料絕對能穩定抓到，免受多線程異常干擾
         try:
-            # 搭配連線池優化，最外層超時精確下調至 4 秒，防止電視盒久等
-            res = session.get(detail_url, headers=self.headers, timeout=4)
+            # 詳情頁基本請求超時保護下調回最安全的 3.5 秒
+            res = requests.get(detail_url, headers=self.headers, timeout=3.5)
             res.encoding = 'utf-8'
             root = etree.HTML(res.text)
             
@@ -215,7 +212,7 @@ class Spider(Spider):
             })
             return result
 
-        # 2. 獨立且受保護的劇集與高速多線程收割模組
+        # 2. 獨立且受保護的劇集與高速多線程收割模組（拒絕使用非線程安全的 Session）
         try:
             if not episodes:
                 vod = {
@@ -237,33 +234,30 @@ class Spider(Spider):
                 play_urls = {}
                 
                 def fetch_ep_info(ep):
-                    # 內部雙重 Retry 機制，搭配超時縮短，卡住立刻重試
-                    for attempt in range(2):
-                        try:
-                            ep_name_nodes = ep.xpath('.//div[@class="item"]/text()')
-                            ep_name = ep_name_nodes.strip() if ep_name_nodes else "未知"
-                            ep_url = self.home_url + ep.get('href', '')
+                    try:
+                        ep_name_nodes = ep.xpath('.//div[@class="item"]/text()')
+                        ep_name = ep_name_nodes.strip() if ep_name_nodes else "未知"
+                        ep_url = self.home_url + ep.get('href', '')
+                        
+                        vod_id_str = ""
+                        for part in str(ids).split('/'):
+                            if part.isdigit():
+                                vod_id_str = part
+                                break
+                        if not vod_id_str:
+                            reg_match = re.search(r'(\d+)', str(ids))
+                            vod_id_str = reg_match.group(1) if reg_match else "未知"
                             
-                            vod_id_str = ""
-                            for part in str(ids).split('/'):
-                                if part.isdigit():
-                                    vod_id_str = part
-                                    break
-                            if not vod_id_str:
-                                reg_match = re.search(r'(\d+)', str(ids))
-                                vod_id_str = reg_match.group(1) if reg_match else "未知"
-                                
-                            ep_id = ep_url.split('/')[-1]
-                            xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
-                            
-                            # 關鍵優化：改用共用連線池 session，且單集超時精確下調至 1.5 秒，拒絕卡頓死等
-                            xhr_res = session.get(xhr_url, headers=self.headers, timeout=1.5)
-                            xhr_res.encoding = 'utf-8'
-                            data = xhr_res.json()
-                            return ep_name, data
-                        except Exception:
-                            if attempt == 1:
-                                return None, None
+                        ep_id = ep_url.split('/')[-1]
+                        xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
+                        
+                        # 【速度優化關鍵】：獨立線程超時精確下調至 1.2 秒且不進行重試，卡住立刻切斷，大幅提升電視盒加載體驗
+                        xhr_res = requests.get(xhr_url, headers=self.headers, timeout=1.2)
+                        xhr_res.encoding = 'utf-8'
+                        data = xhr_res.json()
+                        return ep_name, data
+                    except Exception:
+                        return None, None
 
                 with ThreadPoolExecutor(max_workers=15) as executor:
                     tasks = list(executor.map(fetch_ep_info, episodes[::-1]))
@@ -291,7 +285,7 @@ class Spider(Spider):
                 sorted_play_from = sorted(list(play_from), key=lambda x: sort_order.index(x) if x in sort_order else len(sort_order))
 
                 vod_play_from = '$$$'.join(sorted_play_from)
-                vod_play_url = '$$$'.join(['#'.join(play_urls.get(source,)) for source in sorted_play_from if play_urls.get(source)])
+                vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in sorted_play_from if play_urls.get(source)])
                 
                 vod = {
                     'vod_id': ids,
@@ -320,9 +314,6 @@ class Spider(Spider):
                 'vod_play_from': '泥視頻',
                 'vod_play_url': ''
             })
-        finally:
-            # 妥善關閉連線池釋放資源
-            session.close()
         return result
 
     def searchContent(self, key, quick, pg='1'):
@@ -347,7 +338,7 @@ class Spider(Spider):
                 vod_remarks = ''
                 result['list'].append({
                     'vod_id': vod_id,
-                    'vod_name': '未知',
+                    'vod_name': vod_name, # 【修正】：還原為標準抓取到的片名，不再強制塞入未知
                     'vod_pic': vod_pic,
                     'vod_remarks': vod_remarks
                 })
