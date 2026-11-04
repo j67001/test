@@ -160,19 +160,14 @@ class Spider(Spider):
         return result
 
     def detailContent(self, array):
-        from concurrent.futures import ThreadPoolExecutor
         import re
-
         result = {'list': []}
         ids = array[0] if isinstance(array, list) and array else str(array)
         detail_url = f"{self.home_url}{ids}"
         
-        # 建立 Session 物件，啟用 HTTP Keep-Alive 連線複用，大幅降低反覆連線的耗時
-        session = requests.Session()
-        
         try:
-            # 1. 縮短基本請求超時保護至 3 秒，避免網站塞車時讓用戶卡在黑屏過久
-            res = session.get(detail_url, headers=self.headers, timeout=3)
+            # 由於不需跑多線程 API，主頁面超時設為 3 秒即可，通常 0.3 秒內完成
+            res = requests.get(detail_url, headers=self.headers, timeout=3)
             res.encoding = 'utf-8'
             root = etree.HTML(res.text)
             
@@ -206,110 +201,88 @@ class Spider(Spider):
         except Exception as e:
             print(f"Error extracting html base info: {e}")
             result['list'].append({
-                'vod_id': ids,
-                'vod_name': '未知',
-                'vod_pic': self.placeholder_pic,
-                'vod_play_from': '泥視頻',
-                'vod_play_url': ''
+                'vod_id': ids, 'vod_name': '未知', 'vod_pic': self.placeholder_pic,
+                'vod_play_from': '泥視頻', 'vod_play_url': ''
             })
             return result
 
         try:
+            play_urls = []
+            
+            # 提取劇集 ID 用於後續動態解析
+            vod_id_str = ""
+            for part in str(ids).split('/'):
+                if part.isdigit():
+                    vod_id_str = part
+                    break
+            if not vod_id_str:
+                reg_match = re.search(r'(\d+)', str(ids))
+                vod_id_str = reg_match.group(1) if reg_match else "未知"
+
             if not episodes:
-                vod = {
-                    'vod_id': ids, 'vod_name': vod_name, 'vod_pic': vod_pic, 'type_name': '',
-                    'vod_year': vod_year, 'vod_area': vod_area, 'vod_remarks': vod_remarks,
-                    'vod_actor': vod_actor, 'vod_director': vod_director, 'vod_content': vod_content,
-                    'vod_play_from': '泥視頻', 'vod_play_url': '第1集$https://nivod.cc'
-                }
+                play_urls.append(f"第1集$LAZY_{vod_id_str}-index")
             else:
-                play_from = set()
-                play_urls = {}
-                
-                def fetch_ep_info(ep):
-                    # 降低多線程內的單集重試次數，改為快速失敗，降低排隊等待時間
-                    try:
-                        ep_name_nodes = ep.xpath('.//div[@class="item"]/text()')
-                        ep_name = ep_name_nodes[0].strip() if ep_name_nodes else "未知"
-                        ep_url = self.home_url + ep.get('href', '')
-                        
-                        vod_id_str = ""
-                        for part in str(ids).split('/'):
-                            if part.isdigit():
-                                vod_id_str = part
-                                break
-                        if not vod_id_str:
-                            reg_match = re.search(r'(\d+)', str(ids))
-                            vod_id_str = reg_match.group(1) if reg_match else "未知"
-                            
-                        ep_id = ep_url.split('/')[-1]
-                        xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
-                        
-                        # 單集請求 timeout 縮短為 1.5 秒，配合 Session 複用連線，逾時即跳過，防止線程集體卡死
-                        xhr_res = session.get(xhr_url, headers=self.headers, timeout=1.5)
-                        xhr_res.encoding = 'utf-8'
-                        return ep_name, xhr_res.json()
-                    except Exception:
-                        return None, None
+                for ep in episodes[::-1]:
+                    ep_name_nodes = ep.xpath('.//div[@class="item"]/text()')
+                    ep_name = ep_name_nodes[0].strip() if ep_name_nodes else "未知"
+                    ep_url = ep.get('href', '')
+                    ep_id = ep_url.split('/')[-1] if '/' in ep_url else ep_url
+                    
+                    # 將動態解析所需的關鍵參數封裝在網址欄中，以 LAZY_ 作為識別標籤
+                    play_urls.append(f"{ep_name}$LAZY_{vod_id_str}-{ep_id}")
 
-                # 將並行工人工數提升至 25，加速集數較多（如長篇連續劇）時的收割效率
-                with ThreadPoolExecutor(max_workers=25) as executor:
-                    tasks = list(executor.map(fetch_ep_info, episodes[::-1]))
-                
-                for ep_name, data in tasks:
-                    if not ep_name or not data:
-                        continue
-                    if 'pdatas' in data and data['pdatas']:
-                        for source in data['pdatas']:
-                            source_name = source.get('from', '').strip()
-                            if not source_name:
-                                continue
-
-                            if 'zy' in source_name.lower():
-                                idx = source_name.lower().find('zy')
-                                if idx > 0:
-                                    source_name = source_name[:idx].upper() + '云'
-
-                            play_from.add(source_name)
-                            if source_name not in play_urls:
-                                play_urls[source_name] = []
-                            play_urls[source_name].append(f"{ep_name}${source.get('playurl', '')}")
-                
-                sort_order = ['LZ云', 'FF云', 'MD云']
-                sorted_play_from = sorted(list(play_from), key=lambda x: sort_order.index(x) if x in sort_order else len(sort_order))
-
-                vod_play_from = '$$$'.join(sorted_play_from)
-                vod_play_url = '$$$'.join(['#'.join(play_urls.get(source, [])) for source in sorted_play_from if play_urls.get(source)])
-                
-                vod = {
-                    'vod_id': ids,
-                    'vod_name': vod_name,
-                    'vod_pic': vod_pic,
-                    'type_name': '',
-                    'vod_year': vod_year,
-                    'vod_area': vod_area,
-                    'vod_remarks': vod_remarks,
-                    'vod_actor': vod_actor,
-                    'vod_director': vod_director,
-                    'vod_content': vod_content,
-                    'vod_play_from': vod_play_from,
-                    'vod_play_url': vod_play_url
-                }
+            vod_play_url = '#'.join(play_urls)
+            
+            vod = {
+                'vod_id': ids, 'vod_name': vod_name, 'vod_pic': vod_pic, 'type_name': '',
+                'vod_year': vod_year, 'vod_area': vod_area, 'vod_remarks': vod_remarks,
+                'vod_actor': vod_actor, 'vod_director': vod_director, 'vod_content': vod_content,
+                'vod_play_from': '泥視頻', 'vod_play_url': vod_play_url
+            }
             result['list'].append(vod)
         except Exception as e:
-            print(f"Error in detail multithreading process: {e}")
+            print(f"Error in lazy load detail process: {e}")
             result['list'].append({
-                'vod_id': ids,
-                'vod_name': vod_name if vod_name else '未知',
-                'vod_pic': vod_pic if vod_pic else self.placeholder_pic,
-                'vod_year': vod_year,
-                'vod_area': vod_area,
-                'vod_content': vod_content,
-                'vod_play_from': '泥視頻',
-                'vod_play_url': ''
+                'vod_id': ids, 'vod_name': vod_name if vod_name else '未知', 'vod_pic': vod_pic if vod_pic else self.placeholder_pic,
+                'vod_year': vod_year, 'vod_area': vod_area, 'vod_content': vod_content,
+                'vod_play_from': '泥視頻', 'vod_play_url': ''
             })
-        finally:
-            session.close() # 確保釋放連線資源
+        return result
+
+    def playerContent(self, flag, id, vipFlags):
+        result = {'url': '', 'parse': 0}
+        try:
+            play_url = id.split('$')[1] if '$' in id else id
+            
+            # 攔截詳情頁傳過來的延遲載入標籤
+            if play_url.startswith('LAZY_'):
+                lazy_params = play_url.replace('LAZY_', '')
+                xhr_url = f"{self.home_url}/xhr_playinfo/{lazy_params}"
+                
+                # 在點擊集數的瞬間，極速請求單集 API (超時嚴格限制 2 秒)
+                xhr_res = requests.get(xhr_url, headers=self.headers, timeout=2)
+                xhr_res.encoding = 'utf-8'
+                data = xhr_res.json()
+                
+                real_url = ""
+                if 'pdatas' in data and data['pdatas']:
+                    # 優先尋找常規播放線路
+                    for source in data['pdatas']:
+                        real_url = source.get('playurl', '')
+                        if real_url:
+                            break
+                
+                play_url = real_url if real_url else self.home_url
+
+            result = {
+                'url': play_url,
+                'header': json.dumps(self.headers),
+                'parse': 0,
+                'playUrl': ''
+            }
+        except Exception as e:
+            print(f"Error in playerContent dynamic loading: {e}")
+            result = {'url': '', 'parse': 0}
         return result
 
     def searchContent(self, key, quick, pg='1'):
@@ -340,21 +313,6 @@ class Spider(Spider):
                 })
         except Exception as e:
             print(f"Error in searchContent: {e}")
-        return result
-
-    def playerContent(self, flag, id, vipFlags):
-        result = {}
-        try:
-            play_url = id.split('$')[1] if '$' in id else id
-            result = {
-                'url': play_url,
-                'header': json.dumps(self.headers),
-                'parse': 0,
-                'playUrl': ''
-            }
-        except Exception as e:
-            print(f"Error in playerContent: {e}")
-            result = {'url': '', 'parse': 0}
         return result
 
     def localProxy(self, param):
