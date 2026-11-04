@@ -45,22 +45,22 @@ class Spider(Spider):
             'movie': [
                 {'key': 'class', 'name': '剧情', 'value': [{'n': v.split('$')[0], 'v': v.split('$')[1]} for v in "冒险$mao-xian#剧情$ju-qing#动作$dong-zuo#同性$tong-xing#喜剧$xi-ju#奇幻$qi-huan#恐怖$kong-bu#悬疑$xuan-yi#惊悚$jing-song#战争$zhan-zheng#歌舞$ge-wu#灾难$zai-nan#爱情$ai-qing#犯罪$fan-zui#科幻$ke-huan".split('#')]},
                 {'key': 'area', 'name': '地区', 'value': [{'n': v.split('$')[0], 'v': v.split('$')[1]} for v in "大陆$cn#香港$hk#台湾$tw#欧美$west#泰国$th#新马$sg-my#其他$other".split('#')]},
-                {'key': 'year', 'name': '年份', 'value': [{'n': v, 'v': v} for v in ["2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019-2010", "2009-2000", "90年代", "80年代", "更早"]]}
+                {'key': 'year', 'name': '年份', 'value': [{'n': v, 'v': v} for v in ["2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015", "lt__2015"]]}
             ],
             'tv': [
                 {'key': 'class', 'name': '剧情', 'value': [{'n': v.split('$')[0], 'v': v.split('$')[1]} for v in "剧情$ju-qing#动作$dong-zuo#历史$li-shi#历险$mao-xian#古装$gu-zhuang#同性$tong-xing#喜剧$xi-ju#奇幻$qi-huan#家庭$jia-ting#悬疑$xuan-yi#惊悚$jing-song#战争$zhan-zheng#武侠$wu-xia#爱情$ai-qing#科幻$ke-huan#罪案$zui-an".split('#')]},
                 {'key': 'area', 'name': '地区', 'value': [{'n': v.split('$')[0], 'v': v.split('$')[1]} for v in "大陆$cn#香港$hk#台湾$tw#日本$jp#韩国$kr#欧美$west#泰国$th#新马$sg-my".split('#')]},
-                {'key': 'year', 'name': '年份', 'value': [{'n': v, 'v': v} for v in ["2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019-2015", "2014-2010", "2009-2000", "90年代", "80年代", "更早"]]}
+                {'key': 'year', 'name': '年份', 'value': [{'n': v, 'v': v} for v in ["2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015", "lt__2015"]]}
             ],
             'anime': [
                 {'key': 'class', 'name': '剧情', 'value': [{'n': v.split('$')[0], 'v': v.split('$')[1]} for v in "冒险$mao-xian#动画电影$movie#推理$tui-li#校园$xiao-yuan#治愈$zhi-yu#泡面$pao-mian#热血$re-xue#科幻$ke-huan#魔幻$mo-huan".split('#')]},
                 {'key': 'area', 'name': '地区', 'value': [{'n': v.split('$')[0], 'v': v.split('$')[1]} for v in "大陆$cn#日本$jp#欧美$west".split('#')]},
-                {'key': 'year', 'name': '年份', 'value': [{'n': v, 'v': v} for v in ["2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019-2015", "2014-2010", "2009-2000", "90年代", "80年代", "更早"]]}
+                {'key': 'year', 'name': '年份', 'value': [{'n': v, 'v': v} for v in ["2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015", "lt__2015"]]}
             ],
             'show': [
                 {'key': 'class', 'name': '剧情', 'value': [{'n': v.split('$')[0], 'v': v.split('$')[1]} for v in "搞笑$gao-xiao#音乐$yin-yue#真人秀$zhen-ren-xiu#脱口秀$tuo-kou-xiu".split('#')]},
                 {'key': 'area', 'name': '地区', 'value': [{'n': v.split('$')[0], 'v': v.split('$')[1]} for v in "大陆$cn#韩国$kr#欧美$west#其它$other".split('#')]},
-                {'key': 'year', 'name': '年份', 'value': [{'n': v, 'v': v} for v in ["2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019-2015", "2014-2010", "2009-2000", "90年代", "80年代", "更早"]]}
+                {'key': 'year', 'name': '年份', 'value': [{'n': v, 'v': v} for v in ["2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015", "lt__2015"]]}
             ]
         }
         return {'class': class_list, 'filters': filters if filter else {}}
@@ -169,8 +169,7 @@ class Spider(Spider):
         return result
 
     def detailContent(self, array):
-        from concurrent.futures import ThreadPoolExecutor  # 保持您原汁原味的加速庫
-
+        import re
         result = {'list': []}
         
         if isinstance(array, list):
@@ -184,11 +183,11 @@ class Spider(Spider):
         detail_url = f"{self.home_url}{ids}" if not ids.startswith('http') else ids
 
         try:
-            res = requests.get(detail_url, headers=self.headers, timeout=5)
+            # 1. 抓取子站主頁面基礎資訊 (秒開，通常 0.2~0.3 秒完成)
+            res = requests.get(detail_url, headers=self.headers, timeout=3)
             res.encoding = 'utf-8'
             root = etree.HTML(res.text)
             
-            # --- 1. 您測試完全正確的簡介與中繼資料解析區塊 ---
             vod_year = "未知"
             vod_area = "其他"
             
@@ -219,116 +218,152 @@ class Spider(Spider):
             if vod_pic.startswith('/'):
                 vod_pic = self.home_url + vod_pic
 
-            # --- 2. 關鍵修正：精準限制只定位 play_list 劇集，徹底排除隱藏線路 ---
-            # 修改為 //ul[@id="play_list_0"]/li，這樣絕對不會抓到 route_list_0 裡的線路1-9
+            # 精準定位劇集清單
             episodes = root.xpath('//ul[@id="play_list_0"]/li[contains(@class, "select-item")]')
-            
-            # 備用安全網：萬一 id 叫其他名字，則利用文字特徵強制過濾掉含有「线路、線路、中字」的干擾節點
             if not episodes:
                 all_possible_eps = root.xpath('//ul[contains(@class, "qy-episode-num")]/li[contains(@class, "select-item")]')
                 episodes = []
                 for ep in all_possible_eps:
                     txt = ep.xpath('.//a/text()')
                     txt_str = txt[0].strip() if txt else ""
-                    # 如果文字裡面包含線路或中字，直接丟棄，只保留真正的集數
                     if "线路" in txt_str or "線路" in txt_str or "中字" in txt_str:
                         continue
                     episodes.append(ep)
+        except Exception as e:
+            print(f"Error extracting html base info: {e}")
+            result['list'].append({
+                'vod_id': ids, 'vod_name': '未知影音', 'vod_pic': self.placeholder_pic,
+                'vod_play_from': '線路LZ', 'vod_play_url': ''
+            })
+            return result
 
-            if not episodes:
-                # 終極安全兜底：萬一真的空無一物，封裝單集
-                vod = {
-                    'vod_id': ids, 'vod_name': vod_name, 'vod_pic': vod_pic, 'type_name': '',
-                    'vod_year': vod_year, 'vod_area': vod_area, 'vod_remarks': vod_remarks,
-                    'vod_actor': vod_actor, 'vod_director': vod_director, 'vod_content': vod_content,
-                    'vod_play_from': '泥視頻', 'vod_play_url': '正片$https://nbyy.cc'
-                }
-            else:
-                play_from_order = []  # 存放解鎖出的線路標籤
-                play_urls = {}       # 存放線路對應的純集數網址
-                
-                # 從網址精準提取影片純數位 ID (例如: 332776237)
-                vod_id_str = ids.split('/')[-1].replace('.html', '')
+        try:
+            # 從網址精準提取影片數位 ID
+            vod_id_str = ids.split('/')[-1].replace('.html', '')
 
-                # --- 3. 您的單集解析多執行緒函數 ---
-                def fetch_ep_info(item):
-                    idx, ep = item
-                    try:
-                        a_nodes = ep.xpath('.//a/text()')
-                        ep_name = a_nodes[0].strip() if a_nodes else f"第{idx+1}集"
-                        
-                        ep_id = ep.get('slug', '').strip()
-                        if not ep_id:
-                            href_nodes = ep.xpath('.//a/@href')
-                            href = href_nodes[0] if href_nodes else ''
-                            ep_id = href.replace('#', '') if '#' in href else f'ep{idx+1}'
-                        
-                        # 請求動態後端接口
-                        d0_url = f"{self.home_url}/d0vod/{vod_id_str}-{ep_id}"
-                        xhr_res = requests.get(d0_url, headers=self.headers, timeout=3)
-                        data = xhr_res.json()
-                        
-                        return ep_name, data
-                    except Exception:
-                        return None, None
-
-                # --- 4. 多執行緒併發 (網頁預設是倒序，用 [::-1] 把它轉回第01集在最前) ---
-                with ThreadPoolExecutor(max_workers=15) as executor:
-                    tasks = list(executor.map(fetch_ep_info, enumerate(episodes[::-1])))
-                
-                # --- 5. 數據收割與重新清洗 ---
-                for ep_name, data in tasks:
-                    if not ep_name or not data:
-                        continue
+            # 2. 【徹底取代多執行緒】常規單次請求第一集 API，0.1秒極速撈取所有可用線路標籤
+            detected_sources = []
+            if episodes:
+                try:
+                    # 網頁預設是倒序，第一集通常在最底端，使用倒序後的第 0 個節點
+                    first_ep = episodes[::-1][0]
+                    first_ep_id = first_ep.get('slug', '').strip()
+                    if not first_ep_id:
+                        href_nodes = first_ep.xpath('.//a/@href')
+                        href = href_nodes[0] if href_nodes else ''
+                        first_ep_id = href.replace('#', '') if '#' in href else 'ep1'
                     
-                    if 'aps' in data and isinstance(data['aps'], list):
-                        for cc in data['aps']:
+                    detect_url = f"{self.home_url}/d0vod/{vod_id_str}-{first_ep_id}"
+                    detect_res = requests.get(detect_url, headers=self.headers, timeout=1.5)
+                    detect_data = detect_res.json()
+                    
+                    if 'aps' in detect_data and isinstance(detect_data['aps'], list):
+                        for cc in detect_data['aps']:
                             raw_ss = cc.get('ss', '1')
                             src_tag = raw_ss[:2].upper()
                             source_name = f"線路{src_tag}"
-                            
-                            actual_pd = cc.get('pd', '')
-                            if not actual_pd:
-                                continue
-                                
-                            if source_name not in play_urls:
-                                play_urls[source_name] = []
-                                play_from_order.append(source_name)
-                            
-                            # 正確打包：純集數名稱 (例如 第01集)$真實加密播放串
-                            play_urls[source_name].append(f"{ep_name}${actual_pd}")
+                            if source_name not in detected_sources:
+                                detected_sources.append(source_name)
+                except Exception:
+                    pass
 
-                # --- 6. 依據 TVBox 標準格式輸出 ---
-                if play_from_order:
-                    vod_play_from = '$$$'.join(play_from_order)
-                    vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in play_from_order])
-                else:
-                    # 備用機制
-                    vod_play_from = '泥視頻'
-                    vod_play_url = '#'.join([f"{ep.xpath('.//a/text()')[0].strip()}${self.home_url}{ids}#{ep.get('slug','')}" for ep in episodes[::-1]])
+            # 保底機制
+            if not detected_sources:
+                detected_sources = ['線路LZ', '線路FF', '線路MD']
 
-                vod = {
-                    'vod_id': ids,
-                    'vod_name': vod_name,
-                    'vod_pic': vod_pic,
-                    'type_name': '',
-                    'vod_year': vod_year,
-                    'vod_area': vod_area,
-                    'vod_remarks': vod_remarks,
-                    'vod_actor': vod_actor,
-                    'vod_director': vod_director,
-                    'vod_content': vod_content,
-                    'vod_play_from': vod_play_from,
-                    'vod_play_url': vod_play_url
-                }
-            result['list'].append(vod)
+            # 🌟 核心排序機制：精準置頂包含 LZ、FF、MD 的子站線路標籤
+            def get_sort_weight(x):
+                if 'LZ' in x.upper(): return 0
+                if 'FF' in x.upper(): return 1
+                if 'MD' in x.upper(): return 2
+                return 3
             
+            detected_sources = sorted(detected_sources, key=get_sort_weight)
+
+            # 3. 封裝延遲載入 (Lazy Load) 選集網址
+            ep_urls = []
+            if not episodes:
+                ep_urls.append(f"正片$LAZY_{vod_id_str}-index")
+            else:
+                for idx, ep in enumerate(episodes[::-1]):
+                    a_nodes = ep.xpath('.//a/text()')
+                    ep_name = a_nodes[0].strip() if a_nodes else f"第{idx+1}集"
+                    
+                    ep_id = ep.get('slug', '').strip()
+                    if not ep_id:
+                        href_nodes = ep.xpath('.//a/@href')
+                        href = href_nodes[0] if href_nodes else ''
+                        ep_id = href.replace('#', '') if '#' in href else f'ep{idx+1}'
+                    
+                    ep_urls.append(f"{ep_name}$LAZY_{vod_id_str}-{ep_id}")
+            
+            single_play_url = '#'.join(ep_urls)
+            
+            # 多線路結構複製宣告，完美對齊
+            vod_play_from = '$$$'.join(detected_sources)
+            vod_play_url = '$$$'.join([single_play_url for _ in detected_sources])
+
+            vod = {
+                'vod_id': ids, 'vod_name': vod_name, 'vod_pic': vod_pic, 'type_name': '',
+                'vod_year': vod_year, 'vod_area': vod_area, 'vod_remarks': vod_remarks,
+                'vod_actor': vod_actor, 'vod_director': vod_director, 'vod_content': vod_content,
+                'vod_play_from': vod_play_from, 'vod_play_url': vod_play_url
+            }
+            result['list'].append(vod)
         except Exception as e:
-            print(f"Error in detailContent: {e}")
+            print(f"Error in lazy load multi-source detail process: {e}")
             result['list'].append({
-                'vod_id': ids, 'vod_name': '未知影音', 'vod_pic': self.placeholder_pic,
-                'vod_play_from': '泥視頻', 'vod_play_url': f'正片${ids}'
+                'vod_id': ids, 'vod_name': vod_name if vod_name else '未知影音', 'vod_pic': vod_pic if vod_pic else self.placeholder_pic,
+                'vod_year': vod_year, 'vod_area': vod_area, 'vod_content': vod_content,
+                'vod_play_from': '線路LZ', 'vod_play_url': ''
             })
+        return result
+
+    def playerContent(self, flag, id, vipFlags):
+        result = {'url': '', 'parse': 0}
+        try:
+            play_url = id.split('$')[1] if '$' in id else id
+            
+            # 攔截動態延遲解析標籤
+            if play_url.startswith('LAZY_'):
+                lazy_params = play_url.replace('LAZY_', '')
+                d0_url = f"{self.home_url}/d0vod/{lazy_params}"
+                
+                # 用戶真正點擊集數的瞬間，極速請求單集 XHR JSON
+                xhr_res = requests.get(d0_url, headers=self.headers, timeout=2)
+                xhr_res.encoding = 'utf-8'
+                data = xhr_res.json()
+                
+                actual_pd = ""
+                if 'aps' in data and isinstance(data['aps'], list):
+                    # 1. 精確比對當前點選切換的 flag 線路名稱 (例如：線路LZ、線路FF)
+                    for cc in data['aps']:
+                        raw_ss = cc.get('ss', '1')
+                        src_tag = raw_ss[:2].upper()
+                        source_name = f"線路{src_tag}"
+                        
+                        if source_name == flag and cc.get('pd', ''):
+                            actual_pd = cc.get('pd', '')
+                            break
+                    
+                    # 2. 自動保底機制：若此片源名稱比對失敗，抓取該集第一個有播放網址的線路
+                    if not actual_pd:
+                        for cc in data['aps']:
+                            if cc.get('pd', ''):
+                                actual_pd = cc.get('pd', '')
+                                break
+                                
+                play_url = actual_pd if actual_pd else self.home_url
+
+            result = {
+                'url': play_url,
+                'header': json.dumps(self.headers),
+                'parse': 0,
+                'playUrl': ''
+            }
+        except Exception as e:
+            print(f"Error in playerContent dynamic loading: {e}")
+            result = {'url': '', 'parse': 0}
         return result
 
     def searchContent(self, key, quick, pg='1'):
@@ -359,21 +394,6 @@ class Spider(Spider):
                 })
         except Exception as e:
             print(f"Error in searchContent: {e}")
-        return result
-
-    def playerContent(self, flag, id, vipFlags):
-        result = {}
-        try:
-            play_url = id.split('$')[1] if '$' in id else id
-            result = {
-                'url': play_url,
-                'header': json.dumps(self.headers),
-                'parse': 0,
-                'playUrl': ''
-            }
-        except Exception as e:
-            print(f"Error in playerContent: {e}")
-            result = {'url': '', 'parse': 0}
         return result
 
     def localProxy(self, param):
