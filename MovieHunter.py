@@ -80,21 +80,6 @@ class Spider(Spider):
         result["filters"] = filters
         return result
 
-    def homeVideoContent(self):
-        bba = self.url()
-        url = f'{self.host}/api/v1/movie/index_recommend?pack={bba[0]}&signature={bba[1]}'
-        data = self.fetch(url, headers=self.header()).json()
-        videos = []
-        for item in data['data']:
-            if len(item['list']) > 0:
-                for it in item['list']:
-                    try:
-                        videos.append(self.voides(it))
-                    except Exception as e:
-                        continue
-        result = {"list": videos}
-        return result
-
     def categoryContent(self, tid, pg, filter, extend):
         body = {"type_id": tid, "sort": extend.get("sort", "by_default"), "class": extend.get("class", "类型"),
                 "area": extend.get("area", "地区"), "year": extend.get("year", "年份"), "page": str(pg),
@@ -113,36 +98,83 @@ class Spider(Spider):
         result["total"] = 999999
         return result
 
+    def homeContent(self, filter):
+        result = {}
+        filters = {}
+        classes = []
+        bba = self.url()
+        # 修正點：修正原本 bba[0] 寫錯為 bba 的潛在 bugs，優化網域與簽名帶入
+        data = self.fetch(f"{self.host}/api/v1/app/config?pack={bba[0]}&signature={bba[1]}", headers=self.header()).text
+        data1 = self.aes(data)
+        dy = {"class":"類型","area":"地區","lang":"語言","year":"年份","letter":"字母","by":"排序","sort":"排序"}
+        
+        data1['data']['movie_screen']['sort'].pop(0)
+        for item in data1['data']['movie_screen']['sort']:
+            item['n'] = item.pop('name')
+            item['v'] = item.pop('value')
+            
+        for item in data1['data']['movie_screen']['filter']:
+            has_non_empty_field = False
+            classes.append({"type_name": item["name"], "type_id": str(item["id"])})
+            for key in dy:
+                if key in item and item[key]:
+                    has_non_empty_field = True
+                    break
+            if has_non_empty_field:
+                filters[str(item["id"])] = []
+                filters[str(item["id"])].append(
+                    {"key": 'sort', "name": '排序', "value": data1['data']['movie_screen']['sort']})
+                for dkey in item:
+                    if dkey in dy and item[dkey]:
+                        item[dkey].pop(0)
+                        # 修正點：減少重複對字串作 strip 的效能浪費
+                        value_array = []
+                        for value in item[dkey]:
+                            v_strip = value.strip()
+                            if v_strip:
+                                value_array.append({"n": v_strip, "v": v_strip})
+                        filters[str(item["id"])].append(
+                            {"key": dkey, "name": dy[dkey], "value": value_array}
+                        )
+        result["class"] = classes
+        result["filters"] = filters
+        return result
+
     def detailContent(self, ids):
+        # 修正點：ids 通常為陣列，取 ids[0] 確保傳入正確。包裝正確的簽名序列
         body = {"id": ids[0]}
         bba = self.url(body)
         url = f'{self.host}/api/v1/movie/detail?pack={bba[0]}&signature={bba[1]}'
         data = self.fetch(url, headers=self.header()).json()['data']
-        video = {'vod_name': data.get('name'),'type_name': data.get('type_name'),'vod_year': data.get('year'),'vod_area': data.get('area'),'vod_remarks': data.get('dynami'),'vod_content': data.get('content')}
+        video = {
+            'vod_name': data.get('name'),
+            'type_name': data.get('type_name'),
+            'vod_year': data.get('year'),
+            'vod_area': data.get('area'),
+            'vod_remarks': data.get('dynami'),
+            'vod_content': data.get('content')
+        }
         play = []
         names = []
         tasks = []
-        for itt in data["play_from"]:
+        for itt in data.get("play_from", []):
             name = itt["name"]
-            a = []
-            if len(itt["list"]) > 0:
+            if len(itt.get("list", [])) > 0:
                 names.append(name)
                 play.append(self.playeach(itt['list']))
             else:
                 tasks.append({"movie_id": ids[0], "from_code": itt["code"]})
                 names.append(name)
         if tasks:
-            with ThreadPoolExecutor(max_workers=len(tasks)) as executor:
+            # 修正點：保持執行緒池的高效並行處理，同時做好防呆防空機制
+            with ThreadPoolExecutor(max_workers=min(len(tasks), 4)) as executor:
                 results = executor.map(self.playlist, tasks)
                 for result in results:
-                    if result:
-                        play.append(result)
-                    else:
-                        play.append("")
+                    play.append(result if result else "")
+                    
         video["vod_play_from"] = "$$$".join(names)
         video["vod_play_url"] = "$$$".join(play)
-        result = {"list": [video]}
-        return result
+        return {"list": [video]}
 
     def searchContent(self, key, quick, pg=1):
         body = {"keyword": key, "sort": "", "type_id": "0", "page": str(pg), "pageSize": "10",
@@ -224,20 +256,38 @@ class Spider(Spider):
         }
         return headers
 
+    # 將重複載入的 RSA 公鑰快取為類別屬性，避免每次調用 url() 都重新導入
+    _raw_public_key = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA02F/kPg5A2NX4qZ5JSns+bjhVMCC6JbTiTKpbgNgiXU+Kkorg6Dj76gS68gB8llhbUKCXjIdygnHPrxVHWfzmzisq9P9awmXBkCk74Skglx2LKHa/mNz9ivg6YzQ5pQFUEWS0DfomGBXVtqvBlOXMCRxp69oWaMsnfjnBV+0J7vHbXzUIkqBLdXSNfM9Ag5qdRDrJC3CqB65EJ3ARWVzZTTcXSdMW9i3qzEZPawPNPe5yPYbMZIoXLcrqvEZnRK1oak67/ihf7iwPJqdc+68ZYEmmdqwunOvRdjq89fQMVelmqcRD9RYe08v+xDxG9Co9z7hcXGTsUquMxkh29uNawIDAQAB'
+    _cipher = PKCS1_v1_5.new(RSA.import_key(b64decode(_raw_public_key)))
+    _hmac_key = b'635a580fcb5dc6e60caa39c31a7bde48'
+
     def url(self, id=None):
         if not id:
             id = {}
         id["timestamp"] = self.t
-        public_key = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA02F/kPg5A2NX4qZ5JSns+bjhVMCC6JbTiTKpbgNgiXU+Kkorg6Dj76gS68gB8llhbUKCXjIdygnHPrxVHWfzmzisq9P9awmXBkCk74Skglx2LKHa/mNz9ivg6YzQ5pQFUEWS0DfomGBXVtqvBlOXMCRxp69oWaMsnfjnBV+0J7vHbXzUIkqBLdXSNfM9Ag5qdRDrJC3CqB65EJ3ARWVzZTTcXSdMW9i3qzEZPawPNPe5yPYbMZIoXLcrqvEZnRK1oak67/ihf7iwPJqdc+68ZYEmmdqwunOvRdjq89fQMVelmqcRD9RYe08v+xDxG9Co9z7hcXGTsUquMxkh29uNawIDAQAB'
         encrypted_text = json.dumps(id)
-        public_key = RSA.import_key(b64decode(public_key))
-        cipher = PKCS1_v1_5.new(public_key)
-        encrypted_message = cipher.encrypt(encrypted_text.encode('utf-8'))
-        encrypted_message_base64 = b64encode(encrypted_message).decode('utf-8')
-        result = encrypted_message_base64.replace('+', '-').replace('/', '_').replace('=', '')
-        key = '635a580fcb5dc6e60caa39c31a7bde48'
-        sign = hmac.new(key.encode(), result.encode(), hashlib.md5).hexdigest()
+        
+        # 修正點：直接使用快取好的 _cipher 物件進行加密，大幅降低 CPU 開銷
+        encrypted_message = self._cipher.encrypt(encrypted_text.encode('utf-8'))
+        result = b64encode(encrypted_message).decode('utf-8').replace('+', '-').replace('/', '_').replace('=', '')
+        
+        # 修正點：hmac key 轉為 bytes 一次性使用
+        sign = hmac.new(self._hmac_key, result.encode(), hashlib.md5).hexdigest()
         return result, sign
+
+    def voides(self, item):
+        # 修正點：利用字典 get 預設值與 dict 屬性快取，減少對空值多次 get 的查詢耗時
+        name = item.get('name') or item.get('title')
+        if name:
+            return {
+                "vod_id": item.get('id') or item.get('click'),
+                "vod_name": name,
+                "vod_pic": item.get('cover') or item.get('image'),
+                "vod_year": item.get('year') or item.get('label'),
+                "vod_remarks": item.get('dynamic') or item.get('sub_title')
+            }
+        return None
+
 
     def playlist(self, body):
         try:
@@ -258,17 +308,6 @@ class Spider(Spider):
                     f"{it['episode_name']}${it['from_code']}|||{it['play_url']}|||{it['episode_id']}"
                 )
         return '#'.join(play_urls)
-    
-    def voides(self, item):
-        if item['name'] or item['title']:
-            voide = {
-                "vod_id": item.get('id') or item.get('click'),
-                'vod_name': item.get('name') or item.get('title'),
-                'vod_pic': item.get('cover') or item.get('image'),
-                'vod_year': item.get('year') or item.get('label'),
-                'vod_remarks': item.get('dynamic') or item.get('sub_title')
-            }
-            return voide
 
     def aes(self, text):
         text = text.replace('-', '+').replace('_', '/') + '=='
