@@ -214,7 +214,11 @@ class Spider(Spider):
                     try:
                         ep_name = ep.xpath('.//div[@class="item"]/text()')[0].strip() if ep.xpath('.//div[@class="item"]') else "未知"
                         ep_url = self.home_url + ep.get('href', '')
-                        vod_id_str = ids.split('/')[2]
+                        
+                        # 【核心修正】安全相容各種 ID 切分格式，確保穩定取得真正的影片 ID 數字
+                        id_parts = [p for p in ids.split('/') if p]
+                        vod_id_str = id_parts[1] if len(id_parts) >= 2 else id_parts[0]
+                        
                         ep_id = ep_url.split('/')[-1]
                         xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
                         
@@ -226,7 +230,6 @@ class Spider(Spider):
                         return None, None
 
                 # --- 使用執行緒池並行處理所有集數（不再排隊，同時發送請求） ---
-                # max_workers=15 代表同時併發 15 個請求，效率大幅提升
                 with ThreadPoolExecutor(max_workers=15) as executor:
                     tasks = list(executor.map(fetch_ep_info, episodes[::-1]))
                 
@@ -236,15 +239,30 @@ class Spider(Spider):
                         continue
                     if 'pdatas' in data and data['pdatas']:
                         for source in data['pdatas']:
-                            source_name = source['from']
+                            source_name = str(source['from']).strip()
+
+                            # 全面通用轉換：只要名字裡有 'zy'，直接截取最前面2個字母轉大寫並加 '云'
+                            # 這樣 wjzy、wjzy2 都能完美變成 WJ云，且原本就是 MD云、LZ云 的片源不會被破壞
+                            if 'zy' in source_name.lower():
+                                idx = source_name.lower().find('zy')
+                                if idx > 0:
+                                    source_name = source_name[:idx].upper() + '云'
 
                             play_from.add(source_name)
                             if source_name not in play_urls:
                                 play_urls[source_name] = []
                             play_urls[source_name].append(f"{ep_name}${source['playurl']}")
                 
-                vod_play_from = '$$$'.join(play_from)
-                vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in play_from])
+                # --- 自訂優先排序名單 ---
+                sort_order = ['LZ云', 'FF云', 'MD云']
+                
+                # 安全排序：確保只對當前實際存在於 play_from 的片源進行排序，絕不讀取不存在的 Key
+                priority_sources = [s for s in sort_order if s in play_from]
+                other_sources = [s for s in play_from if s not in sort_order]
+                sorted_play_from = priority_sources + other_sources
+
+                vod_play_from = '$$$'.join(sorted_play_from)
+                vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in sorted_play_from])
                 
                 vod = {
                     'vod_id': ids,
