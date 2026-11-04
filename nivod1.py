@@ -172,10 +172,7 @@ class Spider(Spider):
         from concurrent.futures import ThreadPoolExecutor  # 僅在局部引入加速庫
 
         result = {'list': []}
-        
-        # 【終極相容修正】安全判斷 array 型態，不論是字串還是列表，都確保拿到完整的網址字串
-        ids = array[0] if isinstance(array, list) and array else str(array)
-        
+        ids = array[0]
         detail_url = f"{self.home_url}{ids}"
         try:
             res = requests.get(detail_url, headers=self.headers)
@@ -217,14 +214,7 @@ class Spider(Spider):
                     try:
                         ep_name = ep.xpath('.//div[@class="item"]/text()')[0].strip() if ep.xpath('.//div[@class="item"]') else "未知"
                         ep_url = self.home_url + ep.get('href', '')
-                        
-                        # 穩定提取純數字的影片 ID，免去被錯誤索引位置干擾的問題
-                        vod_id_str = ""
-                        for part in ids.split('/'):
-                            if part.isdigit():
-                                vod_id_str = part
-                                break
-                        
+                        vod_id_str = ids.split('/')[2]
                         ep_id = ep_url.split('/')[-1]
                         xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
                         
@@ -236,6 +226,7 @@ class Spider(Spider):
                         return None, None
 
                 # --- 使用執行緒池並行處理所有集數（不再排隊，同時發送請求） ---
+                # max_workers=15 代表同時併發 15 個請求，效率大幅提升
                 with ThreadPoolExecutor(max_workers=15) as executor:
                     tasks = list(executor.map(fetch_ep_info, episodes[::-1]))
                 
@@ -245,13 +236,11 @@ class Spider(Spider):
                         continue
                     if 'pdatas' in data and data['pdatas']:
                         for source in data['pdatas']:
-                            source_name = str(source['from']).strip()
+                            source_name = source['from']
 
-                            # 全面通用轉換：只要名字裡有 'zy'，直接截取最前面2個字母轉大寫並加 '云'
-                            if 'zy' in source_name.lower():
-                                idx = source_name.lower().find('zy')
-                                if idx > 0:
-                                    source_name = source_name[:idx].upper() + '云'
+                            # 全面通用轉換：只要名字裡有 'zy'，不管後面帶不帶數字（如wjzy2），直接截取最前面2個字母轉大寫並加'云'
+                            if 'zy' in source_name:
+                                source_name = source_name[:2].upper() + '云'
 
                             play_from.add(source_name)
                             if source_name not in play_urls:
@@ -259,12 +248,9 @@ class Spider(Spider):
                             play_urls[source_name].append(f"{ep_name}${source['playurl']}")
                 
                 # --- 自訂優先排序名單 ---
+                # 將集合轉回列表，並依照名單進行排序：若在名單中則提至前面，其餘保留原順序
                 sort_order = ['LZ云', 'FF云', 'MD云']
-                
-                # 安全過濾：只針對本次影片中實際存在的片源進行重組與排序，防範 KeyError
-                priority_sources = [s for s in sort_order if s in play_from]
-                other_sources = [s for s in play_from if s not in sort_order]
-                sorted_play_from = priority_sources + other_sources
+                sorted_play_from = sorted(list(play_from), key=lambda x: sort_order.index(x) if x in sort_order else len(sort_order))
 
                 vod_play_from = '$$$'.join(sorted_play_from)
                 vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in sorted_play_from])
@@ -294,7 +280,6 @@ class Spider(Spider):
                 'vod_play_url': ''
             })
         return result
-
 
     def searchContent(self, key, quick, pg='1'):
         result = {'list': []}
