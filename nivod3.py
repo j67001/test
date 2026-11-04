@@ -17,7 +17,7 @@ class Spider(Spider):
             "Accept-Language": "zh-CN,zh;q=0.9",
             "Connection": "keep-alive",
         }
-        self.placeholder_pic = 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/placeholder.jpg'
+        self.placeholder_pic = 'https://tmdb.org'
 
     def init(self, extend=""):
         pass
@@ -198,8 +198,16 @@ class Spider(Spider):
                         ep_name = ep.xpath('.//div[@class="item"]/text()')[0].strip() if ep.xpath('.//div[@class="item"]') else "未知"
                         ep_url = self.home_url + ep.get('href', '')
                         
-                        # 使用原碼最穩定的切片邏輯，不干涉原有的變數與索引架構
-                        vod_id_str = ids.split('/')[2]
+                        # 【優化：防禦型 VOD ID 提取】
+                        # 不硬性死取 [2]，而是用迴圈過濾出純數字，能徹底避開格式微調造成的崩潰
+                        vod_id_str = ""
+                        for part in ids.split('/'):
+                            if part.isdigit():
+                                vod_id_str = part
+                                break
+                        if not vod_id_str:
+                            vod_id_str = ids.split('/')[2]
+
                         ep_id = ep_url.split('/')[-1]
                         xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
                         
@@ -214,7 +222,7 @@ class Spider(Spider):
                 with ThreadPoolExecutor(max_workers=15) as executor:
                     tasks = list(executor.map(fetch_ep_info, episodes[::-1]))
                 
-                # --- 按原本的倒序順序重新收割結果，確保集數順序不亂 ---
+                # --- 按原本的倒序順序重新收割結果 ---
                 for ep_name, data in tasks:
                     if not ep_name or not data:
                         continue
@@ -222,7 +230,7 @@ class Spider(Spider):
                         for source in data['pdatas']:
                             source_name = source['from']
 
-                            # 精準名稱轉換：只要包含 'zy' 的片源（支援 wjzy2、wjzy、ffzy），一律取前兩碼轉大寫 + '云'
+                            # 名稱轉換：只要包含 'zy' 的片源（包含 wjzy2），直接截取前2個字母轉大寫並加 '云'
                             if 'zy' in source_name.lower():
                                 idx = source_name.lower().find('zy')
                                 if idx > 0:
@@ -235,14 +243,13 @@ class Spider(Spider):
                 
                 # --- 自訂優先排序名單 ---
                 sort_order = ['LZ云', 'FF云', 'MD云']
-                
-                # 安全排序：只針對目前實際存在於 play_from 的片源進行置頂排序，其餘保持不變，防範 KeyError
-                priority_sources = [s for s in sort_order if s in play_from]
-                other_sources = [s for s in play_from if s not in sort_order]
-                sorted_play_from = priority_sources + other_sources
+                sorted_play_from = sorted(list(play_from), key=lambda x: sort_order.index(x) if x in sort_order else len(sort_order))
 
                 vod_play_from = '$$$'.join(sorted_play_from)
-                vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in sorted_play_from])
+                
+                # 【核心修正】：改用安全的 .get() 提取防護！
+                # 只有字典裡確實存在這個片源 Key 時才會讀取，絕不因為單個片源對不上而引發 KeyError 崩潰洗掉片名！
+                vod_play_url = '$$$'.join(['#'.join(play_urls.get(source, [])) for source in sorted_play_from if play_urls.get(source)])
                 
                 vod = {
                     'vod_id': ids,
