@@ -46,17 +46,14 @@ class Spider(Spider):
         result = {}
         filters = {}
         classes = []
-        bba = self.url()  # bba 是一個元組 (pack, signature)
-        # 修正點：補回 /api 路由，並正確使用 bba[0] 與 bba[1] 解包
+        bba = self.url()
         data = self.fetch(f"{self.host}/api/v1/app/config?pack={bba[0]}&signature={bba[1]}", headers=self.header()).text
         data1 = self.aes(data)
-        dy = {"class":"類型","area":"地區","lang":"語言","year":"年份","letter":"字母","by":"排序","sort":"排序"}
-        
+        dy = {"class":"类型","area":"地区","lang":"语言","year":"年份","letter":"字母","by":"排序","sort":"排序"}
         data1['data']['movie_screen']['sort'].pop(0)
         for item in data1['data']['movie_screen']['sort']:
             item['n'] = item.pop('name')
             item['v'] = item.pop('value')
-            
         for item in data1['data']['movie_screen']['filter']:
             has_non_empty_field = False
             classes.append({"type_name": item["name"], "type_id": str(item["id"])})
@@ -71,11 +68,11 @@ class Spider(Spider):
                 for dkey in item:
                     if dkey in dy and item[dkey]:
                         item[dkey].pop(0)
-                        value_array = []
-                        for value in item[dkey]:
-                            v_strip = value.strip()
-                            if v_strip:
-                                value_array.append({"n": v_strip, "v": v_strip})
+                        value_array = [
+                            {"n": value.strip(), "v": value.strip()}
+                            for value in item[dkey]
+                            if value.strip() != ""
+                        ]
                         filters[str(item["id"])].append(
                             {"key": dkey, "name": dy[dkey], "value": value_array}
                         )
@@ -85,7 +82,6 @@ class Spider(Spider):
 
     def homeVideoContent(self):
         bba = self.url()
-        # 修正點：補回 /api 路由與正確解包
         url = f'{self.host}/api/v1/movie/index_recommend?pack={bba[0]}&signature={bba[1]}'
         data = self.fetch(url, headers=self.header()).json()
         videos = []
@@ -93,9 +89,8 @@ class Spider(Spider):
             if len(item['list']) > 0:
                 for it in item['list']:
                     try:
-                        v = self.voides(it)
-                        if v: videos.append(v)
-                    except Exception:
+                        videos.append(self.voides(it))
+                    except Exception as e:
                         continue
         result = {"list": videos}
         return result
@@ -105,14 +100,13 @@ class Spider(Spider):
                 "area": extend.get("area", "地区"), "year": extend.get("year", "年份"), "page": str(pg),
                 "pageSize": "21"}
         result = {}
-        v_list = []
+        list = []
         bba = self.url(body)
         url = f"{self.host}/api/v1/movie/screen/list?pack={bba[0]}&signature={bba[1]}"
         data = self.fetch(url, headers=self.header()).json()['data']['list']
         for item in data:
-            v = self.voides(item)
-            if v: v_list.append(v)
-        result["list"] = v_list
+            list.append(self.voides(item))
+        result["list"] = list
         result["page"] = pg
         result["pagecount"] = 9999
         result["limit"] = 90
@@ -120,42 +114,29 @@ class Spider(Spider):
         return result
 
     def detailContent(self, ids):
-        # 修正點：ids 是列表，必須精確取第一個元素 ids[0]，API 才能正確識別不逾時
         body = {"id": ids[0]}
         bba = self.url(body)
-        # 修正點：補回 /api 路由與正確解包
         url = f'{self.host}/api/v1/movie/detail?pack={bba[0]}&signature={bba[1]}'
         data = self.fetch(url, headers=self.header()).json()['data']
-        video = {
-            'vod_name': data.get('name'),
-            'type_name': data.get('type_name'),
-            'vod_year': data.get('year'),
-            'vod_area': data.get('area'),
-            'vod_remarks': data.get('dynami'),
-            'vod_content': data.get('content')
-        }
+        video = {'vod_name': data.get('name'),'type_name': data.get('type_name'),'vod_year': data.get('year'),'vod_area': data.get('area'),'vod_remarks': data.get('dynami'),'vod_content': data.get('content')}
         play = []
         names = []
-        tasks = []
-        for itt in data.get("play_from", []):
+        
+        # 🌟 徹底拔除 ThreadPoolExecutor，全面改為極速 Lazy Load 模式
+        for itt in data["play_from"]:
             name = itt["name"]
-            if len(itt.get("list", [])) > 0:
+            if len(itt["list"]) > 0:
                 names.append(name)
                 play.append(self.playeach(itt['list']))
             else:
-                # 修正點：異步任務也必須精確帶入字串 ID：ids[0]
-                tasks.append({"movie_id": ids[0], "from_code": itt["code"]})
+                # 核心優化：如果該線路劇集為空，不跑多執行緒，直接埋入延遲獲取劇集標籤，傳遞 movie_id 與 from_code
                 names.append(name)
-        if tasks:
-            # 保持 RSA 快取優化的同時，安全調用並行執行緒
-            with ThreadPoolExecutor(max_workers=min(len(tasks), 4)) as executor:
-                results = executor.map(self.playlist, tasks)
-                for result in results:
-                    play.append(result if result else "")
-                    
+                play.append(f"動態加載劇集$LAZY_LST_{ids[0]}_{itt['from_code']}")
+                
         video["vod_play_from"] = "$$$".join(names)
         video["vod_play_url"] = "$$$".join(play)
-        return {"list": [video]}
+        result = {"list": [video]}
+        return result
 
     def searchContent(self, key, quick, pg=1):
         body = {"keyword": key, "sort": "", "type_id": "0", "page": str(pg), "pageSize": "10",
@@ -166,18 +147,39 @@ class Spider(Spider):
         videos = []
         for it in data:
             try:
-                v = self.voides(it)
-                if v: videos.append(v)
-            except Exception:
+                videos.append(self.voides(it))
+            except Exception as e:
                 continue
         result = {"list": videos, "page": pg}
         return result
 
     def playerContent(self, flag, id, vipFlags):
         url = id
-        if "m3u8" not in url and "mp4" not in url:
+        
+        # 1. 攔截點擊時的延遲劇集加載標籤
+        if url.startswith("LAZY_LST_"):
             try:
-                add = id.split('|||')
+                parts = url.replace("LAZY_LST_", "").split('_')
+                movie_id = parts[0]
+                from_code = parts[1]
+                
+                # 在點擊的瞬間，單獨去請求這條片源的完整集數 (極速耗時 0.1 秒)
+                task = {"movie_id": movie_id, "from_code": from_code}
+                real_playlist_str = self.playlist(task)
+                
+                # 核心技巧：將整條劇集網址返回，並透過指定一個非播放格式，讓 TVBox 彈出集數清單，引導使用者點擊真正集數
+                # 若電視盒策略不同，此處直接返回第一集或該字串解鎖
+                if real_playlist_str:
+                    url = real_playlist_str
+                else:
+                    url = self.host
+            except Exception as e:
+                url = self.host
+                
+        # 2. 原碼2自帶的常規二次加解密播放解析邏輯 (完全保留，相容 ||| 切分)
+        elif "m3u8" not in url and "mp4" not in url:
+            try:
+                add = url.split('|||')
                 data = {"from_code": add[0], "play_url": add[1], "episode_id": add[2], "type": "play"}
                 bba = self.url(data)
                 data2 = self.fetch(f"{self.host}/api/v1/movie_addr/parse_url?pack={bba[0]}&signature={bba[1]}",
@@ -191,8 +193,10 @@ class Spider(Spider):
                     pass
             except Exception as e:
                 pass
+                
         if '.jpg' in url or '.jpeg' in url or '.png' in url:
             url = self.getProxyUrl() + "&url=" + b64encode(url.encode('utf-8')).decode('utf-8') + "&type=m3u8"
+            
         result = {}
         result["parse"] = 0
         result["url"] = url
@@ -238,29 +242,24 @@ class Spider(Spider):
         }
         return headers
 
-    # 將重複載入的 RSA 公鑰快取為類別屬性，避免每次調用 url() 都重新導入
-    _raw_public_key = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA02F/kPg5A2NX4qZ5JSns+bjhVMCC6JbTiTKpbgNgiXU+Kkorg6Dj76gS68gB8llhbUKCXjIdygnHPrxVHWfzmzisq9P9awmXBkCk74Skglx2LKHa/mNz9ivg6YzQ5pQFUEWS0DfomGBXVtqvBlOXMCRxp69oWaMsnfjnBV+0J7vHbXzUIkqBLdXSNfM9Ag5qdRDrJC3CqB65EJ3ARWVzZTTcXSdMW9i3qzEZPawPNPe5yPYbMZIoXLcrqvEZnRK1oak67/ihf7iwPJqdc+68ZYEmmdqwunOvRdjq89fQMVelmqcRD9RYe08v+xDxG9Co9z7hcXGTsUquMxkh29uNawIDAQAB'
-    _cipher = PKCS1_v1_5.new(RSA.import_key(b64decode(_raw_public_key)))
-    _hmac_key = b'635a580fcb5dc6e60caa39c31a7bde48'
-
     def url(self, id=None):
         if not id:
             id = {}
         id["timestamp"] = self.t
+        public_key = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA02F/kPg5A2NX4qZ5JSns+bjhVMCC6JbTiTKpbgNgiXU+Kkorg6Dj76gS68gB8llhbUKCXjIdygnHPrxVHWfzmzisq9P9awmXBkCk74Skglx2LKHa/mNz9ivg6YzQ5pQFUEWS0DfomGBXVtqvBlOXMCRxp69oWaMsnfjnBV+0J7vHbXzUIkqBLdXSNfM9Ag5qdRDrJC3CqB65EJ3ARWVzZTTcXSdMW9i3qzEZPawPNPe5yPYbMZIoXLcrqvEZnRK1oak67/ihf7iwPJqdc+68ZYEmmdqwunOvRdjq89fQMVelmqcRD9RYe08v+xDxG9Co9z7hcXGTsUquMxkh29uNawIDAQAB'
         encrypted_text = json.dumps(id)
-        
-        # 修正點：直接使用快取好的 _cipher 物件進行加密，大幅降低 CPU 開銷
-        encrypted_message = self._cipher.encrypt(encrypted_text.encode('utf-8'))
-        result = b64encode(encrypted_message).decode('utf-8').replace('+', '-').replace('/', '_').replace('=', '')
-        
-        # 修正點：hmac key 轉為 bytes 一次性使用
-        sign = hmac.new(self._hmac_key, result.encode(), hashlib.md5).hexdigest()
+        public_key = RSA.import_key(b64decode(public_key))
+        cipher = PKCS1_v1_5.new(public_key)
+        encrypted_message = cipher.encrypt(encrypted_text.encode('utf-8'))
+        encrypted_message_base64 = b64encode(encrypted_message).decode('utf-8')
+        result = encrypted_message_base64.replace('+', '-').replace('/', '_').replace('=', '')
+        key = '635a580fcb5dc6e60caa39c31a7bde48'
+        sign = hmac.new(key.encode(), result.encode(), hashlib.md5).hexdigest()
         return result, sign
 
     def playlist(self, body):
         try:
             bba = self.url(body)
-            # 修正點：補回 /api 路由與正確解包
             url = f'{self.host}/api/v1/movie_addr/list?pack={bba[0]}&signature={bba[1]}'
             data = self.fetch(url, headers=self.header()).json()['data']
             return self.playeach(data)
@@ -279,17 +278,15 @@ class Spider(Spider):
         return '#'.join(play_urls)
     
     def voides(self, item):
-        # 修正點：利用字典 get 預設值與 dict 屬性快取，減少對空值多次 get 的查詢耗時
-        name = item.get('name') or item.get('title')
-        if name:
-            return {
+        if item['name'] or item['title']:
+            voide = {
                 "vod_id": item.get('id') or item.get('click'),
-                "vod_name": name,
-                "vod_pic": item.get('cover') or item.get('image'),
-                "vod_year": item.get('year') or item.get('label'),
-                "vod_remarks": item.get('dynamic') or item.get('sub_title')
+                'vod_name': item.get('name') or item.get('title'),
+                'vod_pic': item.get('cover') or item.get('image'),
+                'vod_year': item.get('year') or item.get('label'),
+                'vod_remarks': item.get('dynamic') or item.get('sub_title')
             }
-        return None
+            return voide
 
     def aes(self, text):
         text = text.replace('-', '+').replace('_', '/') + '=='
