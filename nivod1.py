@@ -237,6 +237,11 @@ class Spider(Spider):
                     if 'pdatas' in data and data['pdatas']:
                         for source in data['pdatas']:
                             source_name = source['from']
+                            
+                            # 動態轉換片源名稱：如果長度大於等於4且以'zy'結尾，將前2碼轉大寫並拼接'云'
+                            if len(source_name) >= 4 and source_name.endswith('zy'):
+                                source_name = source_name[:2].upper() + '云'
+
                             play_from.add(source_name)
                             if source_name not in play_urls:
                                 play_urls[source_name] = []
