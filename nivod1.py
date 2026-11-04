@@ -206,7 +206,7 @@ class Spider(Spider):
                     'vod_play_url': '第1集$https://nivod.cc'
                 }
             else:
-                # play_from = set()
+                play_from = set()
                 play_urls = {}
                 
                 # --- 恢復您原本的單集解析邏輯，包裝成函數給多線程呼叫 ---
@@ -237,27 +237,23 @@ class Spider(Spider):
                     if 'pdatas' in data and data['pdatas']:
                         for source in data['pdatas']:
                             source_name = source['from']
-                            
-                            # 採用最穩固的切片法：只要名稱包含 'zy'，直接精確抓取前兩個字元轉大寫並加上 '云'
-                            # 這樣一來 wjzy、wjzy2、ikzy 都能完美轉換成 WJ云、IK云，且絕不報錯
+
+                            # 全面通用轉換：只要名字裡有 'zy'，不管後面帶不帶數字（如wjzy2），直接截取最前面2個字母轉大寫並加'云'
                             if 'zy' in source_name:
                                 source_name = source_name[:2].upper() + '云'
 
-                            # play_from.add(source_name)
+                            play_from.add(source_name)
                             if source_name not in play_urls:
                                 play_urls[source_name] = []
                             play_urls[source_name].append(f"{ep_name}${source['playurl']}")
-
-                # 自訂片源排序邏輯 定義優先順序，越前面的排越前面
-                sort_order = ['LZ云', 'FF云', 'MD云']
-                # 將現有的片源分組：優先名單內的 vs 其他的
-                priority_sources = [s for s in sort_order if s in play_urls]
-                other_sources = [s for s in play_urls if s not in sort_order]
-                # 合併最終的片源順序
-                final_source_order = priority_sources + other_sources
                 
-                vod_play_from = '$$$'.join(final_source_order)
-                vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in final_source_order])
+                # --- 自訂優先排序名單 ---
+                # 將集合轉回列表，並依照名單進行排序：若在名單中則提至前面，其餘保留原順序
+                sort_order = ['LZ云', 'FF云', 'MD云']
+                sorted_play_from = sorted(list(play_from), key=lambda x: sort_order.index(x) if x in sort_order else len(sort_order))
+
+                vod_play_from = '$$$'.join(sorted_play_from)
+                vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in sorted_play_from])
                 
                 vod = {
                     'vod_id': ids,
