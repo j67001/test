@@ -257,7 +257,7 @@ class Spider(Spider):
                 final_source_order = priority_sources + other_sources
                 
                 vod_play_from = '$$$'.join(final_source_order)
-                vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in play_from])
+                vod_play_url = '$$$'.join(['#'.join(play_urls[source]) for source in final_source_order])
                 
                 vod = {
                     'vod_id': ids,
