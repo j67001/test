@@ -166,7 +166,7 @@ class Spider(Spider):
         detail_url = f"{self.home_url}{ids}"
         
         try:
-            # 秒開核心：不跑多線程 API，直接獲取主頁面資料
+            # 1. 抓取主頁面基礎資訊 (秒開，通常 0.2~0.3 秒)
             res = requests.get(detail_url, headers=self.headers, timeout=3)
             res.encoding = 'utf-8'
             root = etree.HTML(res.text)
@@ -207,10 +207,7 @@ class Spider(Spider):
             return result
 
         try:
-            # 預設宣告泥視頻常駐的主力線路
-            source_list = ['泥視頻', 'LZ云', 'FF云', 'MD云']
-            
-            # 提取劇集 ID
+            # 提取劇集主 ID
             vod_id_str = ""
             for part in str(ids).split('/'):
                 if part.isdigit():
@@ -220,7 +217,39 @@ class Spider(Spider):
                 reg_match = re.search(r'(\d+)', str(ids))
                 vod_id_str = reg_match.group(1) if reg_match else "未知"
 
-            # 建立單一線路的選集字串
+            # 2. 動態偵測真實線路線索 (僅請求第 1 集的 API 獲取所有片源標籤，極速不卡頓)
+            detected_sources = []
+            if episodes:
+                try:
+                    first_ep = episodes[::-1][0]
+                    first_ep_url = first_ep.get('href', '')
+                    first_ep_id = first_ep_url.split('/')[-1] if '/' in first_ep_url else first_ep_url
+                    
+                    # 唯獨請求一次第 1 集的 XHR
+                    detect_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{first_ep_id}"
+                    detect_res = requests.get(detect_url, headers=self.headers, timeout=1.5)
+                    detect_data = detect_res.json()
+                    
+                    if 'pdatas' in detect_data and detect_data['pdatas']:
+                        for source in detect_data['pdatas']:
+                            source_name = source.get('from', '').strip()
+                            if not source_name:
+                                continue
+                            # 統一標準化名稱命名 (如 wjzy -> WJ云)
+                            if 'zy' in source_name.lower():
+                                idx = source_name.lower().find('zy')
+                                if idx > 0:
+                                    source_name = source_name[:idx].upper() + '云'
+                            if source_name not in detected_sources:
+                                detected_sources.append(source_name)
+                except Exception:
+                    pass
+
+            # 保底機制：如果抓取失敗或沒有劇集，使用常見的默認線路
+            if not detected_sources:
+                detected_sources = ['MD云', 'LZ云', 'FF云', 'WJ云']
+
+            # 3. 依據獲取到的真實線路，生成對齊的延遲播放網址字串
             ep_urls = []
             if not episodes:
                 ep_urls.append(f"第1集$LAZY_{vod_id_str}-index")
@@ -234,9 +263,9 @@ class Spider(Spider):
             
             single_play_url = '#'.join(ep_urls)
             
-            # 使用 $$$ 將相同的選集結構複製對齊到每一條預設線路中
-            vod_play_from = '$$$'.join(source_list)
-            vod_play_url = '$$$'.join([single_play_url for _ in source_list])
+            # 多線路完美對齊宣告
+            vod_play_from = '$$$'.join(detected_sources)
+            vod_play_url = '$$$'.join([single_play_url for _ in detected_sources])
             
             vod = {
                 'vod_id': ids, 'vod_name': vod_name, 'vod_pic': vod_pic, 'type_name': '',
@@ -246,7 +275,7 @@ class Spider(Spider):
             }
             result['list'].append(vod)
         except Exception as e:
-            print(f"Error in lazy load multi-source detail process: {e}")
+            print(f"Error in dynamic lazy-load detail process: {e}")
             result['list'].append({
                 'vod_id': ids, 'vod_name': vod_name if vod_name else '未知', 'vod_pic': vod_pic if vod_pic else self.placeholder_pic,
                 'vod_year': vod_year, 'vod_area': vod_area, 'vod_content': vod_content,
@@ -259,23 +288,20 @@ class Spider(Spider):
         try:
             play_url = id.split('$')[1] if '$' in id else id
             
-            # 攔截動態加載標籤
             if play_url.startswith('LAZY_'):
                 lazy_params = play_url.replace('LAZY_', '')
                 xhr_url = f"{self.home_url}/xhr_playinfo/{lazy_params}"
                 
-                # 瞬間請求單集 API 
+                # 用戶點擊集數時，精確獲取當前點選的 flag 線路
                 xhr_res = requests.get(xhr_url, headers=self.headers, timeout=2)
                 xhr_res.encoding = 'utf-8'
                 data = xhr_res.json()
                 
                 real_url = ""
                 if 'pdatas' in data and data['pdatas']:
-                    # 1. 優先精確匹配目前電視盒使用者切換選取的線路名稱 (例如：LZ云、FF云)
+                    # 1. 精確過濾電視盒當前所切換點選的 flag 線路名稱 (如：LZ云、MD云、IK云)
                     for source in data['pdatas']:
                         source_name = source.get('from', '').strip()
-                        
-                        # 處理片源名稱通用標準化 (如 wjzy -> WJ云)
                         if 'zy' in source_name.lower():
                             idx = source_name.lower().find('zy')
                             if idx > 0:
@@ -285,7 +311,7 @@ class Spider(Spider):
                             real_url = source.get('playurl', '')
                             break
                             
-                    # 2. 如果該特定線路剛好沒有這集，自動保底抓取該集的第一條可用線路
+                    # 2. 自動保底機制：若此片源名稱比對失敗，抓取該集第一個有播放網址的線路
                     if not real_url:
                         for source in data['pdatas']:
                             if source.get('playurl', ''):
