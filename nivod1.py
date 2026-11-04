@@ -215,9 +215,12 @@ class Spider(Spider):
                         ep_name = ep.xpath('.//div[@class="item"]/text()')[0].strip() if ep.xpath('.//div[@class="item"]') else "未知"
                         ep_url = self.home_url + ep.get('href', '')
                         
-                        # 【核心修正】安全相容各種 ID 切分格式，確保穩定取得真正的影片 ID 數字
-                        id_parts = [p for p in ids.split('/') if p]
-                        vod_id_str = id_parts[1] if len(id_parts) >= 2 else id_parts[0]
+                        # 【核心修正】不論網址長怎樣，用最簡單的迴圈直接找出「純數字」的那一段作為 VOD ID
+                        vod_id_str = ""
+                        for part in ids.split('/'):
+                            if part.isdigit():
+                                vod_id_str = part
+                                break
                         
                         ep_id = ep_url.split('/')[-1]
                         xhr_url = f"{self.home_url}/xhr_playinfo/{vod_id_str}-{ep_id}"
