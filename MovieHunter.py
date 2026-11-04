@@ -114,28 +114,106 @@ class Spider(Spider):
         return result
 
     def detailContent(self, ids):
-        body = {"id": ids[0]}
+        body = {"id": ids[0] if isinstance(ids, list) else ids}
         bba = self.url(body)
         url = f'{self.host}/api/v1/movie/detail?pack={bba[0]}&signature={bba[1]}'
         data = self.fetch(url, headers=self.header()).json()['data']
-        video = {'vod_name': data.get('name'),'type_name': data.get('type_name'),'vod_year': data.get('year'),'vod_area': data.get('area'),'vod_remarks': data.get('dynami'),'vod_content': data.get('content')}
+        
+        video = {
+            'vod_name': data.get('name'),
+            'type_name': data.get('type_name'),
+            'vod_year': data.get('year'),
+            'vod_area': data.get('area'),
+            'vod_remarks': data.get('dynami'),
+            'vod_content': data.get('content')
+        }
+        
         play = []
         names = []
         
-        # 🌟 徹底拔除 ThreadPoolExecutor，全面改為極速 Lazy Load 模式
+        # 徹底移除 ThreadPoolExecutor 多執行緒，全面改為精確 Lazy 索引機制
         for itt in data["play_from"]:
             name = itt["name"]
+            from_code = itt["code"]
+            
             if len(itt["list"]) > 0:
                 names.append(name)
                 play.append(self.playeach(itt['list']))
             else:
-                # 核心優化：如果該線路劇集為空，不跑多執行緒，直接埋入延遲獲取劇集標籤，傳遞 movie_id 與 from_code
                 names.append(name)
-                play.append(f"動態加載劇集$LAZY_LST_{ids[0]}_{itt['from_code']}")
+                # 核心優化：如果網頁未返回列表，我們預先為電視盒生成 40 個集數外殼（通常足夠覆蓋大部分影集）
+                # 每一集都帶有它專屬的 index 索引，用於在 playerContent 點選時精確解鎖
+                lazy_eps = []
+                for idx in range(40):
+                    ep_name = f"第{idx+1:02d}集"
+                    lazy_eps.append(f"{ep_name}$LAZY_ED_{body['id']}_{from_code}_{idx}")
+                play.append('#'.join(lazy_eps))
                 
         video["vod_play_from"] = "$$$".join(names)
         video["vod_play_url"] = "$$$".join(play)
         result = {"list": [video]}
+        return result
+
+    def playerContent(self, flag, id, vipFlags):
+        url = id
+        
+        # 1. 攔截電視盒點擊某一集時的精確動態解鎖標籤
+        if url.startswith("LAZY_ED_"):
+            try:
+                # 解析出埋入的 movie_id, from_code 以及當前點選的集數索引 ep_idx
+                parts = url.replace("LAZY_ED_", "").split('_')
+                movie_id = parts[0]
+                from_code = parts[1]
+                ep_idx = int(parts[2])
+                
+                # 瞬間請求該線路的完整列表 (僅耗時 0.1 秒)
+                task = {"movie_id": movie_id, "from_code": from_code}
+                real_playlist_str = self.playlist(task)
+                
+                if real_playlist_str:
+                    # real_playlist_str 結構為 "第1集$url#第2集$url..."
+                    ep_list = real_playlist_str.split('#')
+                    
+                    # 邊界防護：如果使用者點擊的集數超出了該正片真實擁有的最大集數，自動保底選最後一集
+                    if ep_idx >= len(ep_list):
+                        ep_idx = len(ep_list) - 1
+                        
+                    target_ep = ep_list[ep_idx]
+                    # 切割出該集真正的解密網址或包含 ||| 的密鑰字串
+                    url = target_ep.split('$')[1] if '$' in target_ep else target_ep
+                else:
+                    url = self.host
+            except Exception as e:
+                print(f"Lazy parse error: {e}")
+                url = self.host
+
+        # 2. 原碼2自帶的二次加密地址解析流程 (完全保留，完美支援 ||| 切分)
+        if "m3u8" not in url and "mp4" not in url:
+            try:
+                add = url.split('|||')
+                if len(add) >= 3:
+                    data = {"from_code": add[0], "play_url": add[1], "episode_id": add[2], "type": "play"}
+                    bba = self.url(data)
+                    data2 = self.fetch(f"{self.host}/api/v1/movie_addr/parse_url?pack={bba[0]}&signature={bba[1]}",
+                                       headers=self.header()).json()['data']
+                    url = data2.get('play_url') or data2.get('download_url')
+                    try:
+                        url1 = self.fetch(url, headers=self.header(), allow_redirects=False).headers['Location']
+                        if url1 and "http" in url1:
+                            url = url1
+                    except:
+                        pass
+            except Exception as e:
+                print(f"Parse url error: {e}")
+                pass
+                
+        if '.jpg' in url or '.jpeg' in url or '.png' in url:
+            url = self.getProxyUrl() + "&url=" + b64encode(url.encode('utf-8')).decode('utf-8') + "&type=m3u8"
+            
+        result = {}
+        result["parse"] = 0
+        result["url"] = url
+        result["header"] = {'user-agent': 'okhttp/4.9.2'}
         return result
 
     def searchContent(self, key, quick, pg=1):
@@ -151,56 +229,6 @@ class Spider(Spider):
             except Exception as e:
                 continue
         result = {"list": videos, "page": pg}
-        return result
-
-    def playerContent(self, flag, id, vipFlags):
-        url = id
-        
-        # 1. 攔截點擊時的延遲劇集加載標籤
-        if url.startswith("LAZY_LST_"):
-            try:
-                parts = url.replace("LAZY_LST_", "").split('_')
-                movie_id = parts[0]
-                from_code = parts[1]
-                
-                # 在點擊的瞬間，單獨去請求這條片源的完整集數 (極速耗時 0.1 秒)
-                task = {"movie_id": movie_id, "from_code": from_code}
-                real_playlist_str = self.playlist(task)
-                
-                # 核心技巧：將整條劇集網址返回，並透過指定一個非播放格式，讓 TVBox 彈出集數清單，引導使用者點擊真正集數
-                # 若電視盒策略不同，此處直接返回第一集或該字串解鎖
-                if real_playlist_str:
-                    url = real_playlist_str
-                else:
-                    url = self.host
-            except Exception as e:
-                url = self.host
-                
-        # 2. 原碼2自帶的常規二次加解密播放解析邏輯 (完全保留，相容 ||| 切分)
-        elif "m3u8" not in url and "mp4" not in url:
-            try:
-                add = url.split('|||')
-                data = {"from_code": add[0], "play_url": add[1], "episode_id": add[2], "type": "play"}
-                bba = self.url(data)
-                data2 = self.fetch(f"{self.host}/api/v1/movie_addr/parse_url?pack={bba[0]}&signature={bba[1]}",
-                                   headers=self.header()).json()['data']
-                url = data2.get('play_url') or data2.get('download_url')
-                try:
-                    url1 = self.fetch(url, headers=self.header(), allow_redirects=False).headers['Location']
-                    if url1 and "http" in url1:
-                        url = url1
-                except:
-                    pass
-            except Exception as e:
-                pass
-                
-        if '.jpg' in url or '.jpeg' in url or '.png' in url:
-            url = self.getProxyUrl() + "&url=" + b64encode(url.encode('utf-8')).decode('utf-8') + "&type=m3u8"
-            
-        result = {}
-        result["parse"] = 0
-        result["url"] = url
-        result["header"] = {'user-agent': 'okhttp/4.9.2'}
         return result
 
     def localProxy(self, param):
