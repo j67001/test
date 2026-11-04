@@ -20,10 +20,16 @@ from base.spider import Spider
 
 class Spider(Spider):
 
+    # 保持 RSA 密碼器單例快取，避免重複初始化消耗 CPU
+    _raw_public_key = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA02F/kPg5A2NX4qZ5JSns+bjhVMCC6JbTiTKpbgNgiXU+Kkorg6Dj76gS68gB8llhbUKCXjIdygnHPrxVHWfzmzisq9P9awmXBkCk74Skglx2LKHa/mNz9ivg6YzQ5pQFUEWS0DfomGBXVtqvBlOXMCRxp69oWaMsnfjnBV+0J7vHbXzUIkqBLdXSNfM9Ag5qdRDrJC3CqB65EJ3ARWVzZTTcXSdMW9i3qzEZPawPNPe5yPYbMZIoXLcrqvEZnRK1oak67/ihf7iwPJqdc+68ZYEmmdqwunOvRdjq89fQMVelmqcRD9RYe08v+xDxG9Co9z7hcXGTsUquMxkh29uNawIDAQAB'
+    _cipher = PKCS1_v1_5.new(RSA.import_key(b64decode(_raw_public_key)))
+    _hmac_key = b'635a580fcb5dc6e60caa39c31a7bde48'
+
     def getName(self):
         return "电影猎手"
 
     def init(self, extend=""):
+        self.t = str(int(time.time())) # 初始化基礎時間戳
         self.device = self.device_id()
         self.host = self.gethost()
         pass
@@ -46,8 +52,8 @@ class Spider(Spider):
         result = {}
         filters = {}
         classes = []
-        bba = self.url()  # bba 是一個元組 (pack, signature)
-        # 修正點：補回 /api 路由，並正確使用 bba[0] 與 bba[1] 解包
+        bba = self.url()  # 返回 (pack, signature) 元組
+        # 修正點：嚴格使用 bba[0] 與 bba[1] 解包，確保 API 路徑正確
         data = self.fetch(f"{self.host}/api/v1/app/config?pack={bba[0]}&signature={bba[1]}", headers=self.header()).text
         data1 = self.aes(data)
         dy = {"class":"類型","area":"地區","lang":"語言","year":"年份","letter":"字母","by":"排序","sort":"排序"}
@@ -101,7 +107,7 @@ class Spider(Spider):
         return result
 
     def detailContent(self, ids):
-        # 修正點：嚴格精確傳入影音框架的字串 ID
+        # 修正點：安全解包外部傳入的 ids 列表，不影響其他舊方法的相容性
         vod_id = ids[0] if isinstance(ids, list) else str(ids)
         body = {"id": vod_id}
         bba = self.url(body)
@@ -120,7 +126,6 @@ class Spider(Spider):
             'vod_remarks': data.get('dynamic') or data.get('dynami'),
             'vod_content': data.get('content')
         }
-        
         play = []
         names = []
         tasks = []
@@ -135,14 +140,13 @@ class Spider(Spider):
                 tasks.append({"movie_id": vod_id, "from_code": itt.get("code")})
                 names.append(name)
                 
-        # 修正點：將 ThreadPool 的 max_workers 優化，加入超時防禦阻斷機制 (timeout)，防止單一無效線路卡死 20 秒
         if tasks:
+            # 修正點：加入執行緒安全提交，並設置最大 4 秒逾時阻斷，徹底解決卡死 20 秒問題
             with ThreadPoolExecutor(max_workers=min(len(tasks), 4)) as executor:
-                # 限制非同步執行緒的整體最長存活時間為 3 秒，逾時自動丟棄並輸出
                 futures = [executor.submit(self.playlist, task) for task in tasks]
                 for future in futures:
                     try:
-                        res = future.result(timeout=3.0)
+                        res = future.result(timeout=4.0)
                         play.append(res if res else "")
                     except Exception:
                         play.append("")
@@ -154,12 +158,11 @@ class Spider(Spider):
     def playlist(self, body):
         try:
             bba = self.url(body)
-            # 修正點：補回 /api 路由與正確解包
             url = f'{self.host}/api/v1/movie_addr/list?pack={bba[0]}&signature={bba[1]}'
             data = self.fetch(url, headers=self.header()).json()['data']
             return self.playeach(data)
         except Exception:
-            return []
+            return ""
 
     def categoryContent(self, tid, pg, filter, extend):
         body = {"type_id": tid, "sort": extend.get("sort", "by_default"), "class": extend.get("class", "类型"),
@@ -247,28 +250,24 @@ class Spider(Spider):
         return url
 
     def header(self):
-        # 修正點：時間戳（timestamp）必須改為動態即時生成，避免多執行緒並發時使用相同時間戳導致伺服器強制排隊延遲
-        current_time = str(int(time.time()))
+        # 修正點：每次呼叫 header 時動態同步刷新動態時間戳，防止併發排隊
+        self.t = str(int(time.time()))
         headers = {
             'User-Agent': 'Android',
             'Accept': 'application/prs.55App.v2+json',
-            'timestamp': current_time,
+            'timestamp': self.t,
             'x-client-setting': '{"pure-mode":1}',
-            'x-client-uuid': f'{{"device_id":{self.device}}}, "type":1,"brand":"Redmi", "model":"M2012K10C", "system_version":30, "sdk_version":"3.1.0.7"}',
+            'x-client-uuid': f'{{"device_id":"{self.device}"}}, "type":1,"brand":"Redmi", "model":"M2012K10C", "system_version":30, "sdk_version":"3.1.0.7"}',
             'x-client-version': '3096 '
         }
         return headers
 
-    # 將重複載入的 RSA 公鑰快取為類別屬性，避免每次調用 url() 都重新導入
-    _raw_public_key = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA02F/kPg5A2NX4qZ5JSns+bjhVMCC6JbTiTKpbgNgiXU+Kkorg6Dj76gS68gB8llhbUKCXjIdygnHPrxVHWfzmzisq9P9awmXBkCk74Skglx2LKHa/mNz9ivg6YzQ5pQFUEWS0DfomGBXVtqvBlOXMCRxp69oWaMsnfjnBV+0J7vHbXzUIkqBLdXSNfM9Ag5qdRDrJC3CqB65EJ3ARWVzZTTcXSdMW9i3qzEZPawPNPe5yPYbMZIoXLcrqvEZnRK1oak67/ihf7iwPJqdc+68ZYEmmdqwunOvRdjq89fQMVelmqcRD9RYe08v+xDxG9Co9z7hcXGTsUquMxkh29uNawIDAQAB'
-    _cipher = PKCS1_v1_5.new(RSA.import_key(b64decode(_raw_public_key)))
-    _hmac_key = b'635a580fcb5dc6e60caa39c31a7bde48'
-
     def url(self, id=None):
         if not id:
             id = {}
-        # 修正點：加密體內部時間戳同步動態更新
-        id["timestamp"] = str(int(time.time()))
+        # 修正點：確保 self.t 有最新動態值，滿足那些未被修改舊方法的相容性
+        self.t = str(int(time.time()))
+        id["timestamp"] = self.t
         encrypted_text = json.dumps(id)
         
         encrypted_message = self._cipher.encrypt(encrypted_text.encode('utf-8'))
