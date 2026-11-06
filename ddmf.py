@@ -191,38 +191,62 @@ class Spider(Spider):
         return out
 
     def homeContent(self, filter):
-        # 1. 定義地區篩選清單
+        # 1. 定義共用的篩選項目
         areas = ["大陆", "内地", "香港", "台湾", "美国", "韩国", "日本", "法国", "英国", "德国", "泰国", "印度", "意大利", "西班牙", "加拿大", "其他"]
         area_values = [{"n": "全部", "v": ""}] + [{"n": a, "v": a} for a in areas]
 
-        # 2. 定義年份篩選清單
-        year_values = [{"n": "全部", "v": ""}] + [{"n": str(y), "v": str(y)} for y in range(2026, 2003, -1)]
-
-        # 3. 定義排序篩選清單
         sort_values = [
             {"n": "時間排序", "v": "time"},
             {"n": "人氣排序", "v": "hits"},
             {"n": "評分排序", "v": "score"}
         ]
 
-        # 4. 為每個分類(categories)配置相同的篩選條件組
+        year_values = [{"n": "全部", "v": ""}] + [{"n": str(y), "v": str(y)} for y in range(2026, 2013, -1)]
+
+        # 2. 定義各大類的子類別（對應網頁版分類）
+        sub_classes = {
+            "1": [  # 电影
+                {"n": "全部", "v": ""}, {"n": "动作片", "v": "6"}, {"n": "喜剧片", "v": "7"}, 
+                {"n": "爱情片", "v": "8"}, {"n": "科幻片", "v": "9"}
+            ],
+            "2": [  # 电视剧
+                {"n": "全部", "v": ""}, {"n": "海外剧", "v": "30"}, {"n": "国产剧", "v": "13"}, 
+                {"n": "港台剧", "v": "14"}, {"n": "日韩剧", "v": "15"}, {"n": "欧美剧", "v": "16"}
+            ],
+            "3": [  # 综艺
+                {"n": "全部", "v": ""}, {"n": "日韩综艺", "v": "23"}, {"n": "港台综艺", "v": "24"}, 
+                {"n": "欧美综艺", "v": "25"}, {"n": "大陆综艺", "v": "31"}, {"n": "其他综艺", "v": "71"}
+            ],
+            "4": [  # 动漫
+                {"n": "全部", "v": ""}, {"n": "国产", "v": "26"}, {"n": "日韩", "v": "27"}, 
+                {"n": "欧美", "v": "28"}, {"n": "海外", "v": "29"}
+            ],
+            "5": [  # 福利
+                {"n": "全部", "v": ""}, {"n": "港台", "v": "65"}, {"n": "韩国", "v": "66"}, 
+                {"n": "西方", "v": "67"}, {"n": "日本", "v": "68"}, {"n": "三级", "v": "17"}, 
+                {"n": "网红主播", "v": "18"}, {"n": "海外抖音", "v": "37"}
+            ]
+        }
+
+        # 3. 組合篩選器
         fl = {}
         for c in self.categories:
             tid = c["type_id"]
+            current_filters = []
             
-            # 如果是 63 短劇，只留下排序和年份，移除地區
-            if tid == "63":
-                fl[tid] = [
-                    {"key": "sort", "name": "排序", "value": sort_values},
-                    {"key": "year", "name": "年份", "value": year_values}
-                ]
-            else:
-                # 其他分類保持原樣，擁有完整的地區、排序、年份
-                fl[tid] = [
-                    {"key": "area", "name": "地區", "value": area_values},
-                    {"key": "year", "name": "年份", "value": year_values},
-                    {"key": "sort", "name": "排序", "value": sort_values}
-                ]
+            # A. 如果該分類有子類別，則將子類別排在最上方
+            if tid in sub_classes:
+                current_filters.append({"key": "class", "name": "类型", "value": sub_classes[tid]})
+            
+            # B. 配置地區篩選（排除 63短劇 與 37海外抖音/5福利，可依需求自行決定福利大類要不要有地區）
+            if tid not in ["63", "5"]:
+                current_filters.append({"key": "area", "name": "地區", "value": area_values})
+                
+            # C. 加上年份與排序（年份在上，排序在下）
+            current_filters.append({"key": "year", "name": "年份", "value": year_values})
+            current_filters.append({"key": "sort", "name": "排序", "value": sort_values})
+            
+            fl[tid] = current_filters
 
         return {"class": self.categories, "list": self._safe_home_list(), "filters": fl}
 
