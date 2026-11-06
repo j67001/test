@@ -426,27 +426,29 @@ class Spider(Spider):
         play_urls = []
         
         try:
-            # 1. 獲取所有片源標籤 (srcTab-1, srcTab-21 等)
-            tab_lis = root.xpath('//li[starts-with(@id, "srcTab-")] | //li[starts-with(@id, "srctab-")]')
+            # 1. 抓取所有線路名稱標籤（包含顯示與隱藏的）
+            # 兼容大小寫 srcTab-1 和 srcTab-21
+            tab_lis = root.xpath('//li[@id="srcTab-1" or @id="srcTab-21"] | //li[contains(translate(@id, "SRCTAB", "srctab"), "srctab-")]')
             
-            for li in tab_lis:
+            # 2. 抓取所有播放列表（無論 CSS 是 display:none 還是 block，XPath 都能全數抓到）
+            # 同時匹配 class 或者是對應的 id
+            play_lists = root.xpath('//ul[contains(@class, "qy-episode-num")] | //ul[@id="srctab-1" or @id="srctab-21"] | //ul[contains(translate(@id, "SRCTAB", "srctab"), "srctab-")]')
+            
+            # 去除可能重複抓取的 ul
+            unique_lists = []
+            for lst in play_lists:
+                if lst not in unique_lists:
+                    unique_lists.append(lst)
+
+            # 3. 依序配對線路名稱與播放列表
+            for index, li in enumerate(tab_lis):
                 # 提取片源名稱（如：普快线路(3集)）
                 tab_name = li.xpath('./a/text()')
-                name = tab_name[0].strip() if tab_name else f"线路_{len(play_from)+1}"
+                name = tab_name[0].strip() if tab_name else f"线路_{index+1}"
                 
-                # 提取 id 中的數字（例如從 srcTab-21 提取出 21）
-                li_id = li.xpath('./@id')[0] if li.xpath('./@id') else ''
-                num_id = ''.join(filter(str.isdigit, li_id))
-                
-                # 2. 動態尋找對應數字的播放列表 ul (支援 srctab-1, srctab-21 或通用 class)
-                # 使用 contains(translate(...)) 來忽略大小寫問題
-                target_list = root.xpath(
-                    f'//ul[contains(translate(@id, "SRCTAB", "srctab"), "srctab-{num_id}")] | '
-                    f'//ul[contains(@class, "qy-episode-num")][{len(play_from)+1}]'
-                )
-                
-                if target_list:
-                    episodes = self._extract_episodes(target_list[0], video_id)
+                # 依序對應播放列表（第 1 個標籤配第 1 個列表，第 2 個標籤配第 2 個列表）
+                if index < len(unique_lists):
+                    episodes = self._extract_episodes(unique_lists[index], video_id)
                     if episodes:
                         play_from.append(name)
                         play_urls.append('#'.join(episodes))
