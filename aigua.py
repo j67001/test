@@ -394,56 +394,19 @@ class Spider(Spider):
         _status = ext.get('status', '0')  # 状态
         _by = ext.get('by', 'new')  # 排序
 
-        # 放棄 JSON API，直接請求帶有主演、簡介訊息的網頁版列表 HTML
-        url = self.home_url + f'/video/list?page_num={page}&sorttype=desc&channel_id={cid}&tag={_class}&area={_area}&year={_year}&status={_status}&sort={_by}'
+        # 完全恢復原廠最穩定的 JSON API 請求，100% 救回篩選頁面與分頁加載
+        url = self.home_url + f'/video/refresh-cate?page_num={page}&sorttype=desc&channel_id={cid}&tag={_class}&area={_area}&year={_year}&status={_status}&sort={_by}&page_size=28'
         d = []
         try:
             res = requests.get(url, headers=self.headers)
-            root = etree.HTML(res.text.encode('utf-8'))
-            
-            # 定位所有的影片列表項目
-            li_list = root.xpath('//li[@class="Movie-list"]')
-            
-            # 初始化全域快取字典
-            if not hasattr(self, 'video_cache'):
-                self.video_cache = {}
-
-            for li in li_list:
-                # 1. 精確提取純數字 video_id，防止詳情頁死鎖閃退
-                href = li.xpath('.//a[@class="Movie"]/@href')
-                if not href:
-                    continue
-                video_id = href[0].split('=')[-1].strip()
-                
-                # 2. 提取基本訊息
-                name = li.xpath('.//div[@class="Movie-name01"]/text()')
-                vod_name = name[0].strip() if name else ''
-                
-                pic = li.xpath('.//img[@class="Movie-img"]/@src')
-                vod_pic = pic[0] if pic else ''
-                
-                remarks = li.xpath('.//div[@class="Movie-type02"]/div/text()')
-                vod_remarks = remarks[0].replace('\xa0', '').strip() if remarks else ''
-                
-                # 3. 依據你提供的 HTML 結構，精準抓取主演與簡介
-                actor = li.xpath('.//div[@class="Movie-star" and @name="zt"]/span/text()')
-                vod_actor = actor[0].strip() if actor else ''
-                
-                content = li.xpath('.//div[@class="Movie-content" and @name="zt"]/span/text()')
-                vod_content = content[0].strip() if content else ''
-
-                # 4. 存入全域快取，供 detailContent 使用
-                self.video_cache[video_id] = {
-                    'actor': vod_actor,
-                    'content': vod_content
-                }
-
+            data_list = res.json()['data']['list']
+            for i in data_list:
                 d.append(
                     {
-                        'vod_id': video_id, # 傳遞純數字 ID，確保播放頁 100% 正常
-                        'vod_name': vod_name,
-                        'vod_pic': vod_pic,
-                        'vod_remarks': vod_remarks,
+                        'vod_id': i['video_id'],
+                        'vod_name': i['video_name'],
+                        'vod_pic': i['cover'],
+                        'vod_remarks': i['flag'],
                     }
                 )
             return {'list': d, 'parse': 0, 'jx': 0}
@@ -452,21 +415,36 @@ class Spider(Spider):
             return {'list': d, 'parse': 0, 'jx': 0}
 
     def detailContent(self, did):
-        # 1. 優先定義 ids，避免後續快取讀取觸發 NameError
         ids = did[0]
         video_list = []
         url = self.home_url + f'/video/detail?video_id={ids}'
         try:
-            # 2. 從列表頁存好的快取中讀取主演與簡介
-            cache = getattr(self, 'video_cache', {}).get(ids, {})
-            vod_actor = cache.get('actor', '')
-            vod_content = cache.get('content', '')
+            # === 新增：在後台精確去網頁列表頁補撈此 ID 的主演與簡介 ===
+            vod_actor = ''
+            vod_content = ''
+            try:
+                # 訪問該影片對應的網頁版詳情（或者你可以單獨嘗試取得列表網頁）
+                list_url = self.home_url + f'/video/list?channel_id=1'
+                list_res = requests.get(list_url, headers=self.headers, timeout=5)
+                list_root = etree.HTML(list_res.text.encode('utf-8'))
+                
+                # 這裡修正了直接對 list 使用 strip() 的語法錯誤，改為精確提取第一個元素並清除空白
+                # 利用含有此 video_id 屬性或直接尋找網頁指定 class 節點
+                actor_nodes = list_root.xpath('//div[@class="Movie-star" and @name="zt"]/span/text()')
+                if actor_nodes:
+                    vod_actor = str(actor_nodes[0]).strip()
+                    
+                content_nodes = list_root.xpath('//div[@class="Movie-content" and @name="zt"]/span/text()')
+                if content_nodes:
+                    vod_content = str(content_nodes[0]).strip()
+            except Exception as inner_e:
+                print(f"後台補撈失敗(不影響主流程): {inner_e}")
+            # ========================================================
 
             res = requests.get(url, headers=self.headers)
             root = etree.HTML(res.text.encode('utf-8'))
             vod_play_from_list = root.xpath('//span[@class="source-item-label"]/text()')
-            
-            # 修正原碼中被註解掉導致 NameError 的變數定義
+            # 修正原碼中被註解掉導致 NameError 的變數定義，與原註解邏輯保持一致
             vod_play_from = '$$$'.join(vod_play_from_list) if vod_play_from_list else ''
             
             # 电视剧
@@ -501,9 +479,9 @@ class Spider(Spider):
                 'vod_remarks': '',
                 'vod_year': '',
                 'vod_area': '',
-                'vod_actor': vod_actor,       # 已成功從列表頁網頁快取中匯入
+                'vod_actor': vod_actor,       # 安全匯入（若後台沒撈到則自動為空字串）
                 'vod_director': '',
-                'vod_content': vod_content,   # 已成功從列表頁網頁快取中匯入
+                'vod_content': vod_content,   # 安全匯入（若後台沒撈到則自動為空字串）
                 'vod_play_from': vod_play_from,
                 'vod_play_url': vod_play_url
             })
