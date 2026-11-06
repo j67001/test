@@ -421,41 +421,43 @@ class Spider(Spider):
         return info
 
     def _extract_play_data(self, root, video_id: str) -> Dict:
-        """提取播放數據"""
+        """提取播放数据"""
         play_from = []
         play_urls = []
         
         try:
-            # 1. 獲取所有片源標籤
-            tab_lis = root.xpath('//li[starts-with(@id, "srcTab-")]')
+            # 1. 獲取所有片源標籤 (srcTab-1, srcTab-21 等)
+            tab_lis = root.xpath('//li[starts-with(@id, "srcTab-")] | //li[starts-with(@id, "srctab-")]')
             
-            # 2. 獲取所有播放列表區塊（請確認您的播放列表 class 是否為 qy-episode-num）
-            # 或者是其他 class，例如 //div[@class="play-list-box"]/ul
-            all_lists = root.xpath('//ul[contains(@class, "qy-episode-num")]')
-            
-            for index, li in enumerate(tab_lis):
-                # 提取片源名稱
+            for li in tab_lis:
+                # 提取片源名稱（如：普快线路(3集)）
                 tab_name = li.xpath('./a/text()')
-                name = tab_name[0].strip() if tab_name else f"线路_{index+1}"
+                name = tab_name[0].strip() if tab_name else f"线路_{len(play_from)+1}"
                 
-                # 依據目前是第幾個片源(index)，直接取第幾個播放列表
-                if index < len(all_lists):
-                    target_list = all_lists[index]
-                    episodes = self._extract_episodes(target_list, video_id)
+                # 提取 id 中的數字（例如從 srcTab-21 提取出 21）
+                li_id = li.xpath('./@id')[0] if li.xpath('./@id') else ''
+                num_id = ''.join(filter(str.isdigit, li_id))
+                
+                # 2. 動態尋找對應數字的播放列表 ul (支援 srctab-1, srctab-21 或通用 class)
+                # 使用 contains(translate(...)) 來忽略大小寫問題
+                target_list = root.xpath(
+                    f'//ul[contains(translate(@id, "SRCTAB", "srctab"), "srctab-{num_id}")] | '
+                    f'//ul[contains(@class, "qy-episode-num")][{len(play_from)+1}]'
+                )
+                
+                if target_list:
+                    episodes = self._extract_episodes(target_list[0], video_id)
                     if episodes:
                         play_from.append(name)
                         play_urls.append('#'.join(episodes))
-                else:
-                    # 如果找不到對應的列表，塞空字串維持線路對齊
-                    play_from.append(name)
-                    play_urls.append('')
             
+            # 如果完全沒有找到任何播放數據，提供預設空值
             if not play_urls:
                 play_from = ['线路一']
                 play_urls = ['']
                 
         except Exception as e:
-            logger.warning(f"提取播放數據失敗: {e}")
+            logger.warning(f"提取播放数据失败: {e}")
             play_from = ['线路一']
             play_urls = ['']
         
