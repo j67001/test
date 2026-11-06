@@ -408,13 +408,6 @@ class Spider(Spider):
                         'vod_remarks': i['flag'],
                     }
                 )
-                # 在 for i in data_list: 循環內
-                if not hasattr(self, 'video_cache'):
-                    self.video_cache = {}
-                self.video_cache[i['video_id']] = {
-                    'actor': i.get('actor', ''),
-                    'content': i.get('content', '')
-                }
             return {'list': d, 'parse': 0, 'jx': 0}
         except Exception as e:
             print(e)
@@ -423,11 +416,6 @@ class Spider(Spider):
     def detailContent(self, did):
         ids = did[0]
         video_list = []
-
-        cache = getattr(self, 'video_cache', {}).get(ids, {})
-        vod_actor = cache.get('actor', '')
-        vod_content = cache.get('content', '')
-
         url = self.home_url + f'/video/detail?video_id={ids}'
         try:
             res = requests.get(url, headers=self.headers)
@@ -470,7 +458,6 @@ class Spider(Spider):
             # print(vod_play_url_list*3)
             vod_play_url = '$$$'.join(vod_play_url_list*3)
             # print(vod_play_url_list)
-
             video_list.append({
                 'type_name': '',
                 'vod_id': ids,
@@ -478,9 +465,9 @@ class Spider(Spider):
                 'vod_remarks': '',
                 'vod_year': '',
                 'vod_area': '',
-                'vod_actor': vod_actor,       # 已匯入對應位置
+                'vod_actor': '',
                 'vod_director': '',
-                'vod_content': vod_content,   # 已匯入對應位置
+                'vod_content': '',
                 'vod_play_from': vod_play_from,
                 'vod_play_url': vod_play_url
             })
