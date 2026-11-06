@@ -191,17 +191,58 @@ class Spider(Spider):
         return out
 
     def homeContent(self, filter):
-        fl = {c["type_id"]: [{"key": "year", "name": "年份", "value": [{"n": "全部", "v": ""}] + [{"n": str(y), "v": str(y)} for y in range(2026, 2014, -1)]}] for c in self.categories}
+        # 1. 定義地區篩選清單
+        areas = ["大陆", "内地", "香港", "台湾", "美国", "韩国", "日本", "法国", "英国", "德国", "泰国", "印度", "意大利", "西班牙", "加拿大", "其他"]
+        area_values = [{"n": "全部", "v": ""}] + [{"n": a, "v": a} for a in areas]
+
+        # 2. 定義排序篩選清單
+        sort_values = [
+            {"n": "時間排序", "v": "time"},
+            {"n": "人氣排序", "v": "hits"},
+            {"n": "評分排序", "v": "score"}
+        ]
+
+        # 3. 定義年份篩選清單
+        year_values = [{"n": "全部", "v": ""}] + [{"n": str(y), "v": str(y)} for y in range(2026, 2013, -1)]
+
+        # 4. 為每個分類(categories)配置相同的篩選條件組
+        fl = {}
+        for c in self.categories:
+            fl[c["type_id"]] = [
+                {"key": "area", "name": "地區", "value": area_values},
+                {"key": "sort", "name": "排序", "value": sort_values},
+                {"key": "year", "name": "年份", "value": year_values}
+            ]
+
         return {"class": self.categories, "list": self._safe_home_list(), "filters": fl}
 
-    def homeVideoContent(self): return {"list": self._safe_home_list()}
+    def homeVideoContent(self): 
+        return {"list": self._safe_home_list()}
 
     def categoryContent(self, tid, pg, filter, extend):
         pg = str(pg or "1")
-        year = (extend or {}).get("year", "")
-        base = "/vodshow/%s-----------%s.html" % (tid, year) if year else "/vodshow/%s-----------.html" % tid
+        
+        # 從 extend 獲取篩選值，若無則留空（排序預設 time 可依需求微調）
+        extend = extend or {}
+        area = extend.get("area", "")
+        sort = extend.get("sort", "")
+        year = extend.get("year", "")
+
+        # 依照 https://www.ddmf.net/vodshow/1-大陆-time---------2026.html 的標準
+        # 格式：/vodshow/{tid}-{area}-{sort}---------{year}.html
+        # 注意中間有 9 個連字號（-）
+        base = "/vodshow/%s-%s-%s---------%s.html" % (tid, area, sort, year)
+        
+        # 呼叫分頁解析
         lst = self._parse_list(self._paged(base, pg))
-        return {"page": int(pg), "pagecount": int(pg) + 1 if lst else int(pg), "limit": 32, "total": 999999, "list": lst}
+        
+        return {
+            "page": int(pg), 
+            "pagecount": int(pg) + 1 if lst else int(pg), 
+            "limit": 32, 
+            "total": 999999, 
+            "list": lst
+        }
 
     def searchContent(self, key, quick, pg="1"):
         pg = str(pg or "1")
