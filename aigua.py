@@ -100,7 +100,7 @@ class Spider(Spider):
 
     def searchContent(self, key, quick, pg="1"):
         body = {'token': self.token, 'authcode': self.code, 'keyword': key, 'page_num': pg}
-        data = self.post(f'{self.host}/hr_1_1_0/apptvapi/web/index.php/search/letter-result', data=self.getbody(body),
+        data = self.post(f'{self.host}/hr_1_1_0/apptvapi/web/index.php/search/letter-result', json=self.getbody(body),
                          headers=self.headers).json()
         return {'list': self.getlist(data['data']['list'])}
 
