@@ -426,38 +426,30 @@ class Spider(Spider):
         play_urls = []
         
         try:
-            # 1. 動態獲取所有符合條件的片源選單項（支援 srcTab-1, srcTab-21 等）
+            # 1. 獲取所有片源標籤
             tab_lis = root.xpath('//li[starts-with(@id, "srcTab-")]')
             
-            for li in tab_lis:
-                # 提取片源名稱并去除兩端空格
+            # 2. 獲取所有播放列表區塊（請確認您的播放列表 class 是否為 qy-episode-num）
+            # 或者是其他 class，例如 //div[@class="play-list-box"]/ul
+            all_lists = root.xpath('//ul[contains(@class, "qy-episode-num")]')
+            
+            for index, li in enumerate(tab_lis):
+                # 提取片源名稱
                 tab_name = li.xpath('./a/text()')
-                name = tab_name[0].strip() if tab_name else f"线路_{len(play_from)+1}"
+                name = tab_name[0].strip() if tab_name else f"线路_{index+1}"
                 
-                # 獲取該選單項對應的 id
-                tab_id = li.xpath('./@id')[0].lower() # 轉小寫以防 HTML 大小寫不一致
-                
-                # 2. 根據當前 tab_id 查找對應的播放集數列表
-                # 這裡假設你的播放列表 ul id 與 <li> 的 id 對應（如 id="srctab-1" 或包含該 id 的類名）
-                # 如果播放列表的 ul 結構固定，也可以直接依序配對
-                play_list = root.xpath(f'//ul[@id="{tab_id}"] | //ul[contains(@class, "qy-episode-num")]')
-                
-                # 如果按 id 找到了多個或需要跟當前循環序號對應，這裡取與當前 tab 匹配的列表
-                # 這裡示範精準匹配對應 tab_id 的播放列表
-                target_list = root.xpath(f'//ul[@id="{tab_id}"]')
-                if not target_list:
-                    # 如果找不到特定 id，則退而求其次找通用的播放列表結構
-                    all_lists = root.xpath('//ul[contains(@class, "qy-episode-num")]')
-                    # 依據目前是第幾個片源，取第幾個播放列表
-                    target_list = [all_lists[len(play_from)]] if len(all_lists) > len(play_from) else []
-
-                if target_list:
-                    episodes = self._extract_episodes(target_list[0], video_id)
+                # 依據目前是第幾個片源(index)，直接取第幾個播放列表
+                if index < len(all_lists):
+                    target_list = all_lists[index]
+                    episodes = self._extract_episodes(target_list, video_id)
                     if episodes:
                         play_from.append(name)
                         play_urls.append('#'.join(episodes))
+                else:
+                    # 如果找不到對應的列表，塞空字串維持線路對齊
+                    play_from.append(name)
+                    play_urls.append('')
             
-            # 如果完全沒有找到任何播放數據，提供預設空值
             if not play_urls:
                 play_from = ['线路一']
                 play_urls = ['']
