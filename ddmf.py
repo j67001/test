@@ -196,7 +196,7 @@ class Spider(Spider):
         area_values = [{"n": "全部", "v": ""}] + [{"n": a, "v": a} for a in areas]
 
         # 2. 定義年份篩選清單
-        year_values = [{"n": "全部", "v": ""}] + [{"n": str(y), "v": str(y)} for y in range(2026, 2013, -1)]
+        year_values = [{"n": "全部", "v": ""}] + [{"n": str(y), "v": str(y)} for y in range(2026, 2003, -1)]
 
         # 3. 定義排序篩選清單
         sort_values = [
