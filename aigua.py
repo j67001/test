@@ -394,7 +394,6 @@ class Spider(Spider):
         _status = ext.get('status', '0')  # 状态
         _by = ext.get('by', 'new')  # 排序
 
-        # 恢復最穩定、完全不影響分頁與篩選的原廠 API 請求
         url = self.home_url + f'/video/refresh-cate?page_num={page}&sorttype=desc&channel_id={cid}&tag={_class}&area={_area}&year={_year}&status={_status}&sort={_by}&page_size=28'
         d = []
         try:
@@ -415,44 +414,29 @@ class Spider(Spider):
             return {'list': d, 'parse': 0, 'jx': 0}
 
     def detailContent(self, did):
-        # 1. 嚴格維持原本的 ids 陣列提取方式，100% 保證網址不拼接錯誤
         ids = did[0]
         video_list = []
         url = self.home_url + f'/video/detail?video_id={ids}'
         try:
             res = requests.get(url, headers=self.headers)
             root = etree.HTML(res.text.encode('utf-8'))
-            
             vod_play_from_list = root.xpath('//span[@class="source-item-label"]/text()')
-            # 修正原碼註解掉變數導致 NameError 的問題，正確保留所有解出來的片源來源
-            vod_play_from = '$$$'.join(vod_play_from_list) if vod_play_from_list else '預設來源'
-
-            # === 2. 修正校驗：直接從當前詳情頁的 HTML 結構中撈取主演與簡介 ===
-            vod_actor = ''
-            vod_content = ''
-            
-            # 使用 contains 模糊匹配，直接從當前詳情網頁中提取指定區塊的文字
-            actor_nodes = root.xpath('//div[contains(@class, "Movie-star")]/span/text()')
-            if actor_nodes and len(actor_nodes) > 0:
-                vod_actor = actor_nodes[0].strip()
-                
-            content_nodes = root.xpath('//div[contains(@class, "Movie-content")]/span/text()')
-            if content_nodes and len(content_nodes) > 0:
-                vod_content = content_nodes[0].strip()
-            # ===================================================================
-
+            # vod_play_from = '$$$'.join(['书生玩剣ⁱ·*₁＇', '名妓读经ⁱ·*₁＇', '将军作文ⁱ·*₁＇'])
             # 电视剧
             play_list1 = root.xpath('//ul[contains(@class, "qy-episode-num")]')
+            # print(play_list1)
             # 电影
+            # play_list2 = root.xpath('//ul[contains(@class, "qy-play-list")]')
             play_list2 = root.xpath('//ul[@id="srctab-1"]')
-            
+            # print(play_list2)
             vod_play_url_list = []
             if len(play_list1) > 0:
-                # 🛠️ 修正片源少一個的 Bug：原碼的 play_list1[:-1] 會切掉最後一個片源！
-                # 這裡直接改為獲取完整列表，不進行切片切除
-                play_list = play_list1
+                play_list = play_list1[:-1]
+                # print(play_list)
+
             elif len(play_list2) > 0:
                 play_list = play_list2
+                # print(play_list)
             else:
                 play_list = []
 
@@ -460,14 +444,20 @@ class Spider(Spider):
                 name_list1 = i.xpath('.//div[@class="select-link"]/text()')
                 name_list2 = i.xpath('.//span[@class="title-link"]/text()')
                 name_list3 = i.xpath('./li/text()')
+                # print(name_list1)
+                # print(name_list2)
+                # print(name_list3)
+                # print(name_list1 + name_list2 + name_list3)
                 name_list = name_list1 + name_list2 + name_list3
                 url_list = i.xpath('./li/@data-chapter-id')
                 vod_play_url_list.append(
                     '#'.join([_name.strip() + '$' + f'{ids}-{_url}' for _name, _url in zip(name_list, url_list)])
                 )
 
+
+            # print(vod_play_url_list*3)
             vod_play_url = '$$$'.join(vod_play_url_list*3)
-            
+            # print(vod_play_url_list)
             video_list.append({
                 'type_name': '',
                 'vod_id': ids,
@@ -475,9 +465,9 @@ class Spider(Spider):
                 'vod_remarks': '',
                 'vod_year': '',
                 'vod_area': '',
-                'vod_actor': vod_actor,       # 成功帶入
+                'vod_actor': '',
                 'vod_director': '',
-                'vod_content': vod_content,   # 成功帶入
+                'vod_content': '',
                 'vod_play_from': vod_play_from,
                 'vod_play_url': vod_play_url
             })
