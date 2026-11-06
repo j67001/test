@@ -255,19 +255,23 @@ class Spider(Spider):
 
     def categoryContent(self, tid, pg, filter, extend):
         pg = str(pg or "1")
-        
-        # 從 extend 獲取篩選值，若無則留空（排序預設 time 可依需求微調）
         extend = extend or {}
+        
+        # 【核心關鍵】讀取子類別篩選值
+        # 如果使用者點選了子類別（值不為空），就用子類別的 ID 直接覆蓋大類別的 tid
+        sub_tid = extend.get("class", "")
+        if sub_tid:
+            tid = sub_tid
+
+        # 讀取其他篩選條件
         area = extend.get("area", "")
         sort = extend.get("sort", "")
         year = extend.get("year", "")
 
-        # 依照 https://www.ddmf.net/vodshow/1-大陆-time---------2026.html 的標準
-        # 格式：/vodshow/{tid}-{area}-{sort}---------{year}.html
-        # 注意中間有 9 個連字號（-）
+        # 格式：/vodshow/{實際ID}-{area}-{sort}---------{year}.html
+        # 當 tid 被替換成 6 且其他留空時，會完美生成：/vodshow/6-----------.html
         base = "/vodshow/%s-%s-%s---------%s.html" % (tid, area, sort, year)
         
-        # 呼叫分頁解析
         lst = self._parse_list(self._paged(base, pg))
         
         return {
