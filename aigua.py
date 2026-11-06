@@ -388,11 +388,11 @@ class Spider(Spider):
             return {'list': d, 'parse': 0, 'jx': 0}
 
     def _categoryContent_raw(self, cid, page, filter, ext):
-        _class = ext.get('class', '0')  # 剧情/类型
-        _area = ext.get('area', '0')  # 地区
-        _year = ext.get('year', '0')  # 年份
-        _status = ext.get('status', '0')  # 状态
-        _by = ext.get('by', 'new')  # 排序
+        _class = ext.get('class', '0')  # 劇情/類型
+        _area = ext.get('area', '0')    # 地區
+        _year = ext.get('year', '0')    # 年份
+        _status = ext.get('status', '0')# 狀態
+        _by = ext.get('by', 'new')      # 排序
 
         url = self.home_url + f'/video/refresh-cate?page_num={page}&sorttype=desc&channel_id={cid}&tag={_class}&area={_area}&year={_year}&status={_status}&sort={_by}&page_size=28'
         d = []
@@ -400,9 +400,16 @@ class Spider(Spider):
             res = requests.get(url, headers=self.headers)
             data_list = res.json()['data']['list']
             for i in data_list:
+                # === 修改點：從 API 取出主演與簡介，若欄位名稱不同請依據 API 調整 ===
+                actor = i.get('actor', '').replace('@@@', '') # 避免內文包含@@@衝突
+                content = i.get('content', '').replace('@@@', '')
+                
+                # 將 id、主演、簡介拼在一起傳給下游
+                combined_id = f"{i['video_id']}@@@{actor}@@@{content}"
+                
                 d.append(
                     {
-                        'vod_id': i['video_id'],
+                        'vod_id': combined_id, # 這裡改傳複合 ID
                         'vod_name': i['video_name'],
                         'vod_pic': i['cover'],
                         'vod_remarks': i['flag'],
@@ -414,25 +421,26 @@ class Spider(Spider):
             return {'list': d, 'parse': 0, 'jx': 0}
 
     def detailContent(self, did):
-        ids = did[0]
+        # === 修改點：拆解複合 ID ===
+        input_id = did[0]
+        vod_actor = ''
+        vod_content = ''
+        
+        if '@@@' in input_id:
+            # 拆分出真正的 video_id、主演和簡介
+            parts = input_id.split('@@@')
+            ids = parts[0]
+            if len(parts) > 1: vod_actor = parts[1]
+            if len(parts) > 2: vod_content = parts[2]
+        else:
+            ids = input_id
+            
         video_list = []
         url = self.home_url + f'/video/detail?video_id={ids}'
         try:
             res = requests.get(url, headers=self.headers)
             root = etree.HTML(res.text.encode('utf-8'))
-            
-            # === 1. 新增：提取 主演 與 簡介 ===
-            # 提取主演（先拿到 span 裡面的所有文字，再去除首尾空白）
-            actor_list = root.xpath('//div[@class="Movie-star"]/span/text()')
-            vod_actor = actor_list[0].strip() if actor_list else ''
-            
-            # 提取簡介（先拿到 span 裡面的所有文字，再去除首尾空白）
-            content_list = root.xpath('//div[@class="Movie-content"]/span/text()')
-            vod_content = content_list[0].strip() if content_list else ''
-            # ==================================
-
             vod_play_from_list = root.xpath('//span[@class="source-item-label"]/text()')
-            # 確保 vod_play_from 有預設值，避免變數未定義報錯
             vod_play_from = '$$$'.join(vod_play_from_list) if vod_play_from_list else '預設來源'
             
             # 電視劇
@@ -459,8 +467,7 @@ class Spider(Spider):
                 )
 
             vod_play_url = '$$$'.join(vod_play_url_list*3)
-
-            # === 2. 將變數帶入到字典中 ===
+            
             video_list.append({
                 'type_name': '',
                 'vod_id': ids,
@@ -468,18 +475,17 @@ class Spider(Spider):
                 'vod_remarks': '',
                 'vod_year': '',
                 'vod_area': '',
-                'vod_actor': vod_actor,      # 已匯入主演
+                'vod_actor': vod_actor,     # 成功匯入列表頁的主演
                 'vod_director': '',
-                'vod_content': vod_content,  # 已匯入簡介
+                'vod_content': vod_content, # 成功匯入列表頁的簡介
                 'vod_play_from': vod_play_from,
                 'vod_play_url': vod_play_url
             })
             return {"list": video_list, 'parse': 0, 'jx': 0}
-
         except Exception as e:
             print(f"Error in detailContent: {e}")
-            # 保留原碼的空列表與錯誤訊息，同時補上結構欄位
-            return {"list": [], "msg": str(e), 'parse': 0, 'jx': 0}
+            return {'list': [], 'msg': str(e)}
+
 
     def _searchContent_raw(self, key, quick, page='1'):
         if str(page) != '1':
