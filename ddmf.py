@@ -33,7 +33,7 @@ class Spider(Spider):
         # 這裡判斷 extend 是否直接等於 True (對應 JSON 中的 "ext": true)
         # 或者 cfg 字典中是否有自定義開關
         self.show_adult = (extend is True or str(extend).lower() == "true")
-        self.categories = [{"type_id": "1", "type_name": "电影"}, {"type_id": "2", "type_name": "电视剧"}, {"type_id": "3", "type_name": "综艺"}, {"type_id": "4", "type_name": "动漫"}, {"type_id": "63", "type_name": "短剧"}, {"type_id": "20", "type_name": "动画电影"}]
+        self.categories = [{"type_id": "1", "type_name": "电影"}, {"type_id": "2", "type_name": "电视剧"}, {"type_id": "4", "type_name": "动漫"}, {"type_id": "3", "type_name": "综艺"},{"type_id": "63", "type_name": "短剧"}]
         # 如果開啟福利模式，則動態追加
         if self.show_adult: self.categories.append({"type_id": "5", "type_name": "福利"})
 
