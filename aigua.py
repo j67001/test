@@ -420,23 +420,31 @@ class Spider(Spider):
         try:
             res = requests.get(url, headers=self.headers)
             root = etree.HTML(res.text.encode('utf-8'))
+            
+            # === 1. 新增：提取 主演 與 簡介 ===
+            # 提取主演（先拿到 span 裡面的所有文字，再去除首尾空白）
+            actor_list = root.xpath('//div[@class="Movie-star"]/span/text()')
+            vod_actor = actor_list[0].strip() if actor_list else ''
+            
+            # 提取簡介（先拿到 span 裡面的所有文字，再去除首尾空白）
+            content_list = root.xpath('//div[@class="Movie-content"]/span/text()')
+            vod_content = content_list[0].strip() if content_list else ''
+            # ==================================
+
             vod_play_from_list = root.xpath('//span[@class="source-item-label"]/text()')
-            # vod_play_from = '$$$'.join(['书生玩剣ⁱ·*₁＇', '名妓读经ⁱ·*₁＇', '将军作文ⁱ·*₁＇'])
-            # 电视剧
+            # 確保 vod_play_from 有預設值，避免變數未定義報錯
+            vod_play_from = '$$$'.join(vod_play_from_list) if vod_play_from_list else '預設來源'
+            
+            # 電視劇
             play_list1 = root.xpath('//ul[contains(@class, "qy-episode-num")]')
-            # print(play_list1)
-            # 电影
-            # play_list2 = root.xpath('//ul[contains(@class, "qy-play-list")]')
+            # 電影
             play_list2 = root.xpath('//ul[@id="srctab-1"]')
-            # print(play_list2)
+            
             vod_play_url_list = []
             if len(play_list1) > 0:
                 play_list = play_list1[:-1]
-                # print(play_list)
-
             elif len(play_list2) > 0:
                 play_list = play_list2
-                # print(play_list)
             else:
                 play_list = []
 
@@ -444,20 +452,15 @@ class Spider(Spider):
                 name_list1 = i.xpath('.//div[@class="select-link"]/text()')
                 name_list2 = i.xpath('.//span[@class="title-link"]/text()')
                 name_list3 = i.xpath('./li/text()')
-                # print(name_list1)
-                # print(name_list2)
-                # print(name_list3)
-                # print(name_list1 + name_list2 + name_list3)
                 name_list = name_list1 + name_list2 + name_list3
                 url_list = i.xpath('./li/@data-chapter-id')
                 vod_play_url_list.append(
                     '#'.join([_name.strip() + '$' + f'{ids}-{_url}' for _name, _url in zip(name_list, url_list)])
                 )
 
-
-            # print(vod_play_url_list*3)
             vod_play_url = '$$$'.join(vod_play_url_list*3)
-            # print(vod_play_url_list)
+
+            # === 2. 將變數帶入到字典中 ===
             video_list.append({
                 'type_name': '',
                 'vod_id': ids,
@@ -465,9 +468,9 @@ class Spider(Spider):
                 'vod_remarks': '',
                 'vod_year': '',
                 'vod_area': '',
-                'vod_actor': '',
+                'vod_actor': vod_actor,      # 已匯入主演
                 'vod_director': '',
-                'vod_content': '',
+                'vod_content': vod_content,  # 已匯入簡介
                 'vod_play_from': vod_play_from,
                 'vod_play_url': vod_play_url
             })
