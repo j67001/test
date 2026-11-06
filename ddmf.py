@@ -35,7 +35,7 @@ class Spider(Spider):
         self.show_adult = (extend is True or str(extend).lower() == "true")
         self.categories = [{"type_id": "1", "type_name": "电影"}, {"type_id": "2", "type_name": "电视剧"}, {"type_id": "3", "type_name": "综艺"}, {"type_id": "4", "type_name": "动漫"}, {"type_id": "63", "type_name": "短剧"}, {"type_id": "20", "type_name": "动画电影"}]
         # 如果開啟福利模式，則動態追加
-        if self.show_adult: self.categories.append({"type_id": "5", "type_name": "福利"})
+        if self.show_adult: self.categories.append({"type_id": "5", "type_name": "福利"}, {"type_id": "37", "type_name": "海外抖音"})
 
     def _fix(self, u):
         if not u: return ""
