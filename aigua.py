@@ -394,18 +394,55 @@ class Spider(Spider):
         _status = ext.get('status', '0')  # 状态
         _by = ext.get('by', 'new')  # 排序
 
-        url = self.home_url + f'/video/refresh-cate?page_num={page}&sorttype=desc&channel_id={cid}&tag={_class}&area={_area}&year={_year}&status={_status}&sort={_by}&page_size=28'
+        # 放棄 JSON API，直接請求網頁版的分類篩選頁面 HTML
+        url = self.home_url + f'/video/list?page_num={page}&sorttype=desc&channel_id={cid}&tag={_class}&area={_area}&year={_year}&status={_status}&sort={_by}'
         d = []
         try:
             res = requests.get(url, headers=self.headers)
-            data_list = res.json()['data']['list']
-            for i in data_list:
+            root = etree.HTML(res.text.encode('utf-8'))
+            
+            # 定位到所有的影片 li 標籤
+            li_list = root.xpath('//li[@class="Movie-list"]')
+            
+            # 初始化快取字典
+            if not hasattr(self, 'video_cache'):
+                self.video_cache = {}
+
+            for li in li_list:
+                # 解析 video_id、名稱、封面與備註
+                href = li.xpath('.//a[@class="Movie"]/@href')
+                if not href:
+                    continue
+                video_id = href[0].split('video_id=')[-1]
+                
+                name = li.xpath('.//div[@class="Movie-name01"]/text()')
+                vod_name = name[0].strip() if name else ''
+                
+                pic = li.xpath('.//img[@class="Movie-img"]/@src')
+                vod_pic = pic[0] if pic else ''
+                
+                remarks = li.xpath('.//div[@class="Movie-type02"]/div[2]/text()')
+                vod_remarks = remarks[0].replace('\xa0', '').strip() if remarks else ''
+                
+                # 精準解析網頁 HTML 的 主演 與 簡介
+                actor = li.xpath('.//div[@class="Movie-star"]/span/text()')
+                vod_actor = actor[0].strip() if actor else ''
+                
+                content = li.xpath('.//div[@class="Movie-content"]/span/text()')
+                vod_content = content[0].strip() if content else ''
+
+                # 將主演與簡介存入快取
+                self.video_cache[video_id] = {
+                    'actor': vod_actor,
+                    'content': vod_content
+                }
+
                 d.append(
                     {
-                        'vod_id': i['video_id'],
-                        'vod_name': i['video_name'],
-                        'vod_pic': i['cover'],
-                        'vod_remarks': i['flag'],
+                        'vod_id': video_id,
+                        'vod_name': vod_name,
+                        'vod_pic': vod_pic,
+                        'vod_remarks': vod_remarks,
                     }
                 )
             return {'list': d, 'parse': 0, 'jx': 0}
@@ -418,25 +455,28 @@ class Spider(Spider):
         video_list = []
         url = self.home_url + f'/video/detail?video_id={ids}'
         try:
+            # 從列表頁快取中提取對應的主演與簡介，若不存在則給空字串
+            cache = getattr(self, 'video_cache', {}).get(ids, {})
+            vod_actor = cache.get('actor', '')
+            vod_content = cache.get('content', '')
+
             res = requests.get(url, headers=self.headers)
             root = etree.HTML(res.text.encode('utf-8'))
             vod_play_from_list = root.xpath('//span[@class="source-item-label"]/text()')
-            # vod_play_from = '$$$'.join(['书生玩剣ⁱ·*₁＇', '名妓读经ⁱ·*₁＇', '将军作文ⁱ·*₁＇'])
+            
+            # 修正原碼中被註解掉導致 NameError 的變數定義，與原註解邏輯保持一致
+            vod_play_from = '$$$'.join(vod_play_from_list) if vod_play_from_list else ''
+            
             # 电视剧
             play_list1 = root.xpath('//ul[contains(@class, "qy-episode-num")]')
-            # print(play_list1)
             # 电影
-            # play_list2 = root.xpath('//ul[contains(@class, "qy-play-list")]')
             play_list2 = root.xpath('//ul[@id="srctab-1"]')
-            # print(play_list2)
+            
             vod_play_url_list = []
             if len(play_list1) > 0:
                 play_list = play_list1[:-1]
-                # print(play_list)
-
             elif len(play_list2) > 0:
                 play_list = play_list2
-                # print(play_list)
             else:
                 play_list = []
 
@@ -444,20 +484,14 @@ class Spider(Spider):
                 name_list1 = i.xpath('.//div[@class="select-link"]/text()')
                 name_list2 = i.xpath('.//span[@class="title-link"]/text()')
                 name_list3 = i.xpath('./li/text()')
-                # print(name_list1)
-                # print(name_list2)
-                # print(name_list3)
-                # print(name_list1 + name_list2 + name_list3)
                 name_list = name_list1 + name_list2 + name_list3
                 url_list = i.xpath('./li/@data-chapter-id')
                 vod_play_url_list.append(
                     '#'.join([_name.strip() + '$' + f'{ids}-{_url}' for _name, _url in zip(name_list, url_list)])
                 )
 
-
-            # print(vod_play_url_list*3)
             vod_play_url = '$$$'.join(vod_play_url_list*3)
-            # print(vod_play_url_list)
+            
             video_list.append({
                 'type_name': '',
                 'vod_id': ids,
@@ -465,9 +499,9 @@ class Spider(Spider):
                 'vod_remarks': '',
                 'vod_year': '',
                 'vod_area': '',
-                'vod_actor': '',
+                'vod_actor': vod_actor,       # 已成功從 HTML 列表頁快取匯入
                 'vod_director': '',
-                'vod_content': '',
+                'vod_content': vod_content,   # 已成功從 HTML 列表頁快取匯入
                 'vod_play_from': vod_play_from,
                 'vod_play_url': vod_play_url
             })
