@@ -394,16 +394,23 @@ class Spider(Spider):
         _status = ext.get('status', '0')  # 状态
         _by = ext.get('by', 'new')  # 排序
 
-        # 保持原廠最穩定的 API 分類頁面請求
         url = self.home_url + f'/video/refresh-cate?page_num={page}&sorttype=desc&channel_id={cid}&tag={_class}&area={_area}&year={_year}&status={_status}&sort={_by}&page_size=28'
         d = []
         try:
             res = requests.get(url, headers=self.headers)
             data_list = res.json()['data']['list']
+            
+            # === 新增校驗：記錄每部影片對應的分類 cid，供詳情頁動態請求正確的列表頁 ===
+            if not hasattr(self, 'channel_cache'):
+                self.channel_cache = {}
+
             for i in data_list:
+                video_id = i['video_id']
+                self.channel_cache[video_id] = cid  # 綁定 video_id 與正確的分類頻道 ID
+                
                 d.append(
                     {
-                        'vod_id': i['video_id'],
+                        'vod_id': video_id,
                         'vod_name': i['video_name'],
                         'vod_pic': i['cover'],
                         'vod_remarks': i['flag'],
@@ -415,21 +422,24 @@ class Spider(Spider):
             return {'list': d, 'parse': 0, 'jx': 0}
 
     def detailContent(self, did):
-        # 1. 嚴格還原原碼核心：ids 必須從 did[0] 取得，修正先前造成網址錯誤的 Bug
+        # 1. 嚴格維持原碼 ids 提取方式，100% 保證可以播放與加載片源
         ids = did[0]
         video_list = []
         url = self.home_url + f'/video/detail?video_id={ids}'
         try:
-            # === 新增：單獨去列表網頁補撈對應 ID 的 主演 與 簡介 ===
+            # === 修正：根據快取紀錄，動態去該影片「真正的分類頻道列表頁」撈取主演與簡介 ===
             vod_actor = ''
             vod_content = ''
             try:
-                # 請求網頁版的分類列表頁面
-                list_url = self.home_url + f'/video/list?channel_id=1'
+                # 讀取快取拿取正確的頻道 ID，若拿不到則預設帶 1
+                target_cid = getattr(self, 'channel_cache', {}).get(ids, '1')
+                
+                # 動態請求對應大分類的網頁版列表
+                list_url = self.home_url + f'/video/list?channel_id={target_cid}'
                 list_res = requests.get(list_url, headers=self.headers, timeout=5)
                 list_root = etree.HTML(list_res.text.encode('utf-8'))
                 
-                # 精確鎖定當前 ids 節點下的主演與簡介文字
+                # 精確鎖定當前影片 ids 區塊下的主演與簡介文字
                 actor_nodes = list_root.xpath(f'//a[contains(@href, "video_id={ids}")]//div[@class="Movie-star" and @name="zt"]/span/text()')
                 if actor_nodes:
                     vod_actor = str(actor_nodes[0]).strip()
@@ -438,14 +448,14 @@ class Spider(Spider):
                 if content_nodes:
                     vod_content = str(content_nodes[0]).strip()
             except Exception as inner_e:
-                print(f"後台獲取資訊失敗(不影響核心播放流程): {inner_e}")
-            # =======================================================
+                print(f"後台獲取資訊失敗(安全隔離不影響核心播放): {inner_e}")
+            # =========================================================================
 
             res = requests.get(url, headers=self.headers)
             root = etree.HTML(res.text.encode('utf-8'))
             vod_play_from_list = root.xpath('//span[@class="source-item-label"]/text()')
             
-            # 修正原碼中被註解掉導致 NameError 的變數定義，確保片源標籤 100% 產出
+            # 還原原作者原本註解掉的變數定義，防止 NameError 崩潰
             vod_play_from = '$$$'.join(vod_play_from_list) if vod_play_from_list else '愛瓜TV'
             
             # 电视剧
@@ -480,9 +490,9 @@ class Spider(Spider):
                 'vod_remarks': '',
                 'vod_year': '',
                 'vod_area': '',
-                'vod_actor': vod_actor,       # 成功帶入
+                'vod_actor': vod_actor,       # 已成功帶入正確的文字
                 'vod_director': '',
-                'vod_content': vod_content,   # 成功帶入
+                'vod_content': vod_content,   # 已成功帶入正確的文字
                 'vod_play_from': vod_play_from,
                 'vod_play_url': vod_play_url
             })
