@@ -478,7 +478,8 @@ class Spider(Spider):
 
         except Exception as e:
             print(f"Error in detailContent: {e}")
-            return {'list': [], 'msg': str(e)}
+            # 保留原碼的空列表與錯誤訊息，同時補上結構欄位
+            return {"list": [], "msg": str(e), 'parse': 0, 'jx': 0}
 
     def _searchContent_raw(self, key, quick, page='1'):
         if str(page) != '1':
