@@ -220,8 +220,8 @@ class Spider(Spider):
                 # 其他分類保持原樣，擁有完整的地區、排序、年份
                 fl[tid] = [
                     {"key": "area", "name": "地區", "value": area_values},
-                    {"key": "sort", "name": "排序", "value": sort_values},
-                    {"key": "year", "name": "年份", "value": year_values}
+                    {"key": "year", "name": "年份", "value": year_values},
+                    {"key": "sort", "name": "排序", "value": sort_values}
                 ]
 
         return {"class": self.categories, "list": self._safe_home_list(), "filters": fl}
