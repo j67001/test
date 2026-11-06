@@ -423,6 +423,11 @@ class Spider(Spider):
     def detailContent(self, did):
         ids = did[0]
         video_list = []
+
+        cache = getattr(self, 'video_cache', {}).get(ids, {})
+        vod_actor = cache.get('actor', '')
+        vod_content = cache.get('content', '')
+
         url = self.home_url + f'/video/detail?video_id={ids}'
         try:
             res = requests.get(url, headers=self.headers)
@@ -465,10 +470,6 @@ class Spider(Spider):
             # print(vod_play_url_list*3)
             vod_play_url = '$$$'.join(vod_play_url_list*3)
             # print(vod_play_url_list)
-
-            cache = getattr(self, 'video_cache', {}).get(ids, {})
-            vod_actor = cache.get('actor', '')
-            vod_content = cache.get('content', '')
 
             video_list.append({
                 'type_name': '',
