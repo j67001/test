@@ -195,24 +195,34 @@ class Spider(Spider):
         areas = ["大陆", "内地", "香港", "台湾", "美国", "韩国", "日本", "法国", "英国", "德国", "泰国", "印度", "意大利", "西班牙", "加拿大", "其他"]
         area_values = [{"n": "全部", "v": ""}] + [{"n": a, "v": a} for a in areas]
 
-        # 2. 定義排序篩選清單
+        # 2. 定義年份篩選清單
+        year_values = [{"n": "全部", "v": ""}] + [{"n": str(y), "v": str(y)} for y in range(2026, 2013, -1)]
+
+        # 3. 定義排序篩選清單
         sort_values = [
             {"n": "時間排序", "v": "time"},
             {"n": "人氣排序", "v": "hits"},
             {"n": "評分排序", "v": "score"}
         ]
 
-        # 3. 定義年份篩選清單
-        year_values = [{"n": "全部", "v": ""}] + [{"n": str(y), "v": str(y)} for y in range(2026, 2013, -1)]
-
         # 4. 為每個分類(categories)配置相同的篩選條件組
         fl = {}
         for c in self.categories:
-            fl[c["type_id"]] = [
-                {"key": "area", "name": "地區", "value": area_values},
-                {"key": "sort", "name": "排序", "value": sort_values},
-                {"key": "year", "name": "年份", "value": year_values}
-            ]
+            tid = c["type_id"]
+            
+            # 如果是 63 短劇，只留下排序和年份，移除地區
+            if tid == "63":
+                fl[tid] = [
+                    {"key": "sort", "name": "排序", "value": sort_values},
+                    {"key": "year", "name": "年份", "value": year_values}
+                ]
+            else:
+                # 其他分類保持原樣，擁有完整的地區、排序、年份
+                fl[tid] = [
+                    {"key": "area", "name": "地區", "value": area_values},
+                    {"key": "sort", "name": "排序", "value": sort_values},
+                    {"key": "year", "name": "年份", "value": year_values}
+                ]
 
         return {"class": self.categories, "list": self._safe_home_list(), "filters": fl}
 
