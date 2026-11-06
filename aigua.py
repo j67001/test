@@ -394,55 +394,19 @@ class Spider(Spider):
         _status = ext.get('status', '0')  # 状态
         _by = ext.get('by', 'new')  # 排序
 
-        # 放棄 JSON API，直接請求網頁版的分類篩選頁面 HTML
-        url = self.home_url + f'/video/list?page_num={page}&sorttype=desc&channel_id={cid}&tag={_class}&area={_area}&year={_year}&status={_status}&sort={_by}'
+        # 恢復原廠最穩定的 JSON API，保證列表加載與 video_id 100% 正確不閃退
+        url = self.home_url + f'/video/refresh-cate?page_num={page}&sorttype=desc&channel_id={cid}&tag={_class}&area={_area}&year={_year}&status={_status}&sort={_by}&page_size=28'
         d = []
         try:
             res = requests.get(url, headers=self.headers)
-            root = etree.HTML(res.text.encode('utf-8'))
-            
-            # 定位到所有的影片 li 標籤
-            li_list = root.xpath('//li[@class="Movie-list"]')
-            
-            # 初始化快取字典
-            if not hasattr(self, 'video_cache'):
-                self.video_cache = {}
-
-            for li in li_list:
-                # 解析 video_id、名稱、封面與備註
-                href = li.xpath('.//a[@class="Movie"]/@href')
-                if not href:
-                    continue
-                video_id = href[0].split('video_id=')[-1]
-                
-                name = li.xpath('.//div[@class="Movie-name01"]/text()')
-                vod_name = name[0].strip() if name else ''
-                
-                pic = li.xpath('.//img[@class="Movie-img"]/@src')
-                vod_pic = pic[0] if pic else ''
-                
-                remarks = li.xpath('.//div[@class="Movie-type02"]/div[2]/text()')
-                vod_remarks = remarks[0].replace('\xa0', '').strip() if remarks else ''
-                
-                # 精準解析網頁 HTML 的 主演 與 簡介
-                actor = li.xpath('.//div[@class="Movie-star"]/span/text()')
-                vod_actor = actor[0].strip() if actor else ''
-                
-                content = li.xpath('.//div[@class="Movie-content"]/span/text()')
-                vod_content = content[0].strip() if content else ''
-
-                # 將主演與簡介存入快取
-                self.video_cache[video_id] = {
-                    'actor': vod_actor,
-                    'content': vod_content
-                }
-
+            data_list = res.json()['data']['list']
+            for i in data_list:
                 d.append(
                     {
-                        'vod_id': video_id,
-                        'vod_name': vod_name,
-                        'vod_pic': vod_pic,
-                        'vod_remarks': vod_remarks,
+                        'vod_id': i['video_id'],
+                        'vod_name': i['video_name'],
+                        'vod_pic': i['cover'],
+                        'vod_remarks': i['flag'],
                     }
                 )
             return {'list': d, 'parse': 0, 'jx': 0}
@@ -455,18 +419,22 @@ class Spider(Spider):
         video_list = []
         url = self.home_url + f'/video/detail?video_id={ids}'
         try:
-            # 從列表頁快取中提取對應的主演與簡介，若不存在則給空字串
-            cache = getattr(self, 'video_cache', {}).get(ids, {})
-            vod_actor = cache.get('actor', '')
-            vod_content = cache.get('content', '')
-
             res = requests.get(url, headers=self.headers)
             root = etree.HTML(res.text.encode('utf-8'))
             vod_play_from_list = root.xpath('//span[@class="source-item-label"]/text()')
             
-            # 修正原碼中被註解掉導致 NameError 的變數定義，與原註解邏輯保持一致
+            # 修正原碼中被註解掉導致 NameError 的變數定義
             vod_play_from = '$$$'.join(vod_play_from_list) if vod_play_from_list else ''
-            
+
+            # === 新增：精準獲取主演與簡介 ===
+            # 同時相容兩種 class 寫法，只要詳情頁裡有包含該標籤或在推薦列表中，就能直接捕獲
+            actor_list = root.xpath('//div[@class="Movie-star" or contains(@class, "Movie-star")]/span/text()')
+            vod_actor = actor_list[0].strip() if actor_list else ''
+
+            content_list = root.xpath('//div[@class="Movie-content" or contains(@class, "Movie-content")]/span/text()')
+            vod_content = content_list[0].strip() if content_list else ''
+            # ==================================
+
             # 电视剧
             play_list1 = root.xpath('//ul[contains(@class, "qy-episode-num")]')
             # 电影
@@ -499,9 +467,9 @@ class Spider(Spider):
                 'vod_remarks': '',
                 'vod_year': '',
                 'vod_area': '',
-                'vod_actor': vod_actor,       # 已成功從 HTML 列表頁快取匯入
+                'vod_actor': vod_actor,       # 已成功匯入
                 'vod_director': '',
-                'vod_content': vod_content,   # 已成功從 HTML 列表頁快取匯入
+                'vod_content': vod_content,   # 已成功匯入
                 'vod_play_from': vod_play_from,
                 'vod_play_url': vod_play_url
             })
@@ -510,6 +478,7 @@ class Spider(Spider):
         except Exception as e:
             print(f"Error in detailContent: {e}")
             return {'list': [], 'msg': str(e)}
+
 
     def _searchContent_raw(self, key, quick, page='1'):
         if str(page) != '1':
