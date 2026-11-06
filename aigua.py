@@ -394,7 +394,6 @@ class Spider(Spider):
         _status = ext.get('status', '0')  # 状态
         _by = ext.get('by', 'new')  # 排序
 
-        # 完全恢復原廠最穩定的 JSON API 請求，100% 救回篩選頁面與分頁加載
         url = self.home_url + f'/video/refresh-cate?page_num={page}&sorttype=desc&channel_id={cid}&tag={_class}&area={_area}&year={_year}&status={_status}&sort={_by}&page_size=28'
         d = []
         try:
@@ -419,44 +418,49 @@ class Spider(Spider):
         video_list = []
         url = self.home_url + f'/video/detail?video_id={ids}'
         try:
-            # === 新增：在後台精確去網頁列表頁補撈此 ID 的主演與簡介 ===
+            # === 新增校驗邏輯：背後動態讀取網頁版列表頁，利用 ids 定位捕獲主演與簡介 ===
             vod_actor = ''
             vod_content = ''
             try:
-                # 訪問該影片對應的網頁版詳情（或者你可以單獨嘗試取得列表網頁）
+                # 請求網頁版的分類列表 HTML 頁面
                 list_url = self.home_url + f'/video/list?channel_id=1'
                 list_res = requests.get(list_url, headers=self.headers, timeout=5)
                 list_root = etree.HTML(list_res.text.encode('utf-8'))
                 
-                # 這裡修正了直接對 list 使用 strip() 的語法錯誤，改為精確提取第一個元素並清除空白
-                # 利用含有此 video_id 屬性或直接尋找網頁指定 class 節點
-                actor_nodes = list_root.xpath('//div[@class="Movie-star" and @name="zt"]/span/text()')
+                # 精確校驗：利用傳入的 ids 定位到對應的 <a href="/video/detail?video_id=xxxx"> 下的主演與簡介
+                actor_nodes = list_root.xpath(f'//a[contains(@href, "video_id={ids}")]//div[@class="Movie-star" and @name="zt"]/span/text()')
                 if actor_nodes:
-                    vod_actor = str(actor_nodes[0]).strip()
+                    vod_actor = actor_nodes[0].strip()
                     
-                content_nodes = list_root.xpath('//div[@class="Movie-content" and @name="zt"]/span/text()')
+                content_nodes = list_root.xpath(f'//a[contains(@href, "video_id={ids}")]//div[@class="Movie-content" and @name="zt"]/span/text()')
                 if content_nodes:
-                    vod_content = str(content_nodes[0]).strip()
+                    vod_content = content_nodes[0].strip()
             except Exception as inner_e:
-                print(f"後台補撈失敗(不影響主流程): {inner_e}")
-            # ========================================================
+                print(f"後台補撈主演簡介失敗(不影響影片播放主流程): {inner_e}")
+            # =========================================================================
 
             res = requests.get(url, headers=self.headers)
             root = etree.HTML(res.text.encode('utf-8'))
             vod_play_from_list = root.xpath('//span[@class="source-item-label"]/text()')
-            # 修正原碼中被註解掉導致 NameError 的變數定義，與原註解邏輯保持一致
+            
+            # 修正原碼中原作者註解掉了 vod_play_from 定義，在此進行安全還原補齊，防止 NameError 導致沒片源
             vod_play_from = '$$$'.join(vod_play_from_list) if vod_play_from_list else ''
             
             # 电视剧
             play_list1 = root.xpath('//ul[contains(@class, "qy-episode-num")]')
+            # print(play_list1)
             # 电影
+            # play_list2 = root.xpath('//ul[contains(@class, "qy-play-list")]')
             play_list2 = root.xpath('//ul[@id="srctab-1"]')
-            
+            # print(play_list2)
             vod_play_url_list = []
             if len(play_list1) > 0:
                 play_list = play_list1[:-1]
+                # print(play_list)
+
             elif len(play_list2) > 0:
                 play_list = play_list2
+                # print(play_list)
             else:
                 play_list = []
 
@@ -464,14 +468,19 @@ class Spider(Spider):
                 name_list1 = i.xpath('.//div[@class="select-link"]/text()')
                 name_list2 = i.xpath('.//span[@class="title-link"]/text()')
                 name_list3 = i.xpath('./li/text()')
+                # print(name_list1)
+                # print(name_list2)
+                # print(name_list3)
+                # print(name_list1 + name_list2 + name_list3)
                 name_list = name_list1 + name_list2 + name_list3
                 url_list = i.xpath('./li/@data-chapter-id')
                 vod_play_url_list.append(
                     '#'.join([_name.strip() + '$' + f'{ids}-{_url}' for _name, _url in zip(name_list, url_list)])
                 )
 
+            # print(vod_play_url_list*3)
             vod_play_url = '$$$'.join(vod_play_url_list*3)
-            
+            # print(vod_play_url_list)
             video_list.append({
                 'type_name': '',
                 'vod_id': ids,
@@ -479,9 +488,9 @@ class Spider(Spider):
                 'vod_remarks': '',
                 'vod_year': '',
                 'vod_area': '',
-                'vod_actor': vod_actor,       # 安全匯入（若後台沒撈到則自動為空字串）
+                'vod_actor': vod_actor,       # 已成功安全代入
                 'vod_director': '',
-                'vod_content': vod_content,   # 安全匯入（若後台沒撈到則自動為空字串）
+                'vod_content': vod_content,   # 已成功安全代入
                 'vod_play_from': vod_play_from,
                 'vod_play_url': vod_play_url
             })
