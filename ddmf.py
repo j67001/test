@@ -345,7 +345,13 @@ class Spider(Spider):
         froms, urls = [], []
         for src in sorted(groups, key=lambda s: (len(s), s)):
             eps = sorted(groups[src], key=lambda x: x[0])
-            froms.append(tab_of.get(src) or "线路%s" % src)
+            
+            # froms.append(tab_of.get(src) or "线路%s" % src)
+            # --- 修改重點：獲取原始片源名稱，並去除「江南云」與「江南雲」三個字 ---
+            raw_from = tab_of.get(src) or "线路%s" % src
+            clean_from = re.sub(r'江南云', '', raw_from).strip()
+            froms.append(clean_from)
+            
             urls.append("#".join(nm.replace("$", "").replace("#", "") + "$" + self._fix(lk) for _, nm, lk in eps))
         vod["vod_play_from"] = "$$$".join(froms) if froms else "蛋蛋魔法影视"
         vod["vod_play_url"] = "$$$".join(urls) if urls else ("正片$%s/voddetail/%s.html" % (self.host, vid))
