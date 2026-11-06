@@ -400,9 +400,15 @@ class Spider(Spider):
             res = requests.get(url, headers=self.headers)
             data_list = res.json()['data']['list']
             for i in data_list:
+                # 由於列表頁面是 API (JSON)，我們在列表頁取得基本資料，
+                # 但因為上游介面需要主演與簡介，我們先在此預留變數，透過 vod_id 傳遞給詳情頁
+                vod_actor = i.get('actor', '')
+                vod_content = i.get('content', '')
+                combined_id = f"{i['video_id']}@@@{vod_actor}@@@{vod_content}"
+
                 d.append(
                     {
-                        'vod_id': i['video_id'],
+                        'vod_id': combined_id,
                         'vod_name': i['video_name'],
                         'vod_pic': i['cover'],
                         'vod_remarks': i['flag'],
@@ -414,7 +420,19 @@ class Spider(Spider):
             return {'list': d, 'parse': 0, 'jx': 0}
 
     def detailContent(self, did):
-        ids = did[0]
+        input_id = did[0]
+        vod_actor = ''
+        vod_content = ''
+
+        # 拆解從列表頁傳過來的複合 ID，分離出真正的 video_id、主演和簡介
+        if '@@@' in input_id:
+            parts = input_id.split('@@@')
+            ids = parts[0]
+            if len(parts) > 1: vod_actor = parts[1]
+            if len(parts) > 2: vod_content = parts[2]
+        else:
+            ids = input_id
+
         video_list = []
         url = self.home_url + f'/video/detail?video_id={ids}'
         try:
@@ -424,14 +442,6 @@ class Spider(Spider):
             # 修正原碼中被註解掉導致 NameError 的變數定義，與原註解邏輯保持一致
             vod_play_from = '$$$'.join(vod_play_from_list) if vod_play_from_list else ''
             
-            # === 新增：提取 主演 與 簡介 ===
-            actor_list = root.xpath('//div[@class="Movie-star"]/span/text()')
-            vod_actor = actor_list[0].strip() if actor_list else ''
-
-            content_list = root.xpath('//div[@class="Movie-content"]/span/text()')
-            vod_content = content_list[0].strip() if content_list else ''
-            # ==================================
-
             # 电视剧
             play_list1 = root.xpath('//ul[contains(@class, "qy-episode-num")]')
             # print(play_list1)
@@ -475,9 +485,9 @@ class Spider(Spider):
                 'vod_remarks': '',
                 'vod_year': '',
                 'vod_area': '',
-                'vod_actor': vod_actor,       # 已匯入對應位置
+                'vod_actor': vod_actor,       # 已成功代入列表頁取得的主演
                 'vod_director': '',
-                'vod_content': vod_content,   # 已匯入對應位置
+                'vod_content': vod_content,   # 已成功代入列表頁取得的簡介
                 'vod_play_from': vod_play_from,
                 'vod_play_url': vod_play_url
             })
