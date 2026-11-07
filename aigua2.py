@@ -267,7 +267,7 @@ class Spider(Spider):
             return {'class': [], 'filters': {}}
 
     def homeVideoContent(self):
-        """首页视频内容"""
+        """首页视频内容 - 提取並暫存主演、簡介"""
         try:
             response = self._make_request(self.home_url)
             if not response:
@@ -287,10 +287,10 @@ class Spider(Spider):
                     # 預先提取 
                     actors = self._safe_xpath(item, './/div[@class="Movie-star"]//span/text() | .//div[@class="Movie-star"]/text()', '').replace("主演：", "").strip()
                     description = self._safe_xpath(item, './/div[@class="Movie-content"]//span/text() | .//div[@class="Movie-content"]/text()', '').replace("简介：", "").strip()
-
+                    
                     video_data = {
-                        'vod_id': self._safe_xpath(item, './a[@class="Movie movie-height"]/@href', '').split('=')[-1],
-                        'vod_name': self._safe_xpath(item, './a[2]/text()', '').strip(),
+                        'vod_id': vod_id,
+                        'vod_name': vod_name,
                         'vod_pic': self._safe_xpath(item, './a[1]/img/@originalsrc', ''),
                         'vod_remarks': self._safe_xpath(item, './div[@class="Movie-type02"]/div[2]/text()', '').strip()
                     }
@@ -304,20 +304,15 @@ class Spider(Spider):
                         }
                         
                 except Exception as e:
-                    logger.warning(f"解析视频项失败: {e}")
                     continue
             
-            logger.info(f"成功获取 {len(video_list)} 个首页视频")
             return {'list': video_list, 'parse': 0, 'jx': 0}
-            
         except Exception as e:
-            logger.error(f"首页视频内容获取失败: {e}")
             return {'list': [], 'parse': 0, 'jx': 0}
 
     def categoryContent(self, cid, page, filter, ext):
-        """分类内容"""
+        """分类内容 - 提取並暫存主演、簡介"""
         try:
-            # 提取筛选参数
             params = {
                 'class': ext.get('class', '0'),
                 'area': ext.get('area', '0'),
@@ -326,10 +321,7 @@ class Spider(Spider):
                 'by': ext.get('by', 'new')
             }
             
-            # 构造URL
             api_url = self._build_category_url(cid, page, params)
-            
-            # 发送请求
             response = self._make_request(api_url)
             if not response:
                 return {'list': [], 'parse': 0, 'jx': 0}
@@ -400,29 +392,24 @@ class Spider(Spider):
         return video_list
 
     def detailContent(self, did):
-        """详情内容 - 优化版本：免除移动端 url2 请求"""
+        """详情内容 - 改由快取讀取，若無快取才降級請求行動端網頁"""
         try:
-            video_id = did[0] if isinstance(did, (list, tuple)) else did
+            video_id = did if isinstance(did, (list, tuple)) else did
             if not video_id:
                 return {"list": [], "parse": 0, "jx": 0}
             
-            # 仅请求 PC 端详情页，不再请求 url2
             url = f"{self.home_url}/video/detail?video_id={video_id}"
             response = self._make_request(url)
-            
             if not response:
                 return {"list": [], "parse": 0, "jx": 0}
             
             response.encoding = 'utf-8'
             root = etree.HTML(response.text)
-
+            
             # 優先從全域快取物件池內提取對應資料
             cached_data = self.video_cache.get(video_id, {})
-            
-            # 提取视频基本信息 (内部已优化多重防线，免去 root2)
+
             video_info = self._extract_video_info(root, video_id, cached_data)
-            
-            # 提取播放数据
             play_data = self._extract_play_data(root, video_id)
             
             video_list = [{
@@ -439,9 +426,7 @@ class Spider(Spider):
                 'vod_play_url': play_data['play_url']
             }]
             
-            logger.info(f"成功获取视频 {video_id} 的详情信息 (免移动端分析)")
             return {"list": video_list, 'parse': 0, 'jx': 0}
-            
         except Exception as e:
             logger.error(f"详情内容获取失败: {e}")
             return {"list": [], "parse": 0, "jx": 0}
@@ -450,16 +435,16 @@ class Spider(Spider):
         """解析基本資訊函數"""
         info = {}
         try:
-            info['name'] = self._safe_xpath(root, '//h1/text() | //div[@class="Movie-title"]/text()', '')
-            info['type_name'] = self._safe_xpath(root, '//span[contains(@class, "type")]/text() | .//ul[@class="Movie-type"]/li/text()', '')
-            info['remarks'] = self._safe_xpath(root, '//span[contains(@class, "status")]/text() | .//div[@class="Movie-type02"]/div[2]/text()', '')
-            info['year'] = self._safe_xpath(root, '//span[contains(text(), "年份")]/following-sibling::span/text() | //p[contains(text(), "年份")]/text()', '').replace('年份：', '').strip()
-            info['area'] = self._safe_xpath(root, '//span[contains(text(), "地区")]/following-sibling::span/text() | //p[contains(text(), "类型")]/text()', '').replace('类型：', '').strip()
+            info['name'] = self._safe_xpath(root, '//h1/text()', '')
+            info['type_name'] = self._safe_xpath(root, '//span[contains(@class, "type")]/text()', '')
+            info['remarks'] = self._safe_xpath(root, '//span[contains(@class, "status")]/text()', '')
+            info['year'] = self._safe_xpath(root, '//span[contains(text(), "年份")]/following-sibling::span/text()', '')
+            info['area'] = self._safe_xpath(root, '//span[contains(text(), "地区")]/following-sibling::span/text()', '')
+            info['director'] = self._safe_xpath(root, '//span[contains(text(), "导演")]/following-sibling::span/text()', '').replace("导演：", "").strip()
             
             # 套用預先暫存好的資料
             info['actors'] = cached_data.get('actors', self._safe_xpath(root, '//span[contains(text(), "演员")]/following-sibling::span/text()', ''))
             info['description'] = cached_data.get('description', '')
-            
         except Exception as e:
             logger.warning(f"提取视频信息失败: {e}")
         return info
