@@ -108,7 +108,7 @@ class Spider(Spider):
         return {
             'year': year_options,
             'area': area_options,
-            'status': status_options,
+            # 'status': status_options,
             'sort': sort_options
         }
 
