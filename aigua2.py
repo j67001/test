@@ -384,7 +384,7 @@ class Spider(Spider):
 
             
             # 提取视频基本信息
-            video_info = self._extract_video_info(root, video_id)
+            video_info = self._extract_video_info(root, root2, video_id)
             
             # 提取播放数据
             play_data = self._extract_play_data(root, video_id)
