@@ -368,14 +368,20 @@ class Spider(Spider):
             if not video_id:
                 return {"list": [], "parse": 0, "jx": 0}
             
-            # url = f"{self.home_url}/video/detail?video_id={video_id}"
-            url = f"https://m.aigua8.com/video/detail?video_id={video_id}"
+            url = f"{self.home_url}/video/detail?video_id={video_id}"
             response = self._make_request(url)
+            
             if not response:
                 return {"list": [], "parse": 0, "jx": 0}
             
             response.encoding = 'utf-8'
             root = etree.HTML(response.text)
+
+            url2 = f"https://m.aigua8.com/video/detail?video_id={video_id}"
+            response2 = self._make_request(url2)
+            response2.encoding = 'utf-8'
+            root2 = etree.HTML(response2.text)
+
             
             # 提取视频基本信息
             video_info = self._extract_video_info(root, video_id)
@@ -404,7 +410,7 @@ class Spider(Spider):
             logger.error(f"详情内容获取失败: {e}")
             return {"list": [], "parse": 0, "jx": 0}
 
-    def _extract_video_info(self, root, video_id: str) -> Dict:
+    def _extract_video_info(self, root2, video_id: str) -> Dict:
         """提取视频基本信息"""
         info = {}
         try:
