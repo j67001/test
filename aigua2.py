@@ -272,20 +272,26 @@ class Spider(Spider):
                 
             response.encoding = 'utf-8'
             root = etree.HTML(response.text)
-            
-            data_list = root.xpath('//div[@class="video-box-new"]/div[@class="Movie-list"]')
+
+            # 在移动端，每个影片都是一个包含 h5（标题）的独立节点块
+            data_list = root.xpath('//h5/parent::div | //div[./h5] | //a[./h5]')
             video_list = []
             
             for item in data_list:
                 try:
+                    # 获取移动端的跳转 href 链接
+                    raw_href = self._safe_xpath(item, './/a/@href | ./a/@href | ./@href', '')
+                    if not raw_href:
+                        continue
+                        
                     video_data = {
-                        'vod_id': self._safe_xpath(item, './a[@class="Movie movie-height"]/@href', '').split('=')[-1],
-                        'vod_name': self._safe_xpath(item, './a[2]/text()', '').strip(),
-                        'vod_pic': self._safe_xpath(item, './a[1]/img/@originalsrc', ''),
-                        'vod_remarks': self._safe_xpath(item, './div[@class="Movie-type02"]/div[2]/text()', '').strip()
+                        'vod_id': raw_href.split('=')[-1] if '=' in raw_href else raw_href.split('/')[-1].replace('.html', ''),
+                        'vod_name': self._safe_xpath(item, './/h5/text()', '').strip(),
+                        'vod_pic': self._safe_xpath(item, './/img/@src | .//img/@data-original', ''),
+                        'vod_remarks': self._safe_xpath(item, './/*[contains(text(), "更新至")]/text() | .//*[contains(text(), "全")]/text() | .//*[contains(text(), "集")]/text()', '').strip()
                     }
                     
-                    # 验证必要字段
+                    # 验证必要字段（完全沿用你的原码验证逻辑）
                     if video_data['vod_id'] and video_data['vod_name']:
                         video_list.append(video_data)
                         
