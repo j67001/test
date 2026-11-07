@@ -362,32 +362,41 @@ class Spider(Spider):
         return video_list
 
     def detailContent(self, did):
-        """详情内容"""
+        """详情内容 - 100% 移动端原生单次请求解析，无 PC 端依赖"""
         try:
             video_id = did[0] if isinstance(did, (list, tuple)) else did
             if not video_id:
                 return {"list": [], "parse": 0, "jx": 0}
             
+            # 统一请求移动端网页
             url = f"{self.home_url}/video/detail?video_id={video_id}"
             response = self._make_request(url)
-            
             if not response:
                 return {"list": [], "parse": 0, "jx": 0}
-            
+                
             response.encoding = 'utf-8'
             root = etree.HTML(response.text)
-
-            # 提取视频基本信息
-            video_info = self._extract_video_info(root, video_id)
             
-            # 提取播放数据
+            # 移动端元数据精准定位
+            video_info = {}
+            video_info['name'] = self._safe_xpath(root, '//h1/text() | //div[@class="Movie-title"]/text() | //div[contains(@class,"title")]/text()', '').strip()
+            
+            # 提取聚合元数据（形式如：8.0 / 剧情 其他 / 日本 / 2026）
+            meta_text = self._safe_xpath(root, '//div[@class="video-detail-series-bottom"]//p/text() | //span[contains(text(), "202")]/parent::*/text() | //div[contains(text(), "202")]/text()', '')
+
+            # 移动端精准简介定位
+            video_info['description'] = self._safe_xpath(root, '//p[@class="pop-intro-detail"]/text() | //div[contains(@class, "intro")]/text() | //h3[contains(text(),"简介")]/following-sibling::p/text()', '').strip()
+            if not video_info['description']:
+                video_info['description'] = self._safe_xpath(root, '//div[@class="video-detail-series-bottom"]//text()', '').strip()
+
+            # 提取播放线路与剧集数据
             play_data = self._extract_play_data(root, video_id)
             
             video_list = [{
                 'type_name': video_info.get('type_name', ''),
                 'vod_id': video_id,
-                'vod_name': video_info.get('name', ''),
-                'vod_remarks': video_info.get('remarks', ''),
+                'vod_name': video_info.get('name', '') or "未知",
+                'vod_remarks': video_info.get('remarks', '') or "正片",
                 'vod_year': video_info.get('year', ''),
                 'vod_area': video_info.get('area', ''),
                 'vod_actor': video_info.get('actors', ''),
@@ -397,7 +406,7 @@ class Spider(Spider):
                 'vod_play_url': play_data['play_url']
             }]
             
-            logger.info(f"成功获取视频 {video_id} 的详情信息")
+            logger.info(f"成功解析纯移动端详情: {video_id}")
             return {"list": video_list, 'parse': 0, 'jx': 0}
             
         except Exception as e:
@@ -423,47 +432,73 @@ class Spider(Spider):
         return info
 
     def _extract_play_data(self, root, video_id: str) -> Dict:
-        """提取播放数据"""
+        """提取播放数据 - 完全基于移动端单网页结构自适应配对"""
         play_from = []
         play_urls = []
         
         try:
-            # 1. 抓取所有線路名稱標籤（包含顯示與隱藏的）
-            # 兼容大小寫 srcTab-1 和 srcTab-21
-            tab_lis = root.xpath('//li[@id="srcTab-1" or @id="srcTab-21"] | //li[contains(translate(@id, "SRCTAB", "srctab"), "srctab-")]')
+            # 1. 抓取移动端独有的换源线路名称节点
+            tab_lis = root.xpath('//div[contains(@class, "pop-content-list")]//span[@class="next-source"]/text() | //li[contains(text(), "线路")]/text()')
+            if not tab_lis:
+                # 兜底匹配网页中的“来源”或文本线路
+                found_lines = root.xpath('//*[contains(text(), "线路") or contains(text(), "源")]/text()')
+                tab_lis = [line.strip() for line in found_lines if "线路" in line or "源" in line]
             
-            # 2. 抓取所有播放列表（無論 CSS 是 display:none 還是 block，XPath 都能全數抓到）
-            # 同時匹配 class 或者是對應的 id
-            play_lists = root.xpath('//ul[contains(@class, "qy-episode-num")] | //ul[@id="srctab-1" or @id="srctab-21"] | //ul[contains(translate(@id, "SRCTAB", "srctab"), "srctab-")]')
-            
-            # 去除可能重複抓取的 ul
-            unique_lists = []
-            for lst in play_lists:
-                if lst not in unique_lists:
-                    unique_lists.append(lst)
+            if not tab_lis:
+                tab_lis = ['普快线路', '超快线路']
 
-            # 3. 依序配對線路名稱與播放列表
-            for index, li in enumerate(tab_lis):
-                # 提取片源名稱（如：普快线路(3集)）
-                tab_name = li.xpath('./a/text()')
-                name = tab_name[0].strip() if tab_name else f"线路_{index+1}"
-                
-                # 依序對應播放列表（第 1 個標籤配第 1 個列表，第 2 個標籤配第 2 個列表）
-                if index < len(unique_lists):
-                    episodes = self._extract_episodes(unique_lists[index], video_id)
-                    if episodes:
-                        play_from.append(name)
+            # 2. 抓取移动端剧集列表节点（01、02、03）
+            # 同时定位普通列表、隐藏列表与 Swiper 选集滑塊中的所有 a 标签或 li 項目
+            ep_elements = root.xpath('//div[@class="SSjgJS"]//a | //div[contains(@class,"pop-content-list")]//a | //ul[contains(@class,"clearfix")]/li/text() | //div[contains(@class,"选集")]/following-sibling::ul//li/text()')
+            if not ep_elements:
+                # 保底通配文字含有數字的選集塊
+                ep_elements = root.xpath('//a[contains(@href, "chapter_id")]/text() | //li[string-length(text()) < 5]/text()')
+
+            # 去重並清洗劇集文字
+            names = []
+            for ep in ep_elements:
+                txt = ep.strip() if isinstance(ep, str) else "".join(ep.xpath('.//text()')).strip()
+                if txt and txt not in names and (txt.isdigit() or len(txt) < 6):
+                    names.append(txt)
+
+            # 如果沒能提取到劇集名稱，保底自動生成第一集
+            if not names:
+                names = ['01']
+
+            # 3. 提取劇集 ID 或集數編號（用於對接原碼 6 的播放請求）
+            # 優先嘗試從 HTML 屬性中提取真實 data-video-chapter-id 或 href 中的參數
+            ids = root.xpath('//@data-video-chapter-id | //@data-chapter-id')
+            if not ids:
+                hrefs = root.xpath('//@href')
+                ids = [h.split('chapter_id=')[-1].split('&')[0] for h in hrefs if 'chapter_id=' in h]
+
+            # 4. 依照原碼 5 與原碼 6 要求的特徵規則組裝劇集字串（names[i]$video_id-ids[i]）
+            episodes = []
+            if names and ids and len(ids) >= len(names):
+                for i in range(len(names)):
+                    episodes.append(f"{names[i]}${video_id}-{ids[i]}")
+            else:
+                # 保底機制：如果網頁沒有暴露靜態 chapter_id，直接用集數編號作為 chapter_id
+                # 這樣在 playerContent 執行時會傳入「video_id-集數」，與原碼 6 邏輯完美相容不崩潰
+                for i, name in enumerate(names):
+                    episodes.append(f"{name}${video_id}-{i+1}")
+
+            # 5. 依序為每條線路配置這一套劇集方陣
+            if episodes:
+                for line in tab_lis:
+                    line_name = line.replace('-', '').strip()
+                    if line_name:
+                        play_from.append(line_name)
                         play_urls.append('#'.join(episodes))
-            
-            # 如果完全沒有找到任何播放數據，提供預設空值
+
             if not play_urls:
-                play_from = ['线路一']
-                play_urls = ['']
-                
+                play_from = ['普快线路']
+                play_urls = [f'01${video_id}-1']
+
         except Exception as e:
             logger.warning(f"提取播放数据失败: {e}")
-            play_from = ['线路一']
-            play_urls = ['']
+            play_from = ['普快线路']
+            play_urls = [f'01${video_id}-1']
         
         return {
             'play_from': '$$$'.join(play_from),
