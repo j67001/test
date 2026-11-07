@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-# by @嗷呜
-# 温馨提示：搜索只能搜拼音联想
-# 播放需要挂代理
 import sys
 import time
 import uuid
@@ -100,17 +96,19 @@ class Spider(Spider):
         return {'list': [vod]}
 
     def searchContent(self, key, quick, pg="1"):
-        # 1. 提取所有中文字符的拼音首字母
+        # 1. 獲取拼音首字母二維列表 (例如: [['l'], ['x'], ['r'], ['g']])
         pinyin_list = pinyin(key, style=Style.FIRST_LETTER, errors='default')
-        raw_pinyin = "".join([item[0] for item in pinyin_list]).lower()
         
-        # 2. 保留英文字母與數字，剔除標點符號與空格
+        # 2. 正確將二維列表扁平化取出英文字母
+        raw_pinyin = "".join([item[0] for item in pinyin_list if item]).lower()
+        
+        # 3. 過濾非英文字母或數字的符號
         clean_key = "".join(c for c in raw_pinyin if c.isalnum())
         
-        # 3. 嚴格截取前三碼（若少於三碼則安全返回全部碼，如 'xn'）
+        # 4. 嚴格提取前三碼
         three_letter_key = clean_key[:3]
         
-        # 帶入三碼聯想代碼發送請求
+        # 帶入乾淨的三碼發送請求
         body = {'token': self.token, 'authcode': self.code, 'keyword': three_letter_key, 'page_num': pg}
         data = self.post(f'{self.host}/hr_1_1_0/apptvapi/web/index.php/search/letter-result', json=self.getbody(body),
                          headers=self.headers).json()
@@ -175,3 +173,4 @@ class Spider(Spider):
                 'vod_remarks': i.get('flag'),
             })
         return videos
+
