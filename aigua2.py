@@ -54,6 +54,9 @@ class Spider(Spider):
             '线路三': '21'
         }
 
+        # 核心優化：建立全域影片訊息快取池
+        self.video_cache = {}
+
     def _load_category_config(self) -> Dict:
         """加载分类配置"""
         return {
@@ -278,6 +281,13 @@ class Spider(Spider):
             
             for item in data_list:
                 try:
+                    vod_id = self._safe_xpath(item, './a[@class="Movie movie-height"]/@href', '').split('=')[-1]
+                    vod_name = self._safe_xpath(item, './a[2]/text()', '').strip()
+                    
+                    # 預先提取 
+                    actors = self._safe_xpath(item, './/div[@class="Movie-star"]//span/text() | .//div[@class="Movie-star"]/text()', '').replace("主演：", "").strip()
+                    description = self._safe_xpath(item, './/div[@class="Movie-content"]//span/text() | .//div[@class="Movie-content"]/text()', '').replace("简介：", "").strip()
+
                     video_data = {
                         'vod_id': self._safe_xpath(item, './a[@class="Movie movie-height"]/@href', '').split('=')[-1],
                         'vod_name': self._safe_xpath(item, './a[2]/text()', '').strip(),
@@ -285,9 +295,13 @@ class Spider(Spider):
                         'vod_remarks': self._safe_xpath(item, './div[@class="Movie-type02"]/div[2]/text()', '').strip()
                     }
                     
-                    # 验证必要字段
-                    if video_data['vod_id'] and video_data['vod_name']:
+                    if vod_id and vod_name:
                         video_list.append(video_data)
+                        # 核心存入快取池
+                        self.video_cache[vod_id] = {
+                            'actors': actors,
+                            'description': description
+                        }
                         
                 except Exception as e:
                     logger.warning(f"解析视频项失败: {e}")
@@ -320,14 +334,38 @@ class Spider(Spider):
             if not response:
                 return {'list': [], 'parse': 0, 'jx': 0}
             
-            data = response.json()
-            video_list = self._parse_category_data(data)
+            # 注意：若您的分類是用 API json 返回，通常返回的是網頁 HTML，此處採用原本的 HTML 結構解析
+            root = etree.HTML(response.text) if hasattr(response, 'text') else etree.HTML(response)
+            data_list = root.xpath('//div[@class="video-box-new"]/div[@class="Movie-list"]')
+            video_list = []
             
-            logger.info(f"分类 {cid} 第 {page} 页获取 {len(video_list)} 个视频")
+            for item in data_list:
+                try:
+                    vod_id = self._safe_xpath(item, './a[@class="Movie movie-height"]/@href', '').split('=')[-1]
+                    vod_name = self._safe_xpath(item, './a[2]/text()', '').strip()
+                    
+                    actors = self._safe_xpath(item, './/div[@class="Movie-star"]//span/text()', '').replace("主演：", "").strip()
+                    description = self._safe_xpath(item, './/div[@class="Movie-content"]//span/text()', '').replace("简介：", "").strip()
+                    
+                    video_data = {
+                        'vod_id': vod_id,
+                        'vod_name': vod_name,
+                        'vod_pic': self._safe_xpath(item, './a[1]/img/@originalsrc', ''),
+                        'vod_remarks': self._safe_xpath(item, './div[@class="Movie-type02"]/div[2]/text()', '').strip()
+                    }
+                    
+                    if vod_id and vod_name:
+                        video_list.append(video_data)
+                        # 核心存入快取池
+                        self.video_cache[vod_id] = {
+                            'actors': actors,
+                            'description': description
+                        }
+                except Exception as e:
+                    continue
+                    
             return {'list': video_list, 'parse': 0, 'jx': 0}
-            
         except Exception as e:
-            logger.error(f"分类内容获取失败: {e}")
             return {'list': [], 'parse': 0, 'jx': 0}
 
     def _build_category_url(self, cid: str, page: int, params: Dict) -> str:
@@ -377,9 +415,12 @@ class Spider(Spider):
             
             response.encoding = 'utf-8'
             root = etree.HTML(response.text)
+
+            # 優先從全域快取物件池內提取對應資料
+            cached_data = self.video_cache.get(video_id, {})
             
             # 提取视频基本信息 (内部已优化多重防线，免去 root2)
-            video_info = self._extract_video_info(root, video_id)
+            video_info = self._extract_video_info(root, video_id, cached_data)
             
             # 提取播放数据
             play_data = self._extract_play_data(root, video_id)
@@ -405,8 +446,8 @@ class Spider(Spider):
             logger.error(f"详情内容获取失败: {e}")
             return {"list": [], "parse": 0, "jx": 0}
 
-    def _extract_video_info(self, root, video_id: str) -> Dict:
-        """提取视频基本信息 - 自适应提取多来源简介"""
+    def _extract_video_info(self, root, video_id: str, cached_data: Dict) -> Dict:
+        """解析基本資訊函數"""
         info = {}
         try:
             info['name'] = self._safe_xpath(root, '//h1/text() | //div[@class="Movie-title"]/text()', '')
@@ -415,15 +456,9 @@ class Spider(Spider):
             info['year'] = self._safe_xpath(root, '//span[contains(text(), "年份")]/following-sibling::span/text() | //p[contains(text(), "年份")]/text()', '').replace('年份：', '').strip()
             info['area'] = self._safe_xpath(root, '//span[contains(text(), "地区")]/following-sibling::span/text() | //p[contains(text(), "类型")]/text()', '').replace('类型：', '').strip()
             
-            # 主演提取：支持详情页或同步筛选列表页结构
-            actors = self._safe_xpath(root, '//span[contains(text(), "演员")]/following-sibling::span/text() | .//div[@class="Movie-star"]//span/text()', '')
-            info['actors'] = actors.replace("主演：", "").strip()
-            
-            info['director'] = self._safe_xpath(root, '//span[contains(text(), "导演")]/following-sibling::span/text()', '').replace("导演：", "").strip()
-            
-            # 简介提取：首选 PC 详情页可能存在的简介节点，兜底匹配 PC 页面内其他包含该剧简介的节点 (免去 root2)
-            description = self._safe_xpath(root, '//div[contains(@class, "description")]/text() | .//div[@class="Movie-content"]//span/text() | .//p[@class="SSjgIntro"]/text()', '')
-            info['description'] = description.replace("简介：", "").strip()
+            # 套用預先暫存好的資料
+            info['actors'] = cached_data.get('actors', self._safe_xpath(root, '//span[contains(text(), "演员")]/following-sibling::span/text()', ''))
+            info['description'] = cached_data.get('description', '')
             
         except Exception as e:
             logger.warning(f"提取视频信息失败: {e}")
