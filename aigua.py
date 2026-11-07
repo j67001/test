@@ -6,7 +6,7 @@ import sys
 import time
 import uuid
 from Crypto.Hash import MD5
-from pypinyin import pinyin, Style  # 引入拼音庫
+from pypinyin import pinyin, Style  # 引入拼音處理庫
 sys.path.append('..')
 from base.spider import Spider
 
@@ -100,12 +100,18 @@ class Spider(Spider):
         return {'list': [vod]}
 
     def searchContent(self, key, quick, pg="1"):
-        # 將傳入的中文關鍵字轉換為小寫、無聲調、無空格的純拼音字串
-        pinyin_list = pinyin(key, style=Style.NORMAL, errors='default')
-        pinyin_key = "".join([item[0] for item in pinyin_list]).lower().replace(" ", "")
+        # 1. 提取所有中文字符的拼音首字母
+        pinyin_list = pinyin(key, style=Style.FIRST_LETTER, errors='default')
+        raw_pinyin = "".join([item[0] for item in pinyin_list]).lower()
         
-        # 帶入轉換後的拼音進行請求
-        body = {'token': self.token, 'authcode': self.code, 'keyword': pinyin_key, 'page_num': pg}
+        # 2. 保留英文字母與數字，剔除標點符號與空格
+        clean_key = "".join(c for c in raw_pinyin if c.isalnum())
+        
+        # 3. 嚴格截取前三碼（若少於三碼則安全返回全部碼，如 'xn'）
+        three_letter_key = clean_key[:3]
+        
+        # 帶入三碼聯想代碼發送請求
+        body = {'token': self.token, 'authcode': self.code, 'keyword': three_letter_key, 'page_num': pg}
         data = self.post(f'{self.host}/hr_1_1_0/apptvapi/web/index.php/search/letter-result', json=self.getbody(body),
                          headers=self.headers).json()
         return {'list': self.getlist(data['data']['list'])}
@@ -119,7 +125,7 @@ class Spider(Spider):
             "header": {
                 "User-Agent": "Dalvik/2.1.0 (Linux; U; Android 11; M2012K10C Build/RP1A.200720.011)",
                 "Origin": "https://aigua.tv",
-                "Referer": "https://aigua.tv/"
+                "Referer": "https://aigua.tv"
             }
         }
         return result
