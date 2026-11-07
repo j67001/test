@@ -362,12 +362,13 @@ class Spider(Spider):
         return video_list
 
     def detailContent(self, did):
-        """详情内容"""
+        """详情内容 - 优化版本：免除移动端 url2 请求"""
         try:
             video_id = did[0] if isinstance(did, (list, tuple)) else did
             if not video_id:
                 return {"list": [], "parse": 0, "jx": 0}
             
+            # 仅请求 PC 端详情页，不再请求 url2
             url = f"{self.home_url}/video/detail?video_id={video_id}"
             response = self._make_request(url)
             
@@ -376,15 +377,9 @@ class Spider(Spider):
             
             response.encoding = 'utf-8'
             root = etree.HTML(response.text)
-
-            url2 = f"https://m.aigua8.com/video/detail?video_id={video_id}"
-            response2 = self._make_request(url2)
-            response2.encoding = 'utf-8'
-            root2 = etree.HTML(response2.text)
-
             
-            # 提取视频基本信息
-            video_info = self._extract_video_info(root, root2, video_id)
+            # 提取视频基本信息 (内部已优化多重防线，免去 root2)
+            video_info = self._extract_video_info(root, video_id)
             
             # 提取播放数据
             play_data = self._extract_play_data(root, video_id)
@@ -403,27 +398,33 @@ class Spider(Spider):
                 'vod_play_url': play_data['play_url']
             }]
             
-            logger.info(f"成功获取视频 {video_id} 的详情信息")
+            logger.info(f"成功获取视频 {video_id} 的详情信息 (免移动端分析)")
             return {"list": video_list, 'parse': 0, 'jx': 0}
             
         except Exception as e:
             logger.error(f"详情内容获取失败: {e}")
             return {"list": [], "parse": 0, "jx": 0}
 
-    def _extract_video_info(self, root, root2, video_id: str) -> Dict:
-        """提取视频基本信息"""
+    def _extract_video_info(self, root, video_id: str) -> Dict:
+        """提取视频基本信息 - 自适应提取多来源简介"""
         info = {}
         try:
-            # 这里可以根据实际网页结构添加更多的信息提取
-            info['name'] = self._safe_xpath(root, '//h1/text()', '')
-            info['type_name'] = self._safe_xpath(root, '//span[contains(@class, "type")]/text()', '')
-            info['remarks'] = self._safe_xpath(root, '//span[contains(@class, "status")]/text()', '')
-            info['year'] = self._safe_xpath(root, '//span[contains(text(), "年份")]/following-sibling::span/text()', '')
-            info['area'] = self._safe_xpath(root, '//span[contains(text(), "地区")]/following-sibling::span/text()', '')
-            info['actors'] = self._safe_xpath(root, '//span[contains(text(), "演员")]/following-sibling::span/text()', '')
-            info['director'] = self._safe_xpath(root, '//span[contains(text(), "导演")]/following-sibling::span/text()', '')
-            # info['description'] = self._safe_xpath(root, '//div[contains(@class, "description")]/text()', '')
-            info['description'] = self._safe_xpath(root2, '//p[@class="pop-intro-detail"]/text()', '').strip()
+            info['name'] = self._safe_xpath(root, '//h1/text() | //div[@class="Movie-title"]/text()', '')
+            info['type_name'] = self._safe_xpath(root, '//span[contains(@class, "type")]/text() | .//ul[@class="Movie-type"]/li/text()', '')
+            info['remarks'] = self._safe_xpath(root, '//span[contains(@class, "status")]/text() | .//div[@class="Movie-type02"]/div[2]/text()', '')
+            info['year'] = self._safe_xpath(root, '//span[contains(text(), "年份")]/following-sibling::span/text() | //p[contains(text(), "年份")]/text()', '').replace('年份：', '').strip()
+            info['area'] = self._safe_xpath(root, '//span[contains(text(), "地区")]/following-sibling::span/text() | //p[contains(text(), "类型")]/text()', '').replace('类型：', '').strip()
+            
+            # 主演提取：支持详情页或同步筛选列表页结构
+            actors = self._safe_xpath(root, '//span[contains(text(), "演员")]/following-sibling::span/text() | .//div[@class="Movie-star"]//span/text()', '')
+            info['actors'] = actors.replace("主演：", "").strip()
+            
+            info['director'] = self._safe_xpath(root, '//span[contains(text(), "导演")]/following-sibling::span/text()', '').replace("导演：", "").strip()
+            
+            # 简介提取：首选 PC 详情页可能存在的简介节点，兜底匹配 PC 页面内其他包含该剧简介的节点 (免去 root2)
+            description = self._safe_xpath(root, '//div[contains(@class, "description")]/text() | .//div[@class="Movie-content"]//span/text() | .//p[@class="SSjgIntro"]/text()', '')
+            info['description'] = description.replace("简介：", "").strip()
+            
         except Exception as e:
             logger.warning(f"提取视频信息失败: {e}")
         return info
