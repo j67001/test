@@ -410,7 +410,7 @@ class Spider(Spider):
             logger.error(f"详情内容获取失败: {e}")
             return {"list": [], "parse": 0, "jx": 0}
 
-    def _extract_video_info(self, root2, video_id: str) -> Dict:
+    def _extract_video_info(self, root, root2, video_id: str) -> Dict:
         """提取视频基本信息"""
         info = {}
         try:
@@ -423,7 +423,7 @@ class Spider(Spider):
             info['actors'] = self._safe_xpath(root, '//span[contains(text(), "演员")]/following-sibling::span/text()', '')
             info['director'] = self._safe_xpath(root, '//span[contains(text(), "导演")]/following-sibling::span/text()', '')
             # info['description'] = self._safe_xpath(root, '//div[contains(@class, "description")]/text()', '')
-            info['description'] = self._safe_xpath(root, '//p[@class="pop-intro-detail"]/text()', '')
+            info['description'] = self._safe_xpath(root2, '//p[@class="pop-intro-detail"]/text()', '')
         except Exception as e:
             logger.warning(f"提取视频信息失败: {e}")
         return info
