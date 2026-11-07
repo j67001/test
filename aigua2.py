@@ -377,21 +377,18 @@ class Spider(Spider):
             response.encoding = 'utf-8'
             root = etree.HTML(response.text)
             
-            # 移动端元数据精准定位
-            video_info = {}
-            video_info['name'] = self._safe_xpath(root, '//h1/text() | //div[@class="Movie-title"]/text() | //div[contains(@class,"title")]/text()', '').strip()
-            
-            # 提取聚合元数据（形式如：8.0 / 剧情 其他 / 日本 / 2026）
-            meta_text = self._safe_xpath(root, '//div[@class="video-detail-series-bottom"]//p/text() | //span[contains(text(), "202")]/parent::*/text() | //div[contains(text(), "202")]/text()', '')
-            
-            # 移动端精准简介定位
-            video_info['description'] = self._safe_xpath(root, '//p[@class="pop-intro-detail"]/text() | //div[contains(@class, "intro")]/text() | //h3[contains(text(),"简介")]/following-sibling::p/text()', '').strip()
-            if not video_info['description']:
-                video_info['description'] = self._safe_xpath(root, '//div[@class="video-detail-series-bottom"]//text()', '').strip()
+            # 1. 优先提取简介内容，防止被后续节点清洗覆盖
+            description = self._safe_xpath(root, '//h3[contains(text(),"简介")]/following-sibling::p/text() | //p[@class="pop-intro-detail"]/text() | //div[contains(@class, "intro")]/text()', '').strip()
+            if not description:
+                description = self._safe_xpath(root, '//div[@class="video-detail-series-bottom"]//text() | //p[string-length(text())>20]/text()', '').strip()
 
-            # 提取播放线路与剧集数据
+            # 2. 正确调用提取函数，传入简介进行组装
+            video_info = self._extract_video_info(root, description, video_id)
+            
+            # 3. 提取播放线路与剧集数据
             play_data = self._extract_play_data(root, video_id)
             
+            # 4. 完美闭环映射到系统标准字段
             video_list = [{
                 'type_name': video_info.get('type_name', ''),
                 'vod_id': video_id,
@@ -401,7 +398,7 @@ class Spider(Spider):
                 'vod_area': video_info.get('area', ''),
                 'vod_actor': video_info.get('actors', ''),
                 'vod_director': video_info.get('director', ''),
-                'vod_content': video_info.get('description', ''),
+                'vod_content': video_info.get('description', ''),  # 这里才能顺利拿到简介！
                 'vod_play_from': play_data['play_from'],
                 'vod_play_url': play_data['play_url']
             }]
@@ -414,7 +411,7 @@ class Spider(Spider):
             return {"list": [], "parse": 0, "jx": 0}
 
     def _extract_video_info(self, root, description, video_id: str) -> Dict:
-        """提取视频基本信息"""
+        """提取视频基本信息 - 完美适配移动端数据结构"""
         info = {}
         try:
             # 这里可以根据实际网页结构添加更多的信息提取
@@ -428,6 +425,7 @@ class Spider(Spider):
             # info['description'] = self._safe_xpath(root, '//div[contains(@class, "description")]/text()', '')
             # info['description'] = self._safe_xpath(root, '//p[@class="pop-intro-detail"]/text()', '').strip()
             info['description'] = description
+            
         except Exception as e:
             logger.warning(f"提取视频信息失败: {e}")
         return info
