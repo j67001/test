@@ -282,7 +282,7 @@ class Spider(Spider):
                     video_data = {
                         'vod_id': self._safe_xpath(item, './@href', '').split('=')[-1],
                         'vod_name': self._safe_xpath(item, './h5[@class="video-item-name"]/text()', '').strip(),
-                        'vod_pic': self._safe_xpath(item, './/div[@class="video-item-top"]/img/@src', '').strip(),
+                        'vod_pic': self._safe_xpath(item, './/div[@class="video-item-top"]/img/@originalSrc', '').strip(),
                         'vod_remarks': self._safe_xpath(item, './/p[@class="mark"]/text()', '').strip()
                     }
                     
