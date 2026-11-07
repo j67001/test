@@ -378,16 +378,11 @@ class Spider(Spider):
             root = etree.HTML(response.text)
             
             # 1. 优先提取简介内容，防止被后续节点清洗覆盖
-            description = self._safe_xpath(root, '//h3[contains(text(),"简介")]/following-sibling::p/text() | //p[@class="pop-intro-detail"]/text() | //div[contains(@class, "intro")]/text()', '').strip()
-            if not description:
-                description = self._safe_xpath(root, '//div[@class="video-detail-series-bottom"]//text() | //p[string-length(text())>20]/text()', '').strip()
-
+            description = self._safe_xpath(root, '//p[@class="pop-intro-detail"]/text()', '').strip()
             # 2. 正确调用提取函数，传入简介进行组装
             video_info = self._extract_video_info(root, description, video_id)
-            
             # 3. 提取播放线路与剧集数据
             play_data = self._extract_play_data(root, video_id)
-            
             # 4. 完美闭环映射到系统标准字段
             video_list = [{
                 'type_name': video_info.get('type_name', ''),
