@@ -30,7 +30,7 @@
 "sites":[
 {"key": "豆瓣","name":"🥜豆瓣","type": 3, "api": "csp_Douban","searchable": 0,"quickSearch": 0,"filterable": 0,"ext": "https://github.com/j67001/test/raw/main/douban.json"},
 //{"key":"爱瓜_PY1","name":"🍉爱瓜.py1","type":3,"api":"https://github.com/cluntop/tvbox/raw/main/py/aigua.py","searchable": 1,"quickSearch":1, "changeable":1, "filterable":1},
-//{"key":"爱瓜_PY2","name":"🍉爱瓜.py2","type":3,"api":"https://github.com/caltop/TVboxo/raw/main/Py/爱瓜影视.py","searchable":1,"changeable":1,"quickSearch":1,"filterable":1,"playerType":2},
+{"key":"爱瓜_PY2","name":"🍉爱瓜.py2","type":3,"api":"https://github.com/caltop/TVboxo/raw/main/Py/爱瓜影视.py","searchable":1,"changeable":1,"quickSearch":1,"filterable":1,"playerType":2},
 //{"key":"爱瓜_PY3","name":"🍉爱瓜.py3","type":3,"api":"https://github.com/maoystv/6/raw/refs/heads/main/PY/爱瓜(代理).py","searchable":1,"changeable":1,"quickSearch":1,"filterable":1,"playerType":2},
 {"key":"爱瓜_PY4","name":"🍉爱瓜.py4","type":3,"api":"https://github.com/j67001/test/raw/main/aigua1.py","searchable":1,"changeable":1,"quickSearch":1,"filterable":1,"playerType":2},
 {"key":"爱瓜_PY5","name":"🍉爱瓜.py5","type":3,"api":"https://github.com/j67001/test/raw/main/aigua2.py","searchable":1,"changeable":1,"quickSearch":1,"filterable":1,"playerType":2},
