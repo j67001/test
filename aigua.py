@@ -6,7 +6,7 @@ import sys
 import time
 import uuid
 from Crypto.Hash import MD5
-from pypinyin import lazy_pinyin, Style  # 引入拼音處理庫
+#from pypinyin import lazy_pinyin, Style  # 引入拼音處理庫
 sys.path.append('..')
 from base.spider import Spider
 
