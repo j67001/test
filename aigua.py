@@ -83,7 +83,7 @@ class Spider(Spider):
         data = self.post(f'{self.host}/hr_1_1_0/apptvapi/web/index.php/video/filter-header', json=self.getbody(body),
                          headers=self.headers).json()
         result = {}
-        classes = []
+        classes = list()
         filters = {}
         for k in data['data']:
             classes.append({
@@ -91,12 +91,12 @@ class Spider(Spider):
                 'type_id': str(k['channel_id']),
             })
             
-            # 分離篩選項以便重新編排順序
-            normal_filters = []
-            sort_filters = []
+            # 建立獨立列表，精準控制各排篩選的上下堆疊順序
+            normal_filters = list()
+            sort_filters = list()
             
             for i in k['search_box']:
-                # 1. 刪除「完成、更新中」篩選（對應欄位通常為 status）
+                # 1. 刪除「完成、更新中」篩選（欄位名稱為 status）
                 if i['field'] == 'status':
                     continue
                     
@@ -106,13 +106,14 @@ class Spider(Spider):
                         'name': i['label'],
                         'value': [{'n': j['display'], 'v': str(j['value'])} for j in i['list'] if j['value']]
                     }
-                    # 2. 識別「熱門、最新、評分」篩選（對應欄位通常為 sort 或 tag）
-                    if i['field'] in ['sort', 'tag']:
+                    # 2. 精準識別：只有將「熱門、最新、評分」（欄位名稱為 sort）單獨抽出來放到最下面
+                    if i['field'] == 'sort':
                         sort_filters.append(item)
                     else:
+                        # 包含「類型 (tag)」、「地區 (area)」、「年份 (year)」都保留在上方最前面
                         normal_filters.append(item)
             
-            # 3. 重新拼接：普通篩選（類型、地區、年份）在前，排序篩選在最後面
+            # 3. 完美拼接：普通篩選（類型在最前、隨後地區與年份）在前，排序按鈕嚴格在最後一行
             filters[str(k['channel_id'])] = normal_filters + sort_filters
 
         result['class'] = classes
