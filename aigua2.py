@@ -550,7 +550,7 @@ class Spider(Spider):
                         # 2. 影片名稱：精準定位到專屬的標題 a 標籤，拼接它內部所有的 span 文字
                         'vod_name': ''.join(item.xpath('.//div[@class="SSjgName"]/a//span/text()')).strip(),
                         # 3. 影片封面圖：精準拿 img 的 src 屬性
-                        'vod_pic': self._safe_xpath(item, './a/img/@src', ''),
+                        'vod_pic': self._safe_xpath(item, './a/img/@originalsrc', ''),
                         # 4. 影片備註/動態：對應畫面上顯示的分類（如：动漫），或者你可以自由指定
                         'vod_remarks': self._safe_xpath(item, './/div[@class="SSjgTitle"]/text()', '').strip()
                     }
