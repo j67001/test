@@ -39,14 +39,14 @@ class Spider(Spider):
         data = self.post(f'{self.host}/hr_1_1_0/apptvapi/web/index.php/video/filter-header', json=self.getbody(body),
                          headers=self.headers).json()
         result = {}
-        classes = []
+        classes = list()
         filters = {}
         for k in data['data']:
             classes.append({
                 'type_name': k['channel_name'],
                 'type_id': str(k['channel_id']),
             })
-            filters[str(k['channel_id'])] = []
+            filters[str(k['channel_id'])] = list()
             for i in k['search_box']:
                 if len(i['list']):
                     filters[str(k['channel_id'])].append({
@@ -79,17 +79,17 @@ class Spider(Spider):
         return result
 
     def detailContent(self, ids):
-        ids = ids[0].split('@')  # 完全還原：ids[0]
-        body = {'token': self.token, 'authcode': self.code, 'channel_id': ids[0], 'video_id': ids[1]}  # 完全還原：ids[0] 與 ids[1]
+        ids = ids[0].split('@')
+        body = {'token': self.token, 'authcode': self.code, 'channel_id': ids[0], 'video_id': ids[1]}
         data = self.post(f'{self.host}/hr_1_1_0/apptvapi/web/index.php/video/detail', json=self.getbody(body),
                          headers=self.headers).json()
         vdata = {}
         for k in data['data']['chapters']:
             i = k['sourcelist']
             for j in i:
-                if j['source_name'] not in vdata: vdata[j['source_name']] = []
+                if j['source_name'] not in vdata: vdata[j['source_name']] = list()
                 vdata[j['source_name']].append(f"{k['title']}${j['source_url']}")
-        plist, names = [], []
+        plist, names = list(), list()
         for key, value in vdata.items():
             names.append(key)
             plist.append('#'.join(value))
@@ -100,14 +100,14 @@ class Spider(Spider):
         return {'list': [vod]}
 
     def searchContent(self, key, quick, pg="1"):
-        # 1. 使用 lazy_pinyin 配合 FIRST_LETTER 提取拼音首字母列表（如 ['l', 'x', 'r', 'g']）
+        # 1. 轉拼音首字母陣列 (例如: ['l', 'x', 'r', 'g'])
         pinyin_list = lazy_pinyin(key, style=Style.FIRST_LETTER, errors='default')
         raw_pinyin = "".join(pinyin_list).lower()
         
-        # 2. 保留字母與數字，剔除標點符號與空格
+        # 2. 過濾非英文與數字
         clean_key = "".join(c for c in raw_pinyin if c.isalnum())
         
-        # 3. 嚴格截取前三碼（如 lxr）
+        # 3. 嚴格取前三碼聯想碼 (蘭香如故 -> lxr)
         three_letter_key = clean_key[:3]
         
         body = {'token': self.token, 'authcode': self.code, 'keyword': three_letter_key, 'page_num': pg}
@@ -163,7 +163,7 @@ class Spider(Spider):
         return h.hexdigest()
 
     def getlist(self, data):
-        videos = []
+        videos = list()
         for i in data:
             if type(i.get('video')) == dict: i = i['video']
             videos.append({
