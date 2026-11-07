@@ -287,7 +287,7 @@ class Spider(Spider):
                     video_data = {
                         'vod_id': raw_href.split('=')[-1] if '=' in raw_href else raw_href.split('/')[-1].replace('.html', ''),
                         'vod_name': self._safe_xpath(item, './/h5/text()', '').strip(),
-                        'vod_pic': self._safe_xpath(item, './a[1]/img/@originalsrc', ''),
+                        'vod_pic': self._safe_xpath(item, './/div[@class="video-item-top"]/img/@src', '').strip(),
                         'vod_remarks': self._safe_xpath(item, './/*[contains(text(), "更新至")]/text() | .//*[contains(text(), "全")]/text() | .//*[contains(text(), "集")]/text()', '').strip()
                     }
                     
