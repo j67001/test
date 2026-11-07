@@ -31,7 +31,7 @@ class Spider(Spider):
 
     def _init_config(self):
         """初始化配置"""
-        self.home_url = 'https://m.aigua8.com'
+        self.home_url = 'https://aigua8.com'
         self.headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
             "Referer": self.home_url,
@@ -368,7 +368,8 @@ class Spider(Spider):
             if not video_id:
                 return {"list": [], "parse": 0, "jx": 0}
             
-            url = f"{self.home_url}/video/detail?video_id={video_id}"
+            # url = f"{self.home_url}/video/detail?video_id={video_id}"
+            url = f"https://m.aigua8.com/video/detail?video_id={video_id}"
             response = self._make_request(url)
             if not response:
                 return {"list": [], "parse": 0, "jx": 0}
