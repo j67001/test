@@ -545,13 +545,20 @@ class Spider(Spider):
             for item in data_list:
                 try:
                     video_data = {
-                        'vod_id': self._safe_xpath(item, './a/@href', '').split('=')[-1],
-                        # 'vod_name': ''.join(item.xpath('.//span[1]//text()')).strip(),
-                        'vod_name': ''.join(item.xpath('./a/span/text()')).strip(),
-                        'vod_pic': self._safe_xpath(item, './a/img/@originalsrc', ''),
-                        'vod_remarks': self._safe_xpath(item, './/div[@class="SSjgTitle"]/text()', '')
+                        # 1. 影片 ID：從包含圖片的第一個 <a> 標籤內提取 href
+                        'vod_id': self._safe_xpath(item, './a[@class="SSjgImg"]/@href', '').split('=')[-1],
+                        # 2. 影片名稱：精準定位到專屬的標題 a 標籤，拼接它內部所有的 span 文字
+                        'vod_name': ''.join(item.xpath('.//div[@class="SSjgName"]/a//span/text()')).strip(),
+                        # 3. 影片封面圖：精準拿 img 的 src 屬性
+                        'vod_pic': self._safe_xpath(item, './a/img/@src', ''),
+                        # 4. 影片備註/動態：對應畫面上顯示的分類（如：动漫），或者你可以自由指定
+                        'vod_remarks': self._safe_xpath(item, './/div[@class="SSjgTitle"]/text()', '').strip()
                     }
                     
+                    # 降級防禦：如果因為特殊狀況沒拿到拼接的 span，直接拿該 a 標籤的純文字
+                    if not video_data['vod_name']:
+                        video_data['vod_name'] = self._safe_xpath(item, './/div[@class="SSjgName"]/a/text()', '').strip()
+                                        
                     if video_data['vod_id'] and video_data['vod_name']:
                         video_list.append(video_data)
                         
