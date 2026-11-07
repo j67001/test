@@ -413,7 +413,7 @@ class Spider(Spider):
             logger.error(f"详情内容获取失败: {e}")
             return {"list": [], "parse": 0, "jx": 0}
 
-    def _extract_video_info(self, root, video_id: str) -> Dict:
+    def _extract_video_info(self, root, description, video_id: str) -> Dict:
         """提取视频基本信息"""
         info = {}
         try:
