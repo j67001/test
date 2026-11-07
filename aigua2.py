@@ -98,7 +98,7 @@ class Spider(Spider):
         ]
         
         status_options = [
-            # {'n': '全部', 'v': '0'}, {'n': '完结', 'v': '1'}, {'n': '更新中', 'v': '2'}
+            {'n': '全部', 'v': '0'}, {'n': '完结', 'v': '1'}, {'n': '更新中', 'v': '2'}
         ]
         
         sort_options = [
@@ -129,7 +129,7 @@ class Spider(Spider):
             },
             {'name': '地区', 'key': 'area', 'value': common['area']},
             {'name': '年份', 'key': 'year', 'value': common['year']},
-            {'name': '状态', 'key': 'status', 'value': common['status']},
+            # {'name': '状态', 'key': 'status', 'value': common['status']},
             {'name': '排序', 'key': 'by', 'value': common['sort']}
         ]
 
@@ -154,7 +154,7 @@ class Spider(Spider):
             },
             {'name': '地区', 'key': 'area', 'value': common['area']},
             {'name': '年份', 'key': 'year', 'value': common['year']},
-            {'name': '状态', 'key': 'status', 'value': common['status']},
+            # {'name': '状态', 'key': 'status', 'value': common['status']},
             {'name': '排序', 'key': 'by', 'value': common['sort']}
         ]
 
@@ -173,7 +173,7 @@ class Spider(Spider):
             },
             {'name': '地区', 'key': 'area', 'value': common['area']},
             {'name': '年份', 'key': 'year', 'value': common['year']},
-            {'name': '状态', 'key': 'status', 'value': common['status']},
+            # {'name': '状态', 'key': 'status', 'value': common['status']},
             {'name': '排序', 'key': 'by', 'value': common['sort']}
         ]
 
@@ -194,7 +194,7 @@ class Spider(Spider):
             },
             {'name': '地区', 'key': 'area', 'value': common['area']},
             {'name': '年份', 'key': 'year', 'value': common['year']},
-            {'name': '状态', 'key': 'status', 'value': common['status']},
+            # {'name': '状态', 'key': 'status', 'value': common['status']},
             {'name': '排序', 'key': 'by', 'value': common['sort']}
         ]
 
@@ -202,10 +202,10 @@ class Spider(Spider):
         """纪录片筛选条件"""
         common = self._get_common_filters()
         return [
-            {'name': '类型', 'key': 'class', 'value': [{'n': '全部', 'v': '0'}]},
-            {'name': '地区', 'key': 'area', 'value': [{'n': '全部', 'v': '0'}]},
+            # {'name': '类型', 'key': 'class', 'value': [{'n': '全部', 'v': '0'}]},
+            # {'name': '地区', 'key': 'area', 'value': [{'n': '全部', 'v': '0'}]},
             {'name': '年份', 'key': 'year', 'value': common['year']},
-            {'name': '状态', 'key': 'status', 'value': common['status']},
+            # {'name': '状态', 'key': 'status', 'value': common['status']},
             {'name': '排序', 'key': 'by', 'value': common['sort']}
         ]
 
