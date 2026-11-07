@@ -6,7 +6,7 @@ import sys
 import time
 import uuid
 from Crypto.Hash import MD5
-from pypinyin import lazy_pinyin, Style  # 改用 lazy_pinyin，直接輸出乾淨的一維字母列表
+from pypinyin import lazy_pinyin, Style  # 引入拼音處理庫
 sys.path.append('..')
 from base.spider import Spider
 
@@ -39,14 +39,14 @@ class Spider(Spider):
         data = self.post(f'{self.host}/hr_1_1_0/apptvapi/web/index.php/video/filter-header', json=self.getbody(body),
                          headers=self.headers).json()
         result = {}
-        classes = []  # 已修復：補回被吞掉的空列表
+        classes = []
         filters = {}
         for k in data['data']:
             classes.append({
                 'type_name': k['channel_name'],
                 'type_id': str(k['channel_id']),
             })
-            filters[str(k['channel_id'])] = []  # 已修復：補回被吞掉的空列表
+            filters[str(k['channel_id'])] = []
             for i in k['search_box']:
                 if len(i['list']):
                     filters[str(k['channel_id'])].append({
@@ -62,7 +62,7 @@ class Spider(Spider):
         body = {'token': self.token, 'authcode': self.code}
         data = self.post(f'{self.host}/hr_1_1_0/apptvapi/web/index.php/video/index-tv', json=self.getbody(body),
                          headers=self.headers).json()
-        return {'list': self.getlist(data['data'][0]['banner'])}  # 已修復：還原原始的 [0]['banner'] 陣列下標
+        return {'list': self.getlist(data['data'][0]['banner'])}
 
     def categoryContent(self, tid, pg, filter, extend):
         body = {'token': self.token, 'authcode': self.code, 'channel_id': tid, 'area': extend.get('area', '0'),
@@ -79,17 +79,17 @@ class Spider(Spider):
         return result
 
     def detailContent(self, ids):
-        ids = ids[0].split('@')  # 已修復：還原原始的 ids[0] 陣列下標
-        body = {'token': self.token, 'authcode': self.code, 'channel_id': ids[0], 'video_id': ids[1]}  # 已修復：還原原始的 ids[0], ids[1]
+        ids = ids[0].split('@')  # 完全還原：ids[0]
+        body = {'token': self.token, 'authcode': self.code, 'channel_id': ids[0], 'video_id': ids[1]}  # 完全還原：ids[0] 與 ids[1]
         data = self.post(f'{self.host}/hr_1_1_0/apptvapi/web/index.php/video/detail', json=self.getbody(body),
                          headers=self.headers).json()
         vdata = {}
         for k in data['data']['chapters']:
             i = k['sourcelist']
             for j in i:
-                if j['source_name'] not in vdata: vdata[j['source_name']] = []  # 已修復：補回被吞掉的空列表
+                if j['source_name'] not in vdata: vdata[j['source_name']] = []
                 vdata[j['source_name']].append(f"{k['title']}${j['source_url']}")
-        plist, names = [], []  # 已修復：補回被吞掉的空列表
+        plist, names = [], []
         for key, value in vdata.items():
             names.append(key)
             plist.append('#'.join(value))
@@ -100,14 +100,14 @@ class Spider(Spider):
         return {'list': [vod]}
 
     def searchContent(self, key, quick, pg="1"):
-        # 1. 使用 lazy_pinyin 配合 Style.FIRST_LETTER，直接輸出純字母的一維列表（如 ['l', 'x', 'r', 'g']）
+        # 1. 使用 lazy_pinyin 配合 FIRST_LETTER 提取拼音首字母列表（如 ['l', 'x', 'r', 'g']）
         pinyin_list = lazy_pinyin(key, style=Style.FIRST_LETTER, errors='default')
         raw_pinyin = "".join(pinyin_list).lower()
         
-        # 2. 保留英文字母與數字，剔除可能干擾 API 的空格或特殊符號
+        # 2. 保留字母與數字，剔除標點符號與空格
         clean_key = "".join(c for c in raw_pinyin if c.isalnum())
         
-        # 3. 嚴格截取前三碼聯想碼
+        # 3. 嚴格截取前三碼（如 lxr）
         three_letter_key = clean_key[:3]
         
         body = {'token': self.token, 'authcode': self.code, 'keyword': three_letter_key, 'page_num': pg}
@@ -151,7 +151,7 @@ class Spider(Spider):
                   "sysVer": "11", "time": str(int(time.time())), "packageName": "com.gzsptv.gztvvideo",
                   "udid": self.uid, }
         json_data.update(params)
-        sorted_json = dict(sorted(json_data.items(), key=lambda item: item[0]))  # 已修復：還原原始的 item[0]
+        sorted_json = dict(sorted(json_data.items(), key=lambda item: item[0]))
         text = '&'.join(f"{k}={v}" for k, v in sorted_json.items() if v != '')
         md5_hash = self.md5(f"jI7POOBbmiUZ0lmi{text}D9ShYdN51ksWptpkTu11yenAJu7Zu3cR").upper()
         json_data.update({'sign': md5_hash})
@@ -163,7 +163,7 @@ class Spider(Spider):
         return h.hexdigest()
 
     def getlist(self, data):
-        videos = []  # 已修復：補回被吞掉的空列表
+        videos = []
         for i in data:
             if type(i.get('video')) == dict: i = i['video']
             videos.append({
