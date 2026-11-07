@@ -58,10 +58,10 @@ class Spider(Spider):
         """加载分类配置"""
         return {
             'class': [
-                {'type_id': '2', 'type_name': '电视剧'},
                 {'type_id': '1', 'type_name': '电影'},
-                {'type_id': '3', 'type_name': '综艺'},
+                {'type_id': '2', 'type_name': '电视剧'},
                 {'type_id': '4', 'type_name': '动漫'},
+                {'type_id': '3', 'type_name': '综艺'},
                 {'type_id': '32', 'type_name': '纪录片'}
             ],
             'filters': self._load_filter_config()
