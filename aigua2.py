@@ -98,7 +98,7 @@ class Spider(Spider):
         ]
         
         status_options = [
-            {'n': '全部', 'v': '0'}, {'n': '完结', 'v': '1'}, {'n': '更新中', 'v': '2'}
+            # {'n': '全部', 'v': '0'}, {'n': '完结', 'v': '1'}, {'n': '更新中', 'v': '2'}
         ]
         
         sort_options = [
@@ -108,7 +108,7 @@ class Spider(Spider):
         return {
             'year': year_options,
             'area': area_options,
-            # 'status': status_options,
+            'status': status_options,
             'sort': sort_options
         }
 
