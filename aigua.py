@@ -90,14 +90,31 @@ class Spider(Spider):
                 'type_name': k['channel_name'],
                 'type_id': str(k['channel_id']),
             })
-            filters[str(k['channel_id'])] = []
+            
+            # 分離篩選項以便重新編排順序
+            normal_filters = []
+            sort_filters = []
+            
             for i in k['search_box']:
+                # 1. 刪除「完成、更新中」篩選（對應欄位通常為 status）
+                if i['field'] == 'status':
+                    continue
+                    
                 if len(i['list']):
-                    filters[str(k['channel_id'])].append({
+                    item = {
                         'key': i['field'],
                         'name': i['label'],
                         'value': [{'n': j['display'], 'v': str(j['value'])} for j in i['list'] if j['value']]
-                    })
+                    }
+                    # 2. 識別「熱門、最新、評分」篩選（對應欄位通常為 sort 或 tag）
+                    if i['field'] in ['sort', 'tag']:
+                        sort_filters.append(item)
+                    else:
+                        normal_filters.append(item)
+            
+            # 3. 重新拼接：普通篩選（類型、地區、年份）在前，排序篩選在最後面
+            filters[str(k['channel_id'])] = normal_filters + sort_filters
+
         result['class'] = classes
         result['filters'] = filters
         return result
