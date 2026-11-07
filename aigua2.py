@@ -546,7 +546,7 @@ class Spider(Spider):
                 try:
                     video_data = {
                         'vod_id': self._safe_xpath(item, './a/@href', '').split('=')[-1],
-                        'vod_name': ''.join(item.xpath('.//span//text()')).strip(),
+                        'vod_name': ''.join(item.xpath('.//span[1]//text()')).strip(),
                         'vod_pic': self._safe_xpath(item, './a/img/@originalsrc', ''),
                         'vod_remarks': self._safe_xpath(item, './/div[@class="SSjgTitle"]/text()', '')
                     }
