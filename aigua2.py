@@ -377,17 +377,26 @@ class Spider(Spider):
             response.encoding = 'utf-8'
             root = etree.HTML(response.text)
             
-            # 提取视频基本信息
-            video_info = self._extract_video_info(root, root2, video_id)
+            # 移动端元数据精准定位
+            video_info = {}
+            video_info['name'] = self._safe_xpath(root, '//h1/text() | //div[@class="Movie-title"]/text() | //div[contains(@class,"title")]/text()', '').strip()
             
-            # 提取播放数据
+            # 提取聚合元数据（形式如：8.0 / 剧情 其他 / 日本 / 2026）
+            meta_text = self._safe_xpath(root, '//div[@class="video-detail-series-bottom"]//p/text() | //span[contains(text(), "202")]/parent::*/text() | //div[contains(text(), "202")]/text()', '')
+            
+            # 移动端精准简介定位
+            video_info['description'] = self._safe_xpath(root, '//p[@class="pop-intro-detail"]/text() | //div[contains(@class, "intro")]/text() | //h3[contains(text(),"简介")]/following-sibling::p/text()', '').strip()
+            if not video_info['description']:
+                video_info['description'] = self._safe_xpath(root, '//div[@class="video-detail-series-bottom"]//text()', '').strip()
+
+            # 提取播放线路与剧集数据
             play_data = self._extract_play_data(root, video_id)
             
             video_list = [{
                 'type_name': video_info.get('type_name', ''),
                 'vod_id': video_id,
-                'vod_name': video_info.get('name', ''),
-                'vod_remarks': video_info.get('remarks', ''),
+                'vod_name': video_info.get('name', '') or "未知",
+                'vod_remarks': video_info.get('remarks', '') or "正片",
                 'vod_year': video_info.get('year', ''),
                 'vod_area': video_info.get('area', ''),
                 'vod_actor': video_info.get('actors', ''),
@@ -397,7 +406,7 @@ class Spider(Spider):
                 'vod_play_url': play_data['play_url']
             }]
             
-            logger.info(f"成功获取视频 {video_id} 的详情信息")
+            logger.info(f"成功解析纯移动端详情: {video_id}")
             return {"list": video_list, 'parse': 0, 'jx': 0}
             
         except Exception as e:
