@@ -31,7 +31,7 @@ class Spider(Spider):
 
     def _init_config(self):
         """初始化配置"""
-        self.home_url = 'https://aigua8.com'
+        self.home_url = 'https://m.aigua8.com'
         self.headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
             "Referer": self.home_url,
@@ -415,7 +415,8 @@ class Spider(Spider):
             info['area'] = self._safe_xpath(root, '//span[contains(text(), "地区")]/following-sibling::span/text()', '')
             info['actors'] = self._safe_xpath(root, '//span[contains(text(), "演员")]/following-sibling::span/text()', '')
             info['director'] = self._safe_xpath(root, '//span[contains(text(), "导演")]/following-sibling::span/text()', '')
-            info['description'] = self._safe_xpath(root, '//div[contains(@class, "description")]/text()', '')
+            # info['description'] = self._safe_xpath(root, '//div[contains(@class, "description")]/text()', '')
+            info['description'] = self._safe_xpath(root, '//p[@class="pop-intro-detail"]/text()', '')
         except Exception as e:
             logger.warning(f"提取视频信息失败: {e}")
         return info
