@@ -83,14 +83,14 @@ class Spider(Spider):
         data = self.post(f'{self.host}/hr_1_1_0/apptvapi/web/index.php/video/filter-header', json=self.getbody(body),
                          headers=self.headers).json()
         result = {}
-        classes = list()
+        classes = []
         filters = {}
         for k in data['data']:
             classes.append({
                 'type_name': k['channel_name'],
                 'type_id': str(k['channel_id']),
             })
-            filters[str(k['channel_id'])] = list()
+            filters[str(k['channel_id'])] = []
             for i in k['search_box']:
                 if len(i['list']):
                     filters[str(k['channel_id'])].append({
@@ -106,7 +106,7 @@ class Spider(Spider):
         body = {'token': self.token, 'authcode': self.code}
         data = self.post(f'{self.host}/hr_1_1_0/apptvapi/web/index.php/video/index-tv', json=self.getbody(body),
                          headers=self.headers).json()
-        return {'list': self.getlist(data['data']['banner'])}
+        return {'list': self.getlist(data['data'][0]['banner'])}
 
     def categoryContent(self, tid, pg, filter, extend):
         body = {'token': self.token, 'authcode': self.code, 'channel_id': tid, 'area': extend.get('area', '0'),
@@ -123,17 +123,17 @@ class Spider(Spider):
         return result
 
     def detailContent(self, ids):
-        ids = ids.split('@')
-        body = {'token': self.token, 'authcode': self.code, 'channel_id': ids, 'video_id': ids}
+        ids = ids[0].split('@')
+        body = {'token': self.token, 'authcode': self.code, 'channel_id': ids[0], 'video_id': ids[1]}
         data = self.post(f'{self.host}/hr_1_1_0/apptvapi/web/index.php/video/detail', json=self.getbody(body),
                          headers=self.headers).json()
         vdata = {}
         for k in data['data']['chapters']:
             i = k['sourcelist']
             for j in i:
-                if j['source_name'] not in vdata: vdata[j['source_name']] = list()
+                if j['source_name'] not in vdata: vdata[j['source_name']] = []
                 vdata[j['source_name']].append(f"{k['title']}${j['source_url']}")
-        plist, names = list(), list()
+        plist, names = [], []
         for key, value in vdata.items():
             names.append(key)
             plist.append('#'.join(value))
@@ -164,7 +164,7 @@ class Spider(Spider):
             "header": {
                 "User-Agent": "Dalvik/2.1.0 (Linux; U; Android 11; M2012K10C Build/RP1A.200720.011)",
                 "Origin": "https://aigua.tv",
-                "Referer": "https://aigua.tv"
+                "Referer": "https://aigua.tv/"
             }
         }
         return result
@@ -191,7 +191,7 @@ class Spider(Spider):
                   "sysVer": "11", "time": str(int(time.time())), "packageName": "com.gzsptv.gztvvideo",
                   "udid": self.uid, }
         json_data.update(params)
-        sorted_json = dict(sorted(json_data.items(), key=lambda item: item))
+        sorted_json = dict(sorted(json_data.items(), key=lambda item: item[0]))
         text = '&'.join(f"{k}={v}" for k, v in sorted_json.items() if v != '')
         md5_hash = self.md5(f"jI7POOBbmiUZ0lmi{text}D9ShYdN51ksWptpkTu11yenAJu7Zu3cR").upper()
         json_data.update({'sign': md5_hash})
@@ -203,7 +203,7 @@ class Spider(Spider):
         return h.hexdigest()
 
     def getlist(self, data):
-        videos = list()
+        videos = []
         for i in data:
             if type(i.get('video')) == dict: i = i['video']
             videos.append({
