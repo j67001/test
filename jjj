@@ -37,7 +37,7 @@
       "searchable": 1,
       "ext": {
         "json": "https://newrecha.neocities.org/json/bili歌曲.json",
-        "cookie": "http://127.0.0.1:9978/file/bili.txt"
+        "cookie": "./bili.txt"
        },
       "style": {
         "type": "rect",
