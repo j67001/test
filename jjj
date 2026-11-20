@@ -29,7 +29,21 @@
 {"key": "mffm_py1","name": "⚡MFFM.py1","type": 3,"api": "https://github.com/hown8763/VideoPyDownloader/raw/master/downloader/movieffm.py","searchable":1,"quickSearch":1,"changeable":1,"ext": -true},
 {"key": "mffm_py2","name": "⚡MFFM.py2","type": 3,"api": "https://github.com/chiang1102/a/raw/main/py/movieffm.py","searchable":1,"quickSearch":1,"changeable":1,"ext": -true},
 {"key": "mffm_py4","name": "⚡MFFM.py4","type": 3,"api": "https://github.com/j67001/test/raw/main/mffm.py","searchable":1,"quickSearch":1,"changeable":1,"ext": -true},
-
+    {
+      "key": "biligequ9",
+      "name": "[官源]bili",
+      "type": 3,
+      "api": "csp_Bili",
+      "searchable": 1,
+      "ext": {
+        "json": "https://newrecha.neocities.org/json/bili歌曲.json",
+        "cookie": "http://127.0.0.1:9978/file/bili.txt"
+       },
+      "style": {
+        "type": "rect",
+        "ratio": 1.333
+      }
+    },
 {"key": "應用商店","name": "🏪應用商店","type": 3,"api": "csp_Market","searchable": 0,"changeable": 0,"ext": "https://github.com/j67001/test/raw/main/market.json"}
 ], 
 
